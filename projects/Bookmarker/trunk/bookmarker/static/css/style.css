@@ -1,0 +1,211 @@
+/*
+ * Quick mash-up of CSS for the TG quick start page.
+ */
+
+html, body, th, td {
+    font: x-small "Lucida Grande", "Lucida Sans Unicode", geneva, verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    color: black;
+    background-color: #ddd;
+}
+
+/*
+th, td {
+    color: #666;
+    background-color: #fff;
+}
+ */
+ 
+code {
+    font-family: monospace;
+}
+
+#header {
+    height: 80px;
+    width: 777px;
+    background: blue URL('../images/header_inner.png') no-repeat;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    margin: 0 auto 0 auto;
+}
+
+a.link, a, a.active {
+    color: #369;
+}
+
+
+#main_content {
+    color: black;
+    font-size: 127%;
+    background-color: white;
+    width: 757px;
+    margin: 0 auto 0 auto;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    padding: 10px;
+}
+
+#sidebar {
+    border: 1px solid #aaa;
+    background-color: #eee;
+    margin: 0.5em;
+    padding: 1em;
+    float: right;
+    width: 200px;
+    font-size: 88%;
+}
+
+#sidebar h2 {
+    margin-top: 0;
+}
+
+#sidebar ul {
+    margin-left: 1.5em;
+    padding-left: 0;
+}
+
+h1,h2,h3,h4,h5,h6,#getting_started_steps {
+    font-family: "Century Schoolbook L", Georgia, serif;
+    font-weight: bold;
+}
+
+h2 {
+    font-size:150%
+}
+
+#footer {
+    border: 1px solid #aaa;
+    border-top: 0px none;
+    color: #999;
+    background-color: white;
+    padding: 10px;
+    font-size: 80%;
+    text-align: center;
+    width: 757px;
+    margin: 0 auto 1em auto;
+}
+
+code {
+    font-family: monospace;
+    color: #666;
+}
+
+span.code {
+    font-weight: bold;
+    background: #eee;
+}
+
+#status_block {
+    margin: 0 auto 0.5em 0;
+    padding: 15px 10px 15px 55px;
+    background: #cec URL('../images/ok.png') left center no-repeat;
+    border: 1px solid #9c9;
+    width: 450px;
+    font-size: 120%;
+    font-weight: bolder;
+}
+
+.notice {
+    margin: 0.5em auto 0.5em 0;
+    padding: 15px 10px 15px 55px;
+    width: 450px;
+    background: #eef URL('../images/info.png') left center no-repeat;
+    border: 1px solid #cce;
+}
+
+.listform ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tableform {
+    text-align: center;
+}
+
+.tableform table {
+    text-align: left;
+    margin: 1em auto;
+    background: #fff;
+}
+
+.tableform .fieldlabel,
+.tableform .fieldhelp,
+.listform .fieldlabel,
+.listform .fieldhelp {
+    display: block;
+}
+
+.tableform .fieldlabel,
+.listform .fieldlabel {
+    font-weight: bold;
+    font-size: 118%;
+    padding-right: 0.5em;
+}
+
+.tableform .fieldhelp,
+.listform .fieldhelp {
+    color: #666;
+    font-size: 100%;
+    margin-bottom: 1em;
+}
+
+.tableform .textfield,
+.tableform .textarea,
+.listform .textfield,
+.listform .textarea {
+    font-family: monospace;
+    font-size: 118%;
+    width: 30em
+}
+
+.flash {
+    position: absolute;
+    top: 0;
+    left: 40%;
+    border: thin solid gray;
+    background-color: #66FF66;
+    padding: 1em;
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+    -moz-opacity: .80;
+    opacity: .80;
+}
+
+#pageLogin {
+    width: 757px;
+    margin: 0 auto 0 auto;
+    background-color: #fff;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    font-size: 10px;
+    font-family: verdana;
+    padding: 0 10px;
+}
+
+#pageLogin .right {
+    float: right;
+    text-align: right;
+}
+
+.taglist {
+    list-style: none;
+    display: block;
+    padding: .5em 0 1em 0;
+}
+
+.taglist li {
+    /* display: inline; */
+    float: left;
+    padding-right: .5em;
+}
+
+.editlink {
+    clear: both;
+    font-style: italic;
+}

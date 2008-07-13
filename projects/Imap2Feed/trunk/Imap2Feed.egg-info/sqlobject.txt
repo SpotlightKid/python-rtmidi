@@ -1,0 +1,2 @@
+db_module=imaptofeed.model
+history_dir=$base/imaptofeed/sqlobject-history

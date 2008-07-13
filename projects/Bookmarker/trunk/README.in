@@ -1,0 +1,41 @@
+## This file is used to generate a README.
+## See the 'doc' directory for the generated 'README.html' file!
+#from bookmarker.release import *
+#set underline = len($name) * '='
+${name}
+${underline}
+
+:Author: ${author}
+:Version: ${version}
+:Date: $date[7:17]
+
+${description}
+
+${long_description}
+
+Quickstart
+----------
+
+  1. Install TurboGears >= 1.0.1
+     (see http://www.turbogears.org/download/).
+  2. Download `TGFastData 0.9.a7unofficial`_
+     (unofficial version with patch to work with TG >= 1.x)
+     and install with::
+     
+       [sudo] easy_install TGFastData-0.9a7unofficial-py2.4.egg
+
+  3. Download_ the ${name} `source distribution`_.
+  4. Unpack the archive ``${src_package_tbz}`` or
+     ``${src_package_zip}``.
+  5. Change into the created directory ``${package_name}``.
+  6. Run ``./start-bookmarker.py``.
+  7. Open your browser at ``http://localhost:8080/``.
+  8. Click on ``bookmarks demo`` and...
+  9. ... log in with username/password ``test``.
+
+*Share & enjoy!*
+
+
+.. _Download: ${url}download
+.. _source distribution: ${download_url}
+.. _TGFastData 0.9.a7unofficial: http://chrisarndt.de/projects/bookmarker/download/TGFastData-0.9a7unofficial-py2.4.egg

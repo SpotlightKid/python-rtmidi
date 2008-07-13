@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+
+<xi:include href="master.html" />
+
+<head>
+    <meta content="text/html; charset=UTF-8"
+        http-equiv="content-type" py:replace="''"/>
+    <title>Login</title>
+</head>
+
+<body>
+  <p class="breadcrumbs"><a href="${tg.url('/')}">Package list</a></p>
+
+  <div id="loginBox">
+    <h1>Login</h1>
+
+    <p>${message}</p>
+
+    <form action="${previous_url}" method="POST">
+      <table>
+        <tr>
+          <td class="label">
+            <label for="user_name">User Name:</label>
+          </td>
+          <td class="field">
+            <input type="text" id="user_name" name="user_name"/>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            <label for="password">Password:</label>
+          </td>
+          <td class="field">
+            <input type="password" id="password" name="password"/>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="buttons">
+            <input type="submit" name="login" value="Login"/>
+          </td>
+        </tr>
+      </table>
+
+      <input py:if="forward_url" type="hidden" name="forward_url"
+        value="${forward_url}"/>
+
+      <div py:for="name,values in original_parameters.items()" py:strip="1">
+        <input py:for="value in isinstance(values, list) and values or [values]"
+            type="hidden" name="${name}" value="${value}"/>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

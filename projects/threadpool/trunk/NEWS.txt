@@ -1,0 +1,32 @@
+.. -*- coding: UTF-8 -*-
+
+2008-05-04
+    - Added default exception handler callback (thanks to Moshe Cohen for the
+      patch).
+    - Fixed locking issue that prevented worker threads from being dismissed
+      when no work requests are in the requests queue (thanks to Guillaume
+      Pratte for the bug report).
+    - Add option for results queue size to ThreadPool (thanks to Krzysztof
+      Jakubczyk for the idea).
+    - Changed name of reuquestQueue and resultsQueue attributes in WorkerThread
+      and ThreadPool to _requests_queue and _results_queue to be more consistent
+      and compliant with PEP 8 and properly indicate private nature.
+    - Moved repository to Subversion.
+
+2008-05-03
+    - Updated homepage and download URL
+    - Updated README
+    - Enable packaging as an eggs with the use of setuptools
+    - License changes to MIT License (Python license is only for code licensed
+      by the PSF)
+
+2006-06-23 1.2.3 (never announced)
+    - fixed typo in ThreadPool.putRequest() (reported by Jérôme Schneider)
+
+2006-05-19 1.2.2 (first release as a package)
+    - fixed wrong usage of isinstance in makeRequests()
+      Thanks to anonymous for bug report in comment on ASPN
+
+    - added setup.py and created a proper distribution package
+
+    - added timeout parameter to putRequest()

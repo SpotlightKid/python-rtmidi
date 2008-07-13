@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+
+<xi:include href="master.html" />
+
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
+    <title>${tg.sitename}: ${package.name} distribution files</title>
+    <script type="text/javascript"
+     src="${tg.url('/static/javascript/common.js')}"></script>
+</head>
+
+<body>
+  <p class="breadcrumbs"><a href="${tg.url('/')}">Package list</a>
+    &gt; ${package.name}</p>
+
+  <h2>Distribution files for package ${package.name}</h2>
+
+  <table id="package-files" py:with="can_delete=tg.has_permission('delete')">
+    <thead>
+      <tr>
+        <th class="pkgfile-filename">File</th>
+        <th class="pkgfile-size">Size</th>
+        <th class="pkgfile-modified">Last updated</th>
+        <th class="pkgfile-action">&#160;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <div py:for="version in package.releases">
+      <tr>
+        <td class="package-version" colspan="4">${version}</td>
+      </tr>
+      <tr py:for="i, pkg_file in enumerate(package.files[version])"
+        class="${i%2 == 0 and 'odd' or 'even'}">
+        <td class="pkgfile-filename">
+          <a href="${tg.url('/package/download/%s/%s' % (package.name, pkg_file.name))}">${pkg_file.name}</a></td>
+        <td class="pkgfile-size">${pkg_file.size}</td>
+        <td class="pkgfile-modified">${pkg_file.modified}</td>
+        <td class="pkgfile-action">
+          <a href="${tg.url('/package/info', dict(package=package.name, filename=pkg_file.name))}">Meta data</a>
+          <span py:if="can_delete">|
+            <a href="${tg.url('/package/delete', dict(package=package.name, filename=pkg_file.name))}"
+              onclick="return confirm_delete('${pkg_file.name}');">Delete</a>
+          </span>
+        </td>
+      </tr>
+      </div>
+    </tbody>
+  </table>
+
+</body>
+</html>

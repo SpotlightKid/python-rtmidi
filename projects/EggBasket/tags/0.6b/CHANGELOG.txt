@@ -1,0 +1,77 @@
+Changelog
+---------
+
+0.6b (2008-06-30)
+~~~~~~~~~~~~~~~~~
+
+- Added permission to allow overwriting of files when using setup.py upload
+- Added delting of files through web interface for users with 'delete'
+  permission.
+- Minor documentation fixes.
+- Now has all the basic features I planned for for the first release, so this
+  is the first release with beta status.
+
+0.5a (2008-04-21)
+~~~~~~~~~~~~~~~~~
+
+- Added permission checks to the main application views and actions. It is now
+  possible to restrict the following actions to specific groups, all
+  authenticated users or allow them for all anonymous users:
+
+  * View listing of all packages
+  * View listing of a package's distribution files
+  * View meta data of a package distribution file
+  * Download a package distribution file
+  * Upload a package distribution file
+
+  For more details, see README.txt or the "Help" page within the application.
+- Call methods of package sub-controller directly in root controller instead
+  of using HTTP redirects.
+- Use buffered file writing in 'upload' method.
+- Updated documentation and relase information.
+
+
+0.4a (2008-04-15)
+~~~~~~~~~~~~~~~~~
+
+- Documentation update and minor fixes.
+- Added new 'eggbasket.rewrite_homepage_url' and
+  'eggbasket.rewrite_download_url' and config settings. These allow you to
+  change the homepage/download URL on the package meta data view pages
+  to the package distribution files listing on your EggBasket server,
+  so that easy_install will look for downloads there.
+- Added download/homepage URL rewriting to 'munge_pkg_info' function.
+- Added 'get_base_url' and '_rewrite_url' functions to 'util' module.
+- Included ``odict.py`` module from voidspace.org.uk
+
+0.3a (2008-04-10)
+~~~~~~~~~~~~~~~~~
+
+- Create AdminController with listing of config values and access
+  to DBMechanic controler (if dbsprockets is available).
+- Protect AdminController with identity.Secureresource with access only
+  for "admin" group.
+- Add link for admin controller to navbar for "admin" group.
+- Add DBMechanic controller.
+- Add errorcatcher.py and error templates for custom HTTP error pages.
+- Also accept requested package name in lower-case to handle wrong package
+  file names in the repository.
+- Minor documentaton fixes.
+- Add "download" permission (not used yet).
+- Add "admin" group and add "admin" user too it.
+- Rename "maintainers" group to "maintainer".
+
+Development features:
+
+- Added script to create virtualenv bootstrap script
+- Added handling for virtualenv to development start script
+
+0.2a (2008-04-09)
+~~~~~~~~~~~~~~~~~
+* Bumped down TurboGears version requirement to 1.0.4.4 and added requirement
+  for Genshi 0.4
+
+0.1a (2008-04-09)
+~~~~~~~~~~~~~~~~~
+
+* first alpha release

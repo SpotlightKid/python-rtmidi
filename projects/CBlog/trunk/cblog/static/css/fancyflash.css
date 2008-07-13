@@ -1,0 +1,54 @@
+/*
+ * fancyflash.css - styles for fancy flash message boxes
+ *
+ * based on the article by Lee McFadden at
+ * http://www.splee.co.uk/2005/11/23/fancy-status-messages-using-tg_flash/
+ */
+
+#statusmessage {
+    z-index: 5000;
+}
+
+#statusmessage div {
+    width: 400px;
+    margin: 0px auto;
+    min-height: 50px;
+    padding: 1em 10px 10px 55px;
+    background-repeat: no-repeat;
+    background-position: 3%;
+    font-size: 18px;
+    text-align: center;
+    -moz-border-radius: 1em 1em 1em 1em;
+    /* does not work with new versions of Konqueror */
+    /* -khtml-opacity: .85; */
+    -moz-opacity: .85;
+    opacity: .85;
+}
+
+#statusmessage div.info {
+    color: white;
+    background-color: cornflowerblue;
+    border: 1px solid #006699;
+    background-image: url("/tg_widgets/fancyflash/images/info.gif");
+}
+
+#statusmessage div.success {
+    color: white;
+    background-color: #99CC99;
+    border: 1px solid #006633;
+    background-image: url("/tg_widgets/fancyflash/images/ok.gif");
+}
+
+#statusmessage div.error {
+    color: white;
+    background-color: #C00;
+    border: 1px solid #600;
+    background-image: url("/tg_widgets/fancyflash/images/error.gif");
+}
+
+#statusmessage div.warning {
+    color: white;
+    background-color: #FC0;
+    border: 1px solid darkorange;
+    background-image: url("/tg_widgets/fancyflash/images/warning.gif");
+}

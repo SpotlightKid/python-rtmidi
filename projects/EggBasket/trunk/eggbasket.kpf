@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Komodo Project File - DO NOT EDIT -->
+<project id="5bd0333d-564b-4bb5-8a1f-817f1e3da94a" kpf_version="4" name="eggbasket.kpf">
+<preference-set idref="5bd0333d-564b-4bb5-8a1f-817f1e3da94a">
+  <boolean id="import_live">1</boolean>
+</preference-set>
+</project>

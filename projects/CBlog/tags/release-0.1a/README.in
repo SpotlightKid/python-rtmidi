@@ -1,0 +1,34 @@
+#from cblog.release import *
+CBlog
+=====
+
+${description}
+
+${long_description}
+
+Please see the 'doc' subdirectory for some more (sparse) information.
+
+Quickstart in 10 steps:
+
+    1.  Unpack distribution.
+    2.  Open a terminal and change into the ``CBlog-${version}`` directory.
+    3.  Run ``tg-admin sql create``.
+    4.  Run ``sqlite3 data/devdata.sqlite <data/bootstrap.sql``.
+    5.  Development mode:
+
+        Run ``./run dev.cfg``
+
+        Production mode:
+
+        1. First time only: ``cp data/devdata.sqlite data/proddata.sqlite``
+        2. Run ``./run``
+
+    6.  Open browser at ``http://localhost:8080/`` (developmentmode)
+        resp. at ``http://localhost:8081/`` (production mode).
+    7.  Log in with username/password ``admin`` and then click on
+        *Administration*.
+    8.  Add a user and add him to the *Blog publishers* group.
+    9.  Log out as admin and log-in again as the new user.
+    10. Start adding blog articles!
+
+Share and Enjoy!

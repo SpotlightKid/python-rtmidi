@@ -1,0 +1,11 @@
+include README.txt
+include make_release.sh
+exclude upload.sh
+recursive-include data *.sqlite *.sql
+global-include *.cfg
+recursive-include fflashex/static *
+recursive-include fflashex/templates *.kid
+
+prune dist
+prune build
+global-exclude *.bak

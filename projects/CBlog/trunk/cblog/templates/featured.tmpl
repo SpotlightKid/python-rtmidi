@@ -1,0 +1,44 @@
+#compiler-settings
+useAutocalling = False
+#end compiler-settings
+
+#extends cblog.templates.SiteTemplate
+
+#def pagetitle
+  <title>${tg.blogtitle}: Featured articles</title>
+#end def
+
+#def pagecontent
+<h1>Featured articles</h1>
+
+<p class="firstpar">This is a list of posts that are still worth reading, even if they have disappeared from the frontpage already. Mostly somewhat longer articles.</p>
+
+#set $items = $tg.ipeek($reviews)
+
+<div class="blogroll">
+#if items
+  #for $review in $items
+  <div class="article">
+    <h1 class="title"><a href="${tg.url('/article/%s' % review.entry.id)}"
+      >${review.entry.title}</a></h1>
+
+    <p class="byline">posted by <span
+      class="author">${review.entry.author.display_name}</span> on
+      <span class="date">${tg.format_date($review.entry.created)}</span> in
+      <span class="tags">${tg.format_tags($review.entry.tags)}</span>
+      (recommended by <span class="author">${review.author.display_name}</span>)
+    </p>
+
+    <p class="eteaser">${review.html_text}</p>
+
+    <p><a class="readon" href="${tg.url('/article/%s' % $review.entry.id)}"
+      >Read featured article &hellip;</a></p>
+
+  </div>
+  #end for
+
+#else
+<p>No featured articles found.</p>
+#end if
+</div>
+#end def

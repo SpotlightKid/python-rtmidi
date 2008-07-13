@@ -1,0 +1,5 @@
+include threadpool.py
+recursive-include doc *.css *.html
+include README.txt NEWS.txt
+global-exclude CVS
+prune venv

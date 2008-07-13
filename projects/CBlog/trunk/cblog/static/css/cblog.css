@@ -1,0 +1,603 @@
+/*-----------------------------------------------------------------------------
+General Style Sheet (cblog.css)
+
+Project:    CBlog
+Author:     Christopher Arndt
+Email:      chris@chrisarndt.de
+Website:    http://chrisarndt.de/
+Revision:   $Revision$
+Date:       $Date$
+-----------------------------------------------------------------------------*/
+
+html {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+
+body {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    color: #000000;
+    font-family: "Trebuchet MS", Trebuchet, Verdana, sans-serif;
+    background: #f2f0e4;
+}
+
+/* ---------------- Layout -------------------------------------------------- */
+
+#header {
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    color: white;
+    background: #f5e39e;
+    border-bottom: 1px dotted #e0ad12;
+}
+
+/* Solid boder for IE */
+* html #content {
+    border-bottom-style: solid;
+}
+
+#content {
+    background: #f6f6f6;
+}
+
+#main {
+    float: right;
+    width: 68%;
+    margin: 0 0 0 0;
+    padding: 1% 4% 1% 2%;
+    background: #f2f0e4;
+}
+
+#sidebar {
+    float: left;
+    width: 22%;
+    /* min-width: 15em; */
+    margin: 0 0 0 0;
+    padding: 1em .3em 1% .5em;
+    text-align:left;
+    background: #f6f6f6;
+    overflow: hidden;
+    border-right: 1px dotted #e0ad12;
+    border-bottom: 1px dotted #e0ad12;
+}
+
+/* Solid right/bottom border for IE  */
+* html #sidebar {
+    border-right-style: solid;
+    border-bottom-style: solid;
+}
+
+#footer {
+    clear: both;
+    color: gray;
+    /* background: #f6f6f6; */
+    text-align: center;
+    font-size: 70%;
+}
+
+#navbar {
+    float: left;
+    padding: 0.2em 0 0 0.5em;
+    margin: 0 0 0 0;
+    list-style: none;
+    font-weight: bold;
+}
+
+#navbar li {
+    float: left;
+    margin: 0 0 0 0.2em;
+    padding: 0 0.1em 0 0.1em;
+}
+
+#navbar a:hover {
+    color: #9E5205;
+}
+
+#header #blogtitle {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 300%;
+    font-weight: bold;
+    font-style: italic;
+    text-align: right;
+    height: 100px;
+    padding: 30px 5% 0 0;
+    /* padding: 3% 5% 1% 1%; */
+    margin: 0 0 0 0;
+    border-bottom: solid 0.05ex #E89E47;
+    color: #F5E39E;
+    background: #de7008 url("/static/images/header_bg_orange.jpg") no-repeat left top;
+    overflow: hidden;
+}
+
+#header #description {
+    padding: 0.5em 0 0.5em 0;
+    margin: 0 5% 0 0;
+    color: #9E5205;
+    font-size: 80%;
+    font-family: "Vera Serif", Times, serif;
+    font-weight: normal;
+    font-style: italic;
+    text-align: right;
+}
+
+/* text-styles for general elements */
+
+/* Paragaraphs */
+
+p {
+    margin: 0;
+    margin-bottom: 0.3em;
+}
+
+/* Links */
+
+a:link, a:visited {
+    color: #de7008;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:visited {
+    color: #9E5205;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:active {
+    color: #E0AD12;
+}
+
+/* Headings */
+
+h1, h2, h3, h4, h5, h6 {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 0.5em;
+    font-family: "Times New Roman", Times, serif;
+    color: #666666;
+}
+
+h1 a:link {
+    text-decoration: none;
+    color: #F5DEB3;
+}
+
+h1 a:visited {
+    text-decoration: none;
+    color: #F5DEB3;
+}
+
+.article h1.title {
+    font-size: 133%;
+}
+
+#detailview .article h1.title {
+    font-size: 150%;
+}
+
+h1 {
+    font-size: 128%;
+}
+
+h2 {
+    color: #9E5205;
+    font-size: 122%;
+    font-weight: bold;
+}
+
+h3 {
+    color: #777777;
+    font-size: 116%;
+}
+
+h4  {
+    color:#aa0033;
+    font-size: 100%;
+}
+
+h5  {
+    color: #B8A80D;
+    font-size: 100%;
+}
+
+#login {
+    font-size: 80%;
+    color: gray;
+}
+
+#last-fm {
+    /* text-align: center; */
+}
+
+#tg-logo {
+    text-align: center;
+    margin-top: 1em;
+}
+
+#tg-logo img {
+    border: 1px dotted #E0AD12;
+}
+
+/* Solid border for IE */
+* html #tg-logo img {
+    border-style: solid;
+}
+
+
+.literal-block {
+    color: #666666;
+    background-color: #fffcef;
+    border: thin solid #c0c0b0;
+    padding: .5em;
+    width: 98%;
+    overflow: auto;
+    clear: right;
+}
+
+/* ---------------- Sidebar style ------------------------------------------- */
+
+h2.sidebar-title {
+    color: #cc8339;
+    margin: 0;
+    padding: 0;
+    font-size: 120%;
+}
+
+#sidebar ul {
+    margin: 0 0 1em 0;
+    padding: 0 0 0 0;
+    list-style-type: none;
+    font-size: 95%;
+}
+
+#sidebar li {
+    margin: 0;
+    padding: 0.05em;
+    list-style-type: none;
+    font-size: 95%;
+}
+
+#sidebar ul a {
+    border: none;
+    color: #666666;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+#sidebar ul a:link {
+    color: #666666;
+}
+
+#sidebar ul a:visited {
+    color: #666666;
+}
+
+#sidebar ul a:active {
+    color: #ff0000;
+}
+
+#sidebar ul a:hover {
+    color: #de7008;
+    text-decoration: none;
+}
+
+pre, code {
+    color: #999999;
+}
+
+strike {
+    color: #999999;
+}
+
+.firstpar {
+    font-size: 105%;
+    color: #666666;
+}
+
+/* ---------------- Special link types  ------------------------------------- */
+
+/* ---------------- External links ----------- */
+
+a[href^="http:"] {
+    background: url(../images/external-link-orange.gif) no-repeat right center;
+    padding-right: 12px;
+}
+
+/* FIXME: What about other external image links? */
+#tg-logo a {
+    background-image: none;
+    padding-right: 0;
+}
+
+/* ---------------- Feeds -------------------- */
+
+a[href$="atom1_0.xml"] {
+    background: url(../images/feed.png) no-repeat left center;
+    padding-left: 15px;
+}
+
+/* ---------------- PDFs --------------------- */
+
+/* ---------------- Articles & Comments ------------------------------------- */
+
+/* ---------------- Common styles ------------ */
+
+.byline a:hover, .numcomments a:hover {
+    text-decoration: underline;
+}
+
+/* ---------------- Articles ----------------- */
+
+.article {
+    margin: 0 0 1em 0;
+    font-size: 100%;
+    text-align: justify;
+}
+
+.article h1 a {
+    color: #9E5205;
+    font-weight: bold;
+}
+
+.article strong {
+    color: #000000;
+    font-weight: bold;
+}
+
+.article .byline {
+    padding: 0;
+    margin: 0;
+    margin-bottom: .5em;
+    color: #444444;
+    font-size: 80%;
+}
+
+.article .byline a, .article .numcomments a {
+    border: none;
+    color: #968A0A;
+    text-decoration: none;
+}
+
+#blogroll .article .actionlinks {
+    font-size: 85%;
+    float: right;
+    margin-left: .5em;
+    margin-bottom: .5em;
+}
+
+/* the Owen hack -- http://www.albin.net/CSS/OwenHack.html */
+/* the following selector is NOT seen by Opera 6 (and below) or by IE6/win */
+/* Hide "Edit article link" initially on browsers that support :hover */
+head:first-child+body .article .actionlinks {
+    display: none;
+}
+
+/* but show it on the article detailview page */
+#detailview .article .actionlinks {
+    display: block;
+}
+
+/* on the blogroll page, show it only when the mouse hovers over an article */
+#blogroll .article:hover .actionlinks {
+    display: block;
+}
+
+.article .byline .numcomments {
+    font-size: 100%;
+}
+
+.article .teaser {
+    clear: both;
+}
+
+
+/* ---------------- Comments ----------------- */
+
+#comments {
+    padding: 0;
+    font-size: 100%;
+    /* font-family: Verdana,Sans-Serif; */
+    clear: both;
+    width: 90%;
+    max-width: 55em;
+}
+
+#comments .header {
+    background: #eeebde;
+    border: 1px solid #c0c0b0;
+    padding: .5em;
+    margin-bottom: 1em;
+}
+
+.comment {
+    margin-bottom: 1em;
+    font-size: 90%;
+    font-weight: normal;
+    color: #333333;
+    background: #fffcef;
+    border: 1px solid #c0c0b0;
+    padding: .5em;
+}
+
+.comment .byline {
+    margin-bottom: 1em;
+    color: #444444;
+    font-weight: normal;
+}
+
+.comment .byline .num {
+    float: left;
+    display: block;
+    font-size: 150%;
+    color: #aaaaaa;
+    font-family: serif;
+    font-weight: bold;
+    margin-right: .5em;
+}
+
+.comment .byline .num a {
+    color: #aaaaaa;
+}
+
+.comment .byline .author {
+    display: block;
+    font-size: 120%;
+    color: #333333;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.comment .byline .author a {
+    color: #333333;
+}
+
+.comment .gravatar {
+    float: right;
+    border: 1px solid #c0c0b0;
+    margin-left: .5em;
+    margin-bottom: .5em;
+}
+
+/* ---------------- Forms --------------------------------------------------- */
+
+.buttonbox {
+    text-align: right;
+}
+
+.submitbutton {
+    color: #de7008;
+    border: solid thin #e0ad12;
+    background-color: #f5e39e;
+    font-weight: bold;
+    padding: 0;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+    margin: 0;
+    margin-left: 0.3em;
+    cursor: pointer;
+}
+
+.submitbutton:disabled {
+    padding: 0;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+    margin: 0;
+    margin-left: 0.3em;
+    cursor: default;
+    color: gray;
+}
+
+span.fielderror {
+    display: block;
+    color: darkred;
+    font-size: 95%;
+}
+
+div.fielderror .textarea, div.fielderror .textfield {
+    border: thin solid red;
+}
+
+.textfield:focus, .textarea:focus {
+    background: #FFFFCC;
+}
+
+.requiredfield {
+    /* color: darkred;
+    vertical-align: super; */
+}
+
+.helplink {
+    font-size: 80%;
+    margin-left: 3em;
+    cursor: help;
+}
+
+/* General fieldsetform styles */
+
+.fieldsetform label {
+    display: block;
+    margin-top: .5em;
+    margin-bottom: .2em;
+}
+
+/* CSS tooltips for form input fields */
+form .fieldhelp {
+    visibility: hidden;
+    position: absolute;
+    width: 15em;
+    background: transparent url(/static/images/tip_topborder.gif) no-repeat top left;
+    color: #9E5205;
+    padding: 0;
+    padding-top: 20px;
+    margin: 0;
+    word-spacing: normal;
+}
+
+form .fieldhelp div {
+    border-bottom: thin solid #e0ad12;
+    border-left: thin solid #e0ad12;
+    border-right: thin solid #e0ad12;
+    background-color: #F5E39E;
+    padding: 1%;
+}
+
+form div {
+    position: relative;
+}
+
+/* make them appear on mouseover */
+form div:hover .fieldhelp {
+    visibility: visible;
+    z-index: 1000;
+}
+
+/* end tooltips */
+
+.fieldsetform .textfield, .fieldsetform .textarea {
+    font-family: monospace;
+    font-size: 100%;
+    width: 99%;
+    border: 1px solid #c0c0b0;
+    padding: 0.2em;
+}
+
+fieldset {
+    background: #eeebde;
+    border: 1px solid #c0c0b0;
+    width: 97.8%;
+    padding: 1%;
+    margin: 0 0 1em 0;
+}
+
+fieldset legend {
+    font-weight: bold;
+    margin-left: 1.5%;
+}
+
+
+/* specific forms */
+
+#searchform {
+    width: 100%;
+}
+
+#searchform .searchfields {
+    display: inline
+}
+
+#searchform_q {
+    width: 50%;
+    border: solid thin #e0ad12;
+    /* margin: 0 0 0.3em 0; */
+    padding: .1ex .1em;
+}
+
+/* position of tooltips */
+#searchform .fieldhelp {
+    bottom: -5em;
+    left: 3em;
+    width: 12em;
+}

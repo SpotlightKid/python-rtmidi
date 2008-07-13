@@ -1,0 +1,33 @@
+## turn off the auto-call feature that does not work with TG widgets
+#compiler-settings
+useAutocalling = False
+#end compiler-settings
+##
+## SiteDefs.tmpl
+##
+## Author: Christopher Arndt
+## Date: $Date$
+## Revison: $Rev$
+##
+## This template inherits from the SiteBase template.
+## SiteBase is a Python template class that defines a custom filter
+## and several handy utility functions.
+##
+#extends cblog.templates.SiteBase
+#implements respond
+
+#def navtabbar
+<div id="navbar">
+  <ul>
+    #for tab in $tg.navtabs
+    #if $tab.name == $tg.activetab
+        #set classes = ['activetab', 'navtab']
+    #else
+        #set classes = ['navtab']
+    #end if
+    <li id="${tab.name}tab" class="${' '.join($classes)}"><a
+      href="$tg.url($tab.url)">${tab.label}</a></li>
+    #end for
+  </ul>
+</div>
+#end def

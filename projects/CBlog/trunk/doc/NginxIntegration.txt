@@ -1,0 +1,57 @@
+Nginx is a fast and light HTTP server, reverse proxy, load balancer (and more).
+
+It's pretty simple to get TurboGears setup behind a Nginx server.  Here's a sample configuration that not only proxies to your TurboGears application, but serves static content and load balances it as well.
+
+{{{
+http {
+    # boilerplate nginx config ...
+
+    upstream mycluster { 
+        server 127.0.0.1:8000;
+        server 127.0.0.1:8001;
+    }
+
+    server {
+        listen 80;
+
+        # static files
+        location ~ ^/(images|javascript|js|css|flash|media|static)/  {
+            root /var/www/myproject/myproject/static;
+        }
+        location = /favicon.ico  {
+            root /var/www/myproject/myproject/static/images;
+        }
+      
+        # proxy to turbogears app
+        location / {
+            proxy_pass              http://mycluster;
+            proxy_redirect          off;
+            proxy_set_header        Host $host;
+            proxy_set_header        X-Real-IP $remote_addr;
+            proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+}
+}}}
+
+Next you need to setup a couple TurboGears backends that will comprise the cluster:
+
+Edit prod.cfg and add/change the following lines:
+{{{
+server.socket_host="127.0.0.1"
+server.socket_port=8000
+}}}
+
+Copy prod.cfg to prod2.cfg and add/change the following lines:
+{{{
+server.socket_host="127.0.0.1"
+server.socket_port=8001
+}}}
+
+Start both instances of your app:
+{{{
+./start-myproject.py prod.cfg &
+./start-myproject.py prod2.cfg &
+}}}
+
+That's it!  Nginx should now be passing requests across both backends transparently.
+

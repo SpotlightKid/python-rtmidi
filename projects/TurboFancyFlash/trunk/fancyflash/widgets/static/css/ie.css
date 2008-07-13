@@ -1,0 +1,13 @@
+/* ie.css - special styles for shitty Internet Explorer */
+
+/* background-transparency for status messages */
+#statusmessage div {
+    filter: Alpha(opacity=85);
+}
+
+/* alpha-transparency support for PNGs */
+#statusmessage div.error {
+    writingMode: tr-rl;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/tg_widgets/fancyflash/images/error.png', sizingMethod='scale');
+}
+

@@ -1,0 +1,9 @@
+#from firebug.release import *
+#set namever = "%s %s" % (name, version)
+#set underline = len($namever) * '='
+${namever}
+${underline}
+
+${description}
+
+${long_description}

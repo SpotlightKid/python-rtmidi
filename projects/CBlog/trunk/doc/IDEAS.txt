@@ -1,0 +1,3 @@
+- Add link 'My articles' to control center (logged-in users only)
+- Add link 'My comments' to control center (logged-in users only)
+- Make comment form a floating layer with position: absolute

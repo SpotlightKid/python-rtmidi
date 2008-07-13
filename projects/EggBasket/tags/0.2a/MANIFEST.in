@@ -1,0 +1,15 @@
+include README.in
+include TODO.txt
+include CHANGELOG.txt
+include tools/make_release.sh
+include tools/make_readme.py
+exclude tools/upload.sh
+global-include *.cfg
+recursive-include eggbasket/static *
+recursive-include eggbasket/templates *.html
+
+graft doc
+graft tools
+prune dist
+prune build
+global-exclude *.bak

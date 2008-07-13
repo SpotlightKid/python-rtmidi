@@ -1,0 +1,121 @@
+/*-----------------------------------------------------------------------------
+Styles for the comment submission form (articleform.css)
+
+Project:    CBlog
+Version:    1.0
+Date:       2006-11-27
+Author:     Christopher Arndt
+Email:      chris@chrisarndt.de
+Website:    http://chrisarndt.de/
+-----------------------------------------------------------------------------*/
+
+#articleform_wrapper {
+    margin: 0px;
+    width: 80%;
+    font-size: 90%;
+}
+
+#articlepreview {
+    display: none;
+    padding: .5em;
+    background: #fcfcfc url("/static/images/preview_small.png");
+    margin: 0 0 .5em 0;
+    border: 1px solid #c0c0b0;
+}
+
+#articlepreview .errmsg {
+    color: darkred;
+    text-align: center;
+}
+
+#articlepreview a[class="hidelink"] {
+    display: none;
+}
+
+#articlepreview .hidelink {
+    float: right;
+}
+
+#articlepreview:hover .hidelink {
+    display: block;
+}
+
+.hidelink:hover {
+    text-decoration: underline;
+}
+
+#articleform {
+    width: 100%;
+}
+
+#articleform .textarea, #articleform .textfield {
+}
+
+/* position of tooltips */
+#articleform .fieldhelp {
+    bottom: -4.5em;
+    left: 10em;
+    width: 24em;
+}
+
+#articleform #preview {
+    margin-left: .5em;
+}
+
+#taglist {
+    word-spacing: .6em;
+}
+
+#taglist .tag {
+    /* position: relative; */
+}
+
+#taglist .rank0 {
+    font-size: 90%;
+    line-height: 90%;
+}
+
+#taglist .rank1 {
+    font-size: 100%;
+    line-height: 100%;
+}
+
+#taglist .rank2 {
+    font-size: 110%;
+    line-height: 110%;
+}
+
+#taglist .rank3 {
+    font-size: 120%;
+    line-height: 120%;
+}
+
+#taglist .rank4 {
+    font-size: 130%;
+    line-height: 130%;
+}
+
+#taglist .rank5 {
+    font-size: 140%;
+    line-height: 140%;
+}
+
+#taglist .rank6 {
+    font-size: 150%;
+    line-height: 150%;
+}
+
+#taglist .rank7 {
+    font-size: 160%;
+    line-height: 160%;
+}
+
+#taglist .rank8 {
+    font-size: 170%;
+    line-height: 170%;
+}
+
+#taglist .rank9 {
+    font-size: 180%;
+    line-height: 180%;
+}

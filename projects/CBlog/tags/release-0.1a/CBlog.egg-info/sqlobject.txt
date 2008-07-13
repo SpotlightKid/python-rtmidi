@@ -1,0 +1,2 @@
+db_module=cblog.model
+history_dir=$base/cblog/sqlobject-history

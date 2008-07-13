@@ -1,0 +1,23 @@
+External URL API
+----------------
+
+Warning: this is how it should be, but is is currently not implemented!
+
+URL                     Method      Action
+
+/articles/              GET         Get list of articles
+/articles/list          GET
+
+/articles/<id>          GET         Retrieve/Show article
+/articles/<id>/view     GET
+
+/articles/              POST        Create new article
+/articles/create        POST
+
+/articles/<id>/edit     GET         Show edit form with article <id> pre-filled
+/articles/create        GET         Show edit form with blank fields
+
+/articles/<id>          POST        Update article <id> with posted values
+/articles/<id>/update   POST
+
+/articles/<id>/delete   ALL         Delete article <id>

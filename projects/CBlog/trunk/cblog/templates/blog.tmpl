@@ -1,0 +1,57 @@
+#compiler-settings
+useAutocalling = False
+#end compiler-settings
+
+#extends cblog.templates.SiteTemplate
+
+#def extra_header_data
+#if $getVar('tg.feeds', None)
+  <link rel="alternate" type="application/atom+xml"
+    title="${tg.feeds['summary']['title'], escape='quote'}"
+    href="${tg.feeds['summary']['href']}">
+#end if
+#end def
+
+#def pagetitle
+  <title>${tg.blogtitle}#if $getVar('tag', None)# (Category $tag.name)#end if#</title>
+#end def
+
+#def pagecontent
+#set $items = $tg.ipeek($entries)
+
+<div id="blogroll">
+#if items
+  #for $entry in $items
+  <div class="article">
+    #if $tg.identity.user_name == $entry.author.user_name
+    <p class="actionlinks">
+      <a href="${tg.url('/edit_article/%i') % $entry.id}">Edit article</a>
+    </p>
+    #end if
+
+    <h1 class="title"><a
+      href="${tg.url('/article/%s' % entry.id)}">${entry.title}</a></h1>
+
+    $entry.teaser
+
+    <p class="byline">posted by <span
+      class="author">${entry.author.display_name}</span> on
+      <span class="date">${tg.format_date($entry.created)}</span> in
+      <span class="tags">${tg.format_tags($entry.tags)}</span>
+      <span class="numcomments"><a
+      href="${tg.url('/article/%s#comments' % entry.id)}"
+      >(${entry.comment_count}
+      comment#if $entry.comment_count != 1#s#end if#)</a></span>
+    </p>
+
+    <p><a class="readon" href="${tg.url('/article/%s' % $entry.id)}">Continue
+      reading &hellip;</a></p>
+
+  </div>
+  #end for
+
+#else
+<p>No blog articles found.</p>
+#end if
+</div>
+#end def

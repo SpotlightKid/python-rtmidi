@@ -1,0 +1,10 @@
+#templatesource {
+    border: thin solid #999999;
+    width: 90%;
+    margin: 1em;
+    padding: 1%;
+    background-color: #eeeeee;
+    color: #999999;
+    overflow: auto;
+    font-size: 90%;
+}

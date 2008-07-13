@@ -1,0 +1,13 @@
+10 steps to your TurboGears application
+=======================================
+
+1. Quickstart your project
+2. Code your data model
+3. Create the database
+4. Add some bootstrap data using CatWalk
+5. Design your URLs
+6. Write your controller methods
+7. Write your templates
+8. Add some CSS and/or JavaScript
+9. Build an egg
+10. Deploy!

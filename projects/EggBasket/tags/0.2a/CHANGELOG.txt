@@ -1,0 +1,13 @@
+Changelog
+=========
+
+0.2a
+----
+
+* Bumped down TurboGears version requirement to 1.0.4.4 and added requirement
+  for Genshi 0.4
+
+0.1a (2008-04-09)
+-----------------
+
+* first alpha release

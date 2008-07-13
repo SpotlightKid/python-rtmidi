@@ -1,0 +1,99 @@
+#compiler-settings
+useAutocalling = False
+#end compiler-settings
+
+#extends cblog.templates.SiteTemplate
+
+#def pagetitle
+  <title>${tg.blogtitle}: ${entry.title}</title>
+#end def
+
+#def extra_header_data
+  #if $entry.author
+  <meta name="author" content="${entry.author.display_name, escape='quote'}">
+  #end if
+  #if $entry.title
+  <meta name="title" content="${entry.title, escape='quote'}">
+  #end if
+  #set $description = $entry.description
+  #if $description
+  <meta name="description" content="${description, escape='quote'}">
+  #end if
+  #set $tags = ', '.join([tag.name for tag in $entry.tags])
+  #if $tags#<meta name="keywords" content="${tags, escape='quote'}">#end if
+#end def
+
+#def pagecontent
+<div id="detailview">
+
+  <p id="commentlink"><a href="#" class="show_commentlink">Add a comment</a></p>
+
+  <div class="article">
+    <h1 class="title">${entry.title}</h1>
+
+    #if $comment_form
+    ${comment_form(value=dict(id=$entry.id),
+      submit_text=_(u'Add Comment'),
+      action=$tg.url('/add_comment'),
+      form_attrs=dict(id='commentform'))}
+    #end if
+
+    #if $tg.identity.user_name == $entry.author.user_name
+    <p class="actionlinks">
+      <a href="${tg.url('/edit_article/%i') % $entry.id}">Edit article</a>
+    </p>
+    #end if
+
+    <p class="byline"><a href="${tg.url('/article/%s' % $entry.id)}">#</a>
+      posted by <span
+      class="author">${entry.author.display_name}</span> on
+      <span class="date">${tg.format_date($entry.created)}</span> in
+      <span class="tags">${tg.format_tags($entry.tags)}</span></p>
+
+    ${entry.html_text}
+  </div>
+
+  <div id="comments">
+    #set $items = $tg.ipeek($comments)
+    #set $count = $entry.comment_count
+    #if $items
+    <div class="header">
+      <a name="comments"></a><h2>Reader comments</h2>
+
+      <p>There are ${count} comment#if $count != 1#s#end if# on this article.
+      <a href="#" class="show_commentlink">Add a comment now...</a></p>
+    </div>
+
+      #for $cnum, $comment in enumerate($items)
+      #set $authorcomment = ($comment.email == $entry.author.email_address)
+      <div class="comment#if $authorcomment# authorcomment#end if#">
+
+        #if $tg.config('gravatars.show', False)
+        ${tg_gravatar.display($comment.email)}
+        #end if
+
+        <p class="byline">
+          <a class="num" href="#comment-${comment.id}">${cnum+1}</a>
+          <a name="comment-${comment.id}"></a>
+          <span class="author">${tg.format_author(comment)}</span>
+          said on
+          <span class="date">${tg.format_date(comment.created)}</span>:</p>
+
+        <div class="text">
+          ${comment.html_text}
+        </div>
+
+      </div>
+      #end for
+    #else
+    <div class="header">
+      <a name="comments"></a><h2>Reader comments</h2>
+
+      <p><a name="comments"></a>There are no comments on this article yet.
+      <a href="#" class="show_commentlink">Add a comment now...</a></p>
+    </div>
+    #end if
+
+  </div>
+</div>
+#end def

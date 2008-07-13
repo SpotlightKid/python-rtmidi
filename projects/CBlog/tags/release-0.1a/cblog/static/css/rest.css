@@ -1,0 +1,9 @@
+/*
+:Author: Christopher Arndt
+:Contact: chris@chrisarndt.de
+:Copyright: This stylesheet has been placed in the public domain.
+
+Stylesheet for use with Docutils. Extends html4css1.css from the docutils distribution.
+*/
+
+@import url(html4css1.css);

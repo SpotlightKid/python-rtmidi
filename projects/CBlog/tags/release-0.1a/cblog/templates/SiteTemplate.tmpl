@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+#compiler-settings
+useAutocalling = False
+#end compiler-settings
+
+#extends SiteBase
+#implements respond
+#import time
+#from cblog import fflash
+#from cblog.widgets import sitewide
+<html>
+<head>
+  #block headtop
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  #end block
+  #block extra_header_data
+  <!-- insert extra header lines (links etc.) here -->
+  #end block
+
+  ##silent $fflash.init($searchList())
+  ##silent $sitewide.init($searchList())
+  #for $css in $tg_css
+  $css()
+  #end for
+
+  ## include your own external CSS stylesheet links here, e.g.
+  $css_link('cblog.css')
+  #block extra_stylesheets
+  <!-- insert extra stylesheet links here -->
+  #end block
+
+  ## include your own external JS files links here, e.g.
+  ##$js_link('events.js')
+
+  #for $js in $tg_js_head
+  $js()
+  #end for
+
+  #block pagetitle
+  <title></title>
+  #end block
+</head>
+
+<body>
+#for $js in $tg_js_bodytop
+$js()
+#end for
+
+<!-- Header -->
+<div id="header">
+  <h1 id="blogtitle"><a href="${tg.url('/')}">${tg.blogtitle}</a></h1>
+
+  <ul id="navbar">
+    <li><a href="$tg.url('/')">Home</a></li>
+
+    <li><a href="$tg.url('/archive')">Archive</a></li>
+
+    <li><a href="$tg.url('/featured')">Featured</a></li>
+
+    #if $tg.config('identity.on', False)
+    #if $tg.identity.anonymous
+    #if 'loggin_in' not in locals()
+    <li><a href="$tg.url('/login')">Login</a></li>
+    #end if
+    #else
+    <li><a href="$tg.url('/logout')">Logout</a></li>
+    #end if
+    #end if
+  </ul>
+
+  <h2 id="description">${tg.blogdesc}</h2>
+
+</div>
+
+<div id="content">
+<!-- Main Column -->
+<div id="main">
+
+$tg_fancyflash($tg_flash)
+
+#block pagecontent
+<p class="placeholder">Here comes the page content...</p>
+#end block
+</div>
+
+<!-- Sidebar -->
+<div id="sidebar">
+
+  ${tg_search_form(action=$tg.url('/search'), method='GET',
+    form_attrs=dict(id='searchform'))}
+
+  $tg_profile()
+
+  <h2 class="sidebar-title">Categories</h2>
+
+  $tg_category_links()
+
+  <h2 class="sidebar-title">Monthly Archives</h2>
+
+  $tg_archive_links()
+
+  #if $getVar('tg.feeds', None)
+  <h2 class="sidebar-title">Get feeds</h2>
+
+  <ul>
+    <li><a
+      title="${tg.feeds['full']['title'], escape='quote'} (Full text, Atom 1.0)"
+      href="${tg.feeds['full']['href']}">Full text of latest posts</a></li>
+    <li><a
+      title="${tg.feeds['summary']['title'], escape='quote'} (Summary, Atom 1.0)"
+      href="${tg.feeds['summary']['href']}">Summary of latest posts</a></li>
+    #if $getVar('tag', None) and $tg.feeds.get($tag.name)
+    <li><a title="${tg.feeds[$tag.name]['full']['title'], escape='quote'}"
+      href="${tg.feeds[$tag.name]['full']['href']}">Posts in this category</a>
+      (Full text, Atom 1.0)</li>
+    <li><a title="${tg.feeds[$tag.name]['summary']['title'], escape='quote'}"
+      href="${tg.feeds[$tag.name]['summary']['href']}">Posts in this category (Summary)</a>
+      (Summary, Atom 1.0)</li>
+    #end if
+  </ul>
+  #end if
+
+  <h2 class="sidebar-title">Links</h2>
+
+  <!--
+    +++++++++++++++++++++++++++++++++++++++++++++++++
+
+      Add things to your sidebar here.
+      Use the format:
+
+      <li><a href="URL">Link Text</a></li>
+
+    +++++++++++++++++++++++++++++++++++++++++++++++++
+  -->
+  <ul>
+    <li><a href="http://chrisarndt.de/projects/cblog/"
+      target="_blank">Homepage</a></li>
+  </ul>
+
+  #if $tg.config('identity.on', False)
+  #if not $tg.identity.anonymous
+  <h2 class="sidebar-title">Tools</h2>
+
+  <ul>
+    <li><a href="${tg.url('/edit_article')}">Post new article</a></li>
+    #if 'admin' in $tg.identity.permissions
+    <li><a href="${tg.url('/admin')}" target="_blank">Administration</a></li>
+    #end if
+  </ul>
+  #end if
+
+  <p id="login">
+    #if $tg.identity.anonymous
+    You are not logged in
+    #else
+    You are logged in as
+    <span class="user_name">$tg.identity.user.display_name</span>
+    #end if
+  </p>
+  #end if
+
+  <p id="tg-logo"><a href="http://turbogears.org"
+    title="This website is powered by TurboGears, the Python web mega-framework."
+    ><img src="/static/images/under_the_hood_blue.png" width="150" height="40"
+    alt="TurboGears under the hood"/></a></p>
+
+</div>
+</div>
+
+<!-- Footer -->
+<div id="footer">
+  <p id="copyright">&copy $time.strftime('%Y') by $tg.config('cblog.author')</p>
+</div>
+
+#for $js in $tg_js_bodybottom
+$js()
+#end for
+
+#if $tg.config('log_debug_info_filter.on', False)
+<pre class="debug">
+#from pprint import pformat
+${pformat($searchList(), indent=2, depth=5), escape=True}
+</pre>
+#end if
+
+## pseudo onDOMContentLoad support for Opera 8.x
+<div id="domloadeof" style="display:none"></div>
+</body>
+</html>

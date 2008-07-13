@@ -1,0 +1,79 @@
+/*-----------------------------------------------------------------------------
+Styles for the comment submission form (commentform.css)
+
+Project:    CBlog
+Version:    1.0
+Date:       2006-11-19
+Author:     Christopher Arndt
+Email:      chris@chrisarndt.de
+Website:    http://chrisarndt.de/
+-----------------------------------------------------------------------------*/
+
+#commentform_wrapper {
+    float: right;
+    border: solid thin #e0ad12;
+    margin-left: .5em;
+    margin-bottom: .5em;
+    padding: .5em;
+    width: 35%;
+    font-size: 90%;
+}
+
+#commentpreview {
+    display: none;
+    padding: .5em;
+    background: #fcfcfc url("/static/images/preview_small.png");
+    margin: 0 0 .5em 0;
+}
+
+#commentpreview .errmsg {
+    color: darkred;
+    text-align: center;
+}
+
+#commentpreview a[class="hidelink"] {
+    display: none;
+}
+
+#commentpreview .hidelink {
+    float: right;
+}
+
+
+#commentpreview:hover .hidelink {
+    display: block;
+}
+
+.hidelink:hover {
+    text-decoration: underline;
+}
+
+#commentform {
+    width: 100%;
+}
+
+#commentform fieldset {
+    border-width: 0;
+    background-color: transparent;
+}
+
+#commentform .textfield, #commentform .textarea {
+    width: 98%;
+}
+
+/* position of tooltips */
+#commentform .fieldhelp {
+    bottom: -4em;
+    left: 5em;
+    width: 15em;
+}
+
+#commentform #preview {
+    margin-left: .5em;
+}
+
+/* "Add comment link" to show comment form */
+#commentlink {
+    float: right;
+    display: none;
+}

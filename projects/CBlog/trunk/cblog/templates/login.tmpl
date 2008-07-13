@@ -1,0 +1,59 @@
+#compiler-settings
+useAutocalling = False
+#end compiler-settings
+
+#extends cblog.templates.SiteTemplate
+
+#def pagetitle
+    <title>${tg.blogtitle}: Login</title>
+#end def
+
+#def extra_stylesheets
+    $css_link('login.css')
+#end def
+
+#def pagecontent
+<div id="loginBox">
+    <h1>Login</h1>
+    <p class="message">${message}</p>
+    <form action="${previous_url}" method="POST">
+        <table>
+            <tr>
+                <td class="label">
+                    <label for="user_name">User Name:</label>
+                </td>
+                <td class="field">
+                    <input type="text" id="user_name" name="user_name"
+                      tabindex="1" />
+                </td>
+            </tr>
+            <tr>
+                <td class="label">
+                    <label for="password">Password:</label>
+                </td>
+                <td class="field">
+                    <input type="password" id="password" name="password"
+                      tabindex="2" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="buttons">
+                    <input type="submit" name="login" value="Login"
+                      tabindex="3" />
+                </td>
+            </tr>
+        </table>
+
+        #if $forward_url
+        <input type="hidden" name="forward_url" value="${forward_url}"/>
+        #end if
+
+        #for $name, $value in $original_parameters.items()
+        <input type="hidden" name="${name}" value="${value}"/>
+        #end for
+    </form>
+<p class="note">Self registration is currently not available. Please note that you don't need to log on in order to post a comment.<p>
+
+</div>
+
+#end def

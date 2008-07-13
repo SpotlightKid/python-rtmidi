@@ -1,0 +1,17 @@
+#compiler-settings
+useAutocalling = False
+#end compiler-settings
+
+#extends cblog.templates.SiteTemplate
+
+#def pagetitle
+  <title>${tg.blogtitle}: Archive</title>
+#end def
+
+#def pagecontent
+<h1>Archive</h1>
+
+<p class="firstpar">This is the archive of the blog <em>${tg.blogtitle}</em>. This blog currently has <strong>${numentries} post#if $numentries != 1#s#end if#</strong> with <strong>${numcomments} comment#if $numcomments != 1#s#end if#</strong>, sorted into <strong>${numtags} categor#if $numtags == 1#y#else#ies#end if#</strong> (tag#if $numtags != 1#s#end if#).</p>
+
+Through the links on the sidebar, you will be able to browse through the archived posts by month or category. If you are looking for a specific post or comment, you can also use the input box at the top of the sidebar to search through the archives by post title or do a full-text search covering posts, comments and author names.<p>
+#end def

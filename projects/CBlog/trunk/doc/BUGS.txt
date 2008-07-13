@@ -1,0 +1,25 @@
+- If you click on an empty search term field and select a value from the
+  browser's completion list, the search buttons don't get enabled (is there a
+  non-standard JavaScript event for auto-completion?).
+
+- CSS tooltips for form fields do not work in IE (does not support :hover
+  pseudo CSS class on elements other than links).
+
+- Comment preview only works with JavaScript enabled (uses AJAJ).
+
+- Dito for article preview.
+
+- No fixes for various IE display bugs:
+    - double horizontal margins on some elements
+    - wrong element width because of improper padding due to wrong
+      CSS box model of IE <= 5.5)
+    - difference in interpretation of CSS font-sizes
+
+- the textile parser module doesn't handle <pre> blocks correctly, it
+  insert <p> tags, where it shouldn't, thereby screwing up pre-formatted
+  source code in comments.
+
+- Firefox <= 1.5 does not show the text cursor in the comment form, when it
+  is un-hidden by clicking on the "Add a comment" link. If the form is
+  already visible on page load, the cursor is there. Firefox 2.0 seems to
+  work fine.

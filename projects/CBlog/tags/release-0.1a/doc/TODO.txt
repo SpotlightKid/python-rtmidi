@@ -1,0 +1,64 @@
+To be done for 1.0 beta:
+========================
+
+    *** Must
+    **  Important
+    *   Nice to have
+        Maybe
+
+FINISHED
+--------
+
+- monthly archive list pages / archive links *** - DONE
+- spam filter for comments *** - DONE
+- textile syntax for comments * - DONE
+- CSS tooltips for form fields * - DONE
+- integrate login form into page layout * - DONE
+- featured articles / editor's picks * - DONE
+- archive front page * - DONE
+- category (tag) archive links ** - DONE
+- search form - DONE
+  - title search *** - DONE
+  - full-text search ** - DONE
+- post entry form page / widget ** - DONE
+
+
+IN PROGRESS
+-----------
+
+- RSS/Atom feeds - IN PROGRESS
+  - for main blog *** - DONE
+  - for tags ** - DONE
+  - for article comments *
+  - for featured articles
+- comments styling: - IN PROGRESS
+  - better visual separation through alternating backgrounds, bigger byline,
+    icons, etc. *** - DONE
+  - consecutive numbering ** - DONE
+  - anchors and permalinks ** - DONE
+  - feed links **
+  - gravatar icons * - DONE
+
+NOT STARTED
+-----------
+
+- subscription / email notification
+  - for post updates *
+  - for comments **
+- trackback service **
+- ping service **
+- description meta tags for article lists and article pages **
+- permalinks with slugs *
+- profile widget *
+- image upload *
+- comment moderation / approval system *
+- recognize former posters and fill in name, email, homepage
+- search term highlighting in search results list (JavaScript?)
+- search results / article list pagination
+
+
+Post 1.0 release:
+=================
+
+- multi-blog support
+- layout theme support

@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+
+<xi:include href="master.html" />
+
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
+    <title>${tg.sitename}: Configuration</title>
+</head>
+
+<body>
+  <p class="breadcrumbs"><a href="${tg.url('/')}">Package list</a>
+    &gt; Configuration</p>
+
+  <h2>Configuration</h2>
+
+  <p>Most of the configuration has to be done through the configuration
+    files for now. The default configuration file is included in the
+    egg distribution under the filename <code>config/default.cfg</code>.
+    You can copy it and adapt it to your needs, all configuration settings
+    are thoroughly commented. Be sure to restart the server if you change
+    the configuration and give the configuration file as the first
+    argument to the <code>eggbaset-server</code> command.</p>
+
+  <p py:if="has_dbsprockets">
+   <a href="${tg.url('/admin/database')}" target="_new">Database
+    administration</a></p>
+
+  <div py:if="not has_dbsprockets" py:strip="">
+  <p>If you install the <a href="http://http://code.google.com/p/dbsprockets/"
+    >dbsprockets</a> package, you will have access to a basic database
+    administration interface here, where you can create users, groups and
+    assign permissions. This is not very polished at the moment, so
+    <code>dbsprockets</code> is not installed by default.</p>
+
+  <p>To install <code>dbsprockets</code>, do the following and then restart
+    the server.:</p>
+  <pre class="literal-block">
+  [sudo] easy_install dbsprockets
+  </pre>
+  </div>
+
+  <h3>Current configuration</h3>
+
+  <table id="configuration-list">
+    <thead>
+      <tr>
+        <th>Setting</th>
+        <th>Description</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="odd">
+        <td class="setting">eggbasket.sitename</td>
+        <td class="desc">Site name</td>
+        <td class="value">
+          ${tg.config('eggbasket.sitename', '&lt;default&gt;')}
+        </td>
+      </tr>
+      <tr class="even">
+        <td class="setting">eggbasket.package_root</td>
+        <td class="desc">Package root</td>
+        <td class="value">
+          ${tg.config('eggbasket.package_root', '&lt;current dir (%s)&gt;' % pkg_root)}
+        </td>
+      </tr>
+      <tr class="odd">
+        <td class="setting">eggbasket.package_extensions</td>
+        <td class="desc">Recognized package extensions</td>
+        <td class="value">
+          ${", ".join(tg.config('eggbasket.package_extensions', []))}
+        </td>
+      </tr>
+      <tr class="even">
+        <td class="setting">eggbasket.pkg_info.sort_order</td>
+        <td class="desc">Sort order for package description fields</td>
+        <td class="value">
+          ${", ".join(tg.config('eggbasket.pkg_info.sort_order', []))}
+        </td>
+      </tr>
+      <tr class="odd">
+        <td class="setting">eggbasket.pkg_desc_format</td>
+        <td class="desc">Package description markup format</td>
+        <td class="value">
+          ${tg.config('eggbasket.pkg_desc_format', '&lt;default&gt;')}
+        </td>
+      </tr>
+<!--
+      <tr class="even">
+        <td class="setting">sqlalchemy.dburi</td>
+        <td class="desc">Package description markup format</td>
+        <td class="value">${tg.config('sqlalchemy.dburi')}</td>
+      </tr>
+-->
+      <tr class="odd">
+        <td class="setting">error_catcher.on</td>
+        <td class="desc">Enable custom HTML error pages</td>
+        <td class="value">
+          ${tg.config('error_catcher.on', False)}
+        </td>
+      </tr>
+      <tr class="even">
+        <td class="setting">mail.on</td>
+        <td class="desc">Send email notifications for unexpected errors</td>
+        <td class="value">
+          ${tg.config('mail.on', False)}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>

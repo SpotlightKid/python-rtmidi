@@ -1,0 +1,47 @@
+Changelog
+---------
+
+0.4a (2008-04-15)
+~~~~~~~~~~~~~~~~~
+
+- Documentation update and minor fixes.
+- Added new 'eggbasket.rewrite_homepage_url' and
+  'eggbasket.rewrite_download_url' and config settings. These allow you to
+  change the homepage/download URL on the package meta data view pages
+  to the package distribution files listing on your EggBasket server,
+  so that easy_install will look for downloads there.
+- Added download/homepage URL rewriting to 'munge_pkg_info' function.
+- Added 'get_base_url' and '_rewrite_url' functions to 'util' module.
+- Included ``odict.py`` module from voidspace.org.uk
+
+0.3a (2008-04-10)
+~~~~~~~~~~~~~~~~~
+
+- Create AdminController with listing of config values and access
+  to DBMechanic controler (if dbsprockets is available).
+- Protect AdminController with identity.Secureresource with access only
+  for "admin" group.
+- Add link for admin controller to navbar for "admin" group.
+- Add DBMechanic controller.
+- Add errorcatcher.py and error templates for custom HTTP error pages.
+- Also accept requested package name in lower-case to handle wrong package
+  file names in the repository.
+- Minor documentaton fixes.
+- Add "download" permission (not used yet).
+- Add "admin" group and add "admin" user too it.
+- Rename "maintainers" group to "maintainer".
+
+Development features:
+
+- Added script to create virtualenv bootstrap script
+- Added handling for virtualenv to development start script
+
+0.2a (2008-04-09)
+~~~~~~~~~~~~~~~~~
+* Bumped down TurboGears version requirement to 1.0.4.4 and added requirement
+  for Genshi 0.4
+
+0.1a (2008-04-09)
+~~~~~~~~~~~~~~~~~
+
+* first alpha release

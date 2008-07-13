@@ -1,0 +1,48 @@
+Betreff: Generic Form Controller
+Von: "Ed Singleton" <singletoned@gmail.com>
+Datum: Fri, 8 Dec 2006 12:05:57 +0000
+Newsgruppen: gmane.comp.web.turbogears
+
+With a lot of help from Alberto, I've created a Generic Form
+Controller that reduces a lot of the repetition when you have lots of
+straightforward forms on your site.  It should be fairly easy to
+customise for your own purposes:
+
+class GenericFormController(controllers.Controller):
+    def __init__(self, form, data_handler, intro_text="",
+      thank_you_message="Thank you."):
+        super(self.__class__, self).__init__()
+        self.form = form
+        self.data_handler = data_handler
+        self.intro_text = intro_text
+        self.thank_you_message = thank_you_message
+
+        @expose()
+        @validate(form=self.form)
+        @error_handler(self.index.im_func)
+        def save(self, **kwargs):
+            self.data_handler(**kwargs)
+            raise redirect('thank_you')
+
+        self.save = new.instancemethod(save, self, self.__class__)
+
+    @expose(template='.templates.form')
+    def index(self):
+        form = self.form
+        intro_text = self.intro_text
+        return dict(form=form, intro_text=intro_text)
+
+    @expose(template='.templates.form_thankyou')
+    def thank_you(self):
+        thank_you_message = self.thank_you_message
+        return dict(thank_you_message=thank_you_message)
+
+It can be used like this:
+
+register = GenericFormController(my_form, model.MyTable,
+intro_text='Please fill in my form.', thank_you_message='Thank you for
+filling in my form.')
+
+Hope it's of use to people.
+
+Ed

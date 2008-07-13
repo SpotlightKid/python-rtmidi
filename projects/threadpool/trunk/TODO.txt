@@ -1,0 +1,7 @@
+- Standard handler for exceptions in WorkRequests - done
+- Fix issue with not being able to dismiss WorkerThreads when the queue is
+  empty, due to blocking Queue.get() - done
+
+- Add unit tests!
+- Collect results in list or provide generator when using wait
+- Sort out RPM vs Egg packaging issues (inclusion of documentation)

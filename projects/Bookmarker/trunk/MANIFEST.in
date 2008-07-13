@@ -1,0 +1,10 @@
+recursive-include data *.sqlite *.sql
+global-include *.cfg
+recursive-include bookmarker/static *
+recursive-include bookmarker/templates *.kid
+
+graft doc
+prune tools
+prune dist
+prune build
+global-exclude *.bak

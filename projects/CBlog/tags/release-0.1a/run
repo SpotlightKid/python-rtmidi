@@ -1,0 +1,12 @@
+#!/bin/sh
+
+CWD=`dirname $0`
+cd "$CWD"
+
+if [ -x "$CWD/cblog-start" ]; then
+   START="./cblog-start"
+else
+   START="cblog-start"
+fi
+
+exec "$START" ${1:-prod.cfg}

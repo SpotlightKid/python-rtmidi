@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+
+<xi:include href="master.html" />
+
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
+    <title>${tg.sitename}: ${status} error</title>
+</head>
+<body>
+  <h1>${status} error</h1>
+
+  <p>Oops, there was an error while trying to retrieve the following
+  request:</p>
+
+  <pre py:content="url" />
+
+  <h2>Here follows the error message:</h2>
+
+  <p py:content="error_msg" />
+
+  <div py:if="message">
+    <h3>Additional error message:</h3>
+    <p><em>${message}</em></p>
+  </div>
+
+  <p py:if="email_sent">The site administrator has been notified and will
+    investigate the problem as soon as possible.</p>
+  <p py:if="not email_sent">It seems that the site administrator could not be
+    notified. Either email notification is disabled or the error is so serious
+    that sending a notification failed. Should this error persist, please
+    go to the <a href="${tg.url('/about')}">About</a> page for information
+    on support options.</p>
+
+  <p>Please proceed to the <a href="${tg.url('/')}">package index</a>.</p>
+
+  <div py:if="is_admin" py:strip="">
+    <h2>Here are the details for the error:</h2>
+
+    <pre class="py-traceback" py:content="traceback" />
+  </div>
+</body>
+</html>

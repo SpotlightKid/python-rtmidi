@@ -1,0 +1,16 @@
+#compiler-settings
+useAutocalling = False
+#end compiler-settings
+
+#extends cblog.templates.SiteTemplate
+
+#def pagetitle
+  <title>${tg.blogtitle}: #if $entry#Edit#else#Post#end if# entry</title>
+#end def
+
+#def pagecontent
+${form(value=$entry,
+    submit_text=_(u'Publish'),
+    action=$tg.url('/add_article'),
+    form_attrs=dict(id='articleform'), tags=$tags)}
+#end def

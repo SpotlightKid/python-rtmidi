@@ -1,0 +1,16 @@
+#with underline = len(name) * '='; short_date = date[7:17]
+$name
+$underline
+
+:Author: $author
+:Version: $version
+:Date: $short_date
+:Description: $description
+#end
+
+.. contents::
+  :depth: 1
+
+$long_description
+
+.. include:: CHANGELOG.txt

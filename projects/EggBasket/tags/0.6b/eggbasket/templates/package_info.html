@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+
+<xi:include href="master.html" />
+
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
+    <title>${tg.sitename}: ${package.name} meta data</title>
+</head>
+
+<body>
+  <p class="breadcrumbs"><a href="${tg.url('/')}">Package list</a> &gt;
+    <a href="${tg.url('/package/%s' % package.name)}">${package.name}</a>
+    &gt; Meta data</p>
+
+  <h2>Meta data for package ${package.name}<br />
+  <span class="package-filename">(${filename})</span></h2>
+
+  <p py:if="not pkg_info">Unknown package format.</p>
+
+  <div py:if="pkg_info" py:strip="">
+
+  <table id="package-metadata">
+    <thead>
+      <tr>
+        <th class="pkginfo-field">Field</th>
+        <th class="pkginfo-value">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr py:for="i, key in enumerate(pkg_info.keys())"
+        class="${i%2 == 0 and 'odd' or 'even'}">
+        <td class="pkginfo-field">${key}</td>
+        <td class="pkginfo-value">
+          <div py:choose="type(pkg_info[key])" py:strip="">
+            <div py:when="list" py:strip="" py:for="value in pkg_info[key]">
+              ${value}<br />
+            </div>
+            <div py:when="dict" py:content="Markup(pkg_info[key]['html'])" />
+            <div py:otherwise="" py:replace="pkg_info[key]" />
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Package description</h3>
+
+  <div py:choose="tg.config('eggbasket.pkg_desc_format') == 'rest'" py:strip="">
+    <div id="package-desc" py:when="True" py:replace="HTML(description)" />
+    <pre id="package-desc" py:when="False" py:content="description" />
+  </div>
+  </div>
+
+</body>
+</html>

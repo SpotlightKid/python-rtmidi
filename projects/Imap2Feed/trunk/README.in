@@ -1,0 +1,45 @@
+## This file is used to generate a README.
+## See the 'doc' directory for the generated 'README.html' file!
+#from imaptofeed.release import *
+#set underline = len($name) * '='
+${name}
+${underline}
+
+:Author: ${author}
+:Version: ${version}
+:Date: $date[7:17]
+
+${description}
+
+${long_description}
+
+Installation
+------------
+
+Download and install the application with::
+
+    easy_install Imap2Feed
+    
+Should you be having trouble accessing the Cheeseshop, you can also 
+`download the egg`_ manually.
+
+
+Configuration
+-------------
+
+XXX TBB...
+
+
+Running
+-------
+
+Open a terminal and run::
+
+    imap2feed
+
+and then open your browser at http://localhost:4627/
+
+
+*Share and Enjoy!*
+
+.. _download the egg: ${url}download/

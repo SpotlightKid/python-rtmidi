@@ -1,0 +1,13 @@
+include README.in
+include TODO.txt
+include make_release.sh
+exclude upload.sh
+recursive-include data *.sqlite *.sql
+global-include *.cfg
+recursive-include turbofancyflash/static *
+recursive-include turbofancyflash/templates *.kid
+
+graft doc
+prune dist
+prune build
+global-exclude *.bak

@@ -1,0 +1,13 @@
+include run
+include log/README.txt
+
+recursive-include cblog/config *.cfg
+recursive-include cblog/static *
+recursive-include cblog/templates *.kid
+recursive-include data *.sql
+
+graft doc
+graft tools
+
+prune misc
+global-exclude *.bak

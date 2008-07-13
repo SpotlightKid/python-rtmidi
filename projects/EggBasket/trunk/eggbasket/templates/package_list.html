@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+
+<xi:include href="master.html" />
+
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
+    <title>${tg.sitename}: Packages</title>
+</head>
+
+<body>
+  <p class="breadcrumbs"><a href="${tg.url('/')}">Package list</a></p>
+
+  <h2>Available Packages</h2>
+
+  <table py:if="packages" id="package-list">
+    <thead>
+      <tr>
+        <th class="package-name">Name</th>
+        <th class="package-stats">Info</th>
+        <th class="package-modified">Last updated</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr py:for="i, package in enumerate(packages)"
+        class="${i%2 == 0 and 'odd' or 'even'}">
+        <td>
+          <a href="${tg.url('/package/%s' % package.name)}">${package.name}</a>
+        </td>
+        <td py:with="num_releases, num_files = package.stats">
+          ${num_releases}
+          release<span py:if="not num_releases==1" py:replace="'s'" />,
+          ${num_files} file<span py:if="not num_files==1" py:replace="'s'" />
+        </td>
+        <td>${package.modified}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p py:if="not packages">No packages found.</p>
+</body>
+</html>

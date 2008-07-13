@@ -1,0 +1,6 @@
+build
+dist
+tp_api
+MANIFEST
+*.pyc
+*.html
