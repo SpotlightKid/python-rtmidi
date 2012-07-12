@@ -22,8 +22,8 @@ license = 'MIT License'
 platforms = 'POSIX, Windows, MacOS X'
 classifiers = """\
 Development Status :: 3 - Alpha
-#Environment :: MacOS X
-#Environment :: Win32 (MS Windows)
+Environment :: MacOS X
+Environment :: Win32 (MS Windows)
 Environment :: Console
 Intended Audience :: Developers
 License :: OSI Approved :: MIT License
@@ -31,7 +31,11 @@ Operating System :: Microsoft :: Windows
 Operating System :: POSIX
 Operating System :: MacOS :: MacOS X
 Programming Language :: Python
-Topic :: Multimedia :: Sound/Audio
+Programming Language :: Python :: 2.6
+Programming Language :: Python :: 2.7
+Programming Language :: Python :: 3
+Topic :: Multimedia :: Sound/Audio :: MIDI
+Topic :: Software Development :: Libraries :: Python Modules
 """
 classifiers = [c.strip() for c in classifiers.splitlines()
     if c.strip() and not c.startswith('#')]
