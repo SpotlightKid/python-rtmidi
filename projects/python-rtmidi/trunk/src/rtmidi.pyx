@@ -1,4 +1,7 @@
+#cython: embedsignature=True
+#
 # rtmidi.pyx
+#
 """A Python wrapper for the RtMidi C++ library written with Cython."""
 
 from cython.operator import dereference
