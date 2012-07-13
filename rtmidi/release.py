@@ -169,13 +169,13 @@ Patches are welcome.
 Copyright & License
 ===================
 
-``python-rtmidi`` was written by Christopher Arndt, 2012.
+``python-rtmidi`` was written by %(author)s, 2012.
 
-The author can be reached at chris@chrisarndt.de
+The author can be reached at %(author_email)s.
 
 The software is released unter the **MIT License**:
 
-Copyright (c) 2012 Christopher Arndt
+Copyright (c) 2012 %(author)s
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -210,7 +210,6 @@ Copyright (c) 2012 Christopher Arndt
 name = 'python-rtmidi'
 version = '0.1a'
 description = __doc__.splitlines()
-long_description = "\n".join(description[2:])
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
 author_email = 'chris@chrisarndt.de'
@@ -218,8 +217,10 @@ url = 'http://chrisarndt.de/projects/%s/' % name
 download_url = url + 'download/'
 license = 'MIT License'
 platforms = 'POSIX, Windows, MacOS X'
-description = description[0] % {
-    'url': url, 'download_url': download_url, 'version': version}
+long_description = "\n".join(description[2:]) % {
+    'author': author, 'author_email': author_email,
+    'download_url': download_url, 'url': url, 'version': version}
+description = description[0]
 classifiers = """\
 Development Status :: 3 - Alpha
 Environment :: MacOS X
