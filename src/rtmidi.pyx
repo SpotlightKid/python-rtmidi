@@ -4,7 +4,6 @@
 #
 """A Python wrapper for the RtMidi C++ library written with Cython."""
 
-from cython.operator import dereference
 from libcpp cimport bool
 from libcpp.string cimport string
 from libcpp.vector cimport vector
@@ -54,7 +53,9 @@ cdef extern from "RtMidi.h":
         void openVirtualPort(string portName) except +
         void sendMessage(vector[unsigned char] *message) except +
 
+
 # export Api enum values to Python
+
 API_UNSPECIFIED = UNSPECIFIED
 API_MACOSX_CORE = MACOSX_CORE
 API_LINUX_ALSA = LINUX_ALSA
@@ -63,30 +64,13 @@ API_WINDOWS_MM = WINDOWS_MM
 API_WINDOWS_KS = WINDOWS_KS
 API_RTMIDI_DUMMY = RTMIDI_DUMMY
 
-# global registry of RtMidiCallbacks for all RtMidiIn instances
-_callbacks = {}
-
 # internal functions
 
-cdef void _cb_func(double timeStamp, vector[unsigned char] *message,
-        void *userData) with gil:
-    cdef int n_bytes, i
-    cdef char* c_inst_id = <char *> userData
-
-    inst_id = c_inst_id
-    cb_info = _callbacks.get(inst_id)
-
-    if cb_info:
-        cb_func, user_data = cb_info
-        data = []
-        n_bytes = message.size()
-
-        for i from 0 <= i < n_bytes:
-            data.append(message.at(i))
-
-        cb_func((data, timeStamp), user_data)
-    else:
-        print("No callback function registered for instance '%s'" % inst_id)
+cdef void _cb_func(double delta_time, vector[unsigned char] *msg_v,
+        void *cb_info) with gil:
+    func, data = (<object> cb_info)
+    message = [msg_v.at(i) for i in range(msg_v.size())]
+    func((message, delta_time), data)
 
 def _to_bytes(name):
     """Convert a 'unicode' (Python 2) or 'str' (Python 3) object into 'bytes'.
@@ -128,12 +112,13 @@ def get_compiled_api():
 cdef class MidiIn:
     """Midi input client interface."""
     cdef RtMidiIn *thisptr
+    cdef object _callback
 
     def __cinit__(self, Api rtapi=UNSPECIFIED,
             string name="RtMidi Input Client",
             unsigned int queue_size_limit=100):
-        name = _to_bytes(name)
-        self.thisptr = new RtMidiIn(rtapi, name, queue_size_limit)
+        self.thisptr = new RtMidiIn(rtapi, _to_bytes(name), queue_size_limit)
+        self._callback = None
 
     def __dealloc__(self):
         self.cancel_callback()
@@ -166,12 +151,10 @@ cdef class MidiIn:
         a different input port name.
 
         """
-        name = _to_bytes(name)
-        self.thisptr.openPort(port, name)
+        self.thisptr.openPort(port, _to_bytes(name))
 
     def open_virtual_port(self, string name="RtMidi Input"):
-        name = _to_bytes(name)
-        self.thisptr.openVirtualPort(name)
+        self.thisptr.openVirtualPort(_to_bytes(name))
 
     def close_port(self):
         self.cancel_callback()
@@ -182,37 +165,24 @@ cdef class MidiIn:
 
     def get_message(self):
         cdef vector[unsigned char] msg_v
-        cdef int n_bytes, i
-        cdef double stamp
+        cdef double delta_time = self.thisptr.getMessage(&msg_v)
 
-        stamp = self.thisptr.getMessage(&msg_v)
-        n_bytes = msg_v.size()
-
-        if n_bytes:
-            message = []
-
-            for i from 0 <= i < n_bytes:
-                message.append(msg_v[i])
-
-            return (message, stamp)
+        if not msg_v.empty():
+            message = [msg_v.at(i) for i in range(msg_v.size())]
+            return (message, delta_time)
         else:
             return None
 
     def set_callback(self, func, data=None):
-        cdef char * c_inst_id
-
-        inst_id = _to_bytes(str(id(self)))
-        c_inst_id = inst_id
-        self.cancel_callback()
-        _callbacks[inst_id] = (func, data)
-        self.thisptr.setCallback(&_cb_func, <void *>c_inst_id)
+        if self._callback:
+            self.cancel_callback()
+        self._callback = (func, data)
+        self.thisptr.setCallback(&_cb_func, <void *>self._callback)
 
     def cancel_callback(self):
-        inst_id = _to_bytes(str(id(self)))
-
-        if inst_id in _callbacks:
+        if self._callback:
             self.thisptr.cancelCallback()
-            del _callbacks[inst_id]
+            self._callback = None
 
 
 cdef class MidiOut:
@@ -221,8 +191,7 @@ cdef class MidiOut:
 
     def __cinit__(self, Api rtapi=UNSPECIFIED,
             string name="RtMidi Output Client"):
-        name = _to_bytes(name)
-        self.thisptr = new RtMidiOut(rtapi, name)
+        self.thisptr = new RtMidiOut(rtapi, _to_bytes(name))
 
     def __dealloc__(self):
         del self.thisptr
@@ -245,21 +214,18 @@ cdef class MidiOut:
         return [self.get_port_name(p) for p in range(self.get_port_count())]
 
     def open_port(self, unsigned int port=0, string name="RtMidi Output"):
-        name = _to_bytes(name)
-        self.thisptr.openPort(port, name)
+        self.thisptr.openPort(port, _to_bytes(name))
 
     def open_virtual_port(self, string name="RtMidi Output"):
-        name = _to_bytes(name)
-        self.thisptr.openVirtualPort(name)
+        self.thisptr.openVirtualPort(_to_bytes(name))
 
     def close_port(self):
         self.thisptr.closePort()
 
     def send_message(self, message):
         cdef vector[unsigned char] msg_v
-        cdef int i
 
-        for i from 0 <= i < len(message):
-            msg_v.push_back(message[i])
+        for c in message:
+            msg_v.push_back(message[c])
 
         self.thisptr.sendMessage(&msg_v)
