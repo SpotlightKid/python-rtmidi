@@ -74,14 +74,14 @@ elif osname == 'darwin':
         libraries += ['jack']
 
     define_macros += [('__MACOSX_CORE__', '')]
-    extra_link_args = [
+    extra_link_args += [
         '-framework', 'CoreAudio',
         '-framework', 'CoreMIDI',
         '-framework', 'CoreFoundation']
 
 elif osname == 'windows':
     define_macros += [('__WINDOWS_MM__', '')]
-    libraries = [
+    libraries += [
         join(WINLIB_DIR, 'winmm.lib'),
         join(WINLIB_DIR, 'multithreaded')]
 
