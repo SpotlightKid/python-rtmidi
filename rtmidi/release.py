@@ -152,7 +152,7 @@ compiled in.
     * Windows: MultiMedia (MM), Windows Kernel Streaming
 
 On Linux, to get ALSA support, you must install development files for the
-``libasound`` library (debian package: ``libasound.dev``). For JACK support,
+``libasound`` library (debian package: ``libasound-dev``). For JACK support,
 install the ``libjack`` development files (``libjack-dev`` or
 ``libjack-jackd2-dev``).
 
@@ -208,7 +208,7 @@ Copyright (c) 2012 %(author)s
 """
 
 name = 'python-rtmidi'
-version = '0.1a'
+version = '0.2a'
 description = __doc__.splitlines()
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
