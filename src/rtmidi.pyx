@@ -97,16 +97,10 @@ def get_compiled_api():
 
     """
     cdef vector[Api] api_v
-    cdef int size, i
 
     RtMidi_getCompiledApi(api_v)
     size = api_v.size()
-    apis = []
-
-    for i from 0 <= i < size:
-        apis.append(api_v[i])
-
-    return apis
+    return [api_v[i] for i in api_v.size()]
 
 
 cdef class MidiIn:
@@ -226,6 +220,6 @@ cdef class MidiOut:
         cdef vector[unsigned char] msg_v
 
         for c in message:
-            msg_v.push_back(message[c])
+            msg_v.push_back(c)
 
         self.thisptr.sendMessage(&msg_v)
