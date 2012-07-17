@@ -99,8 +99,7 @@ def get_compiled_api():
     cdef vector[Api] api_v
 
     RtMidi_getCompiledApi(api_v)
-    size = api_v.size()
-    return [api_v[i] for i in api_v.size()]
+    return [api_v[i] for i in range(api_v.size())]
 
 
 cdef class MidiIn:
