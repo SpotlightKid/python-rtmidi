@@ -74,6 +74,7 @@ elif osname == 'darwin':
         libraries += ['jack']
 
     define_macros += [('__MACOSX_CORE__', '')]
+    extra_compile_args += ['-frtti']
     extra_link_args += [
         '-framework', 'CoreAudio',
         '-framework', 'CoreMIDI',
@@ -94,6 +95,7 @@ extensions = [
         define_macros = define_macros,
         include_dirs = [SRC_DIR],
         libraries = libraries,
+        extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args
     )
 ]
