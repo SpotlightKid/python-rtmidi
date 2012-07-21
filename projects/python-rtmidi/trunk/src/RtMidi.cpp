@@ -2366,8 +2366,8 @@ void MidiOutWinMM :: sendMessage( std::vector<unsigned char> *message )
 #include <setupapi.h>
 #include <mmsystem.h>
 
-#include "include/ks.h"
-#include "include/ksmedia.h"
+#include "ks.h"
+#include "ksmedia.h"
 
 #define INSTANTIATE_GUID(a) GUID const a = { STATIC_ ## a }
 
