@@ -24,8 +24,8 @@ the Python package naming structure. ``python-rtmidi`` supports Python 2
     ``python-rtmidi`` is currently in **alpha-stage**, which means is is
     published in the hope that other developers try it out and help finding
     bugs, and that its API is not yet finalised. What is there should work
-    but is currently only tested thoroughly under Linux/ALSA and less
-    regulary under Linux/JACK and OS X/CoreMIDI. Windows support is still
+    but is currently only tested thoroughly under Linux/ALSA and less regularly
+    under Linux/JACK and OS X CoreMIDI and JACK. Windows support is still
     untested but will be reviewed soon.
 
 
@@ -56,7 +56,7 @@ available MIDI output port and send a middle C note on MIDI channel 10::
 
 More usage examples can be found in the ``tests`` directory of the source
 distribution. API documentation is available by looking at the docstrings in
-the Cython source code or using tools like ``pydoc`` or IPython_ or by
+the Cython source code or using tools like ``pydoc`` or IPython_ and by
 reading the RtMidi_ documentation.
 
 
@@ -144,7 +144,7 @@ in the  source distribution was compiled with Cython 0.17pre as of 2012-07-13.
 
 RtMidi (and therefore ``python-rtmidi``) supports several low-level MIDI
 libraries on different operating systems. Only one of the available options
-needs to present on the target system, but support for more than one can be
+needs to be present on the target system, but support for more than one can be
 compiled in.
 
     * Linux: ALSA, JACK
@@ -159,11 +159,13 @@ install the ``libjack`` development files (``libjack-dev`` or
 On OS X, CoreMIDI support comes with installing Xcode. For JACK support,
 install JACK for OS X from http://www.jackosx.com/ with the full installer.
 
-On Windows, you'll need ``winmm.dll`` for Windows MultiMedia System support
-and you'll need to edit the ``WINLIB_DIR`` variable in the ``setup.py`` file
-to point to the location of this DLL. Support for compiling ``python-rtmidi``
-with Windows Kernel Streaming is currently not provided by the setup file.
-Patches are welcome.
+On Windows, for Windows MultiMedia System support you'll need ``WinM.Lib`` from
+the Microsoft `Platform SDK`_ or the Windows SDK, which superceded the Platform
+SDK for more recent Windows versions. After you have installed the SDK, you may
+need to edit the ``WINLIB_DIR`` variable at the top of the ``setup.py`` file to
+point to the location of ``WinMM.lib``. Support for compiling ``python-rtmidi``
+with Windows Kernel Streaming support in the setup file is currently untested.
+If you try it, please let the author know of your experiences.
 
 
 Copyright & License
@@ -204,6 +206,7 @@ Copyright (c) 2012 %(author)s
 .. _virtualenv: http://pypi.python.org/pypi/virtualenv
 .. _virtualenvwrapper: http://www.doughellmann.com/projects/virtualenvwrapper/
 .. _ipython: http://ipython.org/
+.. _platform sdk: http://www.microsoft.com/en-us/download/details.aspx?id=6510
 
 """
 
