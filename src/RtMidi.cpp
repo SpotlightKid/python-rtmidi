@@ -3614,6 +3614,9 @@ void MidiOutJack :: initialize( const std::string& clientName )
 {
   JackMidiData *data = new JackMidiData;
 
+  data->port = NULL;
+
+
   // Initialize JACK client
   if (( data->client = jack_client_open( clientName.c_str(), JackNullOption, NULL )) == 0) {
     errorString_ = "MidiOutJack::initialize: JACK server not running?";
@@ -3625,8 +3628,6 @@ void MidiOutJack :: initialize( const std::string& clientName )
   data->buffSize = jack_ringbuffer_create( JACK_RINGBUFFER_SIZE );
   data->buffMessage = jack_ringbuffer_create( JACK_RINGBUFFER_SIZE );
   jack_activate( data->client );
-
-  data->port = NULL;
 
   apiData_ = (void *) data;
 }
