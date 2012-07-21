@@ -16,7 +16,10 @@ SRC_DIR = "src"
 PKG_DIR = "rtmidi"
 # Get the Microsoft Platform SDK, install it and adapt the directory below
 # to the location of WinMM.Lib (or libwinmm.a for MinGW)
-WINLIB_DIR = r'C:\Program Files\Microsoft Platform SDK\Lib'
+WINLIB_DIR = r'C:\Programme\Microsoft Platform SDK\Lib'
+# Also adapt the following path to the directory containing the Platform
+# SDK headers or copy 'ks.h' and 'ksmedia.h' to the 'src' direcory.
+WININC_DIR = r'C:\Programme\Microsoft Platform SDK\Include'
 
 setup_opts = {}
 release_info = join(PKG_DIR, 'release.py')
@@ -50,6 +53,7 @@ else:
     osname = 'windows'
 
 define_macros = [('__PYX_FORCE_INIT_THREADS', None)]
+include_dirs = [SRC_DIR]
 libraries = []
 library_dirs = []
 extra_link_args = []
@@ -92,6 +96,7 @@ elif osname == 'windows':
             exists(join(WINLIB_DIR, "setupapi.lib"))):
         define_macros += [('__WINDOWS_KS__', None)]
         libraries += ["setupapi", "ksuser"]
+        include_dirs += [WININC_DIR]
 
     extra_compile_args += ['-mthreads']
     library_dirs += [WINLIB_DIR]
@@ -103,7 +108,7 @@ extensions = [
         sources = sources,
         language = "c++",
         define_macros = define_macros,
-        include_dirs = [SRC_DIR],
+        include_dirs = include_dirs,
         libraries = libraries,
         library_dirs = library_dirs,
         extra_compile_args = extra_compile_args,
