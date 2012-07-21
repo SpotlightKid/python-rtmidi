@@ -24,9 +24,9 @@ the Python package naming structure. ``python-rtmidi`` supports Python 2
     ``python-rtmidi`` is currently in **alpha-stage**, which means is is
     published in the hope that other developers try it out and help finding
     bugs, and that its API is not yet finalised. What is there should work
-    but is currently only tested thoroughly under Linux/ALSA and less regularly
-    under Linux/JACK and OS X CoreMIDI and JACK. Windows support is still
-    untested but will be reviewed soon.
+    but is currently only tested thoroughly under Linux ALSA/JACK and less
+    regularly under OS X (CoreMIDI/JACK) and Windows (WinMM). Support for
+    Windows Kernel Streaming API does not work yet due to compilation problems.
 
 
 Usage example
@@ -68,6 +68,14 @@ and a build environment as well as some system-dependant libraries are needed.
 See "Requirements" below for details.
 
 
+Installer (Windows only)
+------------------------
+
+An installer with a pre-compiled version for Windows with Windows MultiMedia
+API support is available through PyPI fro some Python versions. Download it
+from python-rtmidi's `PyPI page`_ and start the installer by double-clicking.
+
+
 From PyPI
 ---------
 
@@ -82,7 +90,7 @@ or, if you prefer setuptools_::
 
 This will download the source distribution, compile the extension and install
 it in your active Python installation. Unless you want to change the Cython
-source file ``rtmidi.pyx``, there is no need to have Cython installed.
+source file ``_rtmidi.pyx``, there is no need to have Cython installed.
 
 ``python-rtmidi`` also works well with virtualenv_ and virtualenvwrapper_. If
 you have both installed, creating an isolated environment for testing and using
@@ -127,45 +135,67 @@ Using virtualenv/virtualenvwrapper is strongly recommended in this scenario::
 Requirements
 ============
 
-Naturally, you'll need a C++ compiler and a build environment. On debian-based
-Linux systems, installing the ``build-essential`` package should get you this,
-on Mac OS X install the latest Xcode or ``g++`` from MacPorts or homebrew. On
-Windows you can use MinGW.
+Naturally, you'll need a C++ compiler and a build environment. See the
+platform-specific hints below.
 
-Then you'll need Python development headers and libraries. On Linux, install
-the ``python-dev`` package. If you use the official installers from python.org
-you should already have these.
-
-Only if you want to change the Cython source file ``rtmidi.pyx`` or want to
-recompile ``rtmidi.cpp`` with a newer Cython version, you'll need to install
+Only if you want to change the Cython source file ``_rtmidi.pyx`` or want to
+recompile ``_rtmidi.cpp`` with a newer Cython version, you'll need to install
 Cython >= 0.17. Currently this version is only available via the Git
-respository (see Cython web site) as version 0.17pre. The ``rtmidi.cpp`` file
-in the  source distribution was compiled with Cython 0.17pre as of 2012-07-13.
+respository (see Cython web site) as version 0.17pre. The ``_rtmidi.cpp`` file
+in the  source distribution was compiled with Cython 0.17pre as of 2012-07-22
+and Python 2.7.2.
 
 RtMidi (and therefore ``python-rtmidi``) supports several low-level MIDI
 libraries on different operating systems. Only one of the available options
 needs to be present on the target system, but support for more than one can be
-compiled in.
+compiled in. The setup script will try to detect available libraries and should
+use the appropriate compilations flags automatically.
 
     * Linux: ALSA, JACK
     * OS X: CoreMIDI, JACK
     * Windows: MultiMedia (MM), Windows Kernel Streaming
 
-On Linux, to get ALSA support, you must install development files for the
-``libasound`` library (debian package: ``libasound-dev``). For JACK support,
-install the ``libjack`` development files (``libjack-dev`` or
-``libjack-jackd2-dev``).
 
-On OS X, CoreMIDI support comes with installing Xcode. For JACK support,
-install JACK for OS X from http://www.jackosx.com/ with the full installer.
+Linux
+-----
 
-On Windows, for Windows MultiMedia System support you'll need ``WinM.Lib`` from
-the Microsoft `Platform SDK`_ or the Windows SDK, which superceded the Platform
-SDK for more recent Windows versions. After you have installed the SDK, you may
-need to edit the ``WINLIB_DIR`` variable at the top of the ``setup.py`` file to
-point to the location of ``WinMM.lib``. Support for compiling ``python-rtmidi``
-with Windows Kernel Streaming support in the setup file is currently untested.
-If you try it, please let the author know of your experiences.
+For the C++ compiler and the pthread library install the ``build-essential``
+package on debian-based systems.
+
+Then you'll need Python development headers and libraries. On Linux, install
+the ``python-dev`` package. If you use the official installers from python.org
+you should already have these.
+
+To get ALSA support, you must install development files for the ``libasound``
+library (debian package: ``libasound-dev``). For JACK support, install the
+``libjack`` development files (``libjack-dev`` or ``libjack-jackd2-dev``).
+
+
+OS X
+----
+
+Install the latest Xcode or ``g++`` from MacPorts or homebrew (untested).
+CoreMIDI support comes with installing Xcode. For JACK support, install
+`JACK for OS X`_ with the full installer.
+
+
+Windows
+-------
+
+On Windows you'll need Visual Studio 2008 Express. Visual Studio 2010 (Express)
+or later editions will not work with current official Python distributons.
+After you have installed the Visual Studio, you probably need to edit the
+``WINLIB_DIR`` and ``WININC_DIR`` variables at the top of the ``setup.py`` file
+to point to the location of ``WinMM.lib`` and the Microsoft SDK headers.
+
+Compiling ``python-rtmidi`` with Windows Kernel Streaming support currently
+does not work due to syntax errors in ``RtMidi.cpp``. This is currentyl being
+investigated. You can exclude Windows Kernel Streaming Support by providing
+the ``--no-winks`` option to the ``setup.py`` invocation.
+
+Compiling with MinGW also does not work out-of-the-box yet. If you have any
+useful hints, please let the author know.
+
 
 
 Copyright & License
@@ -200,13 +230,14 @@ Copyright (c) 2012 %(author)s
 
 .. _rtmidi: http://www.music.mcgill.ca/~gary/rtmidi/index.html
 .. _python-rtmidi: %(url)s
+.. _pypyi page: http://python.org/pypi/python-rtmidi#downloads
 .. _cython: http://cython,org/
 .. _pip: http://python.org/pypi/pip
 .. _setuptools: http://python.org/pypi/setuptools
 .. _virtualenv: http://pypi.python.org/pypi/virtualenv
 .. _virtualenvwrapper: http://www.doughellmann.com/projects/virtualenvwrapper/
 .. _ipython: http://ipython.org/
-.. _platform sdk: http://www.microsoft.com/en-us/download/details.aspx?id=6510
+.. _jack for os x: http://www.jackosx.com/
 
 """
 
