@@ -34,9 +34,12 @@ for api, desc in sorted(apis.items()):
             break
 
         for name, class_ in (("input", MidiIn), ("output", MidiOut)):
-            midi = class_(api)
-
-            ports = midi.get_ports()
+            try:
+                midi = class_(api)
+                ports = midi.get_ports()
+            except RuntimeError as exc:
+                print("Could not probe MIDI %s ports: %s" % (name, exc))
+                continue
 
             if not ports:
                 print("No MIDI %s ports found." % name)
