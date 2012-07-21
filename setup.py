@@ -14,7 +14,9 @@ from distutils.version import LooseVersion as V
 
 SRC_DIR = "src"
 PKG_DIR = "rtmidi"
-WINLIB_DIR = r'C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Lib'
+# Get the Microsoft Platform SDK, install it and adapt the directory below
+# to the location of WinMM.Lib (or libwinmm.a for MinGW)
+WINLIB_DIR = r'C:\Program Files\Microsoft Platform SDK\Lib'
 
 setup_opts = {}
 release_info = join(PKG_DIR, 'release.py')
@@ -28,9 +30,9 @@ try:
 
     from Cython.Distutils import build_ext
     setup_opts['cmdclass'] = {'build_ext': build_ext}
-    sources = [join(SRC_DIR, "rtmidi.pyx"), join(SRC_DIR, "RtMidi.cpp")]
+    sources = [join(SRC_DIR, "_rtmidi.pyx"), join(SRC_DIR, "RtMidi.cpp")]
 except ImportError:
-    if not exists(join(SRC_DIR, "rtmidi.cpp")):
+    if not exists(join(SRC_DIR, "_rtmidi.cpp")):
         print("""Could not import Cython or the version found is too old.
 
 Cython >= 0.17pre is required to compile 'rtmidi.pyx' into 'rtmidi.cpp'.
@@ -40,7 +42,7 @@ or use the precompiled 'rtmidi.cpp' file from the python-rtmidi source
 distribution.""")
         sys.exit(1)
 
-    sources = [join(SRC_DIR, "rtmidi.cpp"), join(SRC_DIR, "RtMidi.cpp")]
+    sources = [join(SRC_DIR, "_rtmidi.cpp"), join(SRC_DIR, "RtMidi.cpp")]
 
 if hasattr(os, 'uname'):
     osname = os.uname()[0].lower()
@@ -49,6 +51,7 @@ else:
 
 define_macros = [('__PYX_FORCE_INIT_THREADS', None)]
 libraries = []
+library_dirs = []
 extra_link_args = []
 extra_compile_args = []
 
@@ -81,10 +84,17 @@ elif osname == 'darwin':
         '-framework', 'CoreFoundation']
 
 elif osname == 'windows':
-    define_macros += [('__WINDOWS_MM__', '')]
-    libraries += [
-        join(WINLIB_DIR, 'winmm.lib'),
-        join(WINLIB_DIR, 'multithreaded')]
+    if exists(join(WINLIB_DIR, "setupapi.lib")):
+        define_macros += [('__WINDOWS_MM__', None)]
+        libraries += ["winmm"]
+
+    if (exists(join(WINLIB_DIR, "setupapi.lib")) and
+            exists(join(WINLIB_DIR, "setupapi.lib"))):
+        define_macros += [('__WINDOWS_KS__', None)]
+        libraries += ["setupapi", "ksuser"]
+
+    extra_compile_args += ['-mthreads']
+    library_dirs += [WINLIB_DIR]
 
 
 extensions = [
@@ -95,6 +105,7 @@ extensions = [
         define_macros = define_macros,
         include_dirs = [SRC_DIR],
         libraries = libraries,
+        library_dir = library_dirs,
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args
     )
