@@ -38,7 +38,7 @@ if not use_virtual:
     else:
         print("Available MIDI input ports:\n")
         for port, name in enumerate(ports):
-            print("[%i] %s" % (port, name.decode('utf-8')))
+            print("[%i] %s" % (port, name))
         print('')
 
     try:
@@ -66,11 +66,14 @@ if not use_virtual:
 
 print("Entering main loop. Press Control-C to exit.")
 try:
+    timer = time.time()
     while True:
         msg = midiin.get_message()
 
         if msg:
-            print("[%s] @%0.6f %r" % (port_name, msg[1], msg[0]))
+            message, deltatime = msg
+            timer += deltatime
+            print("[%s] @%0.6f %r" % (port_name, timer, message))
 
         time.sleep(0.01)
 except KeyboardInterrupt:
