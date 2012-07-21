@@ -105,7 +105,7 @@ extensions = [
         define_macros = define_macros,
         include_dirs = [SRC_DIR],
         libraries = libraries,
-        library_dir = library_dirs,
+        library_dirs = library_dirs,
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args
     )
