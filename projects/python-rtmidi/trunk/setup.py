@@ -14,12 +14,13 @@ from distutils.version import LooseVersion as V
 
 SRC_DIR = "src"
 PKG_DIR = "rtmidi"
-# Get the Microsoft Platform SDK, install it and adapt the directory below
-# to the location of WinMM.Lib (or libwinmm.a for MinGW)
-WINLIB_DIR = r'C:\Programme\Microsoft Platform SDK\Lib'
-# Also adapt the following path to the directory containing the Platform
+# For compiling python-rtmidi for Windows, get Microsoft Visual Studio 2008
+# Express (not the 2010 or any later edition!), install it and adapt the
+# directory below to the location of WinMM.Lib
+WINLIB_DIR = r'C:\Programme\Microsoft SDKs\Windows\v6.0A\Lib'
+# Also adapt the following path to the directory containing the Microsoft
 # SDK headers or copy 'ks.h' and 'ksmedia.h' to the 'src' direcory.
-WININC_DIR = r'C:\Programme\Microsoft Platform SDK\Include'
+WININC_DIR = r'C:\Programme\Microsoft SDKs\Windows\v6.0A\Include'
 
 setup_opts = {}
 release_info = join(PKG_DIR, 'release.py')
@@ -88,17 +89,26 @@ elif osname == 'darwin':
         '-framework', 'CoreFoundation']
 
 elif osname == 'windows':
-    if exists(join(WINLIB_DIR, "setupapi.lib")):
+    winks = winmm = True
+
+    if '--no-winmm' in sys.argv[1:]:
+        winmm = False
+        sys.argv.remove('--no-winmm')
+
+    if '--no-winks' in sys.argv[1:]:
+        winks = False
+        sys.argv.remove('--no-winks')
+
+    if winmm and exists(join(WINLIB_DIR, "setupapi.lib")):
         define_macros += [('__WINDOWS_MM__', None)]
         libraries += ["winmm"]
 
-    if (exists(join(WINLIB_DIR, "setupapi.lib")) and
+    if (winks and exists(join(WINLIB_DIR, "setupapi.lib")) and
             exists(join(WINLIB_DIR, "setupapi.lib"))):
         define_macros += [('__WINDOWS_KS__', None)]
         libraries += ["setupapi", "ksuser"]
         include_dirs += [WININC_DIR]
 
-    extra_compile_args += ['-mthreads']
     library_dirs += [WINLIB_DIR]
 
 
