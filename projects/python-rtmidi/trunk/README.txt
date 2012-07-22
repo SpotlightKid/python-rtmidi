@@ -21,20 +21,22 @@ For more information, visit ``python-rtmidi's`` web page:
 Changelog
 ---------
 
-**2012-08-22 version 0.2a**
+**2012-07-22 version 0.2a**
 
 Bug fixes:
     * Fix uninitialized pointer bug in RtMidi.cpp in 'MidiOutJack' class, which
       caused warning in jack process callback when creating a 'MidiOut'
       instance with JACK API.
-    * testmidiin_*.py: fix superfluous decoding of port name (error in Python 3)
+    * ``testmidiin_*.py``: fix superfluous decoding of port name (error in Python 3)
 
 Enhancements:
     * Simplify some code, some things gleaned from rtmidi_python
     * Documentation typo fixes and more information on Windows compilation
     * Enhancements in test scripts:
+
       * ``test_probe_ports.py``: Catch exceptions when creating port
       * ``test_midiin_*.py``:
+
         * Better error message for missing/invalid port number
         * Show how to convert event delta time into absolute time when
           receiving input
