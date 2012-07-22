@@ -20,7 +20,7 @@ if available_ports:
         if port < 0 or port >= len(available_ports):
             raise ValueError
     except Exception as exc:
-        print("No or invalid port number specified, using port #0.")
+        print(exc)
         port = 0
 
     print("Opening output port #%i (%s)." % (port, available_ports[port]))

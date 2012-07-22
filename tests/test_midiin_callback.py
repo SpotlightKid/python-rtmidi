@@ -15,15 +15,8 @@ except NameError:
     # Python 3
     raw_input = input
 
-class MidiInputHandler(object):
-    def __init__(self, port):
-        self.port = port
-        self._wallclock = time.time()
-
-    def __call__(self, event, data=None):
-        message, deltatime = event
-        self._wallclock += deltatime
-        print("[%s] @%0.6f %r" % (self.port, self._wallclock, message))
+def cb(ev, data):
+    print("[%s] @%0.6f %r" % (data, ev[1], ev[0]))
 
 print("Creating MidiIn object.")
 midiin = rtmidi.MidiIn()
@@ -48,7 +41,7 @@ if not use_virtual:
     else:
         print("Available MIDI input ports:\n")
         for port, name in enumerate(ports):
-            print("[%i] %s" % (port, name))
+            print("[%i] %s" % (port, name.decode('utf-8')))
         print('')
 
     try:
@@ -74,8 +67,8 @@ if not use_virtual:
     print("Opening MIDI input port #%i (%s)." % (port, port_name))
     midiin.open_port(port)
 
-print("Attaching MIDI input callback handler.")
-midiin.set_callback(MidiInputHandler(port_name))
+print("Attaching MIDI input callback function.")
+midiin.set_callback(cb, port_name)
 
 print("Entering main loop. Press Control-C to exit.")
 try:
