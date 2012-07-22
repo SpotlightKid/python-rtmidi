@@ -138,7 +138,7 @@ cdef class MidiIn:
         """Open the MIDI input port with the given port number.
 
         You can pass an optional name for the RtMidi input port as the second
-        argument. Closing a port and openeing it again with a different name
+        argument. Closing a port and opening it again with a different name
         does not change the port name. To change the input port name, drop
         the MidiIn instance and create a new one and open the port again giving
         a different input port name.
