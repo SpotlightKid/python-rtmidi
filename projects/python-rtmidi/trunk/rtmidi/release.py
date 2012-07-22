@@ -10,7 +10,7 @@ Overview
 
 RtMidi_ is a set of C++ classes which provides a concise and simple,
 cross-platform API (Application Programming Interface) for realtime MIDI
-input/output across Linux (ALSA & JACK), Macintosh OS X (CoreMidi & JACK),
+input/output across Linux (ALSA & JACK), Macintosh OS X (CoreMIDI & JACK),
 and Windows (Multimedia Library & Kernel Streaming) operating systems.
 
 python-rtmidi_ is a Python binding for RtMidi implemented with Cython_ and
@@ -25,7 +25,7 @@ the Python package naming structure. ``python-rtmidi`` supports Python 2
     published in the hope that other developers try it out and help finding
     bugs, and that its API is not yet finalised. What is there should work
     but is currently only tested thoroughly under Linux ALSA/JACK and less
-    regularly under OS X (CoreMIDI/JACK) and Windows (WinMM). Support for
+    regularly under OS X (CoreMIDI/JACK) and Windows (WinMM). Support for the
     Windows Kernel Streaming API does not work yet due to compilation problems.
 
 
@@ -72,7 +72,7 @@ Installer (Windows only)
 ------------------------
 
 An installer with a pre-compiled version for Windows with Windows MultiMedia
-API support is available through PyPI fro some Python versions. Download it
+API support is available through PyPI for some Python versions. Download it
 from python-rtmidi's `PyPI page`_ and start the installer by double-clicking.
 
 
@@ -183,13 +183,13 @@ Windows
 -------
 
 On Windows you'll need Visual Studio 2008 Express. Visual Studio 2010 (Express)
-or later editions will not work with current official Python distributons.
-After you have installed the Visual Studio, you probably need to edit the
+or later editions will not work with current official Python distributions.
+After you have installed Visual Studio, you probably need to edit the
 ``WINLIB_DIR`` and ``WININC_DIR`` variables at the top of the ``setup.py`` file
 to point to the location of ``WinMM.lib`` and the Microsoft SDK headers.
 
 Compiling ``python-rtmidi`` with Windows Kernel Streaming support currently
-does not work due to syntax errors in ``RtMidi.cpp``. This is currentyl being
+does not work due to syntax errors in ``RtMidi.cpp``. This is currently being
 investigated. You can exclude Windows Kernel Streaming Support by providing
 the ``--no-winks`` option to the ``setup.py`` invocation.
 
@@ -242,7 +242,7 @@ Copyright (c) 2012 %(author)s
 """
 
 name = 'python-rtmidi'
-version = '0.2a'
+version = '0.3a'
 description = __doc__.splitlines()
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
