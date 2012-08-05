@@ -23,6 +23,9 @@ Changelog
 
 **2012-08-05 version 0.3a**
 
+Examples:
+    * Add new ``midifilter.py`` example script.
+
 Building:
     * Add ``setuptools``/``distribute`` support
 

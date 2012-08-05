@@ -32,7 +32,7 @@ class MidiFilter(object):
 
         Receives a list of MIDI event tuples (message, timestamp).
 
-        Must return an iteratable of event tuples.
+        Must return an iterable of event tuples.
 
         """
         raise NotImplementedError("Abstract method 'process()'.")
@@ -116,6 +116,7 @@ class MidiDispatcher(threading.Thread):
 
     def stop(self):
         self.queue.put(None)
+
 
 def select_midiport(midi, default=0):
     type_ = "input" if isinstance(midi, rtmidi.MidiIn) else "output"
@@ -229,6 +230,7 @@ def main(args=None):
         del midiout
 
     return 0
+
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]) or 0)
