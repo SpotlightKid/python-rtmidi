@@ -8,7 +8,13 @@ import sys
 from ctypes.util import find_library
 from os.path import exists, join
 
-from distutils.core import setup
+try:
+    from distribute_setup import use_setuptools
+    use_setuptools()
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
+
 from distutils.extension import Extension
 from distutils.version import LooseVersion as V
 
@@ -37,12 +43,13 @@ try:
     sources = [join(SRC_DIR, "_rtmidi.pyx"), join(SRC_DIR, "RtMidi.cpp")]
 except ImportError:
     if not exists(join(SRC_DIR, "_rtmidi.cpp")):
-        print("""Could not import Cython or the version found is too old.
+        print("""\
+Could not import Cython or the version found is too old.
 
-Cython >= 0.17pre is required to compile 'rtmidi.pyx' into 'rtmidi.cpp'.
+Cython >= 0.17pre is required to compile '_rtmidi.pyx' into '_rtmidi.cpp'.
 
 Install Cython from the Git repository at https://github.com/cython/cython.git
-or use the precompiled 'rtmidi.cpp' file from the python-rtmidi source
+or use the precompiled '_rtmidi.cpp' file from the python-rtmidi source
 distribution.""")
         sys.exit(1)
 

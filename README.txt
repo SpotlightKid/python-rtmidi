@@ -21,6 +21,11 @@ For more information, visit ``python-rtmidi's`` web page:
 Changelog
 ---------
 
+**2012-08-05 version 0.3a**
+
+Building:
+    * Add ``setuptools``/``distribute`` support
+
 **2012-07-22 version 0.2a**
 
 Bug fixes:
