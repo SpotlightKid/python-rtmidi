@@ -182,11 +182,12 @@ CoreMIDI support comes with installing Xcode. For JACK support, install
 Windows
 -------
 
-On Windows you'll need Visual Studio 2008 Express. Visual Studio 2010 (Express)
-or later editions will not work with current official Python distributions.
-After you have installed Visual Studio, you probably need to edit the
-``WINLIB_DIR`` and ``WININC_DIR`` variables at the top of the ``setup.py`` file
-to point to the location of ``WinMM.lib`` and the Microsoft SDK headers.
+On Windows you'll need Visual Studio 2008 (Express). Visual Studio 2010
+(Express) or later editions will not work with current official Python
+distributions. After you have installed Visual Studio, you probably need to
+edit the ``WINLIB_DIR`` and ``WININC_DIR`` variables at the top of the
+``setup.py`` file to point to the location of ``WinMM.lib`` and the Microsoft
+SDK headers.
 
 Compiling ``python-rtmidi`` with Windows Kernel Streaming support currently
 does not work due to syntax errors in ``RtMidi.cpp``. This is currently being
