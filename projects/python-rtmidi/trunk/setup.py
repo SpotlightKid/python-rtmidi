@@ -25,7 +25,7 @@ PKG_DIR = "rtmidi"
 # directory below to the location of WinMM.Lib
 WINLIB_DIR = r'C:\Programme\Microsoft SDKs\Windows\v6.0A\Lib'
 # Also adapt the following path to the directory containing the Microsoft
-# SDK headers or copy 'ks.h' and 'ksmedia.h' to the 'src' direcory.
+# SDK headers or copy 'ks.h' and 'ksmedia.h' to the 'src' directory.
 WININC_DIR = r'C:\Programme\Microsoft SDKs\Windows\v6.0A\Include'
 
 setup_opts = {}
