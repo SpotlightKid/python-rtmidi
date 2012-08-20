@@ -23,11 +23,14 @@ Changelog
 
 **2012-08-05 version 0.3a**
 
+Enhancements:
+    * Increase sysex input buffer size for WinMM API to 4096 bytes.
+
 Examples:
     * Add new ``midifilter.py`` example script.
 
 Building:
-    * Add ``setuptools``/``distribute`` support
+    * Add ``setuptools``/``distribute`` support.
 
 **2012-07-22 version 0.2a**
 
@@ -35,7 +38,8 @@ Bug fixes:
     * Fix uninitialized pointer bug in RtMidi.cpp in 'MidiOutJack' class, which
       caused warning in jack process callback when creating a 'MidiOut'
       instance with JACK API.
-    * ``testmidiin_*.py``: fix superfluous decoding of port name (error in Python 3)
+    * ``testmidiin_*.py``: fix superfluous decoding of port name (caused error
+      with Python 3)
 
 Enhancements:
     * Simplify some code, some things gleaned from rtmidi_python
