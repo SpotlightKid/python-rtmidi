@@ -232,7 +232,7 @@ Copyright (c) 2012 %(author)s
 .. _rtmidi: http://www.music.mcgill.ca/~gary/rtmidi/index.html
 .. _python-rtmidi: %(url)s
 .. _pypi page: http://python.org/pypi/python-rtmidi#downloads
-.. _cython: http://cython,org/
+.. _cython: http://cython.org/
 .. _pip: http://python.org/pypi/pip
 .. _setuptools: http://python.org/pypi/setuptools
 .. _virtualenv: http://pypi.python.org/pypi/virtualenv
