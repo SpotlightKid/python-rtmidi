@@ -28,7 +28,7 @@ Bug fixes:
       and ``MidiOut`` to be able to handle non-UTF-8 port names, e.g. on
       Windows (reported by Pierre Castellotti).
     * Add ``encoding`` parameter to ``get_ports`` method as well and pass it
-      through to ``get_port_name``.
+      through to ``get_port_name``. Use it in the test scripts.
 
 Enhancements:
     * Increase sysex input buffer size for WinMM API to 4096 bytes.
