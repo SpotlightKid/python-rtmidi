@@ -142,7 +142,7 @@ Only if you want to change the Cython source file ``_rtmidi.pyx`` or want to
 recompile ``_rtmidi.cpp`` with a newer Cython version, you'll need to install
 Cython >= 0.17. Currently this version is only available via the Git
 respository (see Cython web site) as version 0.17pre. The ``_rtmidi.cpp`` file
-in the  source distribution was compiled with Cython 0.17pre as of 2012-07-22
+in the  source distribution was compiled with Cython 0.17pre as of 2013-01-14
 and Python 2.7.2.
 
 RtMidi (and therefore ``python-rtmidi``) supports several low-level MIDI
