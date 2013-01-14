@@ -123,11 +123,21 @@ cdef class MidiIn:
     def get_port_count(self):
         return self.thisptr.getPortCount()
 
-    def get_port_name(self, unsigned int portNumber):
-        cdef string name = self.thisptr.getPortName(portNumber)
+    def get_port_name(self, unsigned int port, encoding='utf-8'):
+        """Return name of given port number.
+
+        The port name is decoded to unicode with the encoding given by
+        ``encoding`` (defaults to ``'utf-8'``). If ``encoding`` is ``None``,
+        return string un-decoded.
+
+        """
+        cdef string name = self.thisptr.getPortName(port)
 
         if len(name):
-            return name.decode('utf-8')
+            if encoding:
+                return name.decode(encoding)
+            else:
+                return name
         else:
             return None
 
@@ -195,11 +205,21 @@ cdef class MidiOut:
     def get_port_count(self):
         return self.thisptr.getPortCount()
 
-    def get_port_name(self, unsigned int port):
+    def get_port_name(self, unsigned int port, encoding='utf-8'):
+        """Return name of given port number.
+
+        The port name is decoded to unicode with the encoding given by
+        ``encoding`` (defaults to ``'utf-8'``). If ``encoding`` is ``None``,
+        return string un-decoded.
+
+        """
         cdef string name = self.thisptr.getPortName(port)
 
         if len(name):
-            return name.decode('utf-8')
+            if encoding:
+                return name.decode(encoding)
+            else:
+                return name
         else:
             return None
 
