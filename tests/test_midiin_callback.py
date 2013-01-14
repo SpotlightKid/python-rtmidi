@@ -39,7 +39,8 @@ except (KeyboardInterrupt, EOFError):
     pass
 
 if not use_virtual:
-    ports = midiin.get_ports()
+    ports = midiin.get_ports(encoding='latin1'
+        if sys.platform.startswith('win') else 'utf-8')
 
     if not ports:
         print("No MIDI input ports found.")

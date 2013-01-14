@@ -4,6 +4,8 @@
 #
 """Shows how to probe for available MIDI input and output ports."""
 
+import sys
+
 from rtmidi import *
 
 try:
@@ -36,7 +38,8 @@ for api, desc in sorted(apis.items()):
         for name, class_ in (("input", MidiIn), ("output", MidiOut)):
             try:
                 midi = class_(api)
-                ports = midi.get_ports()
+                ports = midi.get_ports(encoding='latin1'
+                    if sys.platform.startswith('win') else 'utf-8')
             except RuntimeError as exc:
                 print("Could not probe MIDI %s ports: %s" % (name, exc))
                 continue

@@ -11,7 +11,8 @@ import rtmidi
 
 print("Creating MidiOut object.")
 midiout = rtmidi.MidiOut()
-available_ports = midiout.get_ports()
+available_ports = midiout.get_ports(encoding='latin1'
+    if sys.platform.startswith('win') else 'utf-8')
 
 if available_ports:
     try:
