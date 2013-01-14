@@ -141,8 +141,9 @@ cdef class MidiIn:
         else:
             return None
 
-    def get_ports(self):
-        return [self.get_port_name(p) for p in range(self.get_port_count())]
+    def get_ports(self, encoding='utf-8'):
+        return [self.get_port_name(p, encoding=encoding)
+            for p in range(self.get_port_count())]
 
     def open_port(self, unsigned int port=0, string name="RtMidi Input"):
         """Open the MIDI input port with the given port number.
@@ -223,8 +224,9 @@ cdef class MidiOut:
         else:
             return None
 
-    def get_ports(self):
-        return [self.get_port_name(p) for p in range(self.get_port_count())]
+    def get_ports(self, encoding='utf-8'):
+        return [self.get_port_name(p, encoding=encoding)
+            for p in range(self.get_port_count())]
 
     def open_port(self, unsigned int port=0, string name="RtMidi Output"):
         self.thisptr.openPort(port, _to_bytes(name))
