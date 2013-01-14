@@ -21,7 +21,14 @@ For more information, visit ``python-rtmidi's`` web page:
 Changelog
 ---------
 
-**2012-08-05 version 0.3a**
+**2013-01-14 version 0.3a**
+
+Bug fixes:
+    * Add ``encoding`` parameter to ``get_port_name`` methods of ``MidiIn``
+      and ``MidiOut`` to be able to handle non-UTF-8 port names, e.g. on
+      Windows (reported by Pierre Castellotti).
+    * Add ``encoding`` parameter to ``get_ports`` method as well and pass it
+      through to ``get_port_name``.
 
 Enhancements:
     * Increase sysex input buffer size for WinMM API to 4096 bytes.
