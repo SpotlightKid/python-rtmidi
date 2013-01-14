@@ -80,7 +80,7 @@ def _to_bytes(name):
         try:
             name = bytes(name, 'utf-8') # Python 3
         except TypeError:
-            name = bytes(name.encode('utf-8')) # Python 3
+            name = bytes(name.encode('utf-8')) # Python 2
 
     return name
 
@@ -135,7 +135,10 @@ cdef class MidiIn:
 
         if len(name):
             if encoding:
-                return name.decode(encoding)
+                # XXX: kludge, there seems to be a bug in RtMidi as it returns
+                # improperly encoded strings form getPortName with some
+                # backends, so we just ignore decoing errors
+                return name.decode(encoding, errors="ignore")
             else:
                 return name
         else:
@@ -218,7 +221,10 @@ cdef class MidiOut:
 
         if len(name):
             if encoding:
-                return name.decode(encoding)
+                # XXX: kludge, there seems to be a bug in RtMidi as it returns
+                # improperly encoded strings form getPortName with some
+                # backends, so we just ignore decoing errors
+                return name.decode(encoding, errors="ignore")
             else:
                 return name
         else:
