@@ -222,8 +222,8 @@ cdef class MidiOut:
         if len(name):
             if encoding:
                 # XXX: kludge, there seems to be a bug in RtMidi as it returns
-                # improperly encoded strings form getPortName with some
-                # backends, so we just ignore decoing errors
+                # improperly encoded strings from getPortName with some
+                # backends, so we just ignore decoding errors
                 return name.decode(encoding, errors="ignore")
             else:
                 return name
