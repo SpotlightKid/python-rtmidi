@@ -1868,7 +1868,7 @@ void MidiOutAlsa :: sendMessage( std::vector<unsigned char> *message )
 #include <windows.h>
 #include <mmsystem.h>
 
-#define  RT_SYSEX_BUFFER_SIZE 4096
+#define  RT_SYSEX_BUFFER_SIZE 8192
 #define  RT_SYSEX_BUFFER_COUNT 4
 
 // A structure to hold variables related to the CoreMIDI API
