@@ -119,8 +119,9 @@ From Subversion
 Lastly, you can check out the ``python-rtmidi`` source code from the
 Subversion repository and then install it from your working copy. Since the
 repository does not include the C++ module source code pre-compiled from the
-Cython source, you'll also need to install Cython from its Git repository.
-Using virtualenv/virtualenvwrapper is strongly recommended in this scenario::
+Cython source, you'll also need to install Cython >= 0.17, either via pip or
+from its Git repository. Using virtualenv/virtualenvwrapper is strongly
+recommended in this scenario::
 
     $ mkvirtualenv rtmidi
     (rtmidi)$ cdvirtualenv
@@ -180,12 +181,12 @@ CoreMIDI support comes with installing Xcode. For JACK support, install
 Windows
 -------
 
-On Windows you'll need Visual Studio 2008 (Express). Visual Studio 2010
-(Express) or later editions will not work with current official Python
-distributions. After you have installed Visual Studio, you probably need to
-edit the ``WINLIB_DIR`` and ``WININC_DIR`` variables at the top of the
-``setup.py`` file to point to the location of ``WinMM.lib`` and the Microsoft
-SDK headers.
+On Windows you'll need Visual Studio 2008 (Express) to build ``python-rtmidi``
+for Python <= 3.2 or Visual Studio 2010 (Express) for Python 3.3 if you use the
+official Python binary distributions for Windows. After you have installed
+Visual Studio, you probably need to edit the ``WINLIB_DIR`` and ``WININC_DIR``
+variables at the top of the ``setup.py`` file to point to the location of
+``WinMM.lib`` and the Microsoft SDK headers.
 
 Compiling ``python-rtmidi`` with Windows Kernel Streaming support currently
 does not work due to syntax errors in ``RtMidi.cpp``. This is currently being
@@ -194,7 +195,6 @@ the ``--no-winks`` option to the ``setup.py`` invocation.
 
 Compiling with MinGW also does not work out-of-the-box yet. If you have any
 useful hints, please let the author know.
-
 
 
 Copyright & License
