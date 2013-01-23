@@ -21,12 +21,6 @@ For more information, visit ``python-rtmidi's`` web page:
 Changelog
 ---------
 
-**2013-01-23 version 0.3.1a**
-
-Enhancements:
-    * Increase sysex input buffer size for WinMM API again to 8192 (8k) bytes.
-      Requested by Martin Tarenskeen.
-
 **2013-01-14 version 0.3a**
 
 Bug fixes:
