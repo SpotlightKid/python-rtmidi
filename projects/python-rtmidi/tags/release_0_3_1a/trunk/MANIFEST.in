@@ -1,0 +1,3 @@
+include src/*.h src/*.cpp
+graft tests
+prune include
