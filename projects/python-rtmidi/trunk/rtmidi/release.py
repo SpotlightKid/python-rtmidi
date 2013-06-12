@@ -200,13 +200,13 @@ useful hints, please let the author know.
 Copyright & License
 ===================
 
-``python-rtmidi`` was written by %(author)s, 2012.
+``python-rtmidi`` was written by %(author)s, 2012 - 2013.
 
 The author can be reached at %(author_email)s.
 
 The software is released unter the **MIT License**:
 
-Copyright (c) 2012 %(author)s
+Copyright (c) 2012 - 2013 %(author)s
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -241,7 +241,7 @@ Copyright (c) 2012 %(author)s
 """
 
 name = 'python-rtmidi'
-version = '0.3.1a'
+version = '0.3.2a'
 description = __doc__.splitlines()
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
