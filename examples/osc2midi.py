@@ -189,7 +189,7 @@ def select_midiport(midi, default=0):
 def main(args=None):
     optparser = optparse.OptionParser(usage=__usage__, description=__doc__,
         version=__version__)
-    optparser.add_option('-d', '--device', dest="device",
+    optparser.add_option('-d', '--device', dest="device", type="int",
         help="MIDI output device (default: open virtual MIDI port).")
     optparser.add_option('-p', '--oscport',
         default=5555, type="int", dest="oscport",
