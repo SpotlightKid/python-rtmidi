@@ -20,9 +20,10 @@ from distutils.version import LooseVersion as V
 
 SRC_DIR = "src"
 PKG_DIR = "rtmidi"
-# For compiling python-rtmidi for Windows, get Microsoft Visual Studio 2008
-# Express (not the 2010 or any later edition!), install it and adapt the
-# directory below to the location of WinMM.Lib
+# For compiling python-rtmidi for Windows, get Microsoft Visual Studio
+# Express (for Python <= 3.2 get the 2008 Edition, for Python 3.3 get
+# the 2010 edition!), install it and adapt the directory below to the
+# location of WinMM.Lib
 WINLIB_DIR = r'C:\Programme\Microsoft SDKs\Windows\v6.0A\Lib'
 # Also adapt the following path to the directory containing the Microsoft
 # SDK headers or copy 'ks.h' and 'ksmedia.h' to the 'src' directory.
@@ -106,7 +107,7 @@ elif osname == 'windows':
         winks = False
         sys.argv.remove('--no-winks')
 
-    if winmm and exists(join(WINLIB_DIR, "setupapi.lib")):
+    if winmm and exists(join(WINLIB_DIR, "winmm.lib")):
         define_macros += [('__WINDOWS_MM__', None)]
         libraries += ["winmm"]
 
