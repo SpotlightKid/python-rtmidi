@@ -6,13 +6,13 @@
 """Simple uni-directional OSC to MIDI gateway."""
 
 __program__ = 'oscmidi.py'
-__version__ = '1.0'
+__version__ = '1.1'
 __author__  = 'Christopher Arndt'
 __date__    = '$Date:$'
-__usage__   = "%prog [-d DEVICE] [-p PORT]"
+__usage__   = "%(prog)s [-d DEVICE] [-p PORT]"
 
 import logging
-import optparse
+import argparse
 import sys
 import time
 
@@ -31,58 +31,68 @@ log = logging.getLogger("osc2midi")
 
 
 class MidiOutputProc(Process):
-    def __init__(self, port=None):
+    def __init__(self, name=None, port=None):
+        super(MidiOutputProc, self).__init__()
+        self.name = name or self.__class__.__name__
+        self.port = port
         self._queue = Queue()
         self._finished = Event()
-        log.debug("Creating MidiOut instance.")
-        self._midi = rtmidi.MidiOut()
-
-        if port is None:
-            try:
-                self.port = select_midiport(self._midi)[0]
-            except:
-                self.port = None
-        else:
-            self.port = port
-
-        super(MidiOutputProc, self).__init__()
 
     def run(self):
+        log.debug("Creating MidiOut instance.")
+        self._midi = rtmidi.MidiOut(name=self.name)
+
         if self.port is None:
             log.info("Opening virtual MIDI output port.", )
             self._midi.open_virtual_port(b"osc2midi MIDI out")
         else:
-            portname = self._midi.get_port_name(self.port)
-            log.info("Opening MIDI output port #%i (%s).", self.port, portname)
-            self._midi.open_port(self.port)
+            if isinstance(self.port, int):
+                name = self._midi.get_port_name(self.port)
+                self.port = (self.port, name)
+            log.info("Opening MIDI output port #%i (%s).", *self.port)
+            self._midi.open_port(self.port[0], b"osc2midi MIDI out")
 
-        try:
-            while True:
-                event = self._queue.get()
+        break_ = False
 
-                if event is None:
-                    log.debug("Received stop event. Exit MidiOutputProc loop.")
-                    break
+        while not break_:
+            # nested while so we don't need a try/except
+            # within the inner while-loop to ignore interrupts
+            try:
+                while not break_:
+                    event = self._queue.get()
+                    log.debug("Read event from queue: %r", event)
 
-                log.debug("Read event from queue: %r", event)
-                self._midi.send_message(event)
-        except KeyboardInterrupt:
-            pass
+                    if event is None:
+                        log.debug("Received stop event. "
+                            "Exit MidiOutputProc loop.")
+                        break_ = True
+
+                    if event:
+                        self._midi.send_message(event)
+            except KeyboardInterrupt:
+                pass
 
         self._midi.close_port()
         self._finished.set()
 
     def stop(self, timeout=5):
-        log.debug("MidiOutputProc stop event send.")
-        self._queue.put_nowait(None)
+        if not self._finished.is_set():
+            self.send(None)
+            log.debug("MidiOutputProc stop event sent.")
+            # not sure, whether those two method calls are needed,
+            # but they shouldn't hurt
+            self._queue.close()
+            self._queue.join_thread()
 
         if self.is_alive():
+            log.debug("Waiting for MidiOutputProc to terminate.")
             self._finished.wait(timeout)
 
         self.join()
 
     def send(self, event, timeout=0):
-        self._queue.put(event, timeout)
+        if not self._finished.is_set():
+            self._queue.put(event, timeout)
 
 
 class OSC2MIDI(liblo.ServerThread):
@@ -149,11 +159,13 @@ class OSC2MIDI(liblo.ServerThread):
 
 
 def select_midiport(midi, default=0):
-    type_ = "output" if isinstance(midi, rtmidi.MidiOut) else "input"
+    type_ = "input" if isinstance(midi, rtmidi.MidiIn) else "output"
+
     try:
-        r = raw_input("Do you want to create a virtual MIDI %s port? (y/N) " % type_)
+        r = raw_input("Do you want to create a virtual MIDI %s port? (y/N) "
+            % type_)
         if r.strip().lower() == 'y':
-            return None, "osc2midi MIDI %s" % type_
+            return None
     except (KeyboardInterrupt, EOFError):
         pass
 
@@ -164,6 +176,7 @@ def select_midiport(midi, default=0):
         return None
     else:
         port = None
+
         while port is None:
             print("Available MIDI %s ports:\n" % type_)
 
@@ -187,28 +200,28 @@ def select_midiport(midi, default=0):
 
 
 def main(args=None):
-    optparser = optparse.OptionParser(usage=__usage__, description=__doc__,
-        version=__version__)
-    optparser.add_option('-d', '--device', dest="device", type="int",
-        help="MIDI output device (default: open virtual MIDI port).")
-    optparser.add_option('-p', '--oscport',
-        default=5555, type="int", dest="oscport",
-        help="Port the OSC server listens on (default: %default).")
-    optparser.add_option('-v', '--verbose',
+    argparser = argparse.ArgumentParser(usage=__usage__, description=__doc__)
+    argparser.add_argument('-d', '--device', dest="device", type=int,
+        help="MIDI output device (default: ask to open virtual MIDI port).")
+    argparser.add_argument('-p', '--oscport',
+        default=5555, type=int, dest="oscport",
+        help="Port the OSC server listens on (default: %(default)s).")
+    argparser.add_argument('-v', '--verbose',
         action="store_true", dest="verbose",
         help="Print debugging info to standard output.")
+    argparser.add_argument('--version', action='version', version=__version__)
 
-    options, args = optparser.parse_args(
-        args if args is not None else sys.argv)
+    args = argparser.parse_args(args if args is not None else sys.argv)
 
-    if options.verbose:
-        loglevel = logging.DEBUG
-    else:
-        loglevel = logging.INFO
+    logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO)
 
-    logging.basicConfig(level=loglevel)
-    midiout = MidiOutputProc(options.device)
-    server = OSC2MIDI(midiout, options.oscport)
+    if args.device is None:
+        midiout = rtmidi.MidiOut(name=__program__)
+        args.device = select_midiport(midiout)
+        del midiout
+
+    midiout = MidiOutputProc(name=__program__, port=args.device)
+    server = OSC2MIDI(midiout, args.oscport)
 
     print("Entering main loop. Press Control-C to exit.")
     try:
