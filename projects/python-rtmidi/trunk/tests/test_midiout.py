@@ -32,8 +32,8 @@ else:
     # port name is optional, defaults to "RtMidi Output"
     midiout.open_virtual_port(port_name)
 
-note_on = [0x99, 60, 112] # channel 10, middle C, velocity 112
-note_off = [0x89, 60, 0]
+note_on = [0x90, 60, 112] # channel 1, middle C, velocity 112
+note_off = [0x80, 60, 0]
 
 print("Sending NoteOn event.")
 midiout.send_message(note_on)
