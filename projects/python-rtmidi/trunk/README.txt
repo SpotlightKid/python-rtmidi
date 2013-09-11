@@ -21,6 +21,10 @@ For more information, visit ``python-rtmidi's`` web page:
 Changelog
 ---------
 
+**2013-09-11**
+
+    * Switch from distribute back to setuptools
+
 **2013-01-23 version 0.3.1a**
 
 Enhancements:
