@@ -5,7 +5,7 @@
 #
 """Simple uni-directional OSC to MIDI gateway."""
 
-__program__ = 'oscmidi.py'
+__program__ = b'oscmidi.py'
 __version__ = '1.1'
 __author__  = 'Christopher Arndt'
 __date__    = '$Date:$'
@@ -33,14 +33,14 @@ log = logging.getLogger("osc2midi")
 class MidiOutputProc(Process):
     def __init__(self, name=None, port=None):
         super(MidiOutputProc, self).__init__()
-        self.name = name or self.__class__.__name__
+        self.clientname = name or self.__class__.__name__
         self.port = port
         self._queue = Queue()
         self._finished = Event()
 
     def run(self):
         log.debug("Creating MidiOut instance.")
-        self._midi = rtmidi.MidiOut(name=self.name)
+        self._midi = rtmidi.MidiOut(name=self.clientname)
 
         if self.port is None:
             log.info("Opening virtual MIDI output port.", )
