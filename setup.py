@@ -9,7 +9,7 @@ from ctypes.util import find_library
 from os.path import exists, join
 
 try:
-    from distribute_setup import use_setuptools
+    from ez_setup import use_setuptools
     use_setuptools()
     from setuptools import setup
 except ImportError:
