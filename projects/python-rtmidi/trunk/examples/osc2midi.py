@@ -101,6 +101,7 @@ class OSC2MIDI(liblo.ServerThread):
         log.info("Listening on URL: " + self.get_url())
         self.midiout = midiout
         self._note_state = {}
+        self._program = 0
         #self._velocity = {}
 
     @liblo.make_method(None, None)
@@ -135,6 +136,7 @@ class OSC2MIDI(liblo.ServerThread):
             channel = int(channel) & 0xf
             note = int(data1) & 0x7f
             self.midiout.send([0x80 | channel, note, args[0] & 0x7f])
+            self._note_state[note] = 0
         elif msgtype == 'pb':
             channel = int(channel) & 0xf
             data1 = args[0] & 0x7f
@@ -145,7 +147,15 @@ class OSC2MIDI(liblo.ServerThread):
             self.midiout.send([0xd0 | channel, args[0] & 0x7f])
         elif msgtype == 'pc':
             channel = int(channel) & 0xf
+            self._program = args[0] & 0x7f
             self.midiout.send([0xc0 | channel, args[0] & 0x7f])
+        elif msgtype == 'pcrel':
+            channel = int(channel) & 0xf
+            if int(args[0]) > 0:
+                self._program = min(127, self._program + 1)
+            else:
+                self._program = max(0, self._program - 1)
+            self.midiout.send([0xc0 | channel, self._program])
         elif msgtype == 'pp':
             channel = int(channel) & 0xf
             note = int(data1) & 0x7f
