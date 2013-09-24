@@ -65,7 +65,7 @@ if __name__ == '__main__':
     import argparse
 
     argparser = argparse.ArgumentParser()
-    argparser.add_argument('-c', '--channel', type=int, default=0,
+    argparser.add_argument('-c', '--channel', type=int, default=1,
         help="MIDI channel (1-based, default: %(default)s)")
     argparser.add_argument('-d', '--device', type=int, default=0,
         help="MIDI output device (default: %(default)s)")
