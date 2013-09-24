@@ -3,12 +3,12 @@
 #
 # wavetablemodstep.py
 #
-"""Play a note and step through MIDI Control Change #0 (modulation) values.
+"""Play a note and step through MIDI Control Change #1 (modulation) values.
 
 Optionally allows to send a Control Change #70 first, to set the wavetable
 of the current sound on a Waldorf Microwave II/XT(k) synthesizer.
 
-I use this with a Microwave sound program where the CC #0 is mapped to
+I use this with a Microwave sound program where the CC #1 is mapped to
 wavetable position of osscillator 1. This script then allows me to listen to
 all the waves in a selected wavetable in succession.
 
@@ -16,6 +16,14 @@ all the waves in a selected wavetable in succession.
 
 import time
 import rtmidi
+
+
+NOTE_ON = 0x90
+NOTE_OFF = 0x80
+CONTROL_CHANGE = 0xB0
+CC_MODULATION = 1
+CC_RESET_CONTROLLERS = 121
+CC_SET_WAVETABLE = 70
 
 
 class Midi(object):
@@ -26,26 +34,26 @@ class Midi(object):
         self.midi.open_port(port)
 
     def play_stepping(self, note, dur=0.2, step=1, vel=64, rvel=None, ch=0):
-        """Play given note and step through cc #0 values over time."""
+        """Play given note and step through cc #1 values over time."""
         # note on
-        self.midi.send_message([0x90 | (ch & 0xF), note & 0x7F, vel & 0x7F])
+        self.midi.send_message([NOTE_ON | (ch & 0xF), note & 0x7F, vel & 0x7F])
 
         # step through modulation controller values
         for i in xrange(0, 128, step):
-            self.midi.send_message([0xB0 | (ch & 0xF), 1, i])
+            self.midi.send_message([CONTROL_CHANGE | (ch & 0xF), CC_MODULATION, i])
             time.sleep(dur)
 
         # note off
-        self.midi.send_message([0x80 | (ch & 0xF), note & 0x7F,
+        self.midi.send_message([NOTE_OFF | (ch & 0xF), note & 0x7F,
             (rvel if rvel is not None else vel) & 0x7F])
 
     def reset_controllers(self, ch=0):
         """Reset controllers on given channel."""
-        self.midi.send_message([0xB0 | (ch & 0xF), 121, 0])
+        self.midi.send_message([CONTROL_CHANGE | (ch & 0xF), CC_RESET_CONTROLLERS, 0])
 
     def set_wavetable(self, wt, ch=0):
         """Set wavetable for current sound to given number."""
-        self.midi.send_message([0xB0 | (ch & 0xF), 70, wt & 0x7F])
+        self.midi.send_message([CONTROL_CHANGE | (ch & 0xF), CC_SET_WAVETABLE, wt & 0x7F])
 
     def close(self):
         """Close MIDI outpurt."""
