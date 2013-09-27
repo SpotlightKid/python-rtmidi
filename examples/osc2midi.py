@@ -84,14 +84,14 @@ class MidiEvent(object):
         return s
 
 
-class RtMidiDriver(object):
-    """Provides a common API for differnt MIDI driver implementations."""
+class RtMidiDevice(object):
+    """Provides a common API for different MIDI driver implementations."""
 
-    def __init__(self, name="RtMidiDriver", port=None):
+    def __init__(self, name="RtMidiDevice", port=None, portname=None):
         self.name = name
         self.port = port
+        self.portname = portname
         self._output = None
-        self.output_name = ""
 
     def __str__(self):
         return self.name
@@ -99,15 +99,16 @@ class RtMidiDriver(object):
     def open_output(self):
         self._output = rtmidi.MidiOut(name=self.name)
         if self.port is None:
-            log.info("Opening virtual MIDI output port.", )
-            self._output.open_virtual_port(b"osc2midi MIDI out")
+            if self.portname is None:
+                self.portname = "RtMidi Virtual Output"
+            log.info("Opening virtual MIDI output port.")
+            self._output.open_virtual_port(self.portname)
         else:
-            if isinstance(self.port, int):
-                self.output_name = self._output.get_port_name(self.port)
-                self.port = (self.port, self.output_name)
-            # XXX sort out the self.port / name mess
-            log.info("Opening MIDI output port #%i (%s).", *self.port)
-            self._output.open_port(self.port[0], b"osc2midi MIDI out")
+            if self.portname is None:
+                self.portname = self._output.get_port_name(self.port)
+            log.info("Opening MIDI output port #%i (%s).",
+                self.port, self.portname)
+            self._output.open_port(self.port, self.portname)
 
     def close_output(self):
         if self._output is not None:
