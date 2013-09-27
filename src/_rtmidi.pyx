@@ -179,7 +179,7 @@ cdef class MidiIn:
         """
         self.thisptr.openPort(port, _to_bytes(name))
 
-    def open_virtual_port(self, string name="RtMidi Input"):
+    def open_virtual_port(self, string name="RtMidi Virtual Input"):
         """Open a virtual MIDI input port.
 
         A virtual port is not connected to a physical MIDI device or system
@@ -312,7 +312,7 @@ cdef class MidiOut:
         """
         self.thisptr.openPort(port, _to_bytes(name))
 
-    def open_virtual_port(self, string name="RtMidi Output"):
+    def open_virtual_port(self, string name="RtMidi Virtual Output"):
         """Open a virtual MIDI output port.
 
         A virtual port is not connected to a physical MIDI device or system
