@@ -2,7 +2,71 @@
 #
 # rtmidi.pyx
 #
-"""A Python wrapper for the RtMidi C++ library written with Cython."""
+"""A Python wrapper for the RtMidi C++ library written with Cython.
+
+Overview
+========
+
+RtMidi is a set of C++ classes which provides a concise and simple,
+cross-platform API (Application Programming Interface) for realtime MIDI
+input/output across Linux (ALSA & JACK), Macintosh OS X (CoreMIDI & JACK),
+and Windows (Multimedia Library & Kernel Streaming) operating systems.
+
+python-rtmidi is a Python binding for RtMidi implemented with Cython and
+provides a thin wrapper around the RtMidi C++ interface. The API is basically
+the same as the C++ one but with the naming scheme of classes, methods and
+parameters adapted to the Python PEP-8 conventions and requirements of
+the Python package naming structure. ``python-rtmidi`` supports Python 2
+(tested with Python 2.7) and Python 3 (3.2).
+
+
+Public API
+==========
+
+See the docstrings of each function and class and their methods for more
+information.
+
+Functions
+---------
+
+``get_compiled_api``
+    Return list of MIDI APIs this module supports.
+
+
+Classes
+-------
+
+``MidiIn(rtapi=API_UNSPECIFIED, name="RtMidi Client", queue_size_limit=100)``
+    Midi input client interface.
+
+``MidiOut(rtapi=API_UNSPECIFIED, name="RtMidi Client")``
+    Midi output client interface.
+
+
+Constants
+---------
+
+These constants are returned by the ``get_compiled_api`` function and the
+``MidiIn.get:current_api`` resp. ``MidiOut.get_current_api`` methods and are
+used to specify the API to use when creating a ``MidiIn`` or `MidiOut``
+instance.
+
+``API_UNSPECIFIED``
+    Use first compiled-in API, which has any input resp. output ports
+``API_MACOSX_CORE``
+    OS X CoreMIDI
+``API_LINUX_ALSA``
+    Linux ALSA
+``API_UNIX_JACK``
+    Jack Client
+``API_WINDOWS_MM``
+    Windows MultiMedia
+``API_WINDOWS_KS``
+    Windows Kernel Streaming
+``API_RTMIDI_DUMMY``
+    RtMidi Dummy (used when no suitable API was found)
+
+"""
 
 from libcpp cimport bool
 from libcpp.string cimport string
@@ -89,7 +153,7 @@ def _to_bytes(name):
 def get_compiled_api():
     """Return list of MIDI APIs this module supports.
 
-    Check for support for a particular API by using the API_* constants in
+    Check for support for a particular API by using the ``API_*`` constants in
     the module namespace, i.e.::
 
         if rtmidi.API_UNIX_JACK in rtmidi.get_compiled_api():
@@ -108,9 +172,32 @@ cdef class MidiIn:
     cdef RtMidiIn *thisptr
     cdef object _callback
 
-    def __cinit__(self, Api rtapi=UNSPECIFIED,
-            string name="RtMidi Input Client",
+    def __cinit__(self, Api rtapi=UNSPECIFIED, name="RtMidi Client",
             unsigned int queue_size_limit=100):
+        """Create a new client instance for MIDI input.
+
+        You can specify the low-level MIDI API to use via the ``rtapi`` keyword
+        or first positional argument using one of the module-level ``API_*``
+        constants. You can get a list of compiled-in APIs with
+        ``get_compiled_api`` function. If you specify ``API_UNSPECIFIED`` (the
+        default), the first compiled-in API, which has any input ports
+        available, will be used.
+
+        You can optionally pass an name for the MIDI client with the ``name``
+        keyword or second positional argument. Names with non-ASCII characters
+        in them have to be passed as unicode or utf-8 encoded strings in
+        Python 2. The default name is "RtMidi Client".
+
+        Note: with some APIs (e.g. ALSA), the client name is set by the first
+        ``MidiIn`` *or* ``MidiOut`` created by your program and does not change
+        until *all* ``MidiIn`` and ``MidiOut`` instances are deleted and then
+        a new one is created.
+
+        The ``queue_size_limit`` specifies the size of the internal ring buffer
+        in which incoming MIDI events are placed until retrieved via the
+        ``get_message`` method or a callback function. The default value is 100.
+
+        """
         self.thisptr = new RtMidiIn(rtapi, _to_bytes(name), queue_size_limit)
         self._callback = None
 
@@ -119,7 +206,16 @@ cdef class MidiIn:
         del self.thisptr
 
     def get_current_api(self):
-        """Return MIDI API used by this instance as one of the API_* constants.
+        """Return MIDI API used by this instance.
+
+        Use this by comparing the returned value to the module-level ``API_*``
+        constants, e.g.::
+
+            midiin = rtmidi.MidiIn()
+
+            if midiin.get_current_api() == rtmidi.API_UNIX_JACK:
+                print "Using JACK API for input."
+
         """
         return self.thisptr.getCurrentApi()
 
@@ -163,13 +259,13 @@ cdef class MidiIn:
         return [self.get_port_name(p, encoding=encoding)
             for p in range(self.get_port_count())]
 
-    def open_port(self, unsigned int port=0, string name="RtMidi Input"):
+    def open_port(self, unsigned int port=0, name="RtMidi Input"):
         """Open the MIDI input port with the given port number.
 
         You can optionally pass a name for the RtMidi input port with the
         ``name`` keyword or second positional argument. Names with non-ASCII
         characters in them have to be passed as unicode or utf-8 encoded
-        strings in Python 2.
+        strings in Python 2. The default name is "RtMidi Input".
 
         Note: Closing a port and opening it again with a different name does
         not change the port name. To change the input port name, drop its
@@ -179,7 +275,7 @@ cdef class MidiIn:
         """
         self.thisptr.openPort(port, _to_bytes(name))
 
-    def open_virtual_port(self, string name="RtMidi Virtual Input"):
+    def open_virtual_port(self, name="RtMidi Virtual Input"):
         """Open a virtual MIDI input port.
 
         A virtual port is not connected to a physical MIDI device or system
@@ -189,7 +285,7 @@ cdef class MidiIn:
         You can optionally pass a name for the virtual input port with the
         ``name`` keyword or second positional argument. Names with non-ASCII
         characters in them have to be passed as unicode or utf-8 encoded
-        strings in Python 2.
+        strings in Python 2. The default name is "RtMidi Virtual Input".
 
         To change the virtual input port name, drop its ``MidiIn`` instance,
         create a new one and open a virtual port again giving a different name.
@@ -244,15 +340,43 @@ cdef class MidiOut:
     """Midi output client interface."""
     cdef RtMidiOut *thisptr
 
-    def __cinit__(self, Api rtapi=UNSPECIFIED,
-            string name="RtMidi Output Client"):
+    def __cinit__(self, Api rtapi=UNSPECIFIED, name="RtMidi Client"):
+        """Create a new client instance for MIDI output.
+
+        You can specify the low-level MIDI API to use via the ``rtapi`` keyword
+        or first positional argument using one of the module-level ``API_*``
+        constants. You can get a list of compiled-in APIs with
+        ``get_compiled_api`` function. If you specify ``API_UNSPECIFIED`` (the
+        default), the first compiled-in API, which has any output ports
+        available, will be used.
+
+        You can optionally pass an name for the MIDI client with the ``name``
+        keyword or second positional argument. Names with non-ASCII characters
+        in them have to be passed as unicode or utf-8 encoded strings in
+        Python 2. The default name is "RtMidi Client".
+
+        Note: with some APIs (e.g. ALSA), the client name is set by the first
+        ``MidiIn`` *or* ``MidiOut`` created by your program and does not change
+        until *all* ``MidiIn`` and ``MidiOut`` instances are deleted and a then
+        a new one is created.
+
+        """
         self.thisptr = new RtMidiOut(rtapi, _to_bytes(name))
 
     def __dealloc__(self):
         del self.thisptr
 
     def get_current_api(self):
-        """Return MIDI API used by this instance as one of the API_* constants.
+        """Return MIDI API used by this instance.
+
+        Use this by comparing the returned value to the module-level ``API_*``
+        constants, e.g.::
+
+            midiou = rtmidi.MidiOut()
+
+            if midiout.get_current_api() == rtmidi.API_UNIX_JACK:
+                print "Using JACK API for output."
+
         """
         return self.thisptr.getCurrentApi()
 
@@ -296,13 +420,13 @@ cdef class MidiOut:
         return [self.get_port_name(p, encoding=encoding)
             for p in range(self.get_port_count())]
 
-    def open_port(self, unsigned int port=0, string name="RtMidi Output"):
+    def open_port(self, unsigned int port=0, name="RtMidi Output"):
         """Open the MIDI output port with the given port number.
 
         You can optionally pass a name for the RtMidi output port with the
         ``name`` keyword or second positional argument. Names with non-ASCII
         characters in them have to be passed as unicode or utf-8 encoded
-        strings in Python 2.
+        strings in Python 2. The default name is "RtMidi Output".
 
         Note: Closing a port and opening it again with a different name does
         not change the port name. To change the output port name, drop its
@@ -312,17 +436,20 @@ cdef class MidiOut:
         """
         self.thisptr.openPort(port, _to_bytes(name))
 
-    def open_virtual_port(self, string name="RtMidi Virtual Output"):
+    def open_virtual_port(self, name="RtMidi Virtual Output"):
         """Open a virtual MIDI output port.
 
         A virtual port is not connected to a physical MIDI device or system
         port when fist opened. You can connect it to another MIDI input with
         the OS-dependant tools provided the low-level MIDI framework.
 
-        You can pass an optional name for the virtual output port as the second
-        argument. To change the virtual output port name, drop its ``MidiOut``
-        instance, create a new one and open a virtual port again giving a
-        different name.
+        You can optionally pass a name for the virtual output port with the
+        ``name`` keyword or second positional argument. Names with non-ASCII
+        characters in them have to be passed as unicode or utf-8 encoded
+        strings in Python 2. The default name is "RtMidi Virtual Output".
+
+        To change the virtual output port name, drop its ``MidiOut`` instance,
+        create a new one and open a virtual port again giving a different name.
 
         Also, to close a virtual output port, you have to delete its ``MidiOut``
         instance.
@@ -352,8 +479,8 @@ cdef class MidiOut:
         also send system exclusive messages, which can be arbitrarily long,
         via this method.
 
-        No check is made whether the the passed data constitutes a valid
-        MIDI message.
+        No check is made whether the passed data constitutes a valid MIDI
+        message.
 
         """
         cdef vector[unsigned char] msg_v
