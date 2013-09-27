@@ -84,14 +84,14 @@ class MidiEvent(object):
         return s
 
 
-class RtMidiDevice(object):
-    """Provides a common API for different MIDI driver implementations."""
+class RtMidiDriver(object):
+    """Provides a common API for differnt MIDI driver implementations."""
 
-    def __init__(self, name="RtMidiDevice", port=None, portname=None):
+    def __init__(self, name="RtMidiDriver", port=None):
         self.name = name
         self.port = port
-        self.portname = portname
         self._output = None
+        self.output_name = ""
 
     def __str__(self):
         return self.name
@@ -99,16 +99,15 @@ class RtMidiDevice(object):
     def open_output(self):
         self._output = rtmidi.MidiOut(name=self.name)
         if self.port is None:
-            if self.portname is None:
-                self.portname = "RtMidi Virtual Output"
-            log.info("Opening virtual MIDI output port.")
-            self._output.open_virtual_port(self.portname)
+            log.info("Opening virtual MIDI output port.", )
+            self._output.open_virtual_port(b"osc2midi MIDI out")
         else:
-            if self.portname is None:
-                self.portname = self._output.get_port_name(self.port)
-            log.info("Opening MIDI output port #%i (%s).",
-                self.port, self.portname)
-            self._output.open_port(self.port, self.portname)
+            if isinstance(self.port, int):
+                self.output_name = self._output.get_port_name(self.port)
+                self.port = (self.port, self.output_name)
+            # XXX sort out the self.port / name mess
+            log.info("Opening MIDI output port #%i (%s).", *self.port)
+            self._output.open_port(self.port[0], b"osc2midi MIDI out")
 
     def close_output(self):
         if self._output is not None:
@@ -130,7 +129,7 @@ class RtMidiDevice(object):
 
 class MidiOutputBase(object):
     def __init__(self, queue=None, bpm=120.0, ppqn=480,
-            get_event=None, driver_class=RtMidiDriver, **driver_args):
+            get_event=None, driver_class=RtMidiDevice, **driver_args):
         super(MidiOutputBase, self).__init__()
         driver_args.setdefault('name', self.__class__.__name__)
         self._driver_args = driver_args
