@@ -21,9 +21,40 @@ For more information, visit ``python-rtmidi's`` web page:
 Changelog
 ---------
 
+**2013-09-28**
+
+    * Change ``queue_size_limit`` to 1024.
+    * Add docstring to the rest of ``MidiIn`` methods.
+
+**2013-09-27**
+
+    * Fix string conversion in constructors and ``open_*`` methods.
+    * Change default name of virtual ports.
+    * Add docstrings to many methods and functions.
+
+**2013-09-24**
+
+    * Add new example script ``wavetablemodstep.py`` to demonstrate sending
+      of control cgange messages.
+
+**2013-09-12**
+
+    * Update  from ``optparse`` to ``argparse`` in ``osc2midi.py`` example.
+
 **2013-09-11**
 
-    * Switch from distribute back to setuptools
+    * Switch from distribute back to setuptools.
+
+**2013-08-08**
+
+  * Add new example script ``sendsysex.py`` to demonstrate sending of system
+    exclusive messages.
+
+**2013-02-12**
+
+  * Add new example script ``osc2midi.py``, a simple, uni-directional OSC
+    to MIDI mapper.
+
 
 **2013-01-23 version 0.3.1a**
 
