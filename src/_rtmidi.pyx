@@ -221,6 +221,7 @@ cdef class MidiIn:
 
     def get_port_count(self):
         """Return the number of available MIDI input ports."""
+
         return self.thisptr.getPortCount()
 
     def get_port_name(self, unsigned int port, encoding='utf-8'):
@@ -312,9 +313,56 @@ cdef class MidiIn:
         self.thisptr.closePort()
 
     def ignore_types(self, sysex=True, timing=True, active_sense=True):
+        """Enable/Disable input filtering of certain types of MIDI events.
+
+        By default System Exclusive (aka sysex), MIDI Clock and Active Sensing
+        messages are filtered from the MIDI input and never reach your code,
+        because they can fill up input buffers very quickly.
+
+        To receive them, you can selectively disable the filtering of these
+        event types.
+
+        To enable reception, i.e. disable the default filtering of sysex
+        messages, pass ``sysex = False``.
+
+        To enable reception of MIDI Clock, pass ``timing = False``.
+
+        To enable reception of Active Sensing, pass ``active_sensing = False``.
+
+        These arguments can of course be combined in one call, and they all
+        default to ``True``.
+
+        If you enable reception of any of these event types, be sure to either
+        use an input callback function, which returns quickly or poll for MIDI
+        input often. Otherwise you might lose MIDI input because the input
+        buffer overflows.
+
+        *Windows note:* the Windows Multi Media API uses fixes size buffers for
+        the reception of sysex messages, whose number and size is set at
+        compile time. Sysex messages longer than the buffer size can not be
+        received properly when using the Windows Multi Media API.
+
+        The default distribution of python-rtmidi sets the number of sysex
+        buffers to four and the size of each to 8192 bytes. To change these
+        values, edit the ``RT_SYSEX_BUFFER_COUNT`` and ``RT_SYSEX_BUFFER_SIZE``
+        preprocessor defines in ``RtMidi.cpp`` and recompile.
+
+        """
         self.thisptr.ignoreTypes(sysex, timing, active_sense)
 
     def get_message(self):
+        """Poll for MIDI input.
+
+        Checks whether a MIDI event is available in the input buffer and
+        returns a two-element tuple with the MIDI message and and a delta time.
+        The MIDI message is a list of integers representing the data bytes of
+        the message, the delta time is a float representing the time in seconds
+        elapsed since the recption of the previous MIDI event.
+
+        The function does not block. When no MIDI message is available, it
+        return ``None``.
+
+        """
         cdef vector[unsigned char] msg_v
         cdef double delta_time = self.thisptr.getMessage(&msg_v)
 
@@ -325,12 +373,33 @@ cdef class MidiIn:
             return None
 
     def set_callback(self, func, data=None):
+        """Register a callback function for MIDI input.
+
+        The callback function is called whenever a MIDI message is received
+        and must take two arguments. The first argument is a two-element tuple
+        with the MIDI message and a delta time, like the one returned by the
+        ``get_message`` method and the second argument is value of the ``data``
+        argument passed to this function when the callback is registered.
+
+        Registering a callback function, replaces any previously registered
+        callbacḱ.
+
+        The callback function is safely removed when the input port is closed
+        or the ``MidiIn`` instance is deleted.
+
+        """
         if self._callback:
             self.cancel_callback()
         self._callback = (func, data)
         self.thisptr.setCallback(&_cb_func, <void *>self._callback)
 
     def cancel_callback(self):
+        """Remove callback function for MIDI input.
+
+        This can be safely called even when no callback function has been
+        registered.
+
+        """
         if self._callback:
             self.thisptr.cancelCallback()
             self._callback = None
