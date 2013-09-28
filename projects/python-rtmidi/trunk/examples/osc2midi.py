@@ -5,7 +5,7 @@
 #
 """Simple uni-directional OSC to MIDI gateway."""
 
-__program__ = b'oscmidi.py'
+__program__ = 'oscmidi.py'
 __version__ = '1.1'
 __author__  = 'Christopher Arndt'
 __date__    = '$Date:$'
@@ -582,8 +582,7 @@ def main(args=None):
         args.device = select_midiport(midiout)
         del midiout
 
-    #midiout = MidiOutputProc(name=__program__, port=args.device)
-    midiout = MidiOutputProc(port=args.device)
+    midiout = MidiOutputProc(name=__program__, port=args.device)
     server = OSC2MIDI(midiout, args.oscport)
 
     print("Entering main loop. Press Control-C to exit.")
