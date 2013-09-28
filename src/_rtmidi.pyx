@@ -173,7 +173,7 @@ cdef class MidiIn:
     cdef object _callback
 
     def __cinit__(self, Api rtapi=UNSPECIFIED, name="RtMidi Client",
-            unsigned int queue_size_limit=100):
+            unsigned int queue_size_limit=1024):
         """Create a new client instance for MIDI input.
 
         You can specify the low-level MIDI API to use via the ``rtapi`` keyword
