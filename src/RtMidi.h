@@ -40,7 +40,7 @@
   \file RtMidi.h
  */
 
-// RtMidi: Version 2.0.0
+// RtMidi: Version 2.0.1
 
 #ifndef RTMIDI_H
 #define RTMIDI_H
@@ -344,8 +344,8 @@ class MidiInApi
 
   // A MIDI structure used internally by the class to store incoming
   // messages.  Each message represents one and only one MIDI message.
-  struct MidiMessage { 
-    std::vector<unsigned char> bytes; 
+  struct MidiMessage {
+    std::vector<unsigned char> bytes;
     double timeStamp;
 
     // Default constructor.

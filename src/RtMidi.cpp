@@ -36,7 +36,7 @@
 */
 /**********************************************************************/
 
-// RtMidi: Version 2.0.0
+// RtMidi: Version 2.0.1
 
 #include "RtMidi.h"
 #include <sstream>
