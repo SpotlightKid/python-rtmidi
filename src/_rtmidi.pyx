@@ -202,8 +202,14 @@ cdef class MidiIn:
         self._callback = None
 
     def __dealloc__(self):
-        self.cancel_callback()
         del self.thisptr
+
+    # context management
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc_info):
+        self.close_port()
 
     def get_current_api(self):
         """Return MIDI API used by this instance.
@@ -275,6 +281,7 @@ cdef class MidiIn:
 
         """
         self.thisptr.openPort(port, _to_bytes(name))
+        return self
 
     def open_virtual_port(self, name="RtMidi Virtual Input"):
         """Open a virtual MIDI input port.
@@ -435,13 +442,20 @@ cdef class MidiOut:
     def __dealloc__(self):
         del self.thisptr
 
+    # context management
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc_info):
+        self.close_port()
+
     def get_current_api(self):
         """Return MIDI API used by this instance.
 
         Use this by comparing the returned value to the module-level ``API_*``
         constants, e.g.::
 
-            midiou = rtmidi.MidiOut()
+            midiout = rtmidi.MidiOut()
 
             if midiout.get_current_api() == rtmidi.API_UNIX_JACK:
                 print "Using JACK API for output."
@@ -504,6 +518,7 @@ cdef class MidiOut:
 
         """
         self.thisptr.openPort(port, _to_bytes(name))
+        return self
 
     def open_virtual_port(self, name="RtMidi Virtual Output"):
         """Open a virtual MIDI output port.
