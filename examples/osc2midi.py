@@ -6,9 +6,9 @@
 """Simple uni-directional OSC to MIDI gateway."""
 
 __program__ = 'oscmidi.py'
-__version__ = '1.1'
+__version__ = '1.1 ($Rev$)'
 __author__  = 'Christopher Arndt'
-__date__    = '$Date:$'
+__date__    = '$Date$'
 __usage__   = "%(prog)s [-d DEVICE] [-p PORT]"
 
 import logging
@@ -39,7 +39,6 @@ except NameError:
 
 
 log = logging.getLogger("osc2midi")
-
 
 
 class MidiEvent(object):

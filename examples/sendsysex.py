@@ -14,9 +14,9 @@ ouput, after confirmation (which can be turned off).
 """
 
 __program__ = 'sendsysex.py'
-__version__ = '1.1 ($Rev:$)'
+__version__ = '1.1 ($Rev$)'
 __author__  = 'Christopher Arndt'
-__date__    = '$Date:$'
+__date__    = '$Date$'
 
 
 import argparse
