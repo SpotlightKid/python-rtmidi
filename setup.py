@@ -47,7 +47,7 @@ except ImportError:
         print("""\
 Could not import Cython or the version found is too old.
 
-Cython >= 0.17pre is required to compile '_rtmidi.pyx' into '_rtmidi.cpp'.
+Cython >= 0.17 is required to compile '_rtmidi.pyx' into '_rtmidi.cpp'.
 
 Install Cython from the Git repository at https://github.com/cython/cython.git
 or use the precompiled '_rtmidi.cpp' file from the python-rtmidi source
