@@ -56,7 +56,7 @@ def send_sysex_file(filename, midiout, portname, prompt=True, delay=50):
                 if prompt:
                     yn = raw_input("Send '%s' to %s (y/N)? " % (bn, portname))
             except (EOFError, KeyboardInterrupt):
-                print('\n')
+                print('')
                 raise StopIteration
 
             if not prompt or yn.lower() in ('y', 'yes'):
@@ -114,7 +114,7 @@ def main(args=None):
     args = parser.parse_args(args if args is not None else sys.argv)
 
     logging.basicConfig(format="%(name)s: %(levelname)s - %(message)s",
-        level=logging.DEBUG if args.verbose else logging.WARNING,)
+        level=logging.DEBUG if args.verbose else logging.WARNING)
 
     try:
         midiout = rtmidi.MidiOut()

@@ -21,6 +21,11 @@ For more information, visit ``python-rtmidi's`` web page:
 Changelog
 ---------
 
+**2013-09-29**
+
+    * 'Allow ``MidiIn/Out.open_port`` methods to be used with the ``with``
+       statement and the port will be closed at the end of the block.
+
 **2013-09-28**
 
     * Change ``queue_size_limit`` to 1024.
