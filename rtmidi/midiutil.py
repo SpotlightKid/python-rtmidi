@@ -24,7 +24,7 @@ log = logging.getLogger(__name__)
 
 def open_midiport(port, type_="input"):
     log.debug("Creating MidiIn object.")
-    midiobj = rtmidi.MidiIn() if type == "input" else rtmidi.MidiOut()
+    midiobj = rtmidi.MidiIn() if type_ == "input" else rtmidi.MidiOut()
     type_ = "input" if isinstance(midiobj, rtmidi.MidiIn) else "ouput"
 
     ports = midiobj.get_ports(encoding='latin1'
@@ -34,7 +34,7 @@ def open_midiport(port, type_="input"):
     if port is None:
         try:
             r = raw_input(
-                "Do you want to create a virtual MIDI %s port? (y/N) " %s type_)
+                "Do you want to create a virtual MIDI %s port? (y/N) " % type_)
 
             if r.strip().lower() in ['y', 'yes']:
                 use_virtual = True
