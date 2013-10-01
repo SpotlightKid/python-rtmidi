@@ -256,7 +256,7 @@ long_description = "\n".join(description[2:]) % {
     'download_url': download_url, 'url': url, 'version': version}
 description = description[0]
 classifiers = """\
-Development Status :: 3 - Alpha
+Development Status :: 5 - Beta
 Environment :: MacOS X
 Environment :: Win32 (MS Windows)
 Environment :: Console
