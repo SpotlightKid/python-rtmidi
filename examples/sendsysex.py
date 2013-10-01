@@ -37,6 +37,7 @@ except NameError:
 
 
 log = logging.getLogger("sendsysex")
+
 SYSTEM_EXCLUSIVE = b'\xF0'
 END_OF_EXCLUSIVE = b'\xF7'
 

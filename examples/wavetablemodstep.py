@@ -9,7 +9,7 @@ Optionally allows to send a Control Change #70 first, to set the wavetable
 of the current sound on a Waldorf Microwave II/XT(k) synthesizer.
 
 I use this with a Microwave sound program where the CC #1 is mapped to
-wavetable position of osscillator 1. This script then allows me to listen to
+wavetable position of oscillator 1. This script then allows me to listen to
 all the waves in a selected wavetable in succession.
 
 """
@@ -17,12 +17,8 @@ all the waves in a selected wavetable in succession.
 import time
 import rtmidi
 
+from rtmidi.midiconstants import *
 
-NOTE_ON = 0x90
-NOTE_OFF = 0x80
-CONTROL_CHANGE = 0xB0
-CC_MODULATION = 1
-CC_RESET_CONTROLLERS = 121
 CC_SET_WAVETABLE = 70
 
 
@@ -39,8 +35,9 @@ class Midi(object):
         self.midi.send_message([NOTE_ON | (ch & 0xF), note & 0x7F, vel & 0x7F])
 
         # step through modulation controller values
-        for i in xrange(0, 128, step):
-            self.midi.send_message([CONTROL_CHANGE | (ch & 0xF), CC_MODULATION, i])
+        for i in range(0, 128, step):
+            self.midi.send_message([CONTROLLER_CHANGE | (ch & 0xF),
+                MODULATION_WHEEL, i])
             time.sleep(dur)
 
         # note off
@@ -49,11 +46,13 @@ class Midi(object):
 
     def reset_controllers(self, ch=0):
         """Reset controllers on given channel."""
-        self.midi.send_message([CONTROL_CHANGE | (ch & 0xF), CC_RESET_CONTROLLERS, 0])
+        self.midi.send_message([CONTROLLER_CHANGE | (ch & 0xF),
+            RESET_ALL_CONTROLLERS, 0])
 
     def set_wavetable(self, wt, ch=0):
         """Set wavetable for current sound to given number."""
-        self.midi.send_message([CONTROL_CHANGE | (ch & 0xF), CC_SET_WAVETABLE, wt & 0x7F])
+        self.midi.send_message([CONTROLLER_CHANGE | (ch & 0xF),
+            CC_SET_WAVETABLE, wt & 0x7F])
 
     def close(self):
         """Close MIDI outpurt."""
@@ -67,24 +66,26 @@ if __name__ == '__main__':
     argparser = argparse.ArgumentParser()
     argparser.add_argument('-c', '--channel', type=int, default=1,
         help="MIDI channel (1-based, default: %(default)s)")
-    argparser.add_argument('-d', '--device', type=int, default=0,
-        help="MIDI output device (default: %(default)s)")
+    argparser.add_argument('-p', '--port', type=int, default=0,
+        help="MIDI output port (default: %(default)s)")
     argparser.add_argument('-l', '--length', type=float, default=0.3,
         help="Length (in sec.) of each wave (default: %(default)s)")
     argparser.add_argument('-n', '--note', type=int, default=60,
         help="MIDI note number to play (default: %(default)s)")
     argparser.add_argument('-w', '--wavetable', type=int,
-        help="Set wavetable number (1-based, default: do not set)")
+        help="Send CC #70 to set wavetable number (1-based, default: none)")
 
     args = argparser.parse_args()
 
-    m = Midi(args.device)
+    m = Midi(args.port)
 
     if args.wavetable:
         m.set_wavetable(args.wavetable-1, ch=args.channel-1)
         time.sleep(0.1)
 
-    m.reset_controllers(ch=args.channel-1)
-    m.play_stepping(args.note, dur=args.length, step=2, ch=args.channel-1)
-    m.reset_controllers(ch=args.channel-1)
-    m.close()
+    try:
+        m.reset_controllers(ch=args.channel-1)
+        m.play_stepping(args.note, dur=args.length, step=2, ch=args.channel-1)
+    finally:
+        m.reset_controllers(ch=args.channel-1)
+        m.close()
