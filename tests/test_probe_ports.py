@@ -15,21 +15,21 @@ except NameError:
     raw_input = input
 
 apis = {
-  API_MACOSX_CORE:  "OS X CoreMIDI",
-  API_LINUX_ALSA:   "Linux ALSA",
-  API_UNIX_JACK:    "Jack Client",
-  API_WINDOWS_MM:   "Windows MultiMedia",
-  API_WINDOWS_KS:   "Windows Kernel Streaming",
-  API_RTMIDI_DUMMY: "RtMidi Dummy"
+    API_MACOSX_CORE:  "OS X CoreMIDI",
+    API_LINUX_ALSA:   "Linux ALSA",
+    API_UNIX_JACK:    "Jack Client",
+    API_WINDOWS_MM:   "Windows MultiMedia",
+    API_WINDOWS_KS:   "Windows Kernel Streaming",
+    API_RTMIDI_DUMMY: "RtMidi Dummy"
 }
 
 available_apis = get_compiled_api()
 
-for api, desc in sorted(apis.items()):
+for api, api_name in sorted(apis.items()):
     if api in available_apis:
         try:
-            r = raw_input("Probe ports using the %s API? (Y/n) " % desc).strip()
-            if r and r.lower() != "y":
+            if raw_input("Probe ports using the %s API? (Y/n) " % api_name
+                    ).strip().lower() not in ['', 'y', 'yes']:
                 continue
         except (KeyboardInterrupt, EOFError):
             print('')
