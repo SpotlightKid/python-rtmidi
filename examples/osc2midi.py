@@ -28,7 +28,7 @@ import rtmidi
 import liblo
 
 # package-specific modules
-from midiconstants import *
+from rtmidi.midiconstants import *
 
 
 try:
@@ -37,6 +37,10 @@ except NameError:
     #Python 3
     raw_input = input
 
+try:
+    StandardError
+except NameError:
+    StandardError = Exception
 
 log = logging.getLogger("osc2midi")
 
@@ -228,7 +232,7 @@ class MidiOutputBase(object):
                         log.debug("Midi Out(%s): %r", driver.port, event_list)
                         try:
                             driver.send(event_list)
-                        except StandardError as exc:
+                        except StandardError:
                             log.exception("%s: error writing MIDI events: %r",
                                 driver, event_list)
 
@@ -447,8 +451,8 @@ class OSC2MIDI(liblo.ServerThread):
         try:
             if msgtype == 'cc':
                 self.midiout.send(
-                    MidiEvent.fromdata(CONTROL_CHANGE,
-                        channel=int(data1) & 0x7f,
+                    MidiEvent.fromdata(CONTROLLER_CHANGE,
+                        channel=int(channel) & 0x7f,
                         data=[int(data1) & 0x7f, args[0] & 0x7f]))
 
             elif msgtype == 'on':
@@ -548,8 +552,6 @@ def select_midiport(midi, default=0):
             try:
                 r = raw_input("Select MIDI %s port [%i]: " % (type_, default))
                 port = int(r)
-            except (KeyboardInterrupt, EOFError):
-                return None
             except (ValueError, TypeError):
                 port = default
 
@@ -557,14 +559,14 @@ def select_midiport(midi, default=0):
                 print("Invalid port number: %i" % port)
                 port = None
             else:
-                return port, ports[port]
+                return port
 
 
 def main(args=None):
     argparser = argparse.ArgumentParser(usage=__usage__, description=__doc__)
-    argparser.add_argument('-d', '--device', dest="device", type=int,
-        help="MIDI output device (default: ask to open virtual MIDI port).")
-    argparser.add_argument('-p', '--oscport',
+    argparser.add_argument('-p', '--port', type=int, dest="midiport",
+        help="MIDI output port (default: ask to open virtual MIDI port).")
+    argparser.add_argument('-P', '--oscport',
         default=5555, type=int, dest="oscport",
         help="Port the OSC server listens on (default: %(default)s).")
     argparser.add_argument('-v', '--verbose',
@@ -576,12 +578,16 @@ def main(args=None):
 
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO)
 
-    if args.device is None:
-        midiout = rtmidi.MidiOut(name=__program__)
-        args.device = select_midiport(midiout)
-        del midiout
+    if args.midiport is None:
+        try:
+            midiout = rtmidi.MidiOut(name=__program__)
+            args.midiport = select_midiport(midiout)
+        except (KeyboardInterrupt, EOFError):
+            return 0
+        finally:
+            del midiout
 
-    midiout = MidiOutputProc(name=__program__, port=args.device)
+    midiout = MidiOutputProc(name=__program__, port=args.midiport)
     server = OSC2MIDI(midiout, args.oscport)
 
     print("Entering main loop. Press Control-C to exit.")
