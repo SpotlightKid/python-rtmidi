@@ -58,7 +58,7 @@ class SysexMessage(object):
 
     def as_bytes(self):
         if bytes == str:
-            return "".join([chr(b) % b for b in self._data])
+            return "".join([chr(b) for b in self._data])
         else:
             return bytes(self._data)
 
@@ -66,33 +66,40 @@ class SysexMessage(object):
 class SysexSaver(object):
     """MIDI input callback hanlder object."""
 
-    def __init__(self, port, directory):
-        self.port = port
+    def __init__(self, portname, directory, debug=False):
+        self.portname = portname
         self.directory = directory
+        self.debug = debug
 
     def __call__(self, event, data=None):
-        message, deltatime = event
-        if message[:1] == [SYSTEM_EXCLUSIVE]:
-            dt = datetime.now()
-            log.debug("[%i: %s] Received sysex msg of %i bytes." % (
-                self.port, dt.strftime('%x %X'), len(message)))
-            sysex = SysexMessage.fromdata(message)
+        try:
+            message, deltatime = event
+            if message[:1] == [SYSTEM_EXCLUSIVE]:
+                dt = datetime.now()
+                log.debug("[%s: %s] Received sysex msg of %i bytes." % (
+                    self.portname, dt.strftime('%x %X'), len(message)))
+                sysex = SysexMessage.fromdata(message)
 
-            data = dict(timestamp=dt.strftime('%Y%m%dT%H%M%S'))
-            data['manufacturer'] = (sysex.manufacturer or 'unknown'
-                ).lower().replace(' ', '_')
-            data['device'] = sysex.device
+                data = dict(timestamp=dt.strftime('%Y%m%dT%H%M%S'))
+                data['manufacturer'] = (sysex.manufacturer or 'unknown'
+                    ).lower().replace(' ', '_')
+                data['device'] = sysex.device
 
-            outfn = join(self.directory,
-                "%(manufacturer)s-%(device)s-%(timestamp)s.syx" % data)
+                outfn = join(self.directory,
+                    "%(manufacturer)s-%(device)s-%(timestamp)s.syx" % data)
 
-            if exists(outfn):
-                log.error("Output file already exists, will not overwrite.")
-            else:
-                outfile = open(outfn, 'wb')
-                outfile.write(sysex.as_bytes())
-                outfile.close()
-
+                if exists(outfn):
+                    log.error("Output file already exists, will not overwrite.")
+                else:
+                    data = sysex.as_bytes()
+                    with open(outfn, 'wb') as outfile:
+                        outfile.write(data)
+                        log.info("Sysex message of %i bytes written to '%s'.",
+                            len(data), outfn)
+        except:
+            if self.debug:
+                import traceback
+                traceback.print_exc()
 
 
 def main(args=None):
@@ -116,7 +123,7 @@ def main(args=None):
         log.error(exc)
         return 1
 
-    ss = SysexSaver(port, args.outdir)
+    ss = SysexSaver(port, args.outdir, args.verbose)
 
     log.debug("Attaching MIDI input callback handler.")
     midiin.set_callback(ss)
