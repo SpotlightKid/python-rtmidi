@@ -242,7 +242,7 @@ Copyright (c) 2012 - 2013 %(author)s
 """
 
 name = 'python-rtmidi'
-version = '0.3.2a'
+version = '0.4b'
 description = __doc__.splitlines()
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
