@@ -1,0 +1,32 @@
+# These patterns will work with the TouchOSC 9-ch-Mixer control layout
+
+# general
+-
+  addrpattern: /(?P<page>\w+)$
+  typecodes:
+  handler: page_change
+
+# mixer page
+-
+  - /[^/]+/level(?P<i:channel>\d+)$
+  - f
+  - sendcc
+  - cc: CHANNEL_VOLUME
+
+-
+  - /[^/]+/pan(?P<i:channel>\d+)$
+  - f
+  - sendcc
+  - cc: PAN
+
+-
+  - /[^/]+/mute(?P<i:channel>\d+)$
+  - f
+  - sendcc
+  - cc: CHANNEL_VOLUME
+    invert: true
+
+-
+  - /[^/]+/solo(?P<i:channel>\d+)$
+  - f
+  - solo_channel
