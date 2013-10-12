@@ -9,17 +9,19 @@ __program__ = 'oscmidi.py'
 __version__ = '1.2 ($Rev$)'
 __author__  = 'Christopher Arndt'
 __date__    = '$Date$'
-__usage__   = "%(prog)s [-d DEVICE] [-p PORT]"
 
-import logging
 import argparse
+import logging
+import re
 import sys
 import time
 
 import rtmidi
 import liblo
+import yaml
 
 # package-specific modules
+from rtmidi import midiconstants
 from rtmidi.midiconstants import *
 
 from .midiio import MidiOutputProc, MidiOutputThread
@@ -40,70 +42,44 @@ except NameError:
 log = logging.getLogger("osc2midi")
 
 
-# These patterns will work with the TouchOSC Midi16 control layout
-patterns = (
-    # general
-    (r'/(?P<page>\w+)$', '', 'page_change'),
-
-    # page 1
-    (r'/1/fader1$', 'f', 'sendcc', dict(cc=MODULATION_WHEEL, channel=1)),
-    (r'/1/fader2$', 'f', 'sendcc', dict(cc=DATA_ENTRY, channel=1)),
-    (r'/1/fader3$', 'f', 'sendcc', dict(cc=13, channel=1)),
-    (r'/1/fader4$', 'f', 'sendcc', dict(cc=CHANNEL_VOLUME, channel=1)),
-
-    (r'/1/toggle1$', 'f', 'sendcc', dict(cc=SUSTAIN_ONOFF, channel=1)),
-    (r'/1/toggle2$', 'f', 'sendcc', dict(cc=PORTAMENTO_ONOFF, channel=1)),
-    (r'/1/toggle3$', 'f', 'sendcc', dict(cc=LEGATO_ONOFF, channel=1)),
-
-    (r'/1/push(?P<i:note>\d+)$', 'f', 'noteonoff', dict(transpose=60, channel=1)),
-
-    (r'/1/xy$', 'ff', 'sendtwocc',
-        dict(cc1=EXPRESSION_CONTROLLER, cc2=PAN, channel=1)),
-
-    # page 2, map control number to MIDI channel
-    (r'/2/fader(?P<i:channel>\d+)$', 'f', 'sendcc', dict(cc=CHANNEL_VOLUME)),
-    (r'/2/toggle(?P<i:channel>\d+)$', 'f', 'sendcc', dict(cc=SUSTAIN_ONOFF)),
-
-    # page 3, the same, differnt controllers
-    (r'/3/fader(?P<i:channel>\d+)$', 'f', 'sendcc', dict(cc=PAN)),
-    (r'/3/toggle(?P<i:channel>\d+)$', 'f', 'sendcc', dict(cc=29)),
-
-    ## catch-all pattern that maps page number to MIDI channel
-    ## and control number to MIDI controller number, e.g.
-    ##
-    ##    /1/push64 1.0 --> MIDI CC #64, channel 1, value 127
-    ##
-    #(r'/(?P<i:channel>\d+)/(fader|push|rotary|toggle)(?P<i:cc>\d+)$', 'f',
-    #    'sendcc'),
-
-    #(r'/(?P<i:page>\d+)/multitoggle(?P<i:cc>\d+)/(?P<i:col>\d+)/(?P<i:row>\d+)$',
-    #    'f', 'sendcc'),
-    #(r'/(?P<i:page>\d+)/xy(?P<i:cc>\d+)$', 'ff', 'sendtwocc')
-)
-
-
 class OSC2MIDIHandler(object):
     def __init__(self, midiout):
         self.midiout = midiout
-        self._note_state = [{}] * 16
+        self._note_state = [{} for i in range(16)]
+        self._controllers = [{} for i in range(16)]
         self._program = [0] * 16
         #self._velocity = {}
 
-    def sendcc(self, value, cc=0, channel=1, **kwargs):
-        self.midiout.send(
-            MidiEvent.fromdata(CONTROLLER_CHANGE,
-                channel=(channel-1) & 0x7f,
-                data=[cc & 0x7f, int(127 * value) & 0x7f]))
+    def sendcc(self, value, cc=0, channel=1, invert=False, **kwargs):
+        value = int(127 * value) & 0x7f
 
-    def sendtwocc(self, val1, val2, cc1=0, cc2=32, channel=1, **kwargs):
+        if invert:
+            value = 127 - value
+
+        self._controllers[channel - 1][cc] = value
+
         self.midiout.send(
             MidiEvent.fromdata(CONTROLLER_CHANGE,
                 channel=(channel-1) & 0x7f,
-                data=[cc1 & 0x7f, int(127 * val1) & 0x7f]))
+                data=[cc & 0x7f, value]))
+
+    def sendtwocc(self, val1, val2, cc1=0, cc2=32, channel=1, invert=False,
+            **kwargs):
+        val1 = int(127 * val1) & 0x7f
+        val2 = int(127 * val2) & 0x7f
+
+        if invert:
+            val1 = 127 - val1
+            val2 = 127 - val2
+
         self.midiout.send(
             MidiEvent.fromdata(CONTROLLER_CHANGE,
                 channel=(channel-1) & 0x7f,
-                data=[cc2 & 0x7f, int(127 * val2) & 0x7f]))
+                data=[cc1 & 0x7f, val1]))
+        self.midiout.send(
+            MidiEvent.fromdata(CONTROLLER_CHANGE,
+                channel=(channel-1) & 0x7f,
+                data=[cc2 & 0x7f, val2]))
 
     def page_change(self, page=None):
         log.info("Page %s selected.", page)
@@ -125,7 +101,7 @@ class OSC2MIDIHandler(object):
                     velocity = self._note_state[channel][note]
                     if velocity is None:
                         raise ValueError
-                except KeyError, ValueError:
+                except (KeyError, ValueError):
                     velocity = 0
 
             self.midiout.send(
@@ -133,6 +109,22 @@ class OSC2MIDIHandler(object):
                     channel=(channel-1) & 0x7f,
                     data=[note & 0x7f, velocity & 0x7f]))
             self._note_state[channel][note] = None
+
+    def solo_channel(self, value, channel=1, invert=False, **kwargs):
+        value = int(127 * value) & 0x7f
+
+        if invert:
+            value = 127 - value
+
+        for ch in range(16):
+            if ch == channel - 1:
+                continue
+
+            val = 0 if value >= 64 else self._controllers[ch].get(CHANNEL_VOLUME, 127)
+
+            self.midiout.send(
+                MidiEvent.fromdata(CONTROLLER_CHANGE,
+                    channel=ch, data=[CHANNEL_VOLUME, val]))
 
     """
     def _osc_callback(self, path, args, types, source, data=None):
@@ -222,11 +214,9 @@ class OSC2MIDIHandler(object):
 
 
 class OSC2MIDIServer(liblo.ServerThread):
-    def __init__(self, midiout, port=5555):
+    def __init__(self, midiout, dispatcher, port=5555):
         super(OSC2MIDIServer, self).__init__(port)
         log.info("Listening on URL: " + self.get_url())
-        osc2midi = OSC2MIDIHandler(midiout)
-        dispatcher = OSCDispatcher(patterns, search_ns=osc2midi, cache_size=512)
         log.info("Registering OSC method handler.")
         self.add_method(None, None, dispatcher.dispatch)
 
@@ -266,17 +256,40 @@ def select_midiport(midi, default=0):
             else:
                 return port
 
+def _resolve_constants(params):
+    for name, value in params.items():
+        if isinstance(value, str) and re.match('[A-Z][_A-Z0-9]*$', value):
+            params[name] = getattr(midiconstants, value, value)
+    return params
+
+def load_patch(filename):
+    with open(filename) as patch:
+        data = yaml.load(patch)
+
+    patterns = []
+    for pattern in data:
+        try:
+            if isinstance(pattern, dict) and 'params' in pattern:
+                pattern['params'] = _resolve_constants(pattern['params'])
+            elif len(pattern) == 4:
+                pattern[3] = _resolve_constants(pattern[3])
+        except TypeError:
+            raise IOError("Invalid pattern. %r" % pattern)
+
+        patterns.append(pattern)
+
+    return patterns
 
 def main(args=None):
-    argparser = argparse.ArgumentParser(usage=__usage__, description=__doc__)
+    argparser = argparse.ArgumentParser(description=__doc__)
     argparser.add_argument('-p', '--port', type=int, dest="midiport",
         help="MIDI output port (default: ask to open virtual MIDI port).")
-    argparser.add_argument('-P', '--oscport',
-        default=5555, type=int, dest="oscport",
+    argparser.add_argument('-P', '--oscport', default=5555, type=int,
         help="Port the OSC server listens on (default: %(default)s).")
-    argparser.add_argument('-v', '--verbose',
-        action="store_true", dest="verbose",
+    argparser.add_argument('-v', '--verbose', action="store_true",
         help="Print debugging info to standard output.")
+    argparser.add_argument('patch',
+        help="YAML file with OSC address mappings.")
     argparser.add_argument('--version', action='version', version=__version__)
 
     args = argparser.parse_args(args if args is not None else sys.argv)
@@ -298,7 +311,16 @@ def main(args=None):
     else:
         midiout = MidiOutputProc(name=__program__, port=args.midiport)
 
-    server = OSC2MIDIServer(midiout, args.oscport)
+    osc2midi = OSC2MIDIHandler(midiout)
+
+    try:
+        patterns = load_patch(args.patch)
+    except (IOError, OSError) as exc:
+        log.error("Could not load patch: %s", exc)
+        return 1
+
+    dispatcher = OSCDispatcher(patterns, search_ns=osc2midi, cache_size=512)
+    server = OSC2MIDIServer(midiout, dispatcher, args.oscport)
 
     print("Entering main loop. Press Control-C to exit.")
     try:
