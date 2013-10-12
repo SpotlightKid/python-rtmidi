@@ -38,7 +38,7 @@ def convert_bool(s):
         else False)
 
 Pattern = namedtuple('Pattern',
-    ('urlpattern', 'typecodes', 'funcname', 'convdict', 'params'))
+    ('addrpattern', 'typecodes', 'handler', 'convdict', 'params'))
 
 class OSCDispatcher(list):
     """Dispatch OSC messages based on regular expression matching on path."""
@@ -83,9 +83,9 @@ class OSCDispatcher(list):
     def _get_pattern(self, path, typecodes):
         # Wrap cache lookup with method, so we can decorate it with 'lru_cache'
         for pattern in self:
-            match = pattern.urlpattern.match(path)
+            match = pattern.addrpattern.match(path)
 
-            if match and typecodes == pattern.typecodes:
+            if match and typecodes == (pattern.typecodes or ''):
                 return pattern, match
 
         raise KeyError("No matching pattern found.")
@@ -97,21 +97,21 @@ class OSCDispatcher(list):
 
         ::
 
-            (urlpattern, typecodes, funcname[, params])
+            (addrpattern, typecodes, handler[, params])
 
-        where ``urlpattern`` is a regular expression for matching the path of
+        where ``addrpattern`` is a regular expression for matching the path of
         incoming OSC messages, ``typecodes`` a string with OSC argument type
-        codes and ``funcname`` the name of a handler function to call when
-        an OSC message matches the URL pattern and has exactly the number and
-        types of arguments specified in ``typecodes``.
+        codes and ``handler`` the name of a handler function to call when
+        an OSC message matches the address pattern and has exactly the number
+        and types of arguments specified in ``typecodes``.
 
         The handler function is looked up in the namespace passed to the
         constructor of this instance (see constructor docstring). The function
         should accept as many positional arguments as there are OSC types
         given in ``typecodes`` and keyword arguments for any named group in
-        the URL pattern (see below for details).
+        the address pattern (see below for details).
 
-        The pattern in ``urlpattern`` is a regular expression as understood
+        The pattern in ``addrpattern`` is a regular expression as understood
         by the standard Python ``re`` module with one important syntax
         extension. Groupnames can have the form ``prefix:name``, where name is
         the normal group name, which must be a valid Python identifier (no
@@ -127,9 +127,9 @@ class OSCDispatcher(list):
         (see the ``pyliblo`` documentation for the mapping between OSC and
         Python data types).
 
-        Matches for named groups in the URL pattern are converted into keyword
-        arguments to the handler function, with the name of the group as the
-        keyword and the matched string as the value. If a name prefix is
+        Matches for named groups in the address pattern are converted into
+        keyword arguments to the handler function, with the name of the group
+        as the keyword and the matched string as the value. If a name prefix is
         specified, the value is passed to the conversion function specified by
         the prefix and its return value is used as the value instead, unless
         an exception occurs in the conversion function.
@@ -157,17 +157,18 @@ class OSCDispatcher(list):
         If a conversion identifier resolves to None, no conversion is applied.
 
         """
-        try:
-            urlpattern, typecodes, funcname, params = pattern
-        except ValueError:
-            urlpattern, typecodes, funcname = pattern
-            params = {}
+        if not isinstance(pattern, dict):
+            pattern = dict(zip(
+                ('addrpattern', 'typecodes', 'handler', 'params'), pattern))
 
         convdict = OrderedDict()
         repl = partial(self._store_and_remove_prefix, convdict=convdict)
-        regex = re.compile(self._rx_groupname.sub(repl, urlpattern))
-        self.append(
-            Pattern(regex, typecodes, funcname, convdict, params))
+        pattern['addrpattern'] = re.compile(
+            self._rx_groupname.sub(repl, pattern['addrpattern']))
+        pattern['convdict'] = convdict
+        pattern.setdefault('params', {})
+
+        self.append(Pattern(**pattern))
 
     def add_patterns(self, patterns):
         """Add given list of patterns to the dispatcher.
@@ -210,13 +211,13 @@ class OSCDispatcher(list):
                 path, args, typecodes, addr)
         else:
             try:
-                func = getattr(self.search_ns, pattern.funcname, None)
+                func = getattr(self.search_ns, pattern.handler, None)
 
                 if not func:
-                    func = self.search_ns[pattern.funcname]
+                    func = self.search_ns[pattern.handler]
             except (KeyError, TypeError):
                 log.error("Handler function '%s' not found (namespace=%r).",
-                    pattern.funcname, self.search_ns)
+                    pattern.handler, self.search_ns)
                 return
 
             kwargs = pattern.params.copy()
