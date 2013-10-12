@@ -228,7 +228,7 @@ class MidiOutputBase(object):
         if driver:
             return driver.time()
 
-        return self._driver_class.time()
+        return getattr(device, self._driver_class).time()
 
     def _get_bpm(self):
         """Return current beats-per-minute value."""
