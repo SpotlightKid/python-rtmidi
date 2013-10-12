@@ -38,7 +38,7 @@ def convert_bool(s):
         else False)
 
 Pattern = namedtuple('Pattern',
-    ('urlpattern', 'typecodes', 'funcname', 'convdict', 'userdata'))
+    ('urlpattern', 'typecodes', 'funcname', 'convdict', 'params'))
 
 class OSCDispatcher(list):
     """Dispatch OSC messages based on regular expression matching on path."""
@@ -97,7 +97,7 @@ class OSCDispatcher(list):
 
         ::
 
-            (urlpattern, typecodes, funcname[, userdata])
+            (urlpattern, typecodes, funcname[, params])
 
         where ``urlpattern`` is a regular expression for matching the path of
         incoming OSC messages, ``typecodes`` a string with OSC argument type
@@ -134,10 +134,10 @@ class OSCDispatcher(list):
         the prefix and its return value is used as the value instead, unless
         an exception occurs in the conversion function.
 
-        If the optional userdata is specified the fourth element of the
-        pattern, it is passed to the handler function with the ``userdata``
-        keyword argument. If group named ``userdata`` is matched by the URL
-        pattern, its value has precedence.
+        An optional ``params`` dictionary can be specified as the fourth
+        element of the pattern. The param dictionary is used to initialize the
+        keyword arguments to the handler function. Any keyword arguments
+        resulting from named group matches overwrite those in ``params``.
 
         The builtin conversion identifiers and the functions they match to are
         as follows::
@@ -158,16 +158,16 @@ class OSCDispatcher(list):
 
         """
         try:
-            urlpattern, typecodes, funcname, userdata = pattern
+            urlpattern, typecodes, funcname, params = pattern
         except ValueError:
             urlpattern, typecodes, funcname = pattern
-            userdata = None
+            params = {}
 
         convdict = OrderedDict()
         repl = partial(self._store_and_remove_prefix, convdict=convdict)
         regex = re.compile(self._rx_groupname.sub(repl, urlpattern))
         self.append(
-            Pattern(regex, typecodes, funcname, convdict, userdata))
+            Pattern(regex, typecodes, funcname, convdict, params))
 
     def add_patterns(self, patterns):
         """Add given list of patterns to the dispatcher.
@@ -200,12 +200,13 @@ class OSCDispatcher(list):
         calls the handler function of the first matching pattern.
 
         """
+        log.debug("OSC recv: %r, '%s' %r", path, typecodes, args)
 
         try:
             pattern, match = self._get_pattern(path, typecodes)
         except KeyError:
             log.warning("No handler function found for OSC message (path=%r, "
-                "args=%r, typecodes=%r, addr=%s)",
+                "args=%r, typecodes=%r, addr=%r)",
                 path, args, typecodes, addr)
         else:
             try:
@@ -218,19 +219,16 @@ class OSCDispatcher(list):
                     pattern.funcname, self.search_ns)
                 return
 
-            kwargs = self._convert_urlparams(pattern.convdict, match)
-
-            if pattern.userdata:
-                kwargs.setdefault('userdata', pattern.userdata)
+            kwargs = pattern.params.copy()
+            kwargs.update(self._convert_urlparams(pattern.convdict, match))
 
             try:
                 func(*args, **kwargs)
             except:
                 funcname = getattr(func, 'func_name', func.__name__)
                 log.exception("Exception in handler func '%s' (path=%r, "
-                    "args=%r, kwargs=%r, typecodes=%r, addr=%s, "
-                    "userdata=%r)", funcname, path, args, kwargs,
-                    typecodes, addr, userdata)
+                    "args=%r, kwargs=%r, typecodes=%r, addr=%r)",
+                    funcname, path, args, kwargs, typecodes, addr)
 
     def _convert_urlparams(self, convdict, match):
         """Apply conversion function (if any) to all named groups in match.

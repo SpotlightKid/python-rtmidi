@@ -38,11 +38,12 @@ class TestOSCDispatcher(unittest.TestCase):
         self.assertEqual(pat.typecodes, 'ii')
         self.assertEqual(pat.convdict, {'value': 's'})
         self.assertEqual(pat.funcname, 'handler1')
-        self.assertEqual(pat.userdata, None)
+        self.assertEqual(pat.params, {})
 
-        self.dispatcher.add_pattern((r'/bar$', 'f', 'handler2', 'bar'))
+        self.dispatcher.add_pattern(
+            (r'/bar$', 'f', 'handler2', {'spamm': 'eggs'}))
         self.assertEqual(len(self.dispatcher), 2)
-        self.assertEqual(self.dispatcher[1].userdata, 'bar')
+        self.assertEqual(self.dispatcher[1].params.get('spamm'), 'eggs')
 
     def test_add_patterns(self):
         """List of patterns is added correctly to dispatcher."""
