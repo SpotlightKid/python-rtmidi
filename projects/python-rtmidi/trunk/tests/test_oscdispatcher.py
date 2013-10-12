@@ -33,11 +33,11 @@ class TestOSCDispatcher(unittest.TestCase):
         self.assertEqual(len(self.dispatcher), 1)
         pat = self.dispatcher[0]
         self.assertTrue(isinstance(pat, Pattern))
-        self.assertEqual(pat.urlpattern.pattern, r'/(?P<value>\w+)$')
-        self.assertEqual(type(pat.urlpattern), type(re.compile('foo')))
+        self.assertEqual(pat.addrpattern.pattern, r'/(?P<value>\w+)$')
+        self.assertEqual(type(pat.addrpattern), type(re.compile('foo')))
         self.assertEqual(pat.typecodes, 'ii')
         self.assertEqual(pat.convdict, {'value': 's'})
-        self.assertEqual(pat.funcname, 'handler1')
+        self.assertEqual(pat.handler, 'handler1')
         self.assertEqual(pat.params, {})
 
         self.dispatcher.add_pattern(
