@@ -172,7 +172,7 @@ cdef class MidiIn:
     cdef RtMidiIn *thisptr
     cdef object _callback
 
-    def __cinit__(self, Api rtapi=UNSPECIFIED, name="RtMidi Client",
+    def __cinit__(self, Api rtapi=UNSPECIFIED, name=None,
             unsigned int queue_size_limit=1024):
         """Create a new client instance for MIDI input.
 
@@ -198,7 +198,8 @@ cdef class MidiIn:
         ``get_message`` method or a callback function. The default value is 100.
 
         """
-        self.thisptr = new RtMidiIn(rtapi, _to_bytes(name), queue_size_limit)
+        self.thisptr = new RtMidiIn(rtapi, _to_bytes(name or "RtMidi Client"),
+            queue_size_limit)
         self._callback = None
 
     def __dealloc__(self):
@@ -266,7 +267,7 @@ cdef class MidiIn:
         return [self.get_port_name(p, encoding=encoding)
             for p in range(self.get_port_count())]
 
-    def open_port(self, unsigned int port=0, name="RtMidi Input"):
+    def open_port(self, unsigned int port=0, name=None):
         """Open the MIDI input port with the given port number.
 
         You can optionally pass a name for the RtMidi input port with the
@@ -280,10 +281,10 @@ cdef class MidiIn:
         a different name.
 
         """
-        self.thisptr.openPort(port, _to_bytes(name))
+        self.thisptr.openPort(port, _to_bytes(name or "RtMidi Input"))
         return self
 
-    def open_virtual_port(self, name="RtMidi Virtual Input"):
+    def open_virtual_port(self, name=None):
         """Open a virtual MIDI input port.
 
         A virtual port is not connected to a physical MIDI device or system
@@ -302,7 +303,7 @@ cdef class MidiIn:
         instance.
 
         """
-        self.thisptr.openVirtualPort(_to_bytes(name))
+        self.thisptr.openVirtualPort(_to_bytes(name or "RtMidi Virtual Input"))
 
     def close_port(self):
         """Close input port opened via ``open_port``.
@@ -416,7 +417,7 @@ cdef class MidiOut:
     """Midi output client interface."""
     cdef RtMidiOut *thisptr
 
-    def __cinit__(self, Api rtapi=UNSPECIFIED, name="RtMidi Client"):
+    def __cinit__(self, Api rtapi=UNSPECIFIED, name=None):
         """Create a new client instance for MIDI output.
 
         You can specify the low-level MIDI API to use via the ``rtapi`` keyword
@@ -437,7 +438,7 @@ cdef class MidiOut:
         a new one is created.
 
         """
-        self.thisptr = new RtMidiOut(rtapi, _to_bytes(name))
+        self.thisptr = new RtMidiOut(rtapi, _to_bytes(name or "RtMidi Client"))
 
     def __dealloc__(self):
         del self.thisptr
@@ -503,7 +504,7 @@ cdef class MidiOut:
         return [self.get_port_name(p, encoding=encoding)
             for p in range(self.get_port_count())]
 
-    def open_port(self, unsigned int port=0, name="RtMidi Output"):
+    def open_port(self, unsigned int port=0, name=None):
         """Open the MIDI output port with the given port number.
 
         You can optionally pass a name for the RtMidi output port with the
@@ -517,10 +518,10 @@ cdef class MidiOut:
         a different name.
 
         """
-        self.thisptr.openPort(port, _to_bytes(name))
+        self.thisptr.openPort(port, _to_bytes(name or "RtMidi Output"))
         return self
 
-    def open_virtual_port(self, name="RtMidi Virtual Output"):
+    def open_virtual_port(self, name=None):
         """Open a virtual MIDI output port.
 
         A virtual port is not connected to a physical MIDI device or system
@@ -539,7 +540,7 @@ cdef class MidiOut:
         instance.
 
         """
-        self.thisptr.openVirtualPort(_to_bytes(name))
+        self.thisptr.openVirtualPort(_to_bytes(name or "RtMidi Virtual Output"))
 
     def close_port(self):
         """Close output port opened via ``open_port``.
