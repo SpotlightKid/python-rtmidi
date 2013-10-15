@@ -6,6 +6,21 @@
   typecodes:
   handler: page_change
 
+-
+  - /set_channel/(?P<i:channel>\d+)$
+  - f
+  - set_channel
+
+-
+  - /increment_channel$
+  - f
+  - increment_channel
+
+-
+  - /decrement_channel$
+  - f
+  - decrement_channel
+
 # mixer page
 -
   - /[^/]+/level(?P<i:channel>\d+)$
@@ -22,14 +37,22 @@
 -
   - /[^/]+/mute(?P<i:channel>\d+)$
   - f
-  - sendcc
-  - cc: CHANNEL_VOLUME
-    invert: true
+  - mute_channel
 
 -
   - /[^/]+/solo(?P<i:channel>\d+)$
   - f
   - solo_channel
+
+-
+  - /sequencer/start$
+  - f
+  - sendstart
+
+-
+  - /sequencer/stop$
+  - f
+  - sendstop
 
 # program change page
 
@@ -42,3 +65,8 @@
   - /programs/program(?P<i:program>\d+)$
   - f
   - sendpc
+
+-
+  - /[^/]+/control(?P<i:cc>\d+)$
+  - f
+  - sendcc

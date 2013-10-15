@@ -48,11 +48,41 @@ log = logging.getLogger("osc2midi")
 class OSC2MIDIHandler(object):
     def __init__(self, midiout):
         self.midiout = midiout
+        self.server = None
         self._note_state = [{} for i in range(16)]
         self._controllers = [{} for i in range(16)]
         self._program = [0] * 16
         self._bank = [0] * 16
         self._base_channel = 0
+
+    def _send_osc(self, path, *args):
+        s = self.server
+        if s and s.shost:
+            s.send((s.shost, s.sport), path, *args)
+
+    def page_change(self, page=None, **kwargs):
+        log.info("Page %s selected.", page)
+
+    def set_channel(self, value, channel=0, **kwargs):
+        channel = (channel-1) & 0xf
+        if value >= 0.5 and channel != self._base_channel:
+            log.info("Base MIDI channel set to %i.", channel)
+            self._send_osc('/channel', 'Ch. %02i' % (channel+1))
+            self._base_channel = channel
+
+    def increment_channel(self, value, **kwargs):
+        channel = min(15, self._base_channel + 1)
+        if value >= 0.5 and channel != self._base_channel:
+            log.info("Base MIDI channel set to %i.", channel)
+            self._send_osc('/channel', 'Ch. %02i' % (channel+1))
+            self._base_channel = channel
+
+    def decrement_channel(self, value, **kwargs):
+        channel = max(0, self._base_channel - 1)
+        if value >= 0.5 and channel != self._base_channel:
+            log.info("Base MIDI channel set to %i.", channel)
+            self._send_osc('/channel', 'Ch. %02i' % (channel+1))
+            self._base_channel = channel
 
     def sendcc(self, value, cc=0, channel=None, invert=False, **kwargs):
         value = int(127 * value) & 0x7f
@@ -94,9 +124,6 @@ class OSC2MIDIHandler(object):
         self.midiout.send(
             MidiEvent.fromdata(CONTROLLER_CHANGE,
                 channel=channel, data=[cc2 & 0x7f, val2]))
-
-    def page_change(self, page=None):
-        log.info("Page %s selected.", page)
 
     def noteonoff(self, val, note=60, channel=None, velocity=None,
             transpose=0,**kwargs):
@@ -247,12 +274,30 @@ class OSC2MIDIHandler(object):
             MidiEvent.fromdata(POLYPHONIC_PRESSURE,
                 channel=channel, data=[(note + transpose) & 0x7f, value]))
 
+    def sendstart(self, value, invert=False, **kwargs):
+        if invert:
+            value = 1.0 - value
+
+        if value >= 0.5:
+            self.midiout.send(MidiEvent.fromdata(SONG_START))
+
+    def sendstop(self, value, invert=False, **kwargs):
+        if invert:
+            value = 1.0 - value
+
+        if value >= 0.5:
+            self.midiout.send(MidiEvent.fromdata(SONG_STOP))
+
 
 class OSC2MIDIServer(liblo.ServerThread):
-    def __init__(self, midiout, dispatcher, port=5555):
-        super(OSC2MIDIServer, self).__init__(port)
+    def __init__(self, midiout, dispatcher, rport=5555, shost=None,
+            sport=9000):
+        super(OSC2MIDIServer, self).__init__(rport)
+        self.shost = shost
+        self.sport = sport
         log.info("Listening on URL: " + self.get_url())
         log.info("Registering OSC method handler.")
+        dispatcher.search_ns.server = self
         self.add_method(None, None, dispatcher.dispatch)
 
 def _resolve_constants(params):
@@ -286,8 +331,14 @@ def main(args=None):
     argparser = argparse.ArgumentParser(description=__doc__)
     argparser.add_argument('-p', '--port', dest="midiport",
         help="MIDI output port (default: ask to open virtual MIDI port).")
-    argparser.add_argument('-P', '--oscport', default=5555, type=int,
+    argparser.add_argument('-P', '--osc-recv-port', dest="osc_rport",
+        default=5555, type=int,
         help="Port the OSC server listens on (default: %(default)s).")
+    argparser.add_argument('-c', '--client', dest="osc_shost",
+        help="Hostname of OSC client (default: off.")
+    argparser.add_argument('-O', '--osc-send-port', dest="osc_sport",
+        default=9000, type=int,
+        help="Port for sending feedback to the OSC client (default: %(default)s).")
     argparser.add_argument('-v', '--verbose', action="store_true",
         help="Print debugging info to standard output.")
     argparser.add_argument('patch',
@@ -312,7 +363,8 @@ def main(args=None):
         return 1
 
     dispatcher = OSCDispatcher(patterns, search_ns=osc2midi, cache_size=512)
-    server = OSC2MIDIServer(midiout, dispatcher, args.oscport)
+    server = OSC2MIDIServer(midiout, dispatcher, args.osc_rport,
+        args.osc_shost, args.osc_sport)
 
     print("Entering main loop. Press Control-C to exit.")
     try:
