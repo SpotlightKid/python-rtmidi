@@ -135,7 +135,14 @@ extensions = [
 ]
 
 setup(
-    packages = ['rtmidi'],
+    packages = ['rtmidi', 'osc2midi'],
+    package_dir = {'osc2midi': 'examples/osc2midi'},
     ext_modules = extensions,
+    install_requires = ['pyyaml'],
+    entry_points = {
+        'console_scripts': [
+            'osc2midi = osc2midi.main:main',
+        ]
+    },
     **setup_opts
 )
