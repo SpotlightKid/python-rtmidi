@@ -112,7 +112,7 @@ def main(args=None):
     parser.add_argument('-v',  '--verbose', action="store_true",
         help='verbose output')
 
-    args = parser.parse_args(args if args is not None else sys.argv)
+    args = parser.parse_args(args if args is not None else sys.argv[1:])
 
     logging.basicConfig(format="%(name)s: %(levelname)s - %(message)s",
         level=logging.DEBUG if args.verbose else logging.WARNING)
