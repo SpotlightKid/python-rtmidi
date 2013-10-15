@@ -144,5 +144,6 @@ setup(
             'osc2midi = osc2midi.main:main',
         ]
     },
+    zip_safe=False,
     **setup_opts
 )
