@@ -128,22 +128,36 @@ class OSC2MIDIHandler(object):
                     channel=channel, data=[note & 0x7f, velocity & 0x7f]))
             self._note_state[channel][note] = None
 
-    def solo_channel(self, value, channel=None, invert=False, **kwargs):
-        value = int(127 * value) & 0x7f
-
+    def mute_channel(self, value, channel=None, invert=False, **kwargs):
         if channel is None:
             channel = self._base_channel
         else:
             channel = (channel-1) & 0xf
 
         if invert:
-            value = 127 - value
+            value = 1.0 - value
+
+        val = (0 if value >= 0.5
+            else self._controllers[channel].get(CHANNEL_VOLUME, 127))
+
+        self.midiout.send(
+            MidiEvent.fromdata(CONTROLLER_CHANGE,
+                channel=channel, data=[CHANNEL_VOLUME, val]))
+
+    def solo_channel(self, value, channel=None, invert=False, **kwargs):
+        if channel is None:
+            channel = self._base_channel
+        else:
+            channel = (channel-1) & 0xf
+
+        if invert:
+            value = 1.0 - value
 
         for ch in range(16):
             if ch == channel:
                 continue
 
-            val = (0 if value >= 64
+            val = (0 if value >= 0.5
                 else self._controllers[ch].get(CHANNEL_VOLUME, 127))
 
             self.midiout.send(
