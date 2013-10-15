@@ -11,8 +11,11 @@ import rtmidi
 from rtmidi.midiutil import open_midiport
 
 
-port = int(sys.argv[1]) if len(sys.argv) > 1 else None
-midiin, port_name = open_midiport(port)
+port = sys.argv[1] if len(sys.argv) > 1 else None
+try:
+    midiin, port_name = open_midiport(port)
+except (EOFError, KeyboardInterrupt):
+    sys.exit()
 
 print("Entering main loop. Press Control-C to exit.")
 try:

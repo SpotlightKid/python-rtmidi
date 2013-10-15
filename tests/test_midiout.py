@@ -11,8 +11,11 @@ import rtmidi
 from rtmidi.midiutil import open_midiport
 from rtmidi.midiconstants import *
 
-port = int(sys.argv[1]) if len(sys.argv) > 1 else None
-midiout, port_name = open_midiport(port, "output")
+port = sys.argv[1] if len(sys.argv) > 1 else None
+try:
+    midiout, port_name = open_midiport(port, "output")
+except (EOFError, KeyboardInterrupt):
+    sys.exit()
 
 note_on = [NOTE_ON, 60, 112] # channel 1, middle C, velocity 112
 note_off = [NOTE_OFF, 60, 0]
