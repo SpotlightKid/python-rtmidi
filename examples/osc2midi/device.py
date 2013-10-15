@@ -32,7 +32,7 @@ class RtMidiDevice(object):
 
     def open_output(self):
         self._output, self.portname = open_midiport(self.port, "output",
-            client_name=self.name)
+            interactive=False, client_name=self.name)
 
     def close_output(self):
         if self._output is not None:
