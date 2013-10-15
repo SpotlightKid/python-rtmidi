@@ -107,7 +107,7 @@ def main(args=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('-o', '--outdir', default=os.getcwd(),
         help="Output directory (default: current working directory).")
-    parser.add_argument('-p',  '--port', dest='port', type=int,
+    parser.add_argument('-p',  '--port', dest='port',
         help='MIDI output port number (default: ask)')
     parser.add_argument('-v',  '--verbose', action="store_true",
         help='verbose output')
@@ -122,6 +122,8 @@ def main(args=None):
     except IOError as exc:
         log.error(exc)
         return 1
+    except (EOFError, KeyboardInterrupt):
+        return 0
 
     ss = SysexSaver(port, args.outdir, args.verbose)
 

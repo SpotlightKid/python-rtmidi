@@ -67,9 +67,9 @@ def main(args=None):
         help='Map controller value range to min/max value range')
     parser.add_argument('-t',  '--transpose', action="store_true",
         help='Transpose note on/off event note values')
-    parser.add_argument('-i',  '--inport', type=int,
+    parser.add_argument('-i',  '--inport',
         help='MIDI input port number (default: ask)')
-    parser.add_argument('-o',  '--outport', type=int,
+    parser.add_argument('-o',  '--outport',
         help='MIDI output port number (default: ask)')
     parser.add_argument('-v',  '--verbose', action="store_true",
         help='verbose output')
@@ -87,11 +87,13 @@ def main(args=None):
         value = 12
 
     try:
-        midiin, inport_name = select_midiport(args.inport, "input")
-        midiout, outport_name = select_midiport(args.outport, "input")
+        midiin, inport_name = open_midiport(args.inport, "input")
+        midiout, outport_name = open_midiport(args.outport, "input")
     except IOError as exc:
         print(exc)
         return 1
+    except (EOFError, KeyboardInterrupt):
+        return 0
 
     filters = []
     if args.transpose:
