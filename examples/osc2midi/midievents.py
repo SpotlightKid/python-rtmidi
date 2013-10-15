@@ -18,9 +18,10 @@ class MidiEvent(object):
     class method, passing the class to register. The class must have a 'type'
     attribute, which corresponds to a MIDI status byte. Event objects are
     instantiated by calling the 'fromdata' factory class method, passing the
-    MIDI status byte (with the channel bits stripped off), the event data bytes
-    and, optionally, the channel number. The factory method then returns an
-    event instance selected based on the registered classes and the status byte.
+    MIDI status byte (with the channel bits stripped off for channel voice and
+    mode messages), the event data bytes and, optionally, the channel number.
+    The factory method then returns an event instance selected based on the
+    registered classes and the status byte.
 
     """
     _event_register = {}
@@ -37,10 +38,13 @@ class MidiEvent(object):
         cls._event_register[eventclass.type] = eventclass
 
     @classmethod
-    def fromdata(cls, status, data, channel=None, timestamp=None):
-        status = status & 0xF0
+    def fromdata(cls, status, data=None, channel=None, timestamp=None):
+        if status >= 0xF0:
+            status = status & 0xFF
+        else:
+            status = status & 0xF0
         eventclass = cls._event_register.get(status, cls)
-        return eventclass(type=status, data=data, channel=channel,
+        return eventclass(type=status, data=data or [], channel=channel,
                           timestamp=timestamp)
 
     def __str__(self):
