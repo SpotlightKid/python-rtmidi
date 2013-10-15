@@ -78,7 +78,11 @@ class MidiOutputBase(object):
         log.debug("Creating %s instance with args: %r.",
             self._driver_class, self._driver_args)
         driver = self.driver = getattr(device, self._driver_class)(**self._driver_args)
-        driver.open_output()
+        try:
+            driver.open_output()
+        except Exception as exc:
+            log.error("Error opening output port: %s", exc)
+            raise
 
         # busy loop to wait for time when next batch of events needs to
         # be written to output
