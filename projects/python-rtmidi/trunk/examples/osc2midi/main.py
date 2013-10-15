@@ -281,7 +281,6 @@ def main(args=None):
     argparser.add_argument('--version', action='version', version=__version__)
 
     args = argparser.parse_args(args if args is not None else sys.argv[1:])
-    print args
 
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO)
 
