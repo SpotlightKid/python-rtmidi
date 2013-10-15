@@ -22,8 +22,11 @@ class MidiInputHandler(object):
         print("[%s] @%0.6f %r" % (self.port, self._wallclock, message))
 
 
-port = int(sys.argv[1]) if len(sys.argv) > 1 else None
-midiin, port_name = open_midiport(port)
+port = sys.argv[1] if len(sys.argv) > 1 else None
+try:
+    midiin, port_name = open_midiport(port)
+except (EOFError, KeyboardInterrupt):
+    sys.exit()
 
 print("Attaching MIDI input callback handler.")
 midiin.set_callback(MidiInputHandler(port_name))
