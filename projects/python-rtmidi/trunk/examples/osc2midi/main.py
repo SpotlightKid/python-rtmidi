@@ -49,51 +49,67 @@ class OSC2MIDIHandler(object):
         self._note_state = [{} for i in range(16)]
         self._controllers = [{} for i in range(16)]
         self._program = [0] * 16
-        #self._velocity = {}
+        self._bank = [0] * 16
+        self._base_channel = 0
 
-    def sendcc(self, value, cc=0, channel=1, invert=False, **kwargs):
+    def sendcc(self, value, cc=0, channel=None, invert=False, **kwargs):
         value = int(127 * value) & 0x7f
+
+        if channel is None:
+            channel = self._base_channel
+        else:
+            channel = (channel-1) & 0xf
 
         if invert:
             value = 127 - value
 
-        self._controllers[channel - 1][cc] = value
+        self._controllers[channel][cc] = value
 
         self.midiout.send(
             MidiEvent.fromdata(CONTROLLER_CHANGE,
-                channel=(channel-1) & 0x7f,
-                data=[cc & 0x7f, value]))
+                channel=channel, data=[cc & 0x7f, value]))
 
-    def sendtwocc(self, val1, val2, cc1=0, cc2=32, channel=1, invert=False,
+    def sendtwocc(self, val1, val2, cc1=0, cc2=32, channel=None, invert=False,
             **kwargs):
         val1 = int(127 * val1) & 0x7f
         val2 = int(127 * val2) & 0x7f
+
+        if channel is None:
+            channel = self._base_channel
+        else:
+            channel = (channel-1) & 0xf
 
         if invert:
             val1 = 127 - val1
             val2 = 127 - val2
 
+        self._controllers[channel][cc1] = val1
+        self._controllers[channel][cc2] = val2
+
         self.midiout.send(
             MidiEvent.fromdata(CONTROLLER_CHANGE,
-                channel=(channel-1) & 0x7f,
-                data=[cc1 & 0x7f, val1]))
+                channel=channel, data=[cc1 & 0x7f, val1]))
         self.midiout.send(
             MidiEvent.fromdata(CONTROLLER_CHANGE,
-                channel=(channel-1) & 0x7f,
-                data=[cc2 & 0x7f, val2]))
+                channel=channel, data=[cc2 & 0x7f, val2]))
 
     def page_change(self, page=None):
         log.info("Page %s selected.", page)
 
-    def noteonoff(self, val, note=60, channel=1, velocity=None,
+    def noteonoff(self, val, note=60, channel=None, velocity=None,
             transpose=0,**kwargs):
         note += transpose
+
+        if channel is None:
+            channel = self._base_channel
+        else:
+            channel = (channel-1) & 0xf
 
         if val:
             velocity = velocity or 100
             self.midiout.send(
                 MidiEvent.fromdata(NOTE_ON,
-                    channel=(channel-1) & 0x7f,
+                    channel=channel,
                     data=[note & 0x7f, velocity & 0x7f]))
             self._note_state[channel][note] = velocity
         else:
@@ -107,111 +123,113 @@ class OSC2MIDIHandler(object):
 
             self.midiout.send(
                 MidiEvent.fromdata(NOTE_OFF,
-                    channel=(channel-1) & 0x7f,
-                    data=[note & 0x7f, velocity & 0x7f]))
+                    channel=channel, data=[note & 0x7f, velocity & 0x7f]))
             self._note_state[channel][note] = None
 
-    def solo_channel(self, value, channel=1, invert=False, **kwargs):
+    def solo_channel(self, value, channel=None, invert=False, **kwargs):
         value = int(127 * value) & 0x7f
+
+        if channel is None:
+            channel = self._base_channel
+        else:
+            channel = (channel-1) & 0xf
 
         if invert:
             value = 127 - value
 
         for ch in range(16):
-            if ch == channel - 1:
+            if ch == channel:
                 continue
 
-            val = 0 if value >= 64 else self._controllers[ch].get(CHANNEL_VOLUME, 127)
+            val = (0 if value >= 64
+                else self._controllers[ch].get(CHANNEL_VOLUME, 127))
 
             self.midiout.send(
                 MidiEvent.fromdata(CONTROLLER_CHANGE,
                     channel=ch, data=[CHANNEL_VOLUME, val]))
 
-    """
-    def _osc_callback(self, path, args, types, source, data=None):
-        log.debug("OSC recv: @%0.6f %s,%s %r", time.time(), path, types, args)
-        try:
-            parts = path.strip('/').split('/')
-            if len(parts) == 3:
-                prefix, channel, msgtype = parts
-            else:
-                prefix, channel, msgtype, data1 = parts
-        except (IndexError, ValueError):
-            log.debug("Ignoring unrecognized OSC pattern '%s'.", path)
-            return 1
+    def sendpc(self, value, program=0, bank=None, bank_msb=None,
+            bank_lsb=None, channel=None, **kwargs):
+        if not value:
+            return
 
-        if prefix != 'midi':
-            return 1
+        if channel is None:
+            channel = self._base_channel
+        else:
+            channel = (channel-1) & 0xf
 
-        try:
-            if msgtype == 'on':
-                channel = int(channel) & 0xf
-                note = int(data1) & 0x7f
+        if bank is not None:
+            bank_msb = (int(bank) >> 7) & 0x7f
+            bank_lsb = int(bank) & 0x7f
+        
+        if bank_msb is not None:
+            self.midiout.send(
+                MidiEvent.fromdata(CONTROLLER_CHANGE,
+                    channel=channel, data=[BANK_SELECT, bank_msb]))
 
-                if args[0] == 0 and self._note_state[channel].get(note, 0) == 2:
-                    self.midiout.send(
-                        MidiEvent.fromdata(NOTE_OFF, channel=channel, data=[note, 0]))
+        if bank_lsb is not None:
+            self.midiout.send(
+                MidiEvent.fromdata(CONTROLLER_CHANGE,
+                    channel=channel, data=[BANK_SELECT_LSB, bank_msb]))
 
-                self._note_state[channel][note] = args[0]
+        if (bank_msb, bank_lsb) != (None, None):
+            self._bank[channel] = (bank_lsb or 0) * 128 + (bank_msb or 0)
+        
+        self._program[channel] = program
+        self.midiout.send(
+            MidiEvent.fromdata(PROGRAM_CHANGE,
+                channel=channel, data=[program]))
 
-            elif msgtype == 'off':
-                self.midiout.send(
-                    MidiEvent.fromdata(NOTE_OFF,
-                        channel=int(channel) & 0xf,
-                        data=[int(data1) & 0x7f, args[0] & 0x7f]))
-                self._note_state[channel][note] = 0
+    def sendpcrel(self, value, channel=None, **kwargs):
+        if channel is None:
+            channel = self._base_channel
+        else:
+            channel = (channel-1) & 0xf
+        
+        if value > 0.5:
+            self._program[channel] = min(127, self._program[channel] + 1)
+        else:
+            self._program[channel] = max(0, self._program[channel] - 1)
 
-            elif msgtype == 'pb':
-                self.midiout.send(
-                    MidiEvent.fromdata(PITCH_BEND,
-                        channel=int(channel) & 0xf,
-                        data=[args[0] & 0x7f, (args[0] >> 7) & 0x7f]))
+        self.midiout.send(
+            MidiEvent.fromdata(PROGRAM_CHANGE,
+                channel=channel, data=[self._program[channel]]))
 
-            elif msgtype == 'mp':
-                self.midiout.send(
-                    MidiEvent.fromdata(CHANNEL_PRESSURE,
-                        channel=int(channel) & 0xf,
-                        data=[args[0] & 0x7f]))
+    def sendpb(self, value, channel=None, **kwargs):
+        if channel is None:
+            channel = self._base_channel
+        else:
+            channel = (channel-1) & 0xf
 
-            elif msgtype == 'pc':
-                channel = int(channel) & 0xf
-                program = args[0] & 0x7f
-                self.midiout.send(
-                    MidiEvent.fromdata(PROGRAM_CHANGE,
-                        channel=channel,
-                        data=[program]))
-                self._program[channel] = program
+        pb = int(2**14 * value)
+        self.midiout.send(
+            MidiEvent.fromdata(PITCH_BEND,
+                channel=channel,
+                data=[pb & 0x7f, (pb >> 7) & 0x7f]))
 
-            elif msgtype == 'pcrel':
-                channel = int(channel) & 0xf
+    def sendmp(self, value, channel=None, **kwargs):
+        value = int(127 * value) & 0x7f
 
-                if int(args[0]) > 0:
-                    self._program[channel] = min(127, self._program[channel] + 1)
-                else:
-                    self._program[channel] = max(0, self._program[channel] - 1)
+        if channel is None:
+            channel = self._base_channel
+        else:
+            channel = (channel-1) & 0xf
 
-                self.midiout.send(
-                    MidiEvent.fromdata(PROGRAM_CHANGE,
-                        channel=channel,
-                        data=[self._program[channel]]))
+        self.midiout.send(
+            MidiEvent.fromdata(CHANNEL_PRESSURE,
+                channel=channel, data=[value]))
 
-            elif msgtype == 'pp':
-                channel = int(channel) & 0xf
-                note = int(data1) & 0x7f
-                velocity = 127 - (args[0] & 0x7f)
+    def sendpp(self, value, note=0, channel=None, transpose=0, **kwargs):
+        value = int(127 * value) & 0x7f
 
-                if self._note_state[channel].get(note, 0) == 1:
-                    self.midiout.send(
-                        MidiEvent.fromdata(NOTE_ON,
-                            channel=channel,
-                            data=[note, velocity]))
-                    self._note_state[channel][note] = 2
-            else:
-                return 1
-        except StandardError:
-            import traceback
-            traceback.print_exc()
-    """
+        if channel is None:
+            channel = self._base_channel
+        else:
+            channel = (channel-1) & 0xf
+
+        self.midiout.send(
+            MidiEvent.fromdata(POLYPHONIC_PRESSURE,
+                channel=channel, data=[(note + transpose) & 0x7f, value]))
 
 
 class OSC2MIDIServer(liblo.ServerThread):
