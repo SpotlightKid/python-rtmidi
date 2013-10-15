@@ -62,10 +62,10 @@ def open_midiport(port=None, type_="input", use_virtual=False,
                     port = portno
                     break
             else:
-                print("No port matching '%s' found." % portspec)
+                log.warning("No port matching '%s' found.", portspec)
                 port = None
 
-    while interactive and port is None or (port < 0 or port >= len(ports)):
+    while interactive and (port is None or (port < 0 or port >= len(ports))):
         print("Available MIDI %s ports:\n" % type_)
 
         for portno, name in enumerate(ports):
