@@ -16,6 +16,8 @@ import re
 import sys
 import time
 
+from os.path import exists
+
 import rtmidi
 import liblo
 import yaml
@@ -161,7 +163,7 @@ class OSC2MIDIHandler(object):
         if bank is not None:
             bank_msb = (int(bank) >> 7) & 0x7f
             bank_lsb = int(bank) & 0x7f
-        
+
         if bank_msb is not None:
             self.midiout.send(
                 MidiEvent.fromdata(CONTROLLER_CHANGE,
@@ -174,7 +176,7 @@ class OSC2MIDIHandler(object):
 
         if (bank_msb, bank_lsb) != (None, None):
             self._bank[channel] = (bank_lsb or 0) * 128 + (bank_msb or 0)
-        
+
         self._program[channel] = program
         self.midiout.send(
             MidiEvent.fromdata(PROGRAM_CHANGE,
@@ -185,7 +187,7 @@ class OSC2MIDIHandler(object):
             channel = self._base_channel
         else:
             channel = (channel-1) & 0xf
-        
+
         if value > 0.5:
             self._program[channel] = min(127, self._program[channel] + 1)
         else:
@@ -246,6 +248,9 @@ def _resolve_constants(params):
     return params
 
 def load_patch(filename):
+    if not exists(filename):
+        raise IOError("Patch file not found: %s" % filename)
+
     with open(filename) as patch:
         data = yaml.load(patch)
 
@@ -275,7 +280,8 @@ def main(args=None):
         help="YAML file with OSC address mappings.")
     argparser.add_argument('--version', action='version', version=__version__)
 
-    args = argparser.parse_args(args if args is not None else sys.argv)
+    args = argparser.parse_args(args if args is not None else sys.argv[1:])
+    print args
 
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO)
 
@@ -300,15 +306,14 @@ def main(args=None):
         midiout.start()
         server.start()
 
-        while True:
+        while midiout.is_alive():
             time.sleep(1)
-    except (EOFError, IOError, KeyboardInterrupt):
+    except:
         server.stop()
         server.free()
         midiout.stop()
-        print('')
     finally:
-        print("Exit.")
+        print("\nExit.")
         del midiout
 
     return 0
