@@ -30,3 +30,15 @@
   - /[^/]+/solo(?P<i:channel>\d+)$
   - f
   - solo_channel
+
+# program change page
+
+-
+  - /programs/(?P<i:channel>\d+)/program(?P<i:program>\d+)$
+  - f
+  - sendpc
+
+-
+  - /programs/program(?P<i:program>\d+)$
+  - f
+  - sendpc
