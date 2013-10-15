@@ -23,6 +23,7 @@ import yaml
 # package-specific modules
 from rtmidi import midiconstants
 from rtmidi.midiconstants import *
+from rtmidi.midiutil import open_midiport
 
 from .midiio import MidiOutputProc, MidiOutputThread
 from .midievents import *
@@ -220,42 +221,6 @@ class OSC2MIDIServer(liblo.ServerThread):
         log.info("Registering OSC method handler.")
         self.add_method(None, None, dispatcher.dispatch)
 
-
-def select_midiport(midi, default=0):
-    type_ = "input" if isinstance(midi, rtmidi.MidiIn) else "output"
-
-    r = raw_input("Do you want to create a virtual MIDI %s port? (y/N) "
-        % type_)
-    if r.strip().lower() == 'y':
-        return None
-
-    ports = midi.get_ports()
-
-    if not ports:
-        print("No MIDI %s ports found." % type_)
-        return None
-    else:
-        port = None
-
-        while port is None:
-            print("Available MIDI %s ports:\n" % type_)
-
-            for port, name in enumerate(ports):
-                print("[%i] %s" % (port, name))
-            print('')
-
-            try:
-                r = raw_input("Select MIDI %s port [%i]: " % (type_, default))
-                port = int(r)
-            except (ValueError, TypeError):
-                port = default
-
-            if port < 0 or port >= len(ports):
-                print("Invalid port number: %i" % port)
-                port = None
-            else:
-                return port
-
 def _resolve_constants(params):
     for name, value in params.items():
         if isinstance(value, str) and re.match('[A-Z][_A-Z0-9]*$', value):
@@ -282,7 +247,7 @@ def load_patch(filename):
 
 def main(args=None):
     argparser = argparse.ArgumentParser(description=__doc__)
-    argparser.add_argument('-p', '--port', type=int, dest="midiport",
+    argparser.add_argument('-p', '--port', dest="midiport",
         help="MIDI output port (default: ask to open virtual MIDI port).")
     argparser.add_argument('-P', '--oscport', default=5555, type=int,
         help="Port the OSC server listens on (default: %(default)s).")
@@ -295,16 +260,6 @@ def main(args=None):
     args = argparser.parse_args(args if args is not None else sys.argv)
 
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO)
-
-    if args.midiport is None:
-        try:
-            midiout = rtmidi.MidiOut(name=__program__)
-            args.midiport = select_midiport(midiout)
-        except (KeyboardInterrupt, EOFError):
-            print('')
-            return 0
-        finally:
-            del midiout
 
     if sys.platform == 'darwin':
         midiout = MidiOutputThread(name=__program__, port=args.midiport)
@@ -329,7 +284,7 @@ def main(args=None):
 
         while True:
             time.sleep(1)
-    except KeyboardInterrupt:
+    except (EOFError, IOError, KeyboardInterrupt):
         server.stop()
         server.free()
         midiout.stop()

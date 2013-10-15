@@ -13,6 +13,8 @@ import time
 
 import rtmidi
 
+from rtmidi.midiutil import open_midiport
+
 log = logging.getLogger(__name__)
 
 
@@ -26,21 +28,11 @@ class RtMidiDevice(object):
         self._output = None
 
     def __str__(self):
-        return self.name
+        return self.portname
 
     def open_output(self):
-        self._output = rtmidi.MidiOut(name=self.name)
-        if self.port is None:
-            if self.portname is None:
-                self.portname = "RtMidi Virtual Output"
-            log.info("Opening virtual MIDI output port.")
-            self._output.open_virtual_port(self.portname)
-        else:
-            if self.portname is None:
-                self.portname = self._output.get_port_name(self.port)
-            log.info("Opening MIDI output port #%i (%s).",
-                self.port, self.portname)
-            self._output.open_port(self.port, self.portname)
+        self._output, self.portname = open_midiport(self.port, "output",
+            client_name=self.name)
 
     def close_output(self):
         if self._output is not None:
