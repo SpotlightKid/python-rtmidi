@@ -221,7 +221,7 @@ class OSCDispatcher(list):
                 return
 
             kwargs = pattern.params.copy()
-            kwargs.update(self._convert_urlparams(pattern.convdict, match))
+            kwargs.update(self._convert_addrparams(pattern.convdict, match))
 
             try:
                 func(*args, **kwargs)
@@ -231,7 +231,7 @@ class OSCDispatcher(list):
                     "args=%r, kwargs=%r, typecodes=%r, addr=%r)",
                     funcname, path, args, kwargs, typecodes, addr)
 
-    def _convert_urlparams(self, convdict, match):
+    def _convert_addrparams(self, convdict, match):
         """Apply conversion function (if any) to all named groups in match.
 
         Returns a dictionary matching the group name to value, where the value
