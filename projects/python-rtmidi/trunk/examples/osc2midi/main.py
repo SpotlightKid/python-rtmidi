@@ -126,7 +126,7 @@ class OSC2MIDIHandler(object):
                 channel=channel, data=[cc2 & 0x7f, val2]))
 
     def noteonoff(self, val, note=60, channel=None, velocity=None,
-            transpose=0,**kwargs):
+            transpose=0, **kwargs):
         note += transpose
 
         if channel is None:
@@ -290,7 +290,7 @@ class OSC2MIDIHandler(object):
 
 
 class OSC2MIDIServer(liblo.ServerThread):
-    def __init__(self, midiout, dispatcher, rport=5555, shost=None,
+    def __init__(self, dispatcher, rport=5555, shost=None,
             sport=9000):
         super(OSC2MIDIServer, self).__init__(rport)
         self.shost = shost
@@ -363,8 +363,8 @@ def main(args=None):
         return 1
 
     dispatcher = OSCDispatcher(patterns, search_ns=osc2midi, cache_size=512)
-    server = OSC2MIDIServer(midiout, dispatcher, args.osc_rport,
-        args.osc_shost, args.osc_sport)
+    server = OSC2MIDIServer(dispatcher, args.osc_rport, args.osc_shost,
+        args.osc_sport)
 
     print("Entering main loop. Press Control-C to exit.")
     try:
