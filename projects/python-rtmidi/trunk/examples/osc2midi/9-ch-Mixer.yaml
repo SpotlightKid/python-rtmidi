@@ -70,3 +70,12 @@
   - /[^/]+/control(?P<i:cc>\d+)$
   - f
   - sendcc
+
+# notes page
+
+-
+  - /[^/]+/note(?P<i:note>\d+)$
+  - f
+  - noteonoff
+  - velocity: 100
+    transpose: 36
