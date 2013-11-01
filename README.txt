@@ -21,45 +21,72 @@ For more information, visit ``python-rtmidi's`` web page:
 Changelog
 ---------
 
-**2013-09-29**
+For details and minor changes, please see the `Subversion log messages
+<http://trac.chrisarndt.de/code/log/projects/python-rtmidi/trunk>`_.
 
-    * 'Allow ``MidiIn/Out.open_port`` methods to be used with the ``with``
-       statement and the port will be closed at the end of the block.
+Development version (unreleased)
+````````````````````````````````
+
+**2013-10-15**
+    * `midiutils.open_midiport()`:
+
+      * Allow to pass (substring of) port name as alternative to port number.
+      * Re-raise ``EOFError`` and ``KeyboardInterrupt`` instead of using
+        ``sys.exit()``.
+      * Add ``client_name`` and ``port_name`` arguments.
+      * Add ``use_virtual`` argument (default ``False``) to request opening
+        of a virtual MIDI port.
+      * ``interactive`` keyword argument (default ``True``) to disable
+        interactive prompt for port.
+
+**2013-10-15**
+    * ``MidiIn``/``MidiOut`` and ``open*()`` methods: allow to specify ``None``
+      as client or port name to get the default names.
+
+**2013-10-01**
+    * Include ``ez_setup.py`` in source distribution.
+
+**2013-09-30**
+    * Move ``midiconstants`` module from examples into ``rtmidi`` package
+      and add ``midiutil`` module.
+    * Include examples in source distribution
+    * Convert / break down ``midifilter`` example script into a package.
+    * Add new ``sysexsaver`` example.
+    * Update version number in ``RtMidi.cpp/h`` to reflect actual code state.
+
+**2013-09-29**
+    * Allow ``MidiIn/Out.open_port`` methods to be used with the ``with``
+      statement and the port will be closed at the end of the block.
 
 **2013-09-28**
-
     * Change ``queue_size_limit`` to 1024.
     * Add docstring to the rest of ``MidiIn`` methods.
 
 **2013-09-27**
-
     * Fix string conversion in constructors and ``open_*`` methods.
     * Change default name of virtual ports.
     * Add docstrings to many methods and functions.
 
 **2013-09-24**
-
     * Add new example script ``wavetablemodstep.py`` to demonstrate sending
       of control cgange messages.
 
 **2013-09-12**
-
     * Update  from ``optparse`` to ``argparse`` in ``osc2midi.py`` example.
 
 **2013-09-11**
-
     * Switch from distribute back to setuptools.
 
 **2013-08-08**
-
   * Add new example script ``sendsysex.py`` to demonstrate sending of system
     exclusive messages.
 
 **2013-02-12**
-
   * Add new example script ``osc2midi.py``, a simple, uni-directional OSC
     to MIDI mapper.
 
+Releases
+````````
 
 **2013-01-23 version 0.3.1a**
 
