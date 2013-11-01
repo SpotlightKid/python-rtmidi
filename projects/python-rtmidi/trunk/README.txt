@@ -39,9 +39,19 @@ Development version (unreleased)
       * ``interactive`` keyword argument (default ``True``) to disable
         interactive prompt for port.
 
-**2013-10-15**
     * ``MidiIn``/``MidiOut`` and ``open*()`` methods: allow to specify ``None``
       as client or port name to get the default names.
+
+    * Add methods to ``OSC2MIDIHandler`` in ``osc2midi`` to send program
+      changes, pitch bend, and channel and poly aftertouch; make default
+      channel an instance variable that can be changed via OSC messages.
+
+**2013-10-12**
+    * Add new ``oscdispatcher`` module to ``osc2midi`` example.
+    * Lots of re-structuring and improvements to ` osc2midi``.
+
+**2013-10-02**
+    * Convert ``osc2midi`` example script into a package
 
 **2013-10-01**
     * Include ``ez_setup.py`` in source distribution.
