@@ -79,7 +79,7 @@ Development version (unreleased)
 
 **2013-09-24**
     * Add new example script ``wavetablemodstep.py`` to demonstrate sending
-      of control cgange messages.
+      of control change messages.
 
 **2013-09-12**
     * Update  from ``optparse`` to ``argparse`` in ``osc2midi.py`` example.
