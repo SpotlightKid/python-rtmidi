@@ -195,7 +195,8 @@ cdef class MidiIn:
 
         The ``queue_size_limit`` specifies the size of the internal ring buffer
         in which incoming MIDI events are placed until retrieved via the
-        ``get_message`` method or a callback function. The default value is 100.
+        ``get_message`` method or a callback function. The default value is
+        1024.
 
         """
         self.thisptr = new RtMidiIn(rtapi, _to_bytes(name or "RtMidi Client"),
