@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """Setup file for the Cython rtmidi wrapper."""
 
-import os
 import sys
 
 from ctypes.util import find_library
@@ -49,17 +48,11 @@ Could not import Cython or the version found is too old.
 
 Cython >= 0.17 is required to compile '_rtmidi.pyx' into '_rtmidi.cpp'.
 
-Install Cython from the Git repository at https://github.com/cython/cython.git
-or use the precompiled '_rtmidi.cpp' file from the python-rtmidi source
-distribution.""")
+Install Cython from https://pypi.python.org/pypi/Cython or use the precompiled
+'_rtmidi.cpp' file from the python-rtmidi source distribution.""")
         sys.exit(1)
 
     sources = [join(SRC_DIR, "_rtmidi.cpp"), join(SRC_DIR, "RtMidi.cpp")]
-
-if hasattr(os, 'uname'):
-    osname = os.uname()[0].lower()
-else:
-    osname = 'windows'
 
 define_macros = [('__PYX_FORCE_INIT_THREADS', None)]
 include_dirs = [SRC_DIR]
@@ -68,7 +61,7 @@ library_dirs = []
 extra_link_args = []
 extra_compile_args = []
 
-if osname == 'linux':
+if sys.platform.startswith('linux'):
     if find_library('asound'):
         define_macros += [("__LINUX_ALSA__", None)]
         libraries += ['asound']
@@ -84,7 +77,7 @@ if osname == 'linux':
 
     libraries += ["pthread"]
 
-elif osname == 'darwin':
+elif sys.platform.startswith('darwin'):
     if find_library('jack'):
         define_macros += [('__UNIX_JACK__', None)]
         libraries += ['jack']
@@ -96,8 +89,9 @@ elif osname == 'darwin':
         '-framework', 'CoreMIDI',
         '-framework', 'CoreFoundation']
 
-elif osname == 'windows':
-    winks = winmm = True
+elif sys.platform.startswith('win'):
+    winks = False
+    winmm = True
 
     if '--no-winmm' in sys.argv[1:]:
         winmm = False
@@ -119,6 +113,11 @@ elif osname == 'windows':
 
     library_dirs += [WINLIB_DIR]
 
+else:
+    print("WARNING: This operating system (%s) is not supported by RtMidi.\n"
+        "Linux, Mac OS X (>= 10.5), Windows (XP, Vista, 7) are supported\n"
+        "Continuing and hoping for the best...\n" %
+        sys.platform)
 
 extensions = [
     Extension(
@@ -138,10 +137,12 @@ setup(
     packages = ['rtmidi', 'osc2midi'],
     package_dir = {'osc2midi': 'examples/osc2midi'},
     ext_modules = extensions,
-    install_requires = ['pyyaml'],
+    extras_require = {
+        'osc2midi':  ['pyliblo', 'PyYAML'],
+    },
     entry_points = {
         'console_scripts': [
-            'osc2midi = osc2midi.main:main',
+            'osc2midi = osc2midi.main:main [osc2midi]',
         ]
     },
     zip_safe=False,
