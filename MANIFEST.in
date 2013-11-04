@@ -1,4 +1,4 @@
-include ez_setup.py src/*.h src/*.cpp
+include ez_setup.py src/*.h src/*.cpp INSTALL-*.txt
 graft tests
 graft examples
 prune include
