@@ -18,10 +18,10 @@ provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
 parameters adapted to the Python PEP-8 conventions and requirements of
 the Python package naming structure. ``python-rtmidi`` supports Python 2
-(tested with Python 2.7) and Python 3 (3.2).
+(tested with Python 2.7) and Python 3 (3.2/3.3).
 
 .. note::
-    ``python-rtmidi`` is currently in **alpha-stage**, which means is is
+    ``python-rtmidi`` is currently in **beta-stage**, which means is is
     published in the hope that other developers try it out and help finding
     bugs, and that its API is not yet finalised. What is there should work
     but is currently only tested thoroughly under Linux ALSA/JACK and less
@@ -64,9 +64,10 @@ RtMidi_ documentation.
 Installation
 ============
 
-``python-rtmidi`` is a Python C(++)-extension and therefore a C++ compiler
-and a build environment as well as some system-dependant libraries are needed.
-See "Requirements" below for details.
+``python-rtmidi`` uses the de-facto standard Python distutils and setuptools_
+based installation mechanism. Since it is a Python C(++)-extension a C++
+compiler and build environment as well as some system-dependant libraries are
+needed. See "Requirements" below for details.
 
 
 Installer (Windows only)
@@ -85,7 +86,7 @@ with pip_ or ``easy_install``::
 
     $ pip install python-rtmidi
 
-or, if you prefer setuptools_::
+or, if you prefer ``easy_install``::
 
     $ easy_install python-rtmidi
 
@@ -109,9 +110,12 @@ archive or tarball, extract it and install using the common ``distutils``
 commands, e.g.::
 
     $ wget %(download_url)spython-rtmidi-%(version)s.tar.gz
-    $ tar xzf python-rtmidi-%(version)s.tar.gz
+    $ tar -xzf python-rtmidi-%(version)s.tar.gz
     $ cd python-rtmidi-%(version)s
     $ python setup.py install
+
+If you do not have setuptools_ installed yet, the last command should download
+it for you into the source directory and use it directly.
 
 
 From Subversion
@@ -122,15 +126,28 @@ Subversion repository and then install it from your working copy. Since the
 repository does not include the C++ module source code pre-compiled from the
 Cython source, you'll also need to install Cython >= 0.17, either via pip or
 from its Git repository. Using virtualenv/virtualenvwrapper is strongly
-recommended in this scenario::
+recommended in this scenario:
+
+Make a virtual environment::
 
     $ mkvirtualenv rtmidi
     (rtmidi)$ cdvirtualenv
+
+Install ``Cython`` from PyPI::
+
+    (rtmidi)$ pip install Cython
+
+or the Git repository::
+
     (rtmidi)$ git clone https://github.com/cython/cython.git
-    (rtmidi)$ svn co svn://svn.chrisarndt.de/projects/python-rtmidi/trunk python-rtmidi
     (rtmidi)$ cd cython
     (rtmidi)$ python setup.py install
-    (rtmidi)$ cd ../python-rtmidi
+    (rtmidi)$ cd ..
+
+Install ``python-rtmidi``::
+
+    (rtmidi)$ svn co %(repository)s python-rtmidi
+    (rtmidi)$ cd python-rtmidi
     (rtmidi)$ python setup.py install
 
 
@@ -154,6 +171,13 @@ use the appropriate compilations flags automatically.
     * Linux: ALSA, JACK
     * OS X: CoreMIDI, JACK
     * Windows: MultiMedia (MM), Windows Kernel Streaming
+
+The ``osc2midi`` example, which is installed alongside ``python-rtmidi``
+additionally requires the pyliblo_ and PyYAML_ libraries. These additional
+dependencies are only installed by the ``setup.py`` script, if you specify the
+*extra* ``osc2midi``, e.g.::
+
+    $ pip install "python-rtmidi[osc2midi]"
 
 
 Linux
@@ -228,6 +252,35 @@ Copyright (c) 2012 - 2013 %(author)s
     DEALINGS IN THE SOFTWARE.
 
 
+RtMidi is distributed under a modified **MIT License**:
+
+    RtMidi: realtime MIDI i/o C++ classes
+    Copyright (c) 2003-2012 Gary P. Scavone
+
+    Permission is hereby granted, free of charge, to any person
+    obtaining a copy of this software and associated documentation files
+    (the "Software"), to deal in the Software without restriction,
+    including without limitation the rights to use, copy, modify, merge,
+    publish, distribute, sublicense, and/or sell copies of the Software,
+    and to permit persons to whom the Software is furnished to do so,
+    subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be
+    included in all copies or substantial portions of the Software.
+
+    Any person wishing to distribute modifications to the Software is
+    asked to send the modifications to the original developer so that
+    they can be incorporated into the canonical version.  This is,
+    however, not a binding provision of this license.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+    CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 .. _rtmidi: http://www.music.mcgill.ca/~gary/rtmidi/index.html
 .. _python-rtmidi: %(url)s
 .. _pypi page: http://python.org/pypi/python-rtmidi#downloads
@@ -238,6 +291,8 @@ Copyright (c) 2012 - 2013 %(author)s
 .. _virtualenvwrapper: http://www.doughellmann.com/projects/virtualenvwrapper/
 .. _ipython: http://ipython.org/
 .. _jack for os x: http://www.jackosx.com/
+.. _pyliblo: http://das.nasophon.de/pyliblo/
+.. _pyyaml: https://pypi.python.org/pypi/PyYAML
 
 """
 
@@ -248,12 +303,11 @@ keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
 author_email = 'chris@chrisarndt.de'
 url = 'http://chrisarndt.de/projects/%s/' % name
+repository = 'svn://svn.chrisarndt.de/projects/python-rtmidi/trunk'
 download_url = url + 'download/'
 license = 'MIT License'
 platforms = 'POSIX, Windows, MacOS X'
-long_description = "\n".join(description[2:]) % {
-    'author': author, 'author_email': author_email,
-    'download_url': download_url, 'url': url, 'version': version}
+long_description = "\n".join(description[2:]) % locals()
 description = description[0]
 classifiers = """\
 Development Status :: 5 - Beta
