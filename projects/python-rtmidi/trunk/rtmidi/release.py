@@ -17,11 +17,11 @@ python-rtmidi_ is a Python binding for RtMidi implemented with Cython_ and
 provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
 parameters adapted to the Python PEP-8 conventions and requirements of
-the Python package naming structure. ``python-rtmidi`` supports Python 2
+the Python package naming structure. **python-rtmidi** supports Python 2
 (tested with Python 2.7) and Python 3 (3.3).
 
 .. note::
-    ``python-rtmidi`` is currently in **beta-stage**, which means is is
+    **python-rtmidi** is currently in **beta-stage**, which means is is
     published in the hope that other developers try it out and help finding
     bugs, and that its API is not yet finalised. What is there should work
     but is currently only tested thoroughly under Linux ALSA/JACK and less
@@ -34,7 +34,7 @@ the Python package naming structure. ``python-rtmidi`` supports Python 2
 Usage example
 -------------
 
-Here's a quick example of how to use ``python-rtmidi`` to open the first
+Here's a quick example of how to use **python-rtmidi** to open the first
 available MIDI output port and send a middle C note on MIDI channel 1::
 
     import time
