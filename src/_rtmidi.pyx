@@ -68,6 +68,12 @@ instance.
 
 """
 
+__all__ = [
+    'MidiIn',
+    'MidiOut',
+    'get_compiled_api'
+]
+
 from libcpp cimport bool
 from libcpp.string cimport string
 from libcpp.vector cimport vector
@@ -313,7 +319,7 @@ cdef class MidiIn:
         if self.get_current_api() == API_WINDOWS_MM:
             raise NotImplementedError("Virtual ports are not supported"
                 " by the Windows MultiMedia API.")
-        
+
         self.thisptr.openVirtualPort(
             _to_bytes(name or "RtMidi Virtual Input"))
 
