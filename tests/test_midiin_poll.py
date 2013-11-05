@@ -4,12 +4,16 @@
 #
 """Shows how to receive MIDI input by polling an input port."""
 
+import logging
 import sys
 import time
 
 import rtmidi
 from rtmidi.midiutil import open_midiport
 
+log = logging.getLogger('test_midiin_poll')
+
+logging.basicConfig(level=logging.DEBUG)
 
 port = sys.argv[1] if len(sys.argv) > 1 else None
 try:
