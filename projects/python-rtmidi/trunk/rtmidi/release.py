@@ -26,7 +26,7 @@ the Python package naming structure. ``python-rtmidi`` supports Python 2
     bugs, and that its API is not yet finalised. What is there should work
     but is currently only tested thoroughly under Linux ALSA/JACK and less
     regularly under OS X (CoreMIDI/JACK) and Windows (WinMM).
-    
+
     Support for the Windows Kernel Streaming API is currently *broken* in
     RtMidi.
 
@@ -203,6 +203,13 @@ OS X
 Install the latest Xcode or ``g++`` from MacPorts or homebrew (untested).
 CoreMIDI support comes with installing Xcode. For JACK support, install
 `JACK for OS X`_ with the full installer.
+
+.. note::
+    If you have a version of OS X and Xcode which still supports building
+    binaries for PPC, you'll have to tell distribute to build the package
+    only for i386 and x86_64 architectures::
+
+        env ARCHFLAGS="-arch i386 -arch x86_64" python setup.py install
 
 
 Windows
