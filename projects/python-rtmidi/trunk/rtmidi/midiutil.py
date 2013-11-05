@@ -155,7 +155,7 @@ def open_midiport(port=None, type_="input", use_virtual=False,
         except (ValueError, TypeError):
             port = None
 
-    if port is not None and (port > 0 and port <= len(ports)):
+    if port is not None and (port >= 0 and port < len(ports)):
         if not port_name:
             port_name = ports[port]
 
