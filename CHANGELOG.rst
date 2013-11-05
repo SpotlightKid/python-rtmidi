@@ -5,10 +5,8 @@ For details and minor changes, please see the `Subversion log messages
 <http://trac.chrisarndt.de/code/log/projects/python-rtmidi/trunk>`_.
 
 
-Releases
---------
-
-**2013-11-05 version 0.4b**
+2013-11-05 version 0.4b
+-----------------------
 
 Fixes:
 
@@ -19,8 +17,8 @@ Fixes:
 
   * Update version number in ``RtMidi.cpp/h`` to reflect actual code state.
 
-
 Enhancements / Changes:
+
   * Allow ``MidiIn/Out.open_port`` methods to be used with the ``with``
     statement and the port will be closed at the end of the block.
 
@@ -46,8 +44,8 @@ Enhancements / Changes:
 
   * Change default name of virtual ports.
 
-
 Documentation:
+
   * Re-organize package description and installation instructions into several
     files and add separate text files with changelog and license information.
 
@@ -59,6 +57,7 @@ Documentation:
 
 
 Examples:
+
   * Add new example package ``osc2midi``, a simple, uni-directional OSC to MIDI
     mapper.
 
@@ -68,7 +67,7 @@ Examples:
   * New example script ``wavetablemodstep.py`` to demonstrate sending of
     MIDI control change messages.
 
-  * Add new ``sysexsaver`` example.
+  * New ``sysexsaver`` example.
 
   * Convert ``midifilter`` example script into a package.
 
@@ -78,23 +77,27 @@ Examples:
 
 
 Building:
-  * Switch from distribute back to setuptools.
+
+  * Switch from ``distribute`` back to ``setuptools``.
 
   * Include ``ez_setup.py`` in source distribution.
 
   * Include examples in source distribution.
 
+  * Install ``osc2midi`` example as package and command line script.
+
   * Enable C++ exceptions on Windows build.
 
 
-**2013-01-23 version 0.3.1a**
+2013-01-23 version 0.3.1a
+-------------------------
 
 Enhancements:
     * Increase sysex input buffer size for WinMM API again to 8192 (8k) bytes.
       Requested by Martin Tarenskeen.
 
 
-**2013-01-14 version 0.3a**
+2013-01-14 version 0.3a**
 
 Bug fixes:
     * Add ``encoding`` parameter to ``get_port_name`` methods of ``MidiIn``
@@ -113,7 +116,8 @@ Building:
     * Add ``setuptools``/``distribute`` support.
 
 
-**2012-07-22 version 0.2a**
+2012-07-22 version 0.2a
+-----------------------
 
 Bug fixes:
     * Fix uninitialized pointer bug in RtMidi.cpp in 'MidiOutJack' class, which
@@ -150,6 +154,8 @@ Building:
     * add support for compiling with Windows Kernel Streaming API (does not
       not compile due to syntax errors in RtMidi.cpp yet)
 
-**2012-07-13 version 0.1a**
+
+2012-07-13 version 0.1a
+-----------------------
 
 First public release
