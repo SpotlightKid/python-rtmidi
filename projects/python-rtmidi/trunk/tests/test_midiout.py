@@ -4,6 +4,7 @@
 #
 """Shows how to open an output port and send MIDI events."""
 
+import logging
 import sys
 import time
 
@@ -11,7 +12,12 @@ import rtmidi
 from rtmidi.midiutil import open_midiport
 from rtmidi.midiconstants import *
 
+log = logging.getLogger('test_midiout')
+
+logging.basicConfig(level=logging.DEBUG)
+
 port = sys.argv[1] if len(sys.argv) > 1 else None
+
 try:
     midiout, port_name = open_midiport(port, "output")
 except (EOFError, KeyboardInterrupt):
