@@ -1,4 +1,5 @@
 include ez_setup.py src/*.h src/*.cpp *.rst LICENSE.txt
+exclude *.rst.in
 graft examples
 graft tests
 recursive-exclude examples *.pyc

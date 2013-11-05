@@ -5,6 +5,18 @@ For details and minor changes, please see the `Subversion log messages
 <http://trac.chrisarndt.de/code/log/projects/python-rtmidi/trunk>`_.
 
 
+2013-11-05 version 0.4.1b
+-------------------------
+
+Building:
+
+  * Include missing ``_rtmidi.cpp`` file in source distribution.
+
+Documentation:
+
+  * Fill in release data placeholders in ``INSTALL.rst``.
+
+
 2013-11-05 version 0.4b
 -----------------------
 
