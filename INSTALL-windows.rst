@@ -81,8 +81,9 @@ in the command line window you opened above, change into
     > cd python-rtmidi
 
 If you use a non-english version of Windows XP (or possibly Vista), adapt the
-path values of ``WINLIB_DIR`` and ``WININC_DIR`` in the file ``setup.py`` to
-your system.
+values of ``WINLIB_DIR`` and ``WININC_DIR`` at the top of file ``setup.py``
+to your system to point to the location of ``WinMM.lib`` and the Microsoft SDK
+headers.
 
 
 Build & install Python-rtmidi
@@ -118,6 +119,19 @@ run::
 
 
 *That's it, congratulations!*
+
+
+Notes
+-----
+
+Compiling ``python-rtmidi`` with Windows Kernel Streaming support currently
+does not work due to syntax errors in ``RtMidi.cpp``. This is currently being
+investigated. You can enable Windows Kernel Streaming Support by providing
+the ``--winks`` option to the ``setup.py`` invocation, but this curently only
+leads to a compiler error.
+
+Compiling with MinGW also does not work out-of-the-box yet. If you have any
+useful hints, please let the author know.
 
 
 .. _ez_setup.py: https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py
