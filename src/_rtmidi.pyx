@@ -303,8 +303,19 @@ cdef class MidiIn:
         Also, to close a virtual input port, you have to delete its ``MidiIn``
         instance.
 
+        Exceptions:
+
+        ``NotImplementedError``
+            Raised when trying to open a virtual MIDI port with the
+            Windows MultiMedia API, which doesn't support this.
+
         """
-        self.thisptr.openVirtualPort(_to_bytes(name or "RtMidi Virtual Input"))
+        if self.get_current_api() == API_WINDOWS_MM:
+            raise NotImplementedError("Virtual ports are not supported"
+                " by the Windows MultiMedia API.")
+        
+        self.thisptr.openVirtualPort(
+            _to_bytes(name or "RtMidi Virtual Input"))
 
     def close_port(self):
         """Close input port opened via ``open_port``.
@@ -540,8 +551,19 @@ cdef class MidiOut:
         Also, to close a virtual output port, you have to delete its ``MidiOut``
         instance.
 
+        Exceptions:
+
+        ``NotImplementedError``
+            Raised when trying to open a virtual MIDI port with the
+            Windows MultiMedia API, which doesn't support this.
+
         """
-        self.thisptr.openVirtualPort(_to_bytes(name or "RtMidi Virtual Output"))
+        if self.get_current_api() == API_WINDOWS_MM:
+            raise NotImplementedError("Virtual ports are not supported"
+                " by the Windows MultiMedia API.")
+
+        self.thisptr.openVirtualPort(
+            _to_bytes(name or "RtMidi Virtual Output"))
 
     def close_port(self):
         """Close output port opened via ``open_port``.
