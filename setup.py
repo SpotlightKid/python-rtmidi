@@ -93,6 +93,8 @@ elif sys.platform.startswith('win'):
     winks = False
     winmm = True
 
+    extra_compile_args += ['/EHsc']
+
     if '--no-winmm' in sys.argv[1:]:
         winmm = False
         sys.argv.remove('--no-winmm')
