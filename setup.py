@@ -23,10 +23,10 @@ PKG_DIR = "rtmidi"
 # Express (for Python <= 3.2 get the 2008 Edition, for Python 3.3 get
 # the 2010 edition!), install it and adapt the directory below to the
 # location of WinMM.Lib
-WINLIB_DIR = r'C:\Programme\Microsoft SDKs\Windows\v6.0A\Lib'
+WINLIB_DIR = r'C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib'
 # Also adapt the following path to the directory containing the Microsoft
 # SDK headers or copy 'ks.h' and 'ksmedia.h' to the 'src' directory.
-WININC_DIR = r'C:\Programme\Microsoft SDKs\Windows\v6.0A\Include'
+WININC_DIR = r'C:\Program Files\Microsoft SDKs\Windows\v6.0A\Include'
 
 setup_opts = {}
 release_info = join(PKG_DIR, 'release.py')
@@ -97,9 +97,9 @@ elif sys.platform.startswith('win'):
         winmm = False
         sys.argv.remove('--no-winmm')
 
-    if '--no-winks' in sys.argv[1:]:
-        winks = False
-        sys.argv.remove('--no-winks')
+    if '--winks' in sys.argv[1:]:
+        winks = True
+        sys.argv.remove('--winks')
 
     if winmm and exists(join(WINLIB_DIR, "winmm.lib")):
         define_macros += [('__WINDOWS_MM__', None)]

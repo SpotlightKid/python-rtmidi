@@ -29,15 +29,15 @@ steps.
 
    - Open a command line and run it::
 
-	> C:\Python27\python ez_setup.py
+        > C:\Python27\python ez_setup.py
 
 #. Install pip_::
 
-	> C:\Python27\Scripts\easy_install pip
+        > C:\Python27\Scripts\easy_install pip
 
 #. Install virtualenv_::
 
-	> C:\Python27\Scripts\pip install virtualenv
+        > C:\Python27\Scripts\pip install virtualenv
 
 #. Install Visual Studio Express (Microsoft Visual C++).
 
@@ -61,12 +61,12 @@ Setting up a virtual environment
 
 #. Open a command line and run::
 
-	> C:\Python27\Scripts\virtualenv rtmidi
-	> rtmidi\Scripts\activate
+        > C:\Python27\Scripts\virtualenv rtmidi
+        > rtmidi\Scripts\activate
 
 #. Install Cython (still in the same command line window)::
 
-	> pip install Cython
+        > pip install Cython
 
 
 Download & unpack python-rtmidi source
@@ -79,6 +79,10 @@ in the command line window you opened above, change into
 
     > pip install --no-install -d . "python-rtmidi>=0.4"
     > cd python-rtmidi
+
+If you use a non-english version of Windows XP (or possibly Vista), adapt the
+path values of ``WINLIB_DIR`` and ``WININC_DIR`` in the file ``setup.py`` to
+your system.
 
 
 Build & install Python-rtmidi
@@ -94,7 +98,7 @@ This might also download some version of setuptools in the process
 again. You can also update setuptools within your virtual environment
 beforhand to the latest version with::
 
-	> pip install -U setuptools
+    > pip install -U setuptools
 
 
 Verify your installation
