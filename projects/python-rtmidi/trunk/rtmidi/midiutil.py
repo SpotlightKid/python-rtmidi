@@ -109,7 +109,9 @@ def open_midiport(port=None, type_="input", use_virtual=False,
 
     if port is None:
         try:
-            if use_virtual or (interactive and _prompt_for_virtual(type_)):
+            if (midiobj.get_current_api() != rtmidi.API_WINDOWS_MM and
+                    (use_virtual or
+                    (interactive and _prompt_for_virtual(type_)))):
                 if not port_name:
                     port_name = "Virtual MIDI Input"
                 log.info("Opening virtual MIDI %s port.", type_)
