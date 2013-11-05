@@ -25,8 +25,10 @@ the Python package naming structure. ``python-rtmidi`` supports Python 2
     published in the hope that other developers try it out and help finding
     bugs, and that its API is not yet finalised. What is there should work
     but is currently only tested thoroughly under Linux ALSA/JACK and less
-    regularly under OS X (CoreMIDI/JACK) and Windows (WinMM). Support for the
-    Windows Kernel Streaming API does not work yet due to compilation problems.
+    regularly under OS X (CoreMIDI/JACK) and Windows (WinMM).
+    
+    Support for the Windows Kernel Streaming API is currently *broken* in
+    RtMidi.
 
 
 Usage example
