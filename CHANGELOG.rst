@@ -19,6 +19,8 @@ Fixes:
 
 Enhancements / Changes:
 
+  * Elevated development status to beta.
+
   * Allow ``MidiIn/Out.open_port`` methods to be used with the ``with``
     statement and the port will be closed at the end of the block.
 
