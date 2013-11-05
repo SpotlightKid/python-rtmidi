@@ -1,9 +1,9 @@
 How to install python-rtmidi from source on Windows
 ===================================================
 
-These instruction are only valid for installing ``python-rtmidi`` from
-source using Python 2.7 or Python 3.3 in the 32-bit versions (you can
-run these on Windows 64-bit versions with no problems).
+These instruction are only working for installing ``python-rtmidi`` from
+source using Python 2.7 or Python 3.3 in the 32-bit versions (you can run
+these on Windows 64-bit versions with no problems).
 
 Please follow all the steps below in the exact order.
 
