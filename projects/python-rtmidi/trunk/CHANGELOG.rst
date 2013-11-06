@@ -1,7 +1,7 @@
 Changelog
 =========
 
-For details and minor changes, please see the `Subversion log messages
+For details and minor changes, please see the `version control log messages
 <http://trac.chrisarndt.de/code/log/projects/python-rtmidi/trunk>`_.
 
 
@@ -9,11 +9,9 @@ For details and minor changes, please see the `Subversion log messages
 -------------------------
 
 Building:
-
   * Include missing ``_rtmidi.cpp`` file in source distribution.
 
 Documentation:
-
   * Fill in release data placeholders in ``INSTALL.rst``.
 
 
@@ -21,7 +19,6 @@ Documentation:
 -----------------------
 
 Fixes:
-
   * Fix string conversion in constructors and ``open_*`` methods.
 
   * Change default value ``queue_size_limit`` argument to ``MidiIn``
@@ -30,7 +27,6 @@ Fixes:
   * Update version number in ``RtMidi.cpp/h`` to reflect actual code state.
 
 Enhancements / Changes:
-
   * Elevated development status to beta.
 
   * Allow ``MidiIn/Out.open_port`` methods to be used with the ``with``
@@ -42,7 +38,7 @@ Enhancements / Changes:
   * Move ``midiconstants`` module from examples into ``rtmidi`` package
     and added ``midiutil`` module.
 
-  * `midiutils.open_midiport()`:
+  * ``midiutils.open_midiport``:
 
     * Allow to pass (substring of) port name as alternative to port number.
     * Re-raise ``EOFError`` and ``KeyboardInterrupt`` instead of using
@@ -53,13 +49,12 @@ Enhancements / Changes:
     * Add ``interactive`` keyword argument (default ``True``) to disable
       interactive prompt for port.
 
-  * Raise `NotImplemented` error when trying to open a virtual port with
+  * Raise ``NotImplemented`` error when trying to open a virtual port with
     Windows MultiMedia API.
 
   * Change default name of virtual ports.
 
 Documentation:
-
   * Re-organize package description and installation instructions into several
     files and add separate text files with changelog and license information.
 
@@ -71,7 +66,6 @@ Documentation:
 
 
 Examples:
-
   * Add new example package ``osc2midi``, a simple, uni-directional OSC to MIDI
     mapper.
 
@@ -91,7 +85,6 @@ Examples:
 
 
 Building:
-
   * Switch from ``distribute`` back to ``setuptools``.
 
   * Include ``ez_setup.py`` in source distribution.
@@ -111,7 +104,8 @@ Enhancements:
       Requested by Martin Tarenskeen.
 
 
-2013-01-14 version 0.3a**
+2013-01-14 version 0.3a
+-----------------------
 
 Bug fixes:
     * Add ``encoding`` parameter to ``get_port_name`` methods of ``MidiIn``
@@ -134,42 +128,42 @@ Building:
 -----------------------
 
 Bug fixes:
-    * Fix uninitialized pointer bug in RtMidi.cpp in 'MidiOutJack' class, which
-      caused warning in jack process callback when creating a 'MidiOut'
-      instance with JACK API.
+    * Fix uninitialized pointer bug in ``RtMidi.cpp`` in 'MidiOutJack' class,
+      which caused a warning in the jack process callback when creating a
+      ``MidiOut`` instance with the JACK API.
     * ``testmidiin_*.py``: fix superfluous decoding of port name (caused error
-      with Python 3)
+      with Python 3).
 
 Enhancements:
-    * Simplify some code, some things gleaned from rtmidi_python
-    * Documentation typo fixes and more information on Windows compilation
+    * Simplify some code, some things gleaned from rtmidi_python.
+    * Documentation typo fixes and more information on Windows compilation.
     * Enhancements in test scripts:
 
-      * ``test_probe_ports.py``: Catch exceptions when creating port
+      * ``test_probe_ports.py``: Catch exceptions when creating port.
       * ``test_midiin_*.py``:
 
-        * Better error message for missing/invalid port number
+        * Better error message for missing/invalid port number.
         * Show how to convert event delta time into absolute time when
-          receiving input
+          receiving input.
 
 Building:
     * Building on OS X 10.6.9 with CoreMIDI and JACK for OS X successfully
-      tested and test run without errors
+      tested and test run without errors.
     * WinMM support now compiles with Visual Studio 2008 Express and tests
-      work under Windows XP SP3 32-bit:
-    * Add command line option to exclude WinMM or WinKS API from compilation
-    * Add missing 'extra_compile_args' to Extension keyword args in setup file
-    * add 'library_dirs' to Extension keyword args in setup file
-    * use '-frtti' compiler option on OS X (neccessary on 10.7?)
+      work under Windows XP SP3 32-bit.
+    * Add command line option to exclude WinMM or WinKS API from compilation.
+    * Add missing ``extra_compile_args`` to Extension kwargs in setup file.
+    * Add ``library_dirs`` to Extension kwargs in setup file.
+    * Use ``-frtti`` compiler option on OS X (neccessary on 10.7?).
     * Fix file name conflict on case-insensitive file systems by prefixing
-      'rtmidi.{pyx,cpp}' with an underscore
-    * Provide correct compiler flags for compiling with Windows MultiMedia API
-    * Adapt windows library and include path for Visual Studio 2008 Express
+      ``rtmidi.{pyx,cpp}`` with an underscore
+    * Provide correct compiler flags for compiling with Windows MultiMedia API.
+    * Adapt windows library and include path for Visual Studio 2008 Express.
     * add support for compiling with Windows Kernel Streaming API (does not
-      not compile due to syntax errors in RtMidi.cpp yet)
+      not compile due to syntax errors in RtMidi.cpp yet).
 
 
 2012-07-13 version 0.1a
 -----------------------
 
-First public release
+First public release.
