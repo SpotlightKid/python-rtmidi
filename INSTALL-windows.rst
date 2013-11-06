@@ -86,7 +86,7 @@ to your system to point to the location of ``WinMM.lib`` and the Microsoft SDK
 headers.
 
 
-Build & install Python-rtmidi
+Build & install python-rtmidi
 -----------------------------
 
 Just run the usual setup command from within the source directory
@@ -117,6 +117,8 @@ run::
     >>> midiout.get_ports()
     [u'Microsoft GS Wavetable Synth']
 
+If you have any other MIDI outputs (hardware MIDI interfaces, MIDI Yoke etc.)
+active, they should be listed by ``get_ports()`` as well.
 
 *That's it, congratulations!*
 
