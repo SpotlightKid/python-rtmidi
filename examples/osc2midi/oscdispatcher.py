@@ -115,7 +115,7 @@ class OSCDispatcher(list):
         by the standard Python ``re`` module with one important syntax
         extension. Groupnames can have the form ``prefix:name``, where name is
         the normal group name, which must be a valid Python identifier (no
-        non-ASCII chars allowed though), and ``prefix`` is an identifier for
+        non-ASCII chars allowed though), and ``prefix`` is an identifier for a
         conversion function, which is applied to the string matched by the
         group. This identifier can either refer to a builtin conversion
         function (see list below) or a callable found in the namespace passed
@@ -153,8 +153,9 @@ class OSCDispatcher(list):
                 'bool': convert_bool,
             }
 
-        See docstring for ``convert_bool`` function for its semantics.
-        If a conversion identifier resolves to None, no conversion is applied.
+        See the docstring for the ``convert_bool`` function for its semantics.
+        If a conversion function identifier resolves to None, no conversion is
+        applied.
 
         """
         if not isinstance(pattern, dict):
@@ -181,7 +182,7 @@ class OSCDispatcher(list):
             self.add_pattern(pattern)
 
     def _store_and_remove_prefix(self, match, convdict):
-        """Replace 'prefix:name' with 'name' in a group pattern and store
+        """Replace 'prefix:name' with 'name' in a regex group pattern and store
         the prefix in convdict with name as key.
 
         """
