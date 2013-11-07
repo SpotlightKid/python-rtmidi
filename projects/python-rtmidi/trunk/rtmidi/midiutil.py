@@ -52,6 +52,11 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
         Must be ``"input"`` or ``"output"``. Determines whether a ``MidiIn``
         or ``MidiOut`` instance will be created and returned.
 
+    ``api``
+        Select the low-level MIDI API to use. Defaults to ``API_UNSPECIFIED``,
+        i.e. the first compiled-in API, which has any input resp. output ports
+        available, will be used.
+
     ``use_virtual``
         If ``port is ``None``, should a virtual MIDI port be opened? Defaults
         to ``False``.
