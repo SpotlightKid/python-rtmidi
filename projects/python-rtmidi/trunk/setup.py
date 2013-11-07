@@ -7,12 +7,9 @@ import sys
 from ctypes.util import find_library
 from os.path import exists, join
 
-try:
-    from ez_setup import use_setuptools
-    use_setuptools()
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from ez_setup import use_setuptools
+use_setuptools()
+from setuptools import setup
 
 from distutils.extension import Extension
 from distutils.version import LooseVersion as V
@@ -53,6 +50,37 @@ Install Cython from https://pypi.python.org/pypi/Cython or use the precompiled
         sys.exit(1)
 
     sources = [join(SRC_DIR, "_rtmidi.cpp"), join(SRC_DIR, "RtMidi.cpp")]
+
+# We monkey-patch the class used by the setuptools 'egg_info' command, so
+# is does not collect files through VC plugins, because the package file
+# finder function of setuptools.svn_utils is not Python 3 compatible.
+#
+# https://bitbucket.org/pypa/setuptools/issue/99/egg_info-comand-fails-parsing-manifest
+import setuptools.command.egg_info
+import setuptools.command.sdist
+
+class manifest_maker_novc(setuptools.command.egg_info.manifest_maker):
+    def add_defaults(self):
+        setuptools.command.sdist.sdist.add_defaults(self)
+        self.filelist.append(self.template)
+        self.filelist.append(self.manifest)
+
+        if exists(self.manifest):
+            self.read_manifest()
+
+        ei_cmd = self.get_finalized_command('egg_info')
+        self.filelist.include_pattern("*", prefix=ei_cmd.egg_info)
+
+setuptools.command.egg_info.manifest_maker = manifest_maker_novc
+# end of hack
+
+# Add our own custom distutils command to create *.rst files from templates
+# Template files are listed in setup.cfg
+from setuptools.command.build_ext import build_ext
+from fill_template import FillTemplate
+
+setup_opts.setdefault('cmdclass', {})['filltmpl'] = FillTemplate
+
 
 define_macros = [('__PYX_FORCE_INIT_THREADS', None)]
 include_dirs = [SRC_DIR]
