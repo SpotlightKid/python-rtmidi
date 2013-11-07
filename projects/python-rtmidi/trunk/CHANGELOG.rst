@@ -4,6 +4,31 @@ Changelog
 For details and minor changes, please see the `version control log messages
 <http://trac.chrisarndt.de/code/log/projects/python-rtmidi/trunk>`_.
 
+2013-11-07 version 0.4.2b
+-------------------------
+
+Fixes:
+  * Add missing ``API_*`` constant to list of exported names of ``_rtmidi``
+    module.
+
+Enhancements / Changes:
+  * Change default value of ``encoding`` argument of ``get_ports`` and
+    ``get_port_name`` methods to `"auto"`, which selects appropriate encoding
+    based on system and backend API used.
+
+  * Add ``api`` parameter to ``midiutil.open_midiport`` function to select
+    backend API.
+
+Building:
+  * Include workaround for setuptools bug (see bitbucket issue #99) in
+    setup file.
+
+  * Add custom distutils command to fill placeholders in ``INSTALL.rst.in``
+    template with release meta data.
+
+  * Setuptools is now required, pure distutils won't work anymore, so removing
+    the fallback import of ``setup``  from distutils.
+
 
 2013-11-05 version 0.4.1b
 -------------------------
