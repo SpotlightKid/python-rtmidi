@@ -19,6 +19,9 @@ Enhancements / Changes:
   * Add ``api`` parameter to ``midiutil.open_midiport`` function to select
     backend API.
 
+  * Make client name for ``MidiOut`` and `` MidiIn`` different again,
+    because some backend APIs might require unique client names.
+
 Building:
   * Include workaround for setuptools bug (see bitbucket issue #99) in
     setup file.
