@@ -34,8 +34,9 @@ def _prompt_for_virtual(type_):
     return raw_input("Do you want to create a virtual MIDI %s port? (y/N) "
         % type_).strip().lower() in ['y', 'yes']
 
-def open_midiport(port=None, type_="input", use_virtual=False,
-        interactive=True, client_name=None, port_name=None):
+def open_midiport(port=None, type_="input", api=rtmidi.UNSPECIFIED,
+        use_virtual=False, interactive=True, client_name=None,
+        port_name=None):
     """Open MIDI port for input or output and return MidiIn/MidiOut instance.
 
     Arguments:
@@ -100,12 +101,19 @@ def open_midiport(port=None, type_="input", use_virtual=False,
 
     """
     log.debug("Creating MidiIn object.")
-    midiobj = (rtmidi.MidiIn(name=client_name)
+    midiobj = (rtmidi.MidiIn(api, name=client_name)
         if type_ == "input" else rtmidi.MidiOut(name=client_name))
     type_ = "input" if isinstance(midiobj, rtmidi.MidiIn) else "ouput"
 
-    ports = midiobj.get_ports(encoding='latin1'
-        if sys.platform.startswith('win') else 'utf-8')
+    if sys.platform.startwith('win'):
+        encoding = 'latin1'
+    elif (sys.platform == 'darwin' and
+            midiobj.get_current_api() == rtmidi.API_MACOSX_CORE):
+        encoding = 'macroman'
+    else:
+        encoding = 'utf-8'
+
+    ports = midiobj.get_ports(encoding=encoding)
 
     if port is None:
         try:
