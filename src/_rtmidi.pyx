@@ -194,7 +194,7 @@ cdef class MidiIn:
         You can optionally pass an name for the MIDI client with the ``name``
         keyword or second positional argument. Names with non-ASCII characters
         in them have to be passed as unicode or utf-8 encoded strings in
-        Python 2. The default name is "RtMidi Client".
+        Python 2. The default name is "RtMidiIn Client".
 
         Note: with some APIs (e.g. ALSA), the client name is set by the first
         ``MidiIn`` *or* ``MidiOut`` created by your program and does not change
@@ -207,7 +207,7 @@ cdef class MidiIn:
         1024.
 
         """
-        self.thisptr = new RtMidiIn(rtapi, _to_bytes(name or "RtMidi Client"),
+        self.thisptr = new RtMidiIn(rtapi, _to_bytes(name or "RtMidiIn Client"),
             queue_size_limit)
         self._callback = None
 
@@ -457,15 +457,15 @@ cdef class MidiOut:
         You can optionally pass an name for the MIDI client with the ``name``
         keyword or second positional argument. Names with non-ASCII characters
         in them have to be passed as unicode or utf-8 encoded strings in
-        Python 2. The default name is "RtMidi Client".
+        Python 2. The default name is "RtMidiOut Client".
 
         Note: with some APIs (e.g. ALSA), the client name is set by the first
         ``MidiIn`` *or* ``MidiOut`` created by your program and does not change
-        until *all* ``MidiIn`` and ``MidiOut`` instances are deleted and a then
+        until *all* ``MidiIn`` and ``MidiOut`` instances are deleted and then
         a new one is created.
 
         """
-        self.thisptr = new RtMidiOut(rtapi, _to_bytes(name or "RtMidi Client"))
+        self.thisptr = new RtMidiOut(rtapi, _to_bytes(name or "RtMidiOut Client"))
 
     def __dealloc__(self):
         del self.thisptr
