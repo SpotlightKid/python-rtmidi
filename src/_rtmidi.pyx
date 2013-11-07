@@ -69,9 +69,9 @@ instance.
 """
 
 __all__ = [
-    'MidiIn',
-    'MidiOut',
-    'get_compiled_api'
+    'API_UNSPECIFIED', 'API_MACOSX_CORE', 'API_LINUX_ALSA', 'API_UNIX_JACK',
+    'API_WINDOWS_MM', 'API_WINDOWS_KS', 'API_RTMIDI_DUMMY',
+    'MidiIn', 'MidiOut', 'get_compiled_api'
 ]
 
 import sys
