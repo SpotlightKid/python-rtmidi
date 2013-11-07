@@ -268,7 +268,7 @@ cdef class MidiIn:
         else:
             return None
 
-    def get_ports(self, encoding='utf-8'):
+    def get_ports(self, encoding='auto'):
         """Return list of names of available MIDI intput ports.
 
         The list index of each port name corresponds to its port number.
