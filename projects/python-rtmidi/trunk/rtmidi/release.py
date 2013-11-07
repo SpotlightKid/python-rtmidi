@@ -71,13 +71,13 @@ RtMidi_ documentation.
 """
 
 name = 'python-rtmidi'
-version = '0.4.1b'
+version = '0.4.2b'
 description = __doc__.splitlines()
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
 author_email = 'chris@chrisarndt.de'
 url = 'http://chrisarndt.de/projects/%s/' % name
-repository = 'svn://svn.chrisarndt.de/projects/python-rtmidi/trunk'
+repository = 'svn://svn.chrisarndt.de/projects/%s/trunk' % name
 download_url = url + 'download/'
 license = 'MIT License'
 platforms = 'POSIX, Windows, MacOS X'
