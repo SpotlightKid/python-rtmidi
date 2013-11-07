@@ -13,6 +13,7 @@ try:
 except NameError:
     # Python 3
     raw_input = input
+    StandardError = Exception
 
 apis = {
     API_MACOSX_CORE:  "OS X CoreMIDI",
@@ -38,9 +39,8 @@ for api, api_name in sorted(apis.items()):
         for name, class_ in (("input", MidiIn), ("output", MidiOut)):
             try:
                 midi = class_(api)
-                ports = midi.get_ports(encoding='latin1'
-                    if sys.platform.startswith('win') else 'utf-8')
-            except RuntimeError as exc:
+                ports = midi.get_ports()
+            except StandardError as exc:
                 print("Could not probe MIDI %s ports: %s" % (name, exc))
                 continue
 
