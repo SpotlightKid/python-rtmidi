@@ -74,6 +74,8 @@ __all__ = [
     'get_compiled_api'
 ]
 
+import sys
+
 from libcpp cimport bool
 from libcpp.string cimport string
 from libcpp.vector cimport vector
@@ -238,22 +240,28 @@ cdef class MidiIn:
 
         return self.thisptr.getPortCount()
 
-    def get_port_name(self, unsigned int port, encoding='utf-8'):
+    def get_port_name(self, unsigned int port, encoding='auto'):
         """Return name of given port number.
 
         The port name is decoded to a (unicode) string with the encoding given
-        by ``encoding`` (defaults to ``'utf-8'``). If ``encoding`` is ``None``,
-        return name un-decoded, i.e. as type ``str`` in Python 2 or ``bytes``
-        in Python 3.
+        by ``encoding``. If ``encoding`` is ``"auto"`` (the default) then an
+        appropriate encoding is chosen based on the system and the used
+        backend API. If ``encoding`` is ``None``, the names are returned
+        un-decoded, i.e. as type ``str`` in Python 2 or ``bytes`` in Python 3.
 
         """
         cdef string name = self.thisptr.getPortName(port)
 
         if len(name):
             if encoding:
-                # XXX: kludge, there seems to be a bug in RtMidi as it returns
-                # improperly encoded strings from getPortName with some
-                # backends, so we just ignore decoding errors
+                if encoding == 'auto':
+                    if sys.platform.startswith('win'):
+                        encoding = 'latin1'
+                    elif (self.get_current_api() == API_MACOSX_CORE and
+                            sys.platform == 'darwin'):
+                        encoding = 'macroman'
+                    else:
+                        encoding = 'utf-8'
                 return name.decode(encoding, errors="ignore")
             else:
                 return name
@@ -266,9 +274,10 @@ cdef class MidiIn:
         The list index of each port name corresponds to its port number.
 
         The port names are decoded to (unicode) strings with the encoding given
-        by ``encoding`` (defaults to ``'utf-8'``). If ``encoding`` is ``None``,
-        the names are returned un-decoded, i.e. as type ``str`` in Python 2
-        or ``bytes`` in Python 3.
+        by ``encoding``. If ``encoding`` is ``"auto"`` (the default) then an
+        appropriate encoding is chosen based on the system and the used
+        backend API. If ``encoding`` is ``None``, the names are returned
+        un-decoded, i.e. as type ``str`` in Python 2 or ``bytes`` in Python 3.
 
         """
         return [self.get_port_name(p, encoding=encoding)
@@ -486,37 +495,44 @@ cdef class MidiOut:
         """Return the number of available MIDI output ports."""
         return self.thisptr.getPortCount()
 
-    def get_port_name(self, unsigned int port, encoding='utf-8'):
+    def get_port_name(self, unsigned int port, encoding='auto'):
         """Return name of given port number.
 
         The port name is decoded to a (unicode) string with the encoding given
-        by ``encoding`` (defaults to ``'utf-8'``). If ``encoding`` is ``None``,
-        return name un-decoded, i.e. as type ``str`` in Python 2 or ``bytes``
-        in Python 3.
+        by ``encoding``. If ``encoding`` is ``"auto"`` (the default) then an
+        appropriate encoding is chosen based on the system and the used
+        backend API. If ``encoding`` is ``None``, the names are returned
+        un-decoded, i.e. as type ``str`` in Python 2 or ``bytes`` in Python 3.
 
         """
         cdef string name = self.thisptr.getPortName(port)
 
         if len(name):
             if encoding:
-                # XXX: kludge, there seems to be a bug in RtMidi as it returns
-                # improperly encoded strings from getPortName with some
-                # backends, so we just ignore decoding errors
+                if encoding == 'auto':
+                    if sys.platform.startswith('win'):
+                        encoding = 'latin1'
+                    elif (self.get_current_api() == API_MACOSX_CORE and
+                            sys.platform == 'darwin'):
+                        encoding = 'macroman'
+                    else:
+                        encoding = 'utf-8'
                 return name.decode(encoding, errors="ignore")
             else:
                 return name
         else:
             return None
 
-    def get_ports(self, encoding='utf-8'):
+    def get_ports(self, encoding='auto'):
         """Return list of names of available MIDI output ports.
 
         The list index of each port name corresponds to its port number.
 
         The port names are decoded to (unicode) strings with the encoding given
-        by ``encoding`` (defaults to ``'utf-8'``). If ``encoding`` is ``None``,
-        the names are returned un-decoded, i.e. as type ``str`` in Python 2
-        or ``bytes`` in Python 3.
+        by ``encoding``. If ``encoding`` is ``"auto"`` (the default) then an
+        appropriate encoding is chosen based on the system and the used
+        backend API. If ``encoding`` is ``None``, the names are returned
+        un-decoded, i.e. as type ``str`` in Python 2 or ``bytes`` in Python 3.
 
         """
         return [self.get_port_name(p, encoding=encoding)
