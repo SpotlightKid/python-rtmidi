@@ -13,22 +13,31 @@ from setuptools import setup
 
 from distutils.extension import Extension
 from distutils.version import LooseVersion as V
+from distutils.dist import DistributionMetadata
 
-SRC_DIR = "src"
-PKG_DIR = "rtmidi"
 # For compiling python-rtmidi for Windows, get Microsoft Visual Studio
 # Express (for Python <= 3.2 get the 2008 Edition, for Python 3.3 get
 # the 2010 edition!), install it and adapt the directory below to the
 # location of WinMM.Lib
 WINLIB_DIR = r'C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib'
+
 # Also adapt the following path to the directory containing the Microsoft
 # SDK headers or copy 'ks.h' and 'ksmedia.h' to the 'src' directory.
 WININC_DIR = r'C:\Program Files\Microsoft SDKs\Windows\v6.0A\Include'
 
+# source package structure
+SRC_DIR = "src"
+PKG_DIR = "rtmidi"
+
+# Add custom distribution meta-data, avoids warning when running setup
+DistributionMetadata.repository = None
+
+# read meta-data from release.py
 setup_opts = {}
 release_info = join(PKG_DIR, 'release.py')
 exec(compile(open(release_info).read(), release_info, 'exec'), {}, setup_opts)
 
+# test for required Cython version
 try:
     import Cython
     cython_ver = V(Cython.__version__)
@@ -51,7 +60,7 @@ Install Cython from https://pypi.python.org/pypi/Cython or use the precompiled
 
     sources = [join(SRC_DIR, "_rtmidi.cpp"), join(SRC_DIR, "RtMidi.cpp")]
 
-# We monkey-patch the class used by the setuptools 'egg_info' command, so
+# Monkey-patch the class used by the setuptools 'egg_info' command, so
 # is does not collect files through VC plugins, because the package file
 # finder function of setuptools.svn_utils is not Python 3 compatible.
 #
@@ -76,12 +85,11 @@ setuptools.command.egg_info.manifest_maker = manifest_maker_novc
 
 # Add our own custom distutils command to create *.rst files from templates
 # Template files are listed in setup.cfg
-from setuptools.command.build_ext import build_ext
 from fill_template import FillTemplate
 
 setup_opts.setdefault('cmdclass', {})['filltmpl'] = FillTemplate
 
-
+# Set up options for compiling the _rtmidi Extension
 define_macros = [('__PYX_FORCE_INIT_THREADS', None)]
 include_dirs = [SRC_DIR]
 libraries = []
@@ -149,6 +157,7 @@ else:
         "Continuing and hoping for the best...\n" %
         sys.platform)
 
+# define _rtmidi Extension
 extensions = [
     Extension(
         PKG_DIR + "._rtmidi",
@@ -163,6 +172,7 @@ extensions = [
     )
 ]
 
+# Finally, set up our distribution
 setup(
     packages = ['rtmidi', 'osc2midi'],
     package_dir = {'osc2midi': 'examples/osc2midi'},
@@ -175,6 +185,9 @@ setup(
             'osc2midi = osc2midi.main:main [osc2midi]',
         ]
     },
+    # On systems without a RTC (e.g. Raspberry Pi), system time will be the 
+    # Unix epoch when booted without network connection, which makes zip fail,
+    # because it does not support dates < 1980-01-01. 
     zip_safe=False,
     **setup_opts
 )

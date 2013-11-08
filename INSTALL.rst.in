@@ -46,9 +46,9 @@ Of course, you can also download the source distribution package as a Zip
 archive or tarball, extract it and install using the common ``distutils``
 commands, e.g.::
 
-    $ wget %(download_url)spython-rtmidi-%(version)s.tar.gz
-    $ tar -xzf python-rtmidi-%(version)s.tar.gz
-    $ cd python-rtmidi-%(version)s
+    $ wget ${download_url}python-rtmidi-${version}.tar.gz
+    $ tar -xzf python-rtmidi-${version}.tar.gz
+    $ cd python-rtmidi-${version}
     $ python setup.py install
 
 If you do not have setuptools_ installed yet, the last command should download
@@ -83,7 +83,7 @@ or the Git repository::
 
 Install **python-rtmidi**::
 
-    (rtmidi)$ svn co %(repository)s python-rtmidi
+    (rtmidi)$ svn co ${repository} python-rtmidi
     (rtmidi)$ cd python-rtmidi
     (rtmidi)$ python setup.py install
 
@@ -97,9 +97,9 @@ platform-specific hints below.
 Only if you want to change the Cython source file ``_rtmidi.pyx`` or want to
 recompile ``_rtmidi.cpp`` with a newer Cython version, you'll need to install
 Cython >= 0.17. The ``_rtmidi.cpp`` file in the current source distribution
-(version %(version)s) is tagged with:
+(version ${version}) is tagged with:
 
-    %(cpp_info)s
+    ${cpp_info}
 
 RtMidi (and therefore **python-rtmidi**) supports several low-level MIDI
 libraries on different operating systems. Only one of the available options

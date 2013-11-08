@@ -1,34 +1,32 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Fill placeholders in text file with release data."""
+"""Custom distutils command to fill placeholders in text files with release 
+meta-data.
 
-import os
-import sys
-import time
+"""
 
 from os.path import join
+from string import Template
 
 try:
     basestring
 except:
     basestring = str
 
-from setuptools import Command
+from distutils.core import Command
+from distutils.dist import DistributionMetadata
 from distutils.log import error, info
 from distutils.util import split_quoted
 
-def get_setup_opts():
-    setup_opts = {}
-    release_info = join("rtmidi", 'release.py')
-    exec(compile(open(release_info).read(), release_info, 'exec'), {}, setup_opts)
-    setup_opts['cpp_info'] = open(join("src", '_rtmidi.cpp')).readline().strip()
-    return setup_opts
+
+DistributionMetadata.templates = None
+
 
 class FillTemplate(Command):
     """Custom distutils command to fill text templates with release meta data.
     """
 
-    description = "Fills placeholders in documentation text file templates"
+    description = "Fill placeholders in documentation text file templates"
 
     user_options = [
         ('templates=', None, "Template text files to fill")
@@ -42,20 +40,34 @@ class FillTemplate(Command):
         if isinstance(self.templates, basestring):
             self.templates = split_quoted(self.templates)
 
+        self.templates += getattr(self.distribution.metadata, 'templates', None) or []
+        
         for tmpl in self.templates:
             if not tmpl.endswith(self.template_ext):
                 raise ValueError("Template file '%s' does not have expected "
                     "extension '%s'." % (tmpl, self.template_ext))
 
     def run(self):
-        setup_opts = get_setup_opts()
-        for infilename in self.templates:
-            info("Reading template '%s'...", infilename)
+        metadata = self.get_metadata()
+        
+        for infilename in self.templates:            
             try:
+                info("Reading template '%s'...", infilename)
                 with open(infilename) as infile:
+                    tmpl = Template(infile.read())
                     outfilename = infilename.rstrip(self.template_ext)
+                    
                     info("Writing filled template to '%s'.", outfilename)
                     with open(outfilename, 'w') as outfile:
-                        outfile.write(infile.read() % setup_opts)
+                        outfile.write(tmpl.safe_substitute(metadata))
             except:
                 error("Could not open template '%s'.", infilename)
+
+    def get_metadata(self):
+        data = dict()
+        for attr in self.distribution.metadata.__dict__:
+            if not callable(attr):
+                data[attr] = getattr(self.distribution.metadata, attr)
+        
+        data['cpp_info'] = open(join("src", '_rtmidi.cpp')).readline().strip()
+        return data
