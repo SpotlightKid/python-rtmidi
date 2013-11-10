@@ -14,16 +14,17 @@ NOTE_OFF = 0x80
 NOTE_ON = 0x90
 # 1001cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
 
-POLYPHONIC_PRESSURE = AFTERTOUCH = 0xA0
+POLYPHONIC_PRESSURE = POLY_PRESSURE = 0xA0
 # 1010cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
 
-CONTROLLER_CHANGE = 0xB0 # see Channel Mode Messages!!!
+ # see Channel Mode Messages for Controller Numbers
+CONTROLLER_CHANGE = CONTROL_CHANGE = 0xB0
 # 1011cccc 0ccccccc 0vvvvvvv (channel, controller, value)
 
 PROGRAM_CHANGE = 0xC0
 # 1100cccc 0ppppppp (channel, program)
 
-CHANNEL_PRESSURE = 0xD0
+CHANNEL_PRESSURE = MONO_PRESSURE = 0xD0
 # 1101cccc 0ppppppp (channel, pressure)
 
 PITCH_BEND = 0xE0
@@ -37,22 +38,22 @@ PITCH_BEND = 0xE0
 
 # High resolution continuous controllers (MSB)
 
-BANK_SELECT = 0x00
-MODULATION_WHEEL = 0x01
-BREATH_CONTROLLER = 0x02
-FOOT_CONTROLLER = 0x04
-PORTAMENTO_TIME = 0x05
+BANK_SELECT = BANK_SELECT_MSB = 0x00
+MODULATION_WHEEL = MODULATION_WHEEL_MSB = 0x01
+BREATH_CONTROLLER = BREATH_CONTROLLER_MSB = 0x02
+FOOT_CONTROLLER = FOOT_CONTROLLER_MSB = 0x04
+PORTAMENTO_TIME = PORTAMENTO_TIME_MSB = 0x05
 DATA_ENTRY = DATA_ENTRY_MSB = 0x06
-CHANNEL_VOLUME = 0x07
-BALANCE = 0x08
-PAN = 0x0A
-EXPRESSION_CONTROLLER = 0x0B
-EFFECT_CONTROL_1 = 0x0C
-EFFECT_CONTROL_2 = 0x0D
-GENERAL_PURPOSE_CONTROLLER_1 = 0x10
-GENERAL_PURPOSE_CONTROLLER_2 = 0x11
-GENERAL_PURPOSE_CONTROLLER_3 = 0x12
-GENERAL_PURPOSE_CONTROLLER_4 = 0x13
+CHANNEL_VOLUME = CHANNEL_VOLUME_MSB = 0x07
+BALANCE = BALANCE_MSB = 0x08
+PAN = PAN_MSB = 0x0A
+EXPRESSION_CONTROLLER = EXPRESSION_CONTROLLER_MSB = 0x0B
+EFFECT_CONTROL_1 = EFFECT_CONTROL_1_MSB = 0x0C
+EFFECT_CONTROL_2 = EFFECT_CONTROL_2_MSB = 0x0D
+GENERAL_PURPOSE_CONTROLLER_1 = GENERAL_PURPOSE_CONTROLLER_1_MSB = 0x10
+GENERAL_PURPOSE_CONTROLLER_2 = GENERAL_PURPOSE_CONTROLLER_2_MSB = 0x11
+GENERAL_PURPOSE_CONTROLLER_3 = GENERAL_PURPOSE_CONTROLLER_3_MSB = 0x12
+GENERAL_PURPOSE_CONTROLLER_4 = GENERAL_PURPOSE_CONTROLLER_4_MSB = 0x13
 
 # High resolution continuous controllers (LSB)
 
@@ -75,34 +76,35 @@ GENERAL_PURPOSE_CONTROLLER_4_LSB = 0x33
 
 # Switches
 
-SUSTAIN_ONOFF = 0x40
-PORTAMENTO_ONOFF = 0x41
-SOSTENUTO_ONOFF = 0x42
-SOFT_PEDAL_ONOFF = 0x43
-LEGATO_ONOFF = 0x44
-HOLD_2_ONOFF = 0x45
+# off: value <= 63, on: value >= 64
+SUSTAIN = SUSTAIN_ONOFF = 0x40
+PORTAMENTO = PORTAMENTO_ONOFF = 0x41
+SOSTENUTO = SOSTENUTO_ONOFF = 0x42
+SOFT_PEDAL = SOFT_PEDAL_ONOFF = 0x43
+LEGATO = LEGATO_ONOFF = 0x44
+HOLD_2 = HOLD_2_ONOFF = 0x45
 
 # Low resolution continuous controllers
 
-# TG: Sound Variation; FX: Exciter On/Off
+# Sound Variation; FX: Exciter On/Off
 SOUND_CONTROLLER_1 = 0x46
-# TG: Harmonic Content; FX: Compressor On/Off
+# Harmonic Content; FX: Compressor On/Off
 SOUND_CONTROLLER_2 = 0x47
-# TG: Release Time; FX: Distortion On/Off
+# Release Time; FX: Distortion On/Off
 SOUND_CONTROLLER_3 = 0x48
-# TG: Attack Time; FX: EQ On/Off
+# Attack Time; FX: EQ On/Off
 SOUND_CONTROLLER_4 = 0x49
-# TG: Brightness; FX: Expander On/Off
+# Brightness; FX: Expander On/Off
 SOUND_CONTROLLER_5 = 0x4A
-# TG: Undefined; FX: Reverb On/Off
+# Decay Time; FX: Reverb On/Off
 SOUND_CONTROLLER_6 = 0x4B
-# TG: Undefined; FX: Delay On/Off
+# Vibrato Rate; FX: Delay On/Off
 SOUND_CONTROLLER_7 = 0x4C
-# TG: Undefined; FX: Pitch Transpose On/Off
+# Vibrato Depth; FX: Pitch Transpose On/Off
 SOUND_CONTROLLER_8 = 0x4D
-# TG: Undefined; FX: Flange/Chorus On/Off
+# Vibrato Delay; FX: Flange/Chorus On/Off
 SOUND_CONTROLLER_9 = 0x4E
-# TG: Undefined; FX: Special Effects On/Off
+# Undefined; FX: Special Effects On/Off
 SOUND_CONTROLLER_10 = 0x4F
 GENERAL_PURPOSE_CONTROLLER_5 = 0x50
 GENERAL_PURPOSE_CONTROLLER_6 = 0x51
@@ -110,16 +112,17 @@ GENERAL_PURPOSE_CONTROLLER_7 = 0x52
 GENERAL_PURPOSE_CONTROLLER_8 = 0x53
 # PTC, 0vvvvvvv is the source Note number
 PORTAMENTO_CONTROL = PTC = 0x54
-# Ext. Effects Depth
-EFFECTS_1 = 0x5B
-# Tremelo Depth
-EFFECTS_2 = 0x5C
-# Chorus Depth
-EFFECTS_3 = 0x5D
-# Celeste Depth
-EFFECTS_4 = 0x5E
-# Phaser Depth
-EFFECTS_5 = 0x5F
+HIGH_RESOLUTION_VELOCITY_PREFIX = 0x58
+# Reverb Send Level, formerly Ext. Effects Depth
+EFFECTS_1 = EFFECTS_1_DEPTH = 0x5B
+# formerly Tremelo Depth
+EFFECTS_2 = EFFECTS_2_DEPTH = 0x5C
+# Chorus Send Level, formerly Chorus Depth
+EFFECTS_3 = EFFECTS_3_DEPTH = 0x5D
+# formerly Celeste(Detune) Depth
+EFFECTS_4 = EFFECTS_4_DEPTH = 0x5E
+# formerly Phaser Depth
+EFFECTS_5 = EFFECTS_5_DEPTH = 0x5F
 # controller value byte should be 0
 DATA_INCREMENT = 0x60
 # controller value byte should be 0
@@ -131,20 +134,25 @@ RPN_MSB = REGISTERED_PARAMETER_NUMBER_MSB = 0x65
 
 # Channel Mode messages
 
+# controller value byte should be 0
 ALL_SOUND_OFF = 0x78
+# controller value byte should be 0
 RESET_ALL_CONTROLLERS = 0x79
-LOCAL_CONTROL_ONOFF = 0x7A
+# 0 = off, 127 = on
+LOCAL_CONTROL = LOCAL_CONTROL_ONOFF = 0x7A
+# controller value byte should be 0
 ALL_NOTES_OFF = 0x7B
-# also causes ANO
+# controller value byte should be 0, also causes ANO
 OMNI_MODE_OFF = 0x7C
-# also causes ANO
+# controller value byte should be 0, also causes ANO
 OMNI_MODE_ON = 0x7D
 # Mono Mode on / Poly Off; also causes ANO
 # 1011nnnn 01111110 0000vvvv
 # vvvv > 0 : Number of channels to use (Omni Off).
 # vvvv = 0 : Use all available channels (Omni On)
 MONO_MODE_ON = 0x7E
-# Poly Mode On / Mono Off; also causes ANO
+# Poly Mode On / Mono Off
+# controller value byte should be 0, also causes ANO
 POLY_MODE_ON = 0x7F
 
 
@@ -154,8 +162,9 @@ POLY_MODE_ON = 0x7F
 # 11110000 0iiiiiii 0ddddddd ... 11110111
 SYSTEM_EXCLUSIVE = 0xF0
 
+# MIDI Time Code Quarter Frame
 # 11110001
-MIDI_TIME_CODE = MTC = 0xF1 # MIDI Time Code Quarter Frame
+MIDI_TIME_CODE = MTC = 0xF1
 
 # 11110010 0vvvvvvv 0wwwwwww (lo-position, hi-position)
 SONG_POSITION_POINTER = 0xF2
@@ -170,7 +179,7 @@ SONG_SELECT = 0xF3
 #UNDEFINED = 0xF5
 
 # 11110110
-TUNING_REQUEST = 0xF6
+TUNING_REQUEST = TUNE_REQUEST = 0xF6
 
 # 11110111 # End of system exclusive
 END_OF_EXCLUSIVE = 0xF7 # terminator
