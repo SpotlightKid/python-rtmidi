@@ -4,6 +4,16 @@ Changelog
 For details and minor changes, please see the `version control log messages
 <http://trac.chrisarndt.de/code/log/projects/python-rtmidi/trunk>`_.
 
+
+2013-11-07 version 0.4.3b1
+--------------------------
+
+Building:
+  * Add numeric suffix to version number to comply with PEP 440.
+  * Ignore failure to import ``fill_template`` from ``setup.py`` for installing
+    from source package va pip or easy_install.
+
+
 2013-11-07 version 0.4.2b
 -------------------------
 
