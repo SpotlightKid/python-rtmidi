@@ -22,6 +22,7 @@ If you have all the dependencies, you should be able to install the package
 with pip_ or ``easy_install`` (from setuptools_)::
 
     $ pip install --pre python-rtmidi
+
 or, if you prefer ``easy_install``::
 
     $ easy_install python-rtmidi
