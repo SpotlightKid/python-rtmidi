@@ -11,9 +11,11 @@ For details and minor changes, please see the `version control log messages
 Building:
   * Add numeric suffix to version number to comply with PEP 440.
   * Add missing ``fill_template.py`` to source distribution.
+  * Set default setuptools version in ``ez_setup.py`` to 1.3.2, which
+    contains fix for bug #99 mentioned below.
 
 Documentation:
-  * Add note to installation guide about required ``-pre`` option with pip.
+  * Add note to installation guide about required ``--pre`` option with pip.
 
 
 2013-11-07 version 0.4.2b
