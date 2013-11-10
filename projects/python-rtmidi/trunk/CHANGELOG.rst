@@ -10,8 +10,10 @@ For details and minor changes, please see the `version control log messages
 
 Building:
   * Add numeric suffix to version number to comply with PEP 440.
-  * Ignore failure to import ``fill_template`` from ``setup.py`` for installing
-    from source package va pip or easy_install.
+  * Add missing ``fill_template.py`` to source distribution.
+
+Documentation:
+  * Add note to installation guide about required ``-pre`` option with pip.
 
 
 2013-11-07 version 0.4.2b
