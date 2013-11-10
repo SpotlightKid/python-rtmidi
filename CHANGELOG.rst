@@ -5,7 +5,7 @@ For details and minor changes, please see the `version control log messages
 <http://trac.chrisarndt.de/code/log/projects/python-rtmidi/trunk>`_.
 
 
-2013-11-07 version 0.4.3b1
+2013-11-10 version 0.4.3b1
 --------------------------
 
 Building:
