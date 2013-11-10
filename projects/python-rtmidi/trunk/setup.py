@@ -62,14 +62,9 @@ Install Cython from https://pypi.python.org/pypi/Cython or use the precompiled
 
 # Add our own custom distutils command to create *.rst files from templates
 # Template files are listed in setup.cfg
-#
-# If importing fails, silently ignore it, so that source distributions can
-# still be successfully installed using easy_install or pip
-try:
-    from fill_template import FillTemplate
-    setup_opts.setdefault('cmdclass', {})['filltmpl'] = FillTemplate
-except ImportError:
-    pass
+from fill_template import FillTemplate
+
+setup_opts.setdefault('cmdclass', {})['filltmpl'] = FillTemplate
 
 # Monkey-patch the class used by the setuptools 'egg_info' command, so
 # is does not collect files through VC plugins, because the package file
