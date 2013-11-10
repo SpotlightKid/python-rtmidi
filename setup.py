@@ -60,6 +60,17 @@ Install Cython from https://pypi.python.org/pypi/Cython or use the precompiled
 
     sources = [join(SRC_DIR, "_rtmidi.cpp"), join(SRC_DIR, "RtMidi.cpp")]
 
+# Add our own custom distutils command to create *.rst files from templates
+# Template files are listed in setup.cfg
+#
+# If importing fails, silently ignore it, so that source distributions can
+# still be successfully installed using easy_install or pip
+try:
+    from fill_template import FillTemplate
+    setup_opts.setdefault('cmdclass', {})['filltmpl'] = FillTemplate
+except ImportError:
+    pass
+
 # Monkey-patch the class used by the setuptools 'egg_info' command, so
 # is does not collect files through VC plugins, because the package file
 # finder function of setuptools.svn_utils is not Python 3 compatible.
@@ -82,12 +93,6 @@ class manifest_maker_novc(setuptools.command.egg_info.manifest_maker):
 
 setuptools.command.egg_info.manifest_maker = manifest_maker_novc
 # end of hack
-
-# Add our own custom distutils command to create *.rst files from templates
-# Template files are listed in setup.cfg
-from fill_template import FillTemplate
-
-setup_opts.setdefault('cmdclass', {})['filltmpl'] = FillTemplate
 
 # Set up options for compiling the _rtmidi Extension
 define_macros = [('__PYX_FORCE_INIT_THREADS', None)]
@@ -185,9 +190,9 @@ setup(
             'osc2midi = osc2midi.main:main [osc2midi]',
         ]
     },
-    # On systems without a RTC (e.g. Raspberry Pi), system time will be the 
+    # On systems without a RTC (e.g. Raspberry Pi), system time will be the
     # Unix epoch when booted without network connection, which makes zip fail,
-    # because it does not support dates < 1980-01-01. 
+    # because it does not support dates < 1980-01-01.
     zip_safe=False,
     **setup_opts
 )
