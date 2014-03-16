@@ -7,17 +7,17 @@
 Example configuration (in YAML syntax)::
 
     - name: My Backingtracks
-      description: Play audio file with filename matching <data1>-playback.wav
+      description: Play audio file with filename matching <data1>-playback.mp3
         when program change on channel 16 is received
       status: programchange
       channel: 16
-      command: aplay %(data1)03i-playback.wav
+      command: plaympeg %(data1)03i-playback.mp3
     - name: My Lead Sheets
       description: Open PDF with filename matching <data2>-sheet.pdf
         when control change 14 on channel 16 is received
       status: controllerchange
       channel: 16
-      data: 14 g
+      data: 14
       command: evince %(data2)03i-sheet.pdf
 
 """
