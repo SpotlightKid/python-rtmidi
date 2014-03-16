@@ -93,8 +93,8 @@ def main(args=None):
     """Main program function.
 
     Parses command line (parsed via ``args`` or from ``sys.argv``), detects
-    and optionally lists MIDI output ports, opens given MIDI ouput port,
-    assmbles list of sysex files and calls ``send_sysex_file`` on each of them.
+    and optionally lists MIDI output ports, opens given MIDI output port,
+    assembles list of sysex files and calls ``send_sysex_file`` on each of them.
 
     """
     parser = argparse.ArgumentParser(description=__doc__)
