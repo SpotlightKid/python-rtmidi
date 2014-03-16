@@ -383,6 +383,7 @@ cdef class MidiIn:
 
         self.thisptr.openVirtualPort(
             _to_bytes(name or "RtMidi Virtual Input"))
+        return self
 
     def close_port(self):
         """Close the MIDI input port opened via ``open_port``.
@@ -659,6 +660,7 @@ cdef class MidiOut:
 
         self.thisptr.openVirtualPort(
             _to_bytes(name or "RtMidi Virtual Output"))
+        return self
 
     def close_port(self):
         """Close the output port opened via ``open_port``.
