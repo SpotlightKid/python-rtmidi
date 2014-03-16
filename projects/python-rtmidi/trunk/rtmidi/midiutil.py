@@ -45,7 +45,7 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
         A MIDI port number or (substring of) a port name or ``None``.
 
         Available ports are enumerated starting from zero separately for input
-        and output ports. If onyl a substring of a port name is given, the
+        and output ports. If only a substring of a port name is given, the
         first matching port is used.
 
     ``type_``
