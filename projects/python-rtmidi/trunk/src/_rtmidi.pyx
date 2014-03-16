@@ -217,7 +217,7 @@ cdef class MidiIn:
     in  them have to be passed as unicode or utf-8 encoded strings in Python 2.
     The default name is ``"RtMidiIn Client"``.
 
-    _note::
+    .. note::
         With some backend APIs (e.g. ALSA), the client name is set by the
         first ``MidiIn`` *or* ``MidiOut`` created by your program and does not
         change until *all* ``MidiIn`` and ``MidiOut`` instances are deleted and
@@ -509,7 +509,7 @@ cdef class MidiOut:
     in them have to be passed as unicode or utf-8 encoded strings in Python 2.
     The default name is ``"RtMidiOut Client"``.
 
-    _note::
+    .. note::
         With some APIs (e.g. ALSA), the client name is set by the first
         ``MidiIn`` *or* ``MidiOut`` created by your program and does not change
         until *all* ``MidiIn`` and ``MidiOut`` instances are deleted and then
