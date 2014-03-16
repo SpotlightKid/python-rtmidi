@@ -71,7 +71,7 @@ RtMidi_ documentation.
 """
 
 name = 'python-rtmidi'
-version = '0.4.3b1'
+version = '0.4.4b1'
 description = __doc__.splitlines()
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
