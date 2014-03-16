@@ -18,10 +18,10 @@ provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
 parameters adapted to the Python PEP-8 conventions and requirements of
 the Python package naming structure. **python-rtmidi** supports Python 2
-(tested with Python 2.7) and Python 3 (3.3).
+(tested with Python 2.7) and Python 3 (3.2, 3.3).
 
 .. note::
-    **python-rtmidi** is currently in **beta-stage**, which means is is
+    **python-rtmidi** is currently in **beta-stage**, which means it is
     published in the hope that other developers try it out and help finding
     bugs, and that its API is not yet finalised. What is there should work
     but is currently only tested thoroughly under Linux ALSA/JACK and less

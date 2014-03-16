@@ -3,7 +3,7 @@ Installation
 
 **python-rtmidi** uses the de-facto standard Python distutils and setuptools_
 based installation mechanism. Since it is a Python C(++)-extension a C++
-compiler and build environment as well as some system-dependant libraries are
+compiler and build environment as well as some system-dependent libraries are
 needed. See "Requirements" below for details.
 
 
