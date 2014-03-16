@@ -5,6 +5,19 @@ For details and minor changes, please see the `version control log messages
 <http://trac.chrisarndt.de/code/log/projects/python-rtmidi/trunk>`_.
 
 
+2014-03-16 version 0.4.4b1 (unreleased)
+---------------------------------------
+
+Fixes:
+  * Synced RtMidi code with latest state of its git repo, which fixed several
+    issues (see https://github.com/thestk/rtmidi/issues?state=closed).
+  * ``MidiIn/Out.open_virtual_port`` returns ``self`` for  context manager
+    support consistent with ``MidiIn/Out.open_port``.
+
+Documentation:
+  * Various docstring consistency improvements and minor fixes.
+
+
 2013-11-10 version 0.4.3b1
 --------------------------
 
