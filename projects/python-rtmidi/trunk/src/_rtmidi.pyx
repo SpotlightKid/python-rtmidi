@@ -37,7 +37,7 @@ Functions
 Classes
 -------
 
-``MidiIn(rtapi=API_UNSPECIFIED, name="RtMidi Client", queue_size_limit=100)``
+``MidiIn(rtapi=API_UNSPECIFIED, name="RtMidi Client", queue_size_limit=1024)``
     Midi input client interface.
 
 ``MidiOut(rtapi=API_UNSPECIFIED, name="RtMidi Client")``
@@ -225,8 +225,9 @@ cdef class MidiIn:
 
     The ``queue_size_limit`` argument specifies the size of the internal ring
     buffer in which incoming MIDI events are placed until retrieved via the
-    ``get_message`` method or passed to a callback function. The default value
-    is ``1024``.
+    ``get_message`` method (i.e. when no callback function is registered).
+    The default value is ``1024`` (overriding the default value ``100`` of the
+    underlying C++ RtMidi library).
 
     """
     cdef RtMidiIn *thisptr
