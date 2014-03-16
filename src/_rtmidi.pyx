@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 #cython: embedsignature=True
 #
 # rtmidi.pyx
@@ -7,17 +8,17 @@
 Overview
 ========
 
-RtMidi is a set of C++ classes which provides a concise and simple,
+**RtMidi** is a set of C++ classes which provides a concise and simple,
 cross-platform API (Application Programming Interface) for realtime MIDI
 input/output across Linux (ALSA & JACK), Macintosh OS X (CoreMIDI & JACK),
 and Windows (Multimedia Library & Kernel Streaming) operating systems.
 
-python-rtmidi is a Python binding for RtMidi implemented with Cython and
+**python-rtmidi** is a Python binding for RtMidi implemented with Cython and
 provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
 parameters adapted to the Python PEP-8 conventions and requirements of
-the Python package naming structure. ``python-rtmidi`` supports Python 2
-(tested with Python 2.7) and Python 3 (3.2).
+the Python package naming structure. **python-rtmidi** supports Python 2
+(tested with Python 2.7) and Python 3 (3.2, 3.3).
 
 
 Public API
@@ -30,7 +31,7 @@ Functions
 ---------
 
 ``get_compiled_api``
-    Return list of MIDI APIs this module supports.
+    Return a list of low-level MIDI backend APIs this module supports.
 
 
 Classes
@@ -47,9 +48,9 @@ Constants
 ---------
 
 These constants are returned by the ``get_compiled_api`` function and the
-``MidiIn.get:current_api`` resp. ``MidiOut.get_current_api`` methods and are
-used to specify the API to use when creating a ``MidiIn`` or `MidiOut``
-instance.
+``MidiIn.get_current_api`` resp. ``MidiOut.get_current_api`` methods and are
+used to specify the low-level MIDI backend API to use when creating a
+``MidiIn`` or `MidiOut`` instance.
 
 ``API_UNSPECIFIED``
     Use first compiled-in API, which has any input resp. output ports
@@ -65,6 +66,32 @@ instance.
     Windows Kernel Streaming
 ``API_RTMIDI_DUMMY``
     RtMidi Dummy (used when no suitable API was found)
+
+
+Usage example
+=============
+
+Here's a short example of how to use **python-rtmidi** to open the first
+available MIDI output port and send a middle C note on MIDI channel 1::
+
+    import time
+    import rtmidi
+
+    midiout = rtmidi.MidiOut()
+    available_ports = midiout.get_ports()
+
+    if available_ports:
+        midiout.open_port(0)
+    else:
+        midiout.open_virtual_port("My virtual output")
+
+    note_on = [0x90, 60, 112] # channel 1, middle C, velocity 112
+    note_off = [0x80, 60, 0]
+    midiout.send_message(note_on)
+    time.sleep(0.5)
+    midiout.send_message(note_off)
+
+    del midiout
 
 """
 
@@ -140,13 +167,14 @@ API_RTMIDI_DUMMY = RTMIDI_DUMMY
 
 cdef void _cb_func(double delta_time, vector[unsigned char] *msg_v,
         void *cb_info) with gil:
+    """Wrapper for a Python callback function for MIDI input."""
     func, data = (<object> cb_info)
     message = [msg_v.at(i) for i in range(msg_v.size())]
     func((message, delta_time), data)
 
 def _to_bytes(name):
-    """Convert a 'unicode' (Python 2) or 'str' (Python 3) object into 'bytes'.
-    """
+    """Convert a unicode (Python 2) or str (Python 3) object into bytes."""
+
     # 'bytes' == 'str' in Python 2 but a separate type in Python 3
     if not isinstance(name, bytes):
         try:
@@ -159,7 +187,7 @@ def _to_bytes(name):
 # Public API
 
 def get_compiled_api():
-    """Return list of MIDI APIs this module supports.
+    """Return a list of low-level MIDI backend APIs this module supports.
 
     Check for support for a particular API by using the ``API_*`` constants in
     the module namespace, i.e.::
@@ -175,8 +203,32 @@ def get_compiled_api():
 
 
 cdef class MidiIn:
-    """Midi input client interface."""
+    """Midi input client interface.
 
+    You can specify the low-level MIDI backend API to use via the ``rtapi``
+    keyword or the first positional argument, passing one of the module-level
+    ``API_*`` constants. You can get a list of compiled-in APIs with the
+    module-level ``get_compiled_api`` function. If you pass ``API_UNSPECIFIED``
+    (the default), the first compiled-in API, which has any input ports
+    available, will be used.
+
+    You can optionally pass a name for the MIDI client with the ``name``
+    keyword or the second positional argument. Names with non-ASCII characters
+    in  them have to be passed as unicode or utf-8 encoded strings in Python 2.
+    The default name is ``"RtMidiIn Client"``.
+
+    _note::
+        With some backend APIs (e.g. ALSA), the client name is set by the
+        first ``MidiIn`` *or* ``MidiOut`` created by your program and does not
+        change until *all* ``MidiIn`` and ``MidiOut`` instances are deleted and
+        then a new one is created.
+
+    The ``queue_size_limit`` argument specifies the size of the internal ring
+    buffer in which incoming MIDI events are placed until retrieved via the
+    ``get_message`` method or passed to a callback function. The default value
+    is ``1024``.
+
+    """
     cdef RtMidiIn *thisptr
     cdef object _callback
 
@@ -184,27 +236,7 @@ cdef class MidiIn:
             unsigned int queue_size_limit=1024):
         """Create a new client instance for MIDI input.
 
-        You can specify the low-level MIDI API to use via the ``rtapi`` keyword
-        or first positional argument using one of the module-level ``API_*``
-        constants. You can get a list of compiled-in APIs with
-        ``get_compiled_api`` function. If you specify ``API_UNSPECIFIED`` (the
-        default), the first compiled-in API, which has any input ports
-        available, will be used.
-
-        You can optionally pass an name for the MIDI client with the ``name``
-        keyword or second positional argument. Names with non-ASCII characters
-        in them have to be passed as unicode or utf-8 encoded strings in
-        Python 2. The default name is "RtMidiIn Client".
-
-        Note: with some APIs (e.g. ALSA), the client name is set by the first
-        ``MidiIn`` *or* ``MidiOut`` created by your program and does not change
-        until *all* ``MidiIn`` and ``MidiOut`` instances are deleted and then
-        a new one is created.
-
-        The ``queue_size_limit`` specifies the size of the internal ring buffer
-        in which incoming MIDI events are placed until retrieved via the
-        ``get_message`` method or a callback function. The default value is
-        1024.
+        See the class docstring for a description of the constructor arguments.
 
         """
         self.thisptr = new RtMidiIn(rtapi, _to_bytes(name or "RtMidiIn Client"),
@@ -222,7 +254,7 @@ cdef class MidiIn:
         self.close_port()
 
     def get_current_api(self):
-        """Return MIDI API used by this instance.
+        """Return the low-level MIDI backend API used by this instance.
 
         Use this by comparing the returned value to the module-level ``API_*``
         constants, e.g.::
@@ -230,7 +262,7 @@ cdef class MidiIn:
             midiin = rtmidi.MidiIn()
 
             if midiin.get_current_api() == rtmidi.API_UNIX_JACK:
-                print "Using JACK API for input."
+                print("Using JACK API for MIDI input.")
 
         """
         return self.thisptr.getCurrentApi()
@@ -241,7 +273,11 @@ cdef class MidiIn:
         return self.thisptr.getPortCount()
 
     def get_port_name(self, unsigned int port, encoding='auto'):
-        """Return name of given port number.
+        """Return the name of the MIDI input port with the given number.
+
+        Ports are numbered from zero, separately for input and output ports.
+        The number of available ports is returned by the ``get_port_count``
+        method.
 
         The port name is decoded to a (unicode) string with the encoding given
         by ``encoding``. If ``encoding`` is ``"auto"`` (the default) then an
@@ -269,7 +305,7 @@ cdef class MidiIn:
             return None
 
     def get_ports(self, encoding='auto'):
-        """Return list of names of available MIDI intput ports.
+        """Return a list of names of available MIDI input ports.
 
         The list index of each port name corresponds to its port number.
 
@@ -286,15 +322,18 @@ cdef class MidiIn:
     def open_port(self, unsigned int port=0, name=None):
         """Open the MIDI input port with the given port number.
 
-        You can optionally pass a name for the RtMidi input port with the
-        ``name`` keyword or second positional argument. Names with non-ASCII
-        characters in them have to be passed as unicode or utf-8 encoded
-        strings in Python 2. The default name is "RtMidi Input".
+        Only one port can be opened per ``MIDIIn`` instance.
 
-        Note: Closing a port and opening it again with a different name does
-        not change the port name. To change the input port name, drop its
-        ``MidiIn`` instance, create a new one and open the port again giving
-        a different name.
+        You can optionally pass a name for the RtMidi input port with the
+        ``name`` keyword or the second positional argument. Names with
+        non-ASCII characters in them have to be passed as unicode or utf-8
+        encoded strings in Python 2. The default name is "RtMidi Input".
+
+        _ note::
+            Closing a port and opening it again with a different name does
+            not change the port name. To change the input port name, drop its
+            ``MidiIn`` instance, create a new one and open the port again
+            giving a different name.
 
         """
         self.thisptr.openPort(port, _to_bytes(name or "RtMidi Input"))
@@ -303,9 +342,19 @@ cdef class MidiIn:
     def open_virtual_port(self, name=None):
         """Open a virtual MIDI input port.
 
+        Only one port can be opened per ``MIDIIn`` instance.
+
         A virtual port is not connected to a physical MIDI device or system
         port when fist opened. You can connect it to another MIDI output with
-        the OS-dependant tools provided the low-level MIDI framework.
+        the OS-dependant tools provided the low-level MIDI framework, e.g.
+        ``aconnect`` for ALSA, ``jack_connect`` for JACK, or the Audio & MIDI
+        settings dialog for CoreMIDI.
+
+        .. note::
+            Virtual ports are not supported by some backend APIs, namely the
+            Windows MultiMedia API. You can use special MIDI drivers like
+            `MIDI Yoke`_ or loopMIDI_ to provide hardware-independent virtual
+            MIDI ports as an alternative.
 
         You can optionally pass a name for the virtual input port with the
         ``name`` keyword or second positional argument. Names with non-ASCII
@@ -321,19 +370,22 @@ cdef class MidiIn:
         Exceptions:
 
         ``NotImplementedError``
-            Raised when trying to open a virtual MIDI port with the
-            Windows MultiMedia API, which doesn't support this.
+            Raised when trying to open a virtual MIDI port with the Windows
+            MultiMedia API, which doesn't support virtual ports.
+
+        .. _midi yoke: http://www.midiox.com/myoke.htm
+        .. _loopmidi: http://www.tobias-erichsen.de/software/loopmidi.html
 
         """
         if self.get_current_api() == API_WINDOWS_MM:
-            raise NotImplementedError("Virtual ports are not supported"
-                " by the Windows MultiMedia API.")
+            raise NotImplementedError("Virtual ports are not supported "
+                "by the Windows MultiMedia API.")
 
         self.thisptr.openVirtualPort(
             _to_bytes(name or "RtMidi Virtual Input"))
 
     def close_port(self):
-        """Close input port opened via ``open_port``.
+        """Close the MIDI input port opened via ``open_port``.
 
         It is safe to call this method repeatedly or if no input port has been
         opened (yet).
@@ -372,7 +424,7 @@ cdef class MidiIn:
         input often. Otherwise you might lose MIDI input because the input
         buffer overflows.
 
-        *Windows note:* the Windows Multi Media API uses fixes size buffers for
+        *Windows note:* the Windows Multi Media API uses fixed size buffers for
         the reception of sysex messages, whose number and size is set at
         compile time. Sysex messages longer than the buffer size can not be
         received properly when using the Windows Multi Media API.
@@ -389,10 +441,10 @@ cdef class MidiIn:
         """Poll for MIDI input.
 
         Checks whether a MIDI event is available in the input buffer and
-        returns a two-element tuple with the MIDI message and and a delta time.
+        returns a two-element tuple with the MIDI message and a delta time.
         The MIDI message is a list of integers representing the data bytes of
         the message, the delta time is a float representing the time in seconds
-        elapsed since the recption of the previous MIDI event.
+        elapsed since the reception of the previous MIDI event.
 
         The function does not block. When no MIDI message is available, it
         return ``None``.
@@ -416,7 +468,7 @@ cdef class MidiIn:
         ``get_message`` method and the second argument is value of the ``data``
         argument passed to this function when the callback is registered.
 
-        Registering a callback function, replaces any previously registered
+        Registering a callback function replaces any previously registered
         callbacḱ.
 
         The callback function is safely removed when the input port is closed
@@ -429,7 +481,7 @@ cdef class MidiIn:
         self.thisptr.setCallback(&_cb_func, <void *>self._callback)
 
     def cancel_callback(self):
-        """Remove callback function for MIDI input.
+        """Remove the registered callback function for MIDI input.
 
         This can be safely called even when no callback function has been
         registered.
@@ -441,28 +493,33 @@ cdef class MidiIn:
 
 
 cdef class MidiOut:
-    """Midi output client interface."""
+    """Midi output client interface.
+
+    You can specify the low-level MIDI backend API to use via the ``rtapi``
+    keyword or the first positional argument, passing one of the module-level
+    ``API_*`` constants. You can get a list of compiled-in APIs with the
+    module-level ``get_compiled_api`` function. If you pass ``API_UNSPECIFIED``
+    (the default), the first compiled-in API, which has any input ports
+    available, will be used.
+
+    You can optionally pass a name for the MIDI client with the ``name``
+    keyword or the second positional argument. Names with non-ASCII characters
+    in them have to be passed as unicode or utf-8 encoded strings in Python 2.
+    The default name is ``"RtMidiOut Client"``.
+
+    _note::
+        With some APIs (e.g. ALSA), the client name is set by the first
+        ``MidiIn`` *or* ``MidiOut`` created by your program and does not change
+        until *all* ``MidiIn`` and ``MidiOut`` instances are deleted and then
+        a new one is created.
+
+    """
     cdef RtMidiOut *thisptr
 
     def __cinit__(self, Api rtapi=UNSPECIFIED, name=None):
         """Create a new client instance for MIDI output.
 
-        You can specify the low-level MIDI API to use via the ``rtapi`` keyword
-        or first positional argument using one of the module-level ``API_*``
-        constants. You can get a list of compiled-in APIs with
-        ``get_compiled_api`` function. If you specify ``API_UNSPECIFIED`` (the
-        default), the first compiled-in API, which has any output ports
-        available, will be used.
-
-        You can optionally pass an name for the MIDI client with the ``name``
-        keyword or second positional argument. Names with non-ASCII characters
-        in them have to be passed as unicode or utf-8 encoded strings in
-        Python 2. The default name is "RtMidiOut Client".
-
-        Note: with some APIs (e.g. ALSA), the client name is set by the first
-        ``MidiIn`` *or* ``MidiOut`` created by your program and does not change
-        until *all* ``MidiIn`` and ``MidiOut`` instances are deleted and then
-        a new one is created.
+        See the class docstring for a description of the constructor arguments.
 
         """
         self.thisptr = new RtMidiOut(rtapi, _to_bytes(name or "RtMidiOut Client"))
@@ -478,7 +535,7 @@ cdef class MidiOut:
         self.close_port()
 
     def get_current_api(self):
-        """Return MIDI API used by this instance.
+        """Return the low-level MIDI backend API used by this instance.
 
         Use this by comparing the returned value to the module-level ``API_*``
         constants, e.g.::
@@ -486,17 +543,22 @@ cdef class MidiOut:
             midiout = rtmidi.MidiOut()
 
             if midiout.get_current_api() == rtmidi.API_UNIX_JACK:
-                print "Using JACK API for output."
+                print("Using JACK API for MIDI output.")
 
         """
         return self.thisptr.getCurrentApi()
 
     def get_port_count(self):
         """Return the number of available MIDI output ports."""
+
         return self.thisptr.getPortCount()
 
     def get_port_name(self, unsigned int port, encoding='auto'):
-        """Return name of given port number.
+        """Return the name of the MIDI output port with the given number.
+
+        Ports are numbered from zero, separately for input and output ports.
+        The number of available ports is returned by the ``get_port_count``
+        method.
 
         The port name is decoded to a (unicode) string with the encoding given
         by ``encoding``. If ``encoding`` is ``"auto"`` (the default) then an
@@ -524,7 +586,7 @@ cdef class MidiOut:
             return None
 
     def get_ports(self, encoding='auto'):
-        """Return list of names of available MIDI output ports.
+        """Return a list of names of available MIDI output ports.
 
         The list index of each port name corresponds to its port number.
 
@@ -542,9 +604,9 @@ cdef class MidiOut:
         """Open the MIDI output port with the given port number.
 
         You can optionally pass a name for the RtMidi output port with the
-        ``name`` keyword or second positional argument. Names with non-ASCII
-        characters in them have to be passed as unicode or utf-8 encoded
-        strings in Python 2. The default name is "RtMidi Output".
+        ``name`` keyword or the second positional argument. Names with
+        non-ASCII characters in them have to be passed as unicode or utf-8
+        encoded strings in Python 2. The default name is "RtMidi Output".
 
         Note: Closing a port and opening it again with a different name does
         not change the port name. To change the output port name, drop its
@@ -560,7 +622,15 @@ cdef class MidiOut:
 
         A virtual port is not connected to a physical MIDI device or system
         port when fist opened. You can connect it to another MIDI input with
-        the OS-dependant tools provided the low-level MIDI framework.
+        the OS-dependant tools provided the low-level MIDI framework, e.g.
+        ``aconnect`` for ALSA, ``jack_connect`` for JACK, or the Audio & MIDI
+        settings dialog for CoreMIDI.
+
+        .. note::
+            Virtual ports are not supported by some backend APIs, namely the
+            Windows MultiMedia API. You can use special MIDI drivers like
+            `MIDI Yoke`_ or loopMIDI_ to provide hardware-independent virtual
+            MIDI ports as an alternative.
 
         You can optionally pass a name for the virtual output port with the
         ``name`` keyword or second positional argument. Names with non-ASCII
@@ -579,21 +649,24 @@ cdef class MidiOut:
             Raised when trying to open a virtual MIDI port with the
             Windows MultiMedia API, which doesn't support this.
 
+        .. _midi yoke: http://www.midiox.com/myoke.htm
+        .. _loopmidi: http://www.tobias-erichsen.de/software/loopmidi.html
+
         """
         if self.get_current_api() == API_WINDOWS_MM:
-            raise NotImplementedError("Virtual ports are not supported"
-                " by the Windows MultiMedia API.")
+            raise NotImplementedError("Virtual ports are not supported "
+                "by the Windows MultiMedia API.")
 
         self.thisptr.openVirtualPort(
             _to_bytes(name or "RtMidi Virtual Output"))
 
     def close_port(self):
-        """Close output port opened via ``open_port``.
+        """Close the output port opened via ``open_port``.
 
         It is safe to call this method repeatedly or if no output port has been
         opened (yet).
 
-        To close a virtual output port opend via ``open_virtual_port``, you
+        To close a virtual output port opened via ``open_virtual_port``, you
         have to delete its ``MidiOut`` instance.
 
         """
