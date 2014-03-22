@@ -306,7 +306,7 @@ cdef class MidiIn:
                         encoding = 'macroman'
                     else:
                         encoding = 'utf-8'
-                return name.decode(encoding, errors="ignore")
+                return name.decode(encoding, "ignore")
             else:
                 return name
         else:
@@ -610,7 +610,7 @@ cdef class MidiOut:
                         encoding = 'macroman'
                     else:
                         encoding = 'utf-8'
-                return name.decode(encoding, errors="ignore")
+                return name.decode(encoding, "ignore")
             else:
                 return name
         else:
