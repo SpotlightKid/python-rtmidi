@@ -108,6 +108,11 @@ from libcpp.string cimport string
 from libcpp.vector cimport vector
 
 
+class RtMidiError(Exception):
+    """Base general RtMidi error."""
+    pass
+
+
 cdef extern from "RtMidi.h":
     # Enums nested in classes are apparently not supported by Cython yet
     # therefore we need to use the following work-around.
@@ -232,6 +237,7 @@ cdef class MidiIn:
     """
     cdef RtMidiIn *thisptr
     cdef object _callback
+    cdef object _port
 
     def __cinit__(self, Api rtapi=UNSPECIFIED, name=None,
             unsigned int queue_size_limit=1024):
@@ -243,6 +249,7 @@ cdef class MidiIn:
         self.thisptr = new RtMidiIn(rtapi, _to_bytes(name or "RtMidiIn Client"),
             queue_size_limit)
         self._callback = None
+        self._port = None
 
     def __dealloc__(self):
         del self.thisptr
@@ -323,7 +330,9 @@ cdef class MidiIn:
     def open_port(self, unsigned int port=0, name=None):
         """Open the MIDI input port with the given port number.
 
-        Only one port can be opened per ``MIDIIn`` instance.
+        Only one port can be opened per ``MidiIn`` instance. An ``RtMidiError``
+        exception is raised if an attempt is made to open a port on a
+        ``MidiIn`` instance, which already opened a (virtual) port.
 
         You can optionally pass a name for the RtMidi input port with the
         ``name`` keyword or the second positional argument. Names with
@@ -337,13 +346,22 @@ cdef class MidiIn:
             giving a different name.
 
         """
+        if self._port == -1:
+            raise RtMidiError("%r already opened virtual input port." % self)
+        elif self._port is not None:
+            raise RtMidiError(
+                "%r already opened input port %i." % (self, self._port))
+
         self.thisptr.openPort(port, _to_bytes(name or "RtMidi Input"))
+        self._port = port
         return self
 
     def open_virtual_port(self, name=None):
         """Open a virtual MIDI input port.
 
-        Only one port can be opened per ``MIDIIn`` instance.
+        Only one port can be opened per ``MidiIn`` instance. An ``RtMidiError``
+        exception is raised if an attempt is made to open a port on a
+        ``MidiIn`` instance, which already opened a (virtual) port.
 
         A virtual port is not connected to a physical MIDI device or system
         port when fist opened. You can connect it to another MIDI output with
@@ -382,8 +400,15 @@ cdef class MidiIn:
             raise NotImplementedError("Virtual ports are not supported "
                 "by the Windows MultiMedia API.")
 
+        if self._port == -1:
+            raise RtMidiError("%r already opened virtual input port." % self)
+        elif self._port is not None:
+            raise RtMidiError(
+                "%r already opened input port %i." % (self, self._port))
+
         self.thisptr.openVirtualPort(
             _to_bytes(name or "RtMidi Virtual Input"))
+        self._port = -1
         return self
 
     def close_port(self):
@@ -398,6 +423,8 @@ cdef class MidiIn:
         have to delete its ``MidiIn`` instance.
 
         """
+        if self._port != -1:
+            self._port = None
         self.cancel_callback()
         self.thisptr.closePort()
 
@@ -517,6 +544,7 @@ cdef class MidiOut:
 
     """
     cdef RtMidiOut *thisptr
+    cdef object _port
 
     def __cinit__(self, Api rtapi=UNSPECIFIED, name=None):
         """Create a new client instance for MIDI output.
@@ -525,6 +553,7 @@ cdef class MidiOut:
 
         """
         self.thisptr = new RtMidiOut(rtapi, _to_bytes(name or "RtMidiOut Client"))
+        self._port = None
 
     def __dealloc__(self):
         del self.thisptr
@@ -605,6 +634,10 @@ cdef class MidiOut:
     def open_port(self, unsigned int port=0, name=None):
         """Open the MIDI output port with the given port number.
 
+        Only one port can be opened per ``MidiOut`` instance. An
+        ``RtMidiError`` exception is raised if an attempt is made to open a
+        port on a ``MidiOut`` instance, which already opened a (virtual) port.
+
         You can optionally pass a name for the RtMidi output port with the
         ``name`` keyword or the second positional argument. Names with
         non-ASCII characters in them have to be passed as unicode or utf-8
@@ -616,7 +649,14 @@ cdef class MidiOut:
         a different name.
 
         """
+        if self._port == -1:
+            raise RtMidiError("%r already opened virtual output port." % self)
+        elif self._port is not None:
+            raise RtMidiError(
+                "%r already opened output port %i." % (self, self._port))
+
         self.thisptr.openPort(port, _to_bytes(name or "RtMidi Output"))
+        self._port = port
         return self
 
     def open_virtual_port(self, name=None):
@@ -627,6 +667,10 @@ cdef class MidiOut:
         the OS-dependant tools provided the low-level MIDI framework, e.g.
         ``aconnect`` for ALSA, ``jack_connect`` for JACK, or the Audio & MIDI
         settings dialog for CoreMIDI.
+
+        Only one port can be opened per ``MidiOut`` instance. An
+        ``RtMidiError`` exception is raised if an attempt is made to open a
+        port on a ``MidiOut`` instance, which already opened a (virtual) port.
 
         .. note::
             Virtual ports are not supported by some backend APIs, namely the
@@ -659,8 +703,15 @@ cdef class MidiOut:
             raise NotImplementedError("Virtual ports are not supported "
                 "by the Windows MultiMedia API.")
 
+        if self._port == -1:
+            raise RtMidiError("%r already opened virtual output port." % self)
+        elif self._port is not None:
+            raise RtMidiError(
+                "%r already opened output port %i." % (self, self._port))
+
         self.thisptr.openVirtualPort(
             _to_bytes(name or "RtMidi Virtual Output"))
+        self._port = -1
         return self
 
     def close_port(self):
@@ -673,6 +724,8 @@ cdef class MidiOut:
         have to delete its ``MidiOut`` instance.
 
         """
+        if self._port != -1:
+            self._port = None
         self.thisptr.closePort()
 
     def send_message(self, message):
