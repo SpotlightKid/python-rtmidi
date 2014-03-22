@@ -12,9 +12,18 @@ Fixes:
   * Synced RtMidi code with latest state of its git repo, which fixed several
     issues (see https://github.com/thestk/rtmidi/issues?state=closed).
   * ``MidiIn/Out.open_virtual_port`` returns ``self`` for context manager
-    support consistent with ``MidiIn/Out.open_port``.
+    support, consistent with ``MidiIn/Out.open_port``.
+  * Fix Python <= 2.6 incompatible encode method call (python-rtmidi
+    officially only supports Python >= 2.7).
+
+Enhancements / Changes:
+  * Raise ``RtMidiError`` exception when trying to open a (virtual) port on a
+    ``MidiIn/Out`` instance that already has an open (virtual) port.
+  * Add some common synonyms for MIDI events and controllers and some source
+    comments about controller usage to ``midiconstants`` module.
 
 Documentation:
+  * Fix and clarify ``queue_size_limit`` default value in docstrings
   * Various docstring consistency improvements and minor fixes.
 
 Examples:
