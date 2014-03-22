@@ -14,7 +14,8 @@ Fixes:
   * ``MidiIn/Out.open_virtual_port`` returns ``self`` for context manager
     support, consistent with ``MidiIn/Out.open_port``.
   * Fix Python <= 2.6 incompatible encode method call (python-rtmidi
-    officially only supports Python >= 2.7).
+    officially only supports Python >= 2.7). Thanks to Michiel Overtoom for
+    reporting this.
 
 Enhancements / Changes:
   * Raise ``RtMidiError`` exception when trying to open a (virtual) port on a
