@@ -1,0 +1,8 @@
+# Example Groove 8
+# 100-120 bpm
+#  1...|...|...|...2...|...|...|...
+36 xs....m...xm...mx.x...x..m.s.... Bassdrum
+38 ....x....x..x.s.....x.......xmmm Snare
+42 xx..x.s.x.sx..s.x.s.x.s.x.s.x.s. Closed Hi-hat
+44 x.x.xx..x...x.x.....x..x..x.x.x. Pedal Hi-hat
+54 msxsmsxsmsxsmsxsmsxsmsxsxsmsxsms Tambourine
