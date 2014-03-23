@@ -143,7 +143,7 @@ if __name__ == "__main__":
     import argparse
 
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument('-b', '--bpm', type=int, default=100,
+    ap.add_argument('-b', '--bpm', type=float, default=100,
         help="Beats per minute (BPM) (default: %(default)s)")
     ap.add_argument('-c', '--channel', type=int, default=10, metavar='CH',
         help="MIDI channel (default: %(default)s)")
@@ -175,7 +175,7 @@ if __name__ == "__main__":
 
     seq = Sequencer(midiout, pattern, args.bpm, args.channel-1)
 
-    print("Playing drum loop at %i BPM, press Control-C to quit." % seq.bpm)
+    print("Playing drum loop at %.1f BPM, press Control-C to quit." % seq.bpm)
 
     try:
         while True:
