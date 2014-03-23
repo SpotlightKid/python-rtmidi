@@ -1,0 +1,6 @@
+# Example Groove 3
+#  |...|...|...|...|...|...|...|...
+44 ..m...s...m...ss..m...s...m...s. Pedal Hi-hat
+42 x...s...x...x...x...s...x...s... Closed Hi-hat
+38 ....x.......x.......x.......x... Snare
+36 x.......x.....m.x.......x.....s. Bassdrum

@@ -1,7 +1,7 @@
 # Example Groove 5
 #  |...|...|...|...|...|...|...|...
-54 --m---s---m---s---m---s---m---s- Tambourine
-51 x---x--s-x--x---x---x---m-sm-x-- Ride
-42 x-xm-xm-xmxmxmxxxm-xm-xm-xx-xmxm Closed Hi-hat
-38 ----x-------x-------x-------x--- Snare
-36 x-------x-s---s-x-------x-----m- Bassdrum
+54 ..m...s...m...s...m...s...m...s. Tambourine
+51 x...x..s.x..x...x...x...m.sm.x.. Ride
+42 x.xm.xm.xmxmxmxxxm.xm.xm.xx.xmxm Closed Hi-hat
+38 ....x.......x.......x.......x... Snare
+36 x.......x.s...s.x.......x.....m. Bassdrum

@@ -12,8 +12,9 @@ plays them back as a MIDI note sequence to a given MIDI output.
 Each line starts with the MIDI note number of a drum sound and is followed a
 sequence of characters indicating at which step this drum should be triggered.
 
-Different characters map to different velocities and a "-" signifies velocity
-zero, i.e. the drum note will not be triggered at this step. Each line must
+Different characters map to different velocities and a ``.`` signifies velocity
+zero, i.e. the drum note will not be triggered at this step. A dash ``-`` is
+a tie, neither a note off nor a new note is send at this step. Each line must
 have the same number of steps. One step is nominally a 1/16 note, but you are
 free to define a pattern with twelve steps and increase the BPM by a factor of
 4/3 to get a triplet-feel.
