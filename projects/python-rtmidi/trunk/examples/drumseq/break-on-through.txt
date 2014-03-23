@@ -1,0 +1,7 @@
+# Break On Through
+# 188 bpm
+#  1...|...|...|...2...|...|...|...
+36 x.......x.......x.......x.....s. Bassdrum
+37 m.....m.....m.......m.....m..... Rimshot
+44 ....m.......m.......m.......m... Pedal Hi-hat
+59 s-s+s-s-s-s-s-s-s-s+s-s-s-s-s-s- Ride 2 (try "Ride 1" (51) as well!)

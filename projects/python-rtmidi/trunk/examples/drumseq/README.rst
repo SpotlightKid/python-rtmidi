@@ -39,8 +39,8 @@ Linux
 Windows
     Builtin
 
-The example grooves (except the classic funky drummer) are taken from the
-article *The Rhythm Method. Effective Drum Programming* in the Sound on Sound
+The patterns whose filenames start with ``example_`` are taken from the article
+*The Rhythm Method. Effective Drum Programming* published by the Sound on Sound
 magazine [2]_.
 
 
