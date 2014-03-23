@@ -17,11 +17,11 @@ from rtmidi.midiutil import open_midiport
 from rtmidi.midiconstants import *
 
 FUNKYDRUMMER = """
-    #  |...|...|...|...
+    #  1...|...|...|...
+    36 x.x.......x..x.. Bassdrum
+    38 ....x..m.m.mx..m Snare
     42 xxxxx.x.xxxxx.xx Closed Hi-hat
     46 .....x.x.....x.. Open Hi-hat
-    38 ....x..m.m.mx..m Snare
-    36 x.x.......x..x.. Bassdrum
 """
 
 

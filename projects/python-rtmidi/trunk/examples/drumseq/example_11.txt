@@ -1,0 +1,8 @@
+# Example Groove 11
+# 90-110 bpm
+#  1...|...|...|...2...|...|...|...
+36 x..m....x..x..smx.m....sx.x..... Bassdrum
+38 .............m........s......m.. Snare 1
+40 ....m....m.sx.......m....s..m... Snare 2
+46 ..m-............m-.............. Open Hi-hat
+44 mx..m.m.m.s.sms...msm.m.s.mss.sm Pedal Hi-hat

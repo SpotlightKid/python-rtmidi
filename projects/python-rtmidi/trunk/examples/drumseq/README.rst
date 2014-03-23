@@ -14,7 +14,7 @@ sequence of characters indicating at which step this drum should be triggered.
 
 Different characters map to different velocities and a ``.`` signifies velocity
 zero, i.e. the drum note will not be triggered at this step. A dash ``-`` is
-a tie, neither a note off nor a new note is send at this step. Each line must
+a tie, neither a note off nor a new note is sent at this step. Each line must
 have the same number of steps. One step is nominally a 1/16 note, but you are
 free to define a pattern with twelve steps and increase the BPM by a factor of
 4/3 to get a triplet-feel.
@@ -39,8 +39,13 @@ Linux
 Windows
     Builtin
 
+The example grooves (except the classic funky drummer) are taken from the
+article *The Rhythm Method. Effective Drum Programming* in the Sound on Sound
+magazine [2]_.
+
 
 .. [1] http://www.michielovertoom.com/
+.. [2] http://www.soundonsound.com/sos/feb98/articles/rythm.html
 
 .. _simplesynth: http://notahat.com/simplesynth/
 .. _qsynth: http://qsynth.sourceforge.net/
