@@ -92,6 +92,7 @@ class Drumpattern(object):
     velocities = {
         "-": None, # continue note
         ".": 0,    # off
+        "+": 10,   # ghost
         "s": 60,   # soft
         "m": 100,  # medium
         "x": 120,  # hard
