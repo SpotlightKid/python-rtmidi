@@ -107,7 +107,7 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
     """
     log.debug("Creating MidiIn object.")
     midiobj = (rtmidi.MidiIn(api, name=client_name)
-        if type_ == "input" else rtmidi.MidiOut(name=client_name))
+        if type_ == "input" else rtmidi.MidiOut(api, name=client_name))
     type_ = "input" if isinstance(midiobj, rtmidi.MidiIn) else "ouput"
 
     ports = midiobj.get_ports()
