@@ -126,11 +126,8 @@ active, they should be listed by ``get_ports()`` as well.
 Notes
 -----
 
-Compiling ``python-rtmidi`` with Windows Kernel Streaming support currently
-does not work due to syntax errors in ``RtMidi.cpp``. This is currently being
-investigated. You can enable Windows Kernel Streaming Support by providing
-the ``--winks`` option to the ``setup.py`` invocation, but this curently only
-leads to a compiler error.
+Windows Kernel Streaming support in RtMidi has been removed (it was brokene
+anyway) and consequently in ``python-rtmidi`` as well.
 
 Compiling with MinGW also does not work out-of-the-box yet. If you have any
 useful hints, please let the author know.
