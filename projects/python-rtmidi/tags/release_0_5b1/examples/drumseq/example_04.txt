@@ -1,0 +1,6 @@
+# Example Groove 4
+# 100-120 bpm
+#  1...|...|...|...2...|...|...|...
+36 x.......x.....s.x.......x.....m. Bassdrum
+38 ....x.......x.......x.......x... Snare
+42 xssx.xssssxs.xssxssx.xssssxs.xss Closed Hi-hat

@@ -1,0 +1,6 @@
+# Pattern Template
+# about 124 bpm (for a real tempo of 93 bpm)
+#  1..|..|..|..2..|..|..|..
+36 x....m...x.....m..s..... Bassdrum
+40 .+-.+-m+-.+-.+-.+-m+-.++ Snare 2
+42 x-sx-sx-sx-sx-sx-sx-sx-s Closed Hi-hat

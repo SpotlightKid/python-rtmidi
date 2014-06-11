@@ -1,0 +1,7 @@
+include ez_setup.py fill_template.py src/*.h src/*.cpp *.rst LICENSE.txt
+exclude *.rst.in deploy.sh
+graft examples
+graft tests
+recursive-exclude examples *.pyc
+recursive-exclude tests *.pyc
+prune include

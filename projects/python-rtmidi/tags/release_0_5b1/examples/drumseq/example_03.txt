@@ -1,0 +1,7 @@
+# Example Groove 3
+# 100-120 bpm
+#  1...|...|...|...2...|...|...|...
+36 x.......x.....m.x.......x.....s. Bassdrum
+38 ....x.......x.......x.......x... Snare
+42 x...s...x...x...x...s...x...s... Closed Hi-hat
+44 ..m...s...m...ss..m...s...m...s. Pedal Hi-hat
