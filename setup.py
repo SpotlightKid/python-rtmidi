@@ -16,7 +16,7 @@ from distutils.version import LooseVersion as V
 from distutils.dist import DistributionMetadata
 
 # For compiling python-rtmidi for Windows, get Microsoft Visual Studio
-# Express (for Python <= 3.2 get the 2008 Edition, for Python 3.3 get
+# Express (for Python <= 3.2 get the 2008 Edition, for Python >= 3.3 get
 # the 2010 edition!), install it and adapt the directory below to the
 # location of WinMM.Lib
 WINLIB_DIR = r'C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib'
