@@ -21,9 +21,11 @@ from distutils.dist import DistributionMetadata
 # location of WinMM.Lib
 WINLIB_DIR = r'C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib'
 
-# Also adapt the following path to the directory containing the Microsoft
-# SDK headers or copy 'ks.h' and 'ksmedia.h' to the 'src' directory.
-WININC_DIR = r'C:\Program Files\Microsoft SDKs\Windows\v6.0A\Include'
+# Suport for Windows Kernel Streaming API was removed, so the WININC_DIR
+# setting is currently not needed.
+## Also adapt the following path to the directory containing the Microsoft
+## SDK headers or copy 'ks.h' and 'ksmedia.h' to the 'src' directory.
+#WININC_DIR = r'C:\Program Files\Microsoft SDKs\Windows\v6.0A\Include'
 
 # source package structure
 SRC_DIR = "src"
@@ -135,19 +137,19 @@ elif sys.platform.startswith('win'):
         winmm = False
         sys.argv.remove('--no-winmm')
 
-    if '--winks' in sys.argv[1:]:
-        winks = True
-        sys.argv.remove('--winks')
+    #if '--winks' in sys.argv[1:]:
+    #    winks = True
+    #    sys.argv.remove('--winks')
 
     if winmm and exists(join(WINLIB_DIR, "winmm.lib")):
         define_macros += [('__WINDOWS_MM__', None)]
         libraries += ["winmm"]
 
-    if (winks and exists(join(WINLIB_DIR, "setupapi.lib")) and
-            exists(join(WINLIB_DIR, "setupapi.lib"))):
-        define_macros += [('__WINDOWS_KS__', None)]
-        libraries += ["setupapi", "ksuser"]
-        include_dirs += [WININC_DIR]
+    #if (winks and exists(join(WINLIB_DIR, "setupapi.lib")) and
+    #        exists(join(WINLIB_DIR, "setupapi.lib"))):
+    #    define_macros += [('__WINDOWS_KS__', None)]
+    #   libraries += ["setupapi", "ksuser"]
+    #    include_dirs += [WININC_DIR]
 
     library_dirs += [WINLIB_DIR]
 
