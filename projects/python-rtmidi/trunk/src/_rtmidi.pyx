@@ -62,8 +62,6 @@ used to specify the low-level MIDI backend API to use when creating a
     Jack Client
 ``API_WINDOWS_MM``
     Windows MultiMedia
-``API_WINDOWS_KS``
-    Windows Kernel Streaming
 ``API_RTMIDI_DUMMY``
     RtMidi Dummy (used when no suitable API was found)
 
@@ -97,7 +95,7 @@ available MIDI output port and send a middle C note on MIDI channel 1::
 
 __all__ = [
     'API_UNSPECIFIED', 'API_MACOSX_CORE', 'API_LINUX_ALSA', 'API_UNIX_JACK',
-    'API_WINDOWS_MM', 'API_WINDOWS_KS', 'API_RTMIDI_DUMMY',
+    'API_WINDOWS_MM', 'API_RTMIDI_DUMMY',
     'MidiIn', 'MidiOut', 'get_compiled_api'
 ]
 
@@ -123,7 +121,6 @@ cdef extern from "RtMidi.h":
         LINUX_ALSA   "RtMidi::LINUX_ALSA"
         UNIX_JACK    "RtMidi::UNIX_JACK"
         WINDOWS_MM   "RtMidi::WINDOWS_MM"
-        WINDOWS_KS   "RtMidi::WINDOWS_KS"
         RTMIDI_DUMMY "RtMidi::RTMIDI_DUMMY"
 
     # Another work-around for calling a C++ static method:
@@ -165,7 +162,6 @@ API_MACOSX_CORE = MACOSX_CORE
 API_LINUX_ALSA = LINUX_ALSA
 API_UNIX_JACK = UNIX_JACK
 API_WINDOWS_MM = WINDOWS_MM
-API_WINDOWS_KS = WINDOWS_KS
 API_RTMIDI_DUMMY = RTMIDI_DUMMY
 
 # internal functions
@@ -476,7 +472,7 @@ cdef class MidiIn:
         elapsed since the reception of the previous MIDI event.
 
         The function does not block. When no MIDI message is available, it
-        return ``None``.
+        returns ``None``.
 
         """
         cdef vector[unsigned char] msg_v
