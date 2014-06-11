@@ -5,19 +5,25 @@ For details and minor changes, please see the `version control log messages
 <http://trac.chrisarndt.de/code/log/projects/python-rtmidi/trunk>`_.
 
 
-2014-03-16 version 0.4.4b1 (unreleased)
----------------------------------------
+2014-06-11 version 0.5b1
+--------------------------
 
 Fixes:
-  * Synced RtMidi code with latest state of its git repo, which fixed several
-    issues (see https://github.com/thestk/rtmidi/issues?state=closed).
+  * Synced RtMidi_ code with git repo @ 2c7a6664d6, which fixed several issues
+    (see https://github.com/thestk/rtmidi/issues?state=closed).
   * ``MidiIn/Out.open_virtual_port`` returns ``self`` for context manager
     support, consistent with ``MidiIn/Out.open_port``.
   * Fix Python <= 2.6 incompatible encode method call (python-rtmidi
     officially only supports Python >= 2.7). Thanks to Michiel Overtoom for
     reporting this.
+  * Respect passed MIDI api when requesting MidiOut instance from
+    ``midiutil.open_midiport``.
+
+.. _rtmidi: https://github.com/thestk/rtmidi
 
 Enhancements / Changes:
+  * Support for Windows Kernel Streaming API was removed in RtMidi (it was
+    broken anyway) and consequently in ``python-rtmidi`` as well.
   * Raise ``RtMidiError`` exception when trying to open a (virtual) port on a
     ``MidiIn/Out`` instance that already has an open (virtual) port.
   * Add some common synonyms for MIDI events and controllers and some source
@@ -30,6 +36,9 @@ Documentation:
 Examples:
   * New example script ``midi2command.py``, which executes external commands
     on reception of configurable MIDI events, with example configuration.
+  * New example directory ``drumseq`` with a simple drum pattern sequencer
+    and example drum patterns. Thanks to Michiel Overtoom for the original
+    script!
 
 
 2013-11-10 version 0.4.3b1
