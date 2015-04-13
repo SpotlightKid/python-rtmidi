@@ -8,6 +8,7 @@
 import argparse
 import logging
 import os
+import re
 import sys
 import time
 
@@ -18,9 +19,17 @@ from os.path import exists, isdir, join
 from rtmidi.midiconstants import *
 from rtmidi.midiutil import open_midiport
 from .manufacturers import manufacturers
-
+from .models import models
 
 log = logging.getLogger('sysexsaver')
+
+
+def sanitize_name(s, replace='/?*&\\'):
+    s = s.strip()
+    s = re.sub('\s+', '_', s)
+    for c in replace:
+        s = s.replace(c, '_')
+    return s.lower()
 
 
 class SysexMessage(object):
@@ -34,24 +43,51 @@ class SysexMessage(object):
         if len(data) < 5:
             raise ValuError("Message too short")
         if data[1] == 0:
-            self._manufacturer = (data[1], data[2], data[3])
-            self._device = data[5]
+            self.manufacturer_id = (data[1], data[2], data[3])
+            self.model_id = data[5]
+            self.device_id = data[6]
         else:
-            self._manufacturer = data[1]
-            self._device = data[2]
+            self.manufacturer_id = data[1]
+            self.model_id = data[2]
+            self.device_id = data[3]
 
         self._data = data
         return self
 
-    @property
-    def manufacturer(self):
-        m = manufacturers.get(self._manufacturer)
-        if m:
-            return m[1] or m[0]
+    def __getitem__(self, i):
+        return self._data[i]
+
+    def __getslice(self, i, j):
+        return self._data[i:j]
 
     @property
-    def device(self):
-        return "0x%02X" % self._device
+    def manufacturer(self):
+        mname = manufacturers.get(self.manufacturer_id)
+        if mname:
+            return mname[0]
+
+    @property
+    def manufacturer_tag(self):
+        mname = manufacturers.get(self.manufacturer_id, [])
+        if len(mname) >= 2:
+            return mname[1]
+        elif mname:
+            return mname[0]
+
+    @property
+    def model(self):
+        model_name = models.get(self.manufacturer_id, {}).get(self.model_id)
+        return model_name[0] if model_name else "0x%02X" % self.model_id
+
+    @property
+    def model_tag(self):
+        model_name = models.get(self.manufacturer_id, {}).get(self.model_id, [])
+        if len(model_name) >= 2:
+            return model_name[1]
+        elif model_name:
+            return model_name[1]
+        else:
+            "0x%02X" % self.model_id
 
     def __repr__(self):
         return "".join(["%02X " % b for b in self._data])
@@ -64,7 +100,7 @@ class SysexMessage(object):
 
 
 class SysexSaver(object):
-    """MIDI input callback hanlder object."""
+    """MIDI input callback handler object."""
 
     def __init__(self, portname, directory, debug=False):
         self.portname = portname
@@ -80,13 +116,46 @@ class SysexSaver(object):
                     self.portname, dt.strftime('%x %X'), len(message)))
                 sysex = SysexMessage.fromdata(message)
 
-                data = dict(timestamp=dt.strftime('%Y%m%dT%H%M%S'))
-                data['manufacturer'] = (sysex.manufacturer or 'unknown'
-                    ).lower().replace(' ', '_')
-                data['device'] = sysex.device
 
-                outfn = join(self.directory,
-                    "%(manufacturer)s-%(device)s-%(timestamp)s.syx" % data)
+                # XXX: This should be implemented in a subclass
+                #      loaded via a plugin infrastructure
+                data = dict(timestamp=dt.strftime('%Y%m%dT%H%M%S'))
+                data['manufacturer'] = sanitize_name(
+                    sysex.manufacturer_tag or 'unknown')
+                data['device'] = sanitize_name(sysex.model_tag)
+
+                if sysex.manufacturer_id == 62 and sysex.model_id == 0x0E:
+                    if sysex[4] == 0x10:
+                        # sound dump
+                        name = "".join(chr(c) for c in sysex[247:263]).rstrip('_')
+                    elif sysex[4] == 0x11:
+                        # multi dump
+                        name = "".join(chr(c) for c in sysex[23:38]).rstrip('_')
+                    elif sysex[4] == 0x12:
+                        # wave dump
+                        if sysex[5] > 1:
+                            name = "userwave_%04i"
+                        else:
+                            name = "romwave_%03i"
+                        name = name % ((sysex[5] << 7) | sysex[6])
+                    elif sysex[4] == 0x13:
+                        # wave table dump
+                        if sysex[6] >= 96:
+                            name = "userwavetable_%03i" % (sysex[6] + 1)
+                        else:
+                            name = "romwavetable_%03i" % (sysex[6] + 1)
+                    else:
+                        name = "%02X" % sysex[4]
+
+                    #print(repr(name))
+                    data['name'] = sanitize_name(name)
+
+                if 'name' in data:
+                    fn_tmpl = "%(manufacturer)s-%(device)s-%(name)s-%(timestamp)s.syx"
+                else:
+                    fn_tmpl = "%(manufacturer)s-%(device)s-%(timestamp)s.syx"
+
+                outfn = join(self.directory, fn_tmpl % data)
 
                 if exists(outfn):
                     log.error("Output file already exists, will not overwrite.")
