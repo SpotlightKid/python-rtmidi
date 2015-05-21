@@ -9,13 +9,17 @@
 
 from __future__ import print_function
 
+import argparse
+import sys
 import threading
+
 from random import gauss
 from time import sleep, time as timenow
 
 import rtmidi
 from rtmidi.midiutil import open_midiport
 from rtmidi.midiconstants import *
+
 
 FUNKYDRUMMER = """
     #  1...|...|...|...
@@ -44,7 +48,7 @@ class Sequencer(threading.Thread):
         self.callcount = 0
         self.activate_drumkit(self.pattern.kit)
         cc = CONTROL_CHANGE | self.channel
-        midiout.send_message([cc, CHANNEL_VOLUME, self.volume & 0x7F])
+        self.midiout.send_message([cc, CHANNEL_VOLUME, self.volume & 0x7F])
 
         # give MIDI instrument some time to activate drumkit
         sleep(0.3)
@@ -146,10 +150,7 @@ class Drumpattern(object):
             self.step = 0
 
 
-if __name__ == "__main__":
-    import sys
-    import argparse
-
+def main(args=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument('-b', '--bpm', type=float, default=100,
         help="Beats per minute (BPM) (default: %(default)s)")
@@ -164,28 +165,28 @@ if __name__ == "__main__":
     ap.add_argument('--bank-lsb', type=int, metavar='MSB',
         help="MIDI bank select LSB (CC#32) number (default: none)")
     ap.add_argument('-H', '--humanize', type=float, default=0.0, metavar='VAL',
-        help="Random velocity variation (default: 0)")
-    ap.add_argument('pattern', nargs='?', type=open,
+        help="Random velocity variation (float, default: 0, try ~0.03)")
+    ap.add_argument('pattern', nargs='?', type=argparse.FileType(),
         help="Drum pattern file (default: use built-in pattern)")
 
-    args = ap.parse_args(sys.argv[1:])
+    args = ap.parse_args(args if args is not None else sys.argv[1:])
 
     if args.pattern:
         pattern = args.pattern.read()
     else:
         pattern = FUNKYDRUMMER
 
-    pattern = Drumpattern(pattern, kit=(args.bank_msb, args.bank_lsb, args.kit),
-        humanize=args.humanize)
+    kit = (args.bank_msb, args.bank_lsb, args.kit)
+    pattern = Drumpattern(pattern, kit=kit, humanize=args.humanize)
 
     try:
         midiout, port_name = open_midiport(args.port, "output",
             api=rtmidi.API_UNIX_JACK,
             client_name="drumseq", port_name="MIDI Out")
     except (EOFError, KeyboardInterrupt):
-        sys.exit()
+        return
 
-    seq = Sequencer(midiout, pattern, args.bpm, args.channel-1)
+    seq = Sequencer(midiout, pattern, args.bpm, args.channel - 1)
 
     print("Playing drum loop at %.1f BPM, press Control-C to quit." % seq.bpm)
 
@@ -199,3 +200,7 @@ if __name__ == "__main__":
         seq.join()
         del midiout
         print("Done")
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]) or 0)
