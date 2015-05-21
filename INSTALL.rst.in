@@ -59,19 +59,16 @@ commands, e.g.::
     $ cd python-rtmidi-${version}
     $ python setup.py install
 
-If you do not have setuptools_ installed yet, the last command should download
-it for you into the source directory and use it directly.
-
 
 From Subversion
 ---------------
 
-Lastly, you can check out the **python-rtmidi** source code from the
-Subversion repository and then install it from your working copy. Since the
-repository does not include the C++ module source code pre-compiled from the
-Cython source, you'll also need to install Cython >= 0.17, either via pip or
-from its Git repository. Using virtualenv/virtualenvwrapper is strongly
-recommended in this scenario:
+Lastly, you can check out the **python-rtmidi** source code from the Subversion
+repository and then install it from your working copy. Since the repository
+does not include the C++ module source code pre-compiled from the Cython
+source, you'll also need to install Cython >= 0.17, either via pip or from its
+Git repository. Using virtualenv/virtualenvwrapper is strongly recommended in
+this scenario:
 
 Make a virtual environment::
 
@@ -146,13 +143,13 @@ OS X
 ----
 
 Install the latest Xcode or ``g++`` from MacPorts or homebrew (untested).
-CoreMIDI support comes with installing Xcode. For JACK support, install
-`JACK for OS X`_ with the full installer.
+CoreMIDI support comes with installing Xcode. For JACK support, install `JACK
+for OS X`_ with the full installer.
 
 .. note::
     If you have a version of OS X and Xcode which still supports building
-    binaries for PPC, you'll have to tell distribute to build the package
-    only for i386 and x86_64 architectures::
+    binaries for PPC, you'll have to tell distribute to build the package only
+    for i386 and x86_64 architectures::
 
         env ARCHFLAGS="-arch i386 -arch x86_64" python setup.py install
 
