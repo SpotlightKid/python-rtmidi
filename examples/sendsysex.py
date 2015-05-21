@@ -9,7 +9,7 @@ The paths given on the command line can also contain directories and all files
 with a *.syx extension in them will be sent (in alphabetical order).
 
 All consecutive sysex messages in each file will be sent to the chosen MIDI
-ouput, after confirmation (which can be turned off).
+output, after confirmation (which can be turned off).
 
 """
 
