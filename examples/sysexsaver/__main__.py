@@ -102,6 +102,9 @@ class SysexMessage(object):
 class SysexSaver(object):
     """MIDI input callback handler object."""
 
+    fn_tmpl = "%(manufacturer)s-%(device)s-%(timestamp)s.syx"
+    fn_named_tmpl = "%(manufacturer)s-%(device)s-%(name)s-%(timestamp)s.syx"
+
     def __init__(self, portname, directory, debug=False):
         self.portname = portname
         self.directory = directory
@@ -110,61 +113,58 @@ class SysexSaver(object):
     def __call__(self, event, data=None):
         try:
             message, deltatime = event
-            if message[:1] == [SYSTEM_EXCLUSIVE]:
-                dt = datetime.now()
-                log.debug("[%s: %s] Received sysex msg of %i bytes." % (
-                    self.portname, dt.strftime('%x %X'), len(message)))
-                sysex = SysexMessage.fromdata(message)
+            if message[:1] != [SYSTEM_EXCLUSIVE]:
+                return
 
+            dt = datetime.now()
+            log.debug("[%s: %s] Received sysex msg of %i bytes." % (
+                self.portname, dt.strftime('%x %X'), len(message)))
+            sysex = SysexMessage.fromdata(message)
 
-                # XXX: This should be implemented in a subclass
-                #      loaded via a plugin infrastructure
-                data = dict(timestamp=dt.strftime('%Y%m%dT%H%M%S'))
-                data['manufacturer'] = sanitize_name(
-                    sysex.manufacturer_tag or 'unknown')
-                data['device'] = sanitize_name(sysex.model_tag)
+            # XXX: This should be implemented in a subclass
+            #      loaded via a plugin infrastructure
+            data = dict(timestamp=dt.strftime('%Y%m%dT%H%M%S'))
+            data['manufacturer'] = sanitize_name(
+                sysex.manufacturer_tag or 'unknown')
+            data['device'] = sanitize_name(sysex.model_tag)
 
-                if sysex.manufacturer_id == 62 and sysex.model_id == 0x0E:
-                    if sysex[4] == 0x10:
-                        # sound dump
-                        name = "".join(chr(c) for c in sysex[247:263]).rstrip('_')
-                    elif sysex[4] == 0x11:
-                        # multi dump
-                        name = "".join(chr(c) for c in sysex[23:38]).rstrip('_')
-                    elif sysex[4] == 0x12:
-                        # wave dump
-                        if sysex[5] > 1:
-                            name = "userwave_%04i"
-                        else:
-                            name = "romwave_%03i"
-                        name = name % ((sysex[5] << 7) | sysex[6])
-                    elif sysex[4] == 0x13:
-                        # wave table dump
-                        if sysex[6] >= 96:
-                            name = "userwavetable_%03i" % (sysex[6] + 1)
-                        else:
-                            name = "romwavetable_%03i" % (sysex[6] + 1)
+            if sysex.manufacturer_id == 62 and sysex.model_id == 0x0E:
+                if sysex[4] == 0x10:
+                    # sound dump
+                    name = "".join(chr(c) for c in sysex[247:263]).rstrip('_')
+                elif sysex[4] == 0x11:
+                    # multi dump
+                    name = "".join(chr(c) for c in sysex[23:38]).rstrip('_')
+                elif sysex[4] == 0x12:
+                    # wave dump
+                    if sysex[5] > 1:
+                        name = "userwave_%04i"
                     else:
-                        name = "%02X" % sysex[4]
-
-                    #print(repr(name))
-                    data['name'] = sanitize_name(name)
-
-                if 'name' in data:
-                    fn_tmpl = "%(manufacturer)s-%(device)s-%(name)s-%(timestamp)s.syx"
+                        name = "romwave_%03i"
+                    name = name % ((sysex[5] << 7) | sysex[6])
+                elif sysex[4] == 0x13:
+                    # wave table dump
+                    if sysex[6] >= 96:
+                        name = "userwavetable_%03i" % (sysex[6] + 1)
+                    else:
+                        name = "romwavetable_%03i" % (sysex[6] + 1)
                 else:
-                    fn_tmpl = "%(manufacturer)s-%(device)s-%(timestamp)s.syx"
+                    name = "%02X" % sysex[4]
 
-                outfn = join(self.directory, fn_tmpl % data)
+                #print(repr(name))
+                data['name'] = sanitize_name(name)
 
-                if exists(outfn):
-                    log.error("Output file already exists, will not overwrite.")
-                else:
-                    data = sysex.as_bytes()
-                    with open(outfn, 'wb') as outfile:
-                        outfile.write(data)
-                        log.info("Sysex message of %i bytes written to '%s'.",
-                            len(data), outfn)
+            outfn = join(self.directory, (
+                self.fn_named_tmpl if 'name' in data else self.fn_tmpl) % data)
+
+            if exists(outfn):
+                log.error("Output file already exists, will not overwrite.")
+            else:
+                data = sysex.as_bytes()
+                with open(outfn, 'wb') as outfile:
+                    outfile.write(data)
+                    log.info("Sysex message of %i bytes written to '%s'.",
+                        len(data), outfn)
         except:
             if self.debug:
                 import traceback
@@ -176,9 +176,9 @@ def main(args=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('-o', '--outdir', default=os.getcwd(),
         help="Output directory (default: current working directory).")
-    parser.add_argument('-p',  '--port', dest='port',
+    parser.add_argument('-p', '--port',
         help='MIDI output port number (default: ask)')
-    parser.add_argument('-v',  '--verbose', action="store_true",
+    parser.add_argument('-v', '--verbose', action="store_true",
         help='verbose output')
 
     args = parser.parse_args(args if args is not None else sys.argv[1:])

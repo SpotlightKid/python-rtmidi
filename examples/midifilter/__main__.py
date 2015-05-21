@@ -5,6 +5,8 @@
 #
 """Simple MIDI filter/ processor."""
 
+from __future__ import absolute_import
+
 import argparse
 import logging
 import Queue
@@ -82,11 +84,6 @@ def main(args=None):
         level=logging.DEBUG if args.verbose else logging.WARNING,)
 
     try:
-        value = int(args.pop(0))
-    except (IndexError, TypeError):
-        value = 12
-
-    try:
         midiin, inport_name = open_midiport(args.inport, "input")
         midiout, outport_name = open_midiport(args.outport, "input")
     except IOError as exc:
@@ -98,9 +95,9 @@ def main(args=None):
     filters = []
     if args.transpose:
         filters.append(Transpose(transpose=args.filter_args[0]))
-    if mpresstocc:
+    if args.mpresstocc:
         MonoPressureToCC(cc=args.filter_args[0]))
-    if mapcc:
+    if args.mapccrange:
         filters.append(MapControllerValue(*args.filter_args))
 
     dispatcher = MidiDispatcher(midiin, midiout, *filters)
