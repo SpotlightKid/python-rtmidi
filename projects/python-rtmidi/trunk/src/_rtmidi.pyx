@@ -10,15 +10,15 @@ Overview
 
 **RtMidi** is a set of C++ classes which provides a concise and simple,
 cross-platform API (Application Programming Interface) for realtime MIDI
-input/output across Linux (ALSA & JACK), Macintosh OS X (CoreMIDI & JACK),
-and Windows (Multimedia Library & Kernel Streaming) operating systems.
+input/output across Linux (ALSA & JACK), Macintosh OS X (CoreMIDI & JACK), and
+Windows (Multimedia Library & Kernel Streaming) operating systems.
 
 **python-rtmidi** is a Python binding for RtMidi implemented with Cython and
 provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
-parameters adapted to the Python PEP-8 conventions and requirements of
-the Python package naming structure. **python-rtmidi** supports Python 2
-(tested with Python 2.7) and Python 3 (3.2, 3.3).
+parameters adapted to the Python PEP-8 conventions and requirements of the
+Python package naming structure. **python-rtmidi** supports Python 2 (tested
+with Python 2.7) and Python 3 (3.2, 3.3).
 
 
 Public API
@@ -335,9 +335,9 @@ cdef class MidiIn:
         non-ASCII characters in them have to be passed as unicode or utf-8
         encoded strings in Python 2. The default name is "RtMidi Input".
 
-        _ note::
-            Closing a port and opening it again with a different name does
-            not change the port name. To change the input port name, drop its
+        .. note::
+            Closing a port and opening it again with a different name does not
+            change the port name. To change the input port name, drop its
             ``MidiIn`` instance, create a new one and open the port again
             giving a different name.
 
@@ -367,9 +367,9 @@ cdef class MidiIn:
 
         .. note::
             Virtual ports are not supported by some backend APIs, namely the
-            Windows MultiMedia API. You can use special MIDI drivers like
-            `MIDI Yoke`_ or loopMIDI_ to provide hardware-independent virtual
-            MIDI ports as an alternative.
+            Windows MultiMedia API. You can use special MIDI drivers like `MIDI
+            Yoke`_ or loopMIDI_ to provide hardware-independent virtual MIDI
+            ports as an alternative.
 
         You can optionally pass a name for the virtual input port with the
         ``name`` keyword or second positional argument. Names with non-ASCII
@@ -434,7 +434,7 @@ cdef class MidiIn:
         To receive them, you can selectively disable the filtering of these
         event types.
 
-        To enable reception, i.e. disable the default filtering of sysex
+        To enable reception - i.e. turn off the default filtering - of sysex
         messages, pass ``sysex = False``.
 
         To enable reception of MIDI Clock, pass ``timing = False``.
@@ -466,9 +466,9 @@ cdef class MidiIn:
         """Poll for MIDI input.
 
         Checks whether a MIDI event is available in the input buffer and
-        returns a two-element tuple with the MIDI message and a delta time.
-        The MIDI message is a list of integers representing the data bytes of
-        the message, the delta time is a float representing the time in seconds
+        returns a two-element tuple with the MIDI message and a delta time. The
+        MIDI message is a list of integers representing the data bytes of the
+        message, the delta time is a float representing the time in seconds
         elapsed since the reception of the previous MIDI event.
 
         The function does not block. When no MIDI message is available, it
@@ -487,9 +487,9 @@ cdef class MidiIn:
     def set_callback(self, func, data=None):
         """Register a callback function for MIDI input.
 
-        The callback function is called whenever a MIDI message is received
-        and must take two arguments. The first argument is a two-element tuple
-        with the MIDI message and a delta time, like the one returned by the
+        The callback function is called whenever a MIDI message is received and
+        must take two arguments. The first argument is a two-element tuple with
+        the MIDI message and a delta time, like the one returned by the
         ``get_message`` method and the second argument is value of the ``data``
         argument passed to this function when the callback is registered.
 
@@ -535,8 +535,8 @@ cdef class MidiOut:
     .. note::
         With some APIs (e.g. ALSA), the client name is set by the first
         ``MidiIn`` *or* ``MidiOut`` created by your program and does not change
-        until *all* ``MidiIn`` and ``MidiOut`` instances are deleted and then
-        a new one is created.
+        until *all* ``MidiIn`` and ``MidiOut`` instances are deleted and then a
+        new one is created.
 
     """
     cdef RtMidiOut *thisptr
@@ -548,7 +548,8 @@ cdef class MidiOut:
         See the class docstring for a description of the constructor arguments.
 
         """
-        self.thisptr = new RtMidiOut(rtapi, _to_bytes(name or "RtMidiOut Client"))
+        self.thisptr = new RtMidiOut(rtapi,
+                                     _to_bytes(name or "RtMidiOut Client"))
         self._port = None
 
     def __dealloc__(self):
@@ -589,9 +590,9 @@ cdef class MidiOut:
 
         The port name is decoded to a (unicode) string with the encoding given
         by ``encoding``. If ``encoding`` is ``"auto"`` (the default) then an
-        appropriate encoding is chosen based on the system and the used
-        backend API. If ``encoding`` is ``None``, the names are returned
-        un-decoded, i.e. as type ``str`` in Python 2 or ``bytes`` in Python 3.
+        appropriate encoding is chosen based on the system and the used backend
+        API. If ``encoding`` is ``None``, the names are returned un-decoded,
+        i.e. as type ``str`` in Python 2 or ``bytes`` in Python 3.
 
         """
         cdef string name = self.thisptr.getPortName(port)
@@ -619,9 +620,9 @@ cdef class MidiOut:
 
         The port names are decoded to (unicode) strings with the encoding given
         by ``encoding``. If ``encoding`` is ``"auto"`` (the default) then an
-        appropriate encoding is chosen based on the system and the used
-        backend API. If ``encoding`` is ``None``, the names are returned
-        un-decoded, i.e. as type ``str`` in Python 2 or ``bytes`` in Python 3.
+        appropriate encoding is chosen based on the system and the used backend
+        API. If ``encoding`` is ``None``, the names are returned un-decoded,
+        i.e. as type ``str`` in Python 2 or ``bytes`` in Python 3.
 
         """
         return [self.get_port_name(p, encoding=encoding)
@@ -641,8 +642,8 @@ cdef class MidiOut:
 
         Note: Closing a port and opening it again with a different name does
         not change the port name. To change the output port name, drop its
-        ``MidiOut`` instance, create a new one and open the port again giving
-        a different name.
+        ``MidiOut`` instance, create a new one and open the port again giving a
+        different name.
 
         """
         if self._port == -1:
@@ -670,9 +671,9 @@ cdef class MidiOut:
 
         .. note::
             Virtual ports are not supported by some backend APIs, namely the
-            Windows MultiMedia API. You can use special MIDI drivers like
-            `MIDI Yoke`_ or loopMIDI_ to provide hardware-independent virtual
-            MIDI ports as an alternative.
+            Windows MultiMedia API. You can use special MIDI drivers like `MIDI
+            Yoke`_ or loopMIDI_ to provide hardware-independent virtual MIDI
+            ports as an alternative.
 
         You can optionally pass a name for the virtual output port with the
         ``name`` keyword or second positional argument. Names with non-ASCII
@@ -682,14 +683,14 @@ cdef class MidiOut:
         To change the virtual output port name, drop its ``MidiOut`` instance,
         create a new one and open a virtual port again giving a different name.
 
-        Also, to close a virtual output port, you have to delete its ``MidiOut``
-        instance.
+        Also, to close a virtual output port, you have to delete its
+        ``MidiOut`` instance.
 
         Exceptions:
 
         ``NotImplementedError``
-            Raised when trying to open a virtual MIDI port with the
-            Windows MultiMedia API, which doesn't support this.
+            Raised when trying to open a virtual MIDI port with the Windows
+            MultiMedia API, which doesn't support this.
 
         .. _midi yoke: http://www.midiox.com/myoke.htm
         .. _loopmidi: http://www.tobias-erichsen.de/software/loopmidi.html
@@ -731,8 +732,8 @@ cdef class MidiOut:
         representing one byte of the MIDI message.
 
         Normal MIDI messages have a length of one to three bytes, but you can
-        also send system exclusive messages, which can be arbitrarily long,
-        via this method.
+        also send system exclusive messages, which can be arbitrarily long, via
+        this method.
 
         No check is made whether the passed data constitutes a valid MIDI
         message.
