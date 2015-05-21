@@ -7,8 +7,6 @@ import sys
 from ctypes.util import find_library
 from os.path import exists, join
 
-from ez_setup import use_setuptools
-use_setuptools()
 from setuptools import setup
 
 from distutils.extension import Extension
@@ -99,12 +97,39 @@ library_dirs = []
 extra_link_args = []
 extra_compile_args = []
 
+alsa = True
+coremidi = True
+jack = True
+winks = False
+winmm = True
+
+if '--no-alsa' in sys.argv[1:]
+    alsa = False
+    sys.argv.remove('--no-alsa')
+
+if '--no-coremidi' in sys.argv[1:]
+    coremidi = False
+    sys.argv.remove('--no-coremidi')
+
+if '--no-jack' in sys.argv[1:]
+    jack = False
+    sys.argv.remove('--no-jack')
+
+if '--no-winmm' in sys.argv[1:]:
+    winmm = False
+    sys.argv.remove('--no-winmm')
+
+#if '--winks' in sys.argv[1:]:
+#    winks = True
+#    sys.argv.remove('--winks')
+
+
 if sys.platform.startswith('linux'):
-    if find_library('asound'):
+    if alsa and find_library('asound'):
         define_macros += [("__LINUX_ALSA__", None)]
         libraries += ['asound']
 
-    if find_library('jack'):
+    if jack and find_library('jack'):
         define_macros += [('__UNIX_JACK__', None)]
         libraries += ['jack']
 
@@ -114,32 +139,20 @@ if sys.platform.startswith('linux'):
         sys.exit(1)
 
     libraries += ["pthread"]
-
 elif sys.platform.startswith('darwin'):
-    if find_library('jack'):
+    if jack and find_library('jack'):
         define_macros += [('__UNIX_JACK__', None)]
         libraries += ['jack']
 
-    define_macros += [('__MACOSX_CORE__', '')]
-    extra_compile_args += ['-frtti']
-    extra_link_args += [
-        '-framework', 'CoreAudio',
-        '-framework', 'CoreMIDI',
-        '-framework', 'CoreFoundation']
-
+    if coremidi:
+        define_macros += [('__MACOSX_CORE__', '')]
+        extra_compile_args += ['-frtti']
+        extra_link_args += [
+            '-framework', 'CoreAudio',
+            '-framework', 'CoreMIDI',
+            '-framework', 'CoreFoundation']
 elif sys.platform.startswith('win'):
-    winks = False
-    winmm = True
-
     extra_compile_args += ['/EHsc']
-
-    if '--no-winmm' in sys.argv[1:]:
-        winmm = False
-        sys.argv.remove('--no-winmm')
-
-    #if '--winks' in sys.argv[1:]:
-    #    winks = True
-    #    sys.argv.remove('--winks')
 
     if winmm and exists(join(WINLIB_DIR, "winmm.lib")):
         define_macros += [('__WINDOWS_MM__', None)]
@@ -148,16 +161,14 @@ elif sys.platform.startswith('win'):
     #if (winks and exists(join(WINLIB_DIR, "setupapi.lib")) and
     #        exists(join(WINLIB_DIR, "setupapi.lib"))):
     #    define_macros += [('__WINDOWS_KS__', None)]
-    #   libraries += ["setupapi", "ksuser"]
+    #    libraries += ["setupapi", "ksuser"]
     #    include_dirs += [WININC_DIR]
 
     library_dirs += [WINLIB_DIR]
-
 else:
     print("WARNING: This operating system (%s) is not supported by RtMidi.\n"
         "Linux, Mac OS X (>= 10.5), Windows (XP, Vista, 7) are supported\n"
-        "Continuing and hoping for the best...\n" %
-        sys.platform)
+        "Continuing and hoping for the best...\n" % sys.platform)
 
 # define _rtmidi Extension
 extensions = [
