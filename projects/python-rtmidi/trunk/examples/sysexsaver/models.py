@@ -17,7 +17,7 @@ models = {
     48: {}, # Dynacord
     51: {}, # Clavia (Nord)
     54: {}, # Cheetah
-    # Waldorf Electronics Gmbh
+    # Waldorf Electronics GmbH
     62: {
         0x0E: ('microWAVE II/XT(k)', 'microwave2'),
     },
@@ -233,7 +233,7 @@ models = {
     (0, 32, 78): {}, # Nokia
     (0, 32, 79): {}, # Wave Idea
     (0, 32, 80): {}, # Hartmann GmbH
-    (0, 32, 81): ("Lion's Tracs", None),
+    (0, 32, 81): {}, # Lion's Tracs
     (0, 32, 82): {}, # Analogue Systems
     (0, 32, 83): {}, # Focal-JMlab
     (0, 32, 84): {}, # Ringway Electronics (Chang-Zhou) Co Ltd
