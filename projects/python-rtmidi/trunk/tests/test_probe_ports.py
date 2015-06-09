@@ -9,10 +9,9 @@ import sys
 from rtmidi import *
 
 try:
-    raw_input
+    input = raw_input
 except NameError:
     # Python 3
-    raw_input = input
     StandardError = Exception
 
 apis = {
@@ -20,7 +19,6 @@ apis = {
     API_LINUX_ALSA:   "Linux ALSA",
     API_UNIX_JACK:    "Jack Client",
     API_WINDOWS_MM:   "Windows MultiMedia",
-    API_WINDOWS_KS:   "Windows Kernel Streaming",
     API_RTMIDI_DUMMY: "RtMidi Dummy"
 }
 
@@ -29,7 +27,7 @@ available_apis = get_compiled_api()
 for api, api_name in sorted(apis.items()):
     if api in available_apis:
         try:
-            if raw_input("Probe ports using the %s API? (Y/n) " % api_name
+            if input("Probe ports using the %s API? (Y/n) " % api_name
                     ).strip().lower() not in ['', 'y', 'yes']:
                 continue
         except (KeyboardInterrupt, EOFError):
