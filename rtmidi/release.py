@@ -18,7 +18,7 @@ provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
 parameters adapted to the Python PEP-8 conventions and requirements of
 the Python package naming structure. **python-rtmidi** supports Python 2
-(tested with Python 2.7) and Python 3 (3.2, 3.3).
+(tested with Python 2.7) and Python 3 (3.3, 3.4).
 
 .. note::
     **python-rtmidi** is currently in **beta-stage**, which means it is
@@ -68,7 +68,7 @@ RtMidi_ documentation.
 """
 
 name = 'python-rtmidi'
-version = '0.5b1'
+version = '0.6b1'
 description = __doc__.splitlines()
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
@@ -91,9 +91,10 @@ Operating System :: Microsoft :: Windows
 Operating System :: POSIX
 Operating System :: MacOS :: MacOS X
 Programming Language :: Python
-Programming Language :: Python :: 2.6
 Programming Language :: Python :: 2.7
 Programming Language :: Python :: 3
+Programming Language :: Python :: 3.3
+Programming Language :: Python :: 3.4
 Topic :: Multimedia :: Sound/Audio :: MIDI
 Topic :: Software Development :: Libraries :: Python Modules
 """
