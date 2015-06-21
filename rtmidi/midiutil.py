@@ -34,6 +34,7 @@ def _prompt_for_virtual(type_):
     return raw_input("Do you want to create a virtual MIDI %s port? (y/N) "
         % type_).strip().lower() in ['y', 'yes']
 
+
 def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
         use_virtual=False, interactive=True, client_name=None,
         port_name=None):
