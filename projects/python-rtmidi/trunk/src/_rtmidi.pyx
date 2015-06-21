@@ -305,8 +305,6 @@ cdef class MidiIn:
                 return name.decode(encoding, "ignore")
             else:
                 return name
-        else:
-            return None
 
     def get_ports(self, encoding='auto'):
         """Return a list of names of available MIDI input ports.
@@ -449,8 +447,8 @@ cdef class MidiIn:
         input often. Otherwise you might lose MIDI input because the input
         buffer overflows.
 
-        *Windows note:* the Windows Multi Media API uses fixed size buffers for
-        the reception of sysex messages, whose number and size is set at
+        **Windows note:** the Windows Multi Media API uses fixed size buffers
+        for the reception of sysex messages, whose number and size is set at
         compile time. Sysex messages longer than the buffer size can not be
         received properly when using the Windows Multi Media API.
 
@@ -481,8 +479,6 @@ cdef class MidiIn:
         if not msg_v.empty():
             message = [msg_v.at(i) for i in range(msg_v.size())]
             return (message, delta_time)
-        else:
-            return None
 
     def set_callback(self, func, data=None):
         """Register a callback function for MIDI input.
@@ -610,8 +606,6 @@ cdef class MidiOut:
                 return name.decode(encoding, "ignore")
             else:
                 return name
-        else:
-            return None
 
     def get_ports(self, encoding='auto'):
         """Return a list of names of available MIDI output ports.
