@@ -1,14 +1,48 @@
-build/
-dist/
-src/_rtmidi.cpp
-rtmidi/*.so
-*.egg-info
-MANIFEST
-setuptools-*.egg
-distribute-*.egg
-setuptools-*.tar.gz
-distribute-*.tar.gz
+# Python bytecode
+*.py[cod]
 __pycache__
-.project
+
+# Cython output
+src/_rtmidi.cpp
+
+# C extensions
+*.so
+
+# Generated documentation
 INSTALL.rst
 
+# Packages
+*.egg
+*.egg-info
+dist/
+build/
+eggs/
+parts/
+.installed.cfg
+setuptools-*.tar.gz
+distribute-*.tar.gz
+MANIFEST
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+htmlcov
+
+# Translations
+*.mo
+
+# Misc IDEs
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Complexity
+output/*.html
+output/*/index.html
+
+# Sphinx
+docs/_build
