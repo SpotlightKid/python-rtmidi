@@ -10,6 +10,35 @@ from os.path import exists, join
 from setuptools import setup  # needs to stay before the imports below!
 from distutils.dist import DistributionMetadata
 from distutils.extension import Extension
+from setuptools.command.test import test as TestCommand
+
+from fill_template import FillTemplate
+
+try:
+    from Cython.Build import cythonize
+except ImportError:
+    cythonize = None
+
+
+class PyTest(TestCommand):
+    """Custom setup command to run tests via pytest."""
+
+    user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
+
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.pytest_args = []
+
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        #import here, cause outside the eggs aren't loaded
+        import pytest
+        errno = pytest.main(self.pytest_args)
+        sys.exit(errno)
 
 
 # For compiling python-rtmidi for Windows, get Microsoft Visual Studio
@@ -38,26 +67,24 @@ exec(compile(open(release_info).read(), release_info, 'exec'), {}, setup_opts)
 
 # Add our own custom distutils command to create *.rst files from templates
 # Template files are listed in setup.cfg
-from fill_template import FillTemplate
-
 setup_opts.setdefault('cmdclass', {})['filltmpl'] = FillTemplate
+# Add custom test command
+setup_opts['cmdclass']['test'] = PyTest
 
 # Set up options for compiling the _rtmidi Extension
-try:
-    from Cython.Build import cythonize
+if cythonize:
     sources = [join(SRC_DIR, "_rtmidi.pyx"), join(SRC_DIR, "RtMidi.cpp")]
-except ImportError:
-    if not exists(join(SRC_DIR, "_rtmidi.cpp")):
-        print("""\
+elif exists(join(SRC_DIR, "_rtmidi.cpp")):
+    cythonize = lambda x: x
+    sources = [join(SRC_DIR, "_rtmidi.cpp"), join(SRC_DIR, "RtMidi.cpp")]
+else:
+    print("""\
 Could not import Cython. Cython >= 0.17 is required to compile the Cython
 source into the C++ source.
 
 Install Cython from https://pypi.python.org/pypi/Cython or use the precompiled
 '_rtmidi.cpp' file from the python-rtmidi source distribution.""")
-        sys.exit(1)
-
-    cythonize = lambda x: x
-    sources = [join(SRC_DIR, "_rtmidi.cpp"), join(SRC_DIR, "RtMidi.cpp")]
+    sys.exit(1)
 
 define_macros = [('__PYX_FORCE_INIT_THREADS', None)]
 include_dirs = [SRC_DIR]
@@ -65,12 +92,8 @@ libraries = []
 library_dirs = []
 extra_link_args = []
 extra_compile_args = []
-
-alsa = True
-coremidi = True
-jack = True
+alsa = coremidi = jack = winmm = True
 winks = False
-winmm = True
 
 if '--no-alsa' in sys.argv:
     alsa = False
@@ -167,6 +190,7 @@ setup(
             'osc2midi = osc2midi.main:main [osc2midi]',
         ]
     },
+    tests_require=['pytest'],
     # On systems without a RTC (e.g. Raspberry Pi), system time will be the
     # Unix epoch when booted without network connection, which makes zip fail,
     # because it does not support dates < 1980-01-01.
