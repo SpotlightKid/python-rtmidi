@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+#
+# test_midiin_callback.py
+#
+"""Shows how to use a MidiOut instance as a context manager."""
+
 import time
 import rtmidi
 
