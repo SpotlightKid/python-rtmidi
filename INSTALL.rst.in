@@ -1,3 +1,4 @@
+============
 Installation
 ============
 
@@ -63,7 +64,7 @@ commands, e.g.::
 From Subversion
 ---------------
 
-Lastly, you can check out the **python-rtmidi** source code from the Subversion
+Lastly, you can check out the **python-rtmidi** source code from the Git
 repository and then install it from your working copy. Since the repository
 does not include the C++ module source code pre-compiled from the Cython
 source, you'll also need to install Cython >= 0.17, either via pip or from its
@@ -88,7 +89,7 @@ or the Git repository::
 
 Install **python-rtmidi**::
 
-    (rtmidi)$ svn co ${repository} python-rtmidi
+    (rtmidi)$ git clone ${repository}
     (rtmidi)$ cd python-rtmidi
     (rtmidi)$ python setup.py install
 
