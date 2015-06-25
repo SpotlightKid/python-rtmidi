@@ -12,18 +12,23 @@ Enhancements / Changes:
   * Synced with upstream RtMidi_ (2.1.0-16-g28321c0).
 
 Building:
-  * Simplified setup.py by throwing out old compatibility-stuff.
+  * Simplified ``setup.py`` by throwing out old compatibility stuff.
 
 Examples:
-  * `midifilter`: moved `main.py` to `__main__.py`, removed old code and
+  * ``midifilter``: moved ``main.py`` to ``__main__.py``, removed old code and
     fixed command line args access.
-  * `sysexsaver`:
-    * Moved `main.py` to `__main__.py`, some refactoring.
-    * `models.py`: Fixed wrong entry for manufacturer (0, 32, 81).
-    * Moved module level code into `main` function.
-    * Fixed global access in `Sequencer` class.
-    * Use `args.FileType` for pattern command line args
+
+  * ``sysexsaver``:
+
+    * Moved ``main.py`` to ``__main__.py``, some refactoring.
+    * ``models.py``: Fixed wrong entry for manufacturer (0, 32, 81).
+    * Moved module level code into ``main`` function.
     * Include model name in output file, if possible.
+
+  * ``drumseq``:
+
+    * Fixed global access in ``Sequencer`` class.
+    * Use ``args.FileType`` for pattern command line args
 
 
 2014-06-11 version 0.5b1
