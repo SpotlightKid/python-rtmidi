@@ -1,0 +1,14 @@
+build/
+dist/
+src/_rtmidi.cpp
+rtmidi/*.so
+*.egg-info
+MANIFEST
+setuptools-*.egg
+distribute-*.egg
+setuptools-*.tar.gz
+distribute-*.tar.gz
+__pycache__
+.project
+INSTALL.rst
+
