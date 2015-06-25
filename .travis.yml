@@ -12,6 +12,7 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -y libasound-dev
   - sudo apt-get install -y libjack-dev
+  - sudo modprobe snd-seq-midi
 
 install: pip install -r requirements-dev.txt
 
