@@ -115,6 +115,14 @@ from libcpp.string cimport string
 from libcpp.vector cimport vector
 
 
+# Init Python threads and GIL, because RtMidi calls Python from native threads.
+# See http://permalink.gmane.org/gmane.comp.python.cython.user/5837
+cdef extern from "Python.h":
+    void PyEval_InitThreads()
+
+PyEval_InitThreads()
+
+
 # Declarations for RtMidi C++ classes and their methods we use
 
 cdef extern from "RtMidi.h":

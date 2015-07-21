@@ -86,7 +86,7 @@ Install Cython from https://pypi.python.org/pypi/Cython or use the precompiled
 '_rtmidi.cpp' file from the python-rtmidi source distribution.""")
     sys.exit(1)
 
-define_macros = [('__PYX_FORCE_INIT_THREADS', None)]
+define_macros = []
 include_dirs = [SRC_DIR]
 libraries = []
 library_dirs = []
