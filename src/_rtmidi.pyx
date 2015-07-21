@@ -361,6 +361,12 @@ cdef class MidiIn:
             ``MidiIn`` instance, create a new one and open the port again
             giving a different name.
 
+        Exceptions:
+
+        ``RtMidiError``
+            Raised when trying to open a MIDI input port when a (virtual) input
+            port has already been opened by this instance.
+
         """
         if self._port == -1:
             raise RtMidiError("%r already opened virtual input port." % self)
@@ -380,8 +386,8 @@ cdef class MidiIn:
         ``MidiIn`` instance, which already opened a (virtual) port.
 
         A virtual port is not connected to a physical MIDI device or system
-        port when fist opened. You can connect it to another MIDI output with
-        the OS-dependant tools provided the low-level MIDI framework, e.g.
+        port when first opened. You can connect it to another MIDI output with
+        the OS-dependent tools provided the low-level MIDI framework, e.g.
         ``aconnect`` for ALSA, ``jack_connect`` for JACK, or the Audio & MIDI
         settings dialog for CoreMIDI.
 
@@ -407,6 +413,9 @@ cdef class MidiIn:
         ``NotImplementedError``
             Raised when trying to open a virtual MIDI port with the Windows
             MultiMedia API, which doesn't support virtual ports.
+        ``RtMidiError``
+            Raised when trying to open a virtual input port when a (virtual)
+            input port has already been opened by this instance.
 
         .. _midi yoke: http://www.midiox.com/myoke.htm
         .. _loopmidi: http://www.tobias-erichsen.de/software/loopmidi.html
@@ -662,6 +671,12 @@ cdef class MidiOut:
             ``MidiOut`` instance, create a new one and open the port again
             giving a different name.
 
+        Exceptions:
+
+        ``RtMidiError``
+            Raised when trying to open a MIDI output port when a (virtual)
+            output port has already been opened by this instance.
+
         """
         if self._port == -1:
             raise RtMidiError("%r already opened virtual output port." % self)
@@ -708,6 +723,9 @@ cdef class MidiOut:
         ``NotImplementedError``
             Raised when trying to open a virtual MIDI port with the Windows
             MultiMedia API, which doesn't support this.
+        ``RtMidiError``
+            Raised when trying to open a virtual output port when a (virtual)
+            output port has already been opened by this instance.
 
         .. _midi yoke: http://www.midiox.com/myoke.htm
         .. _loopmidi: http://www.tobias-erichsen.de/software/loopmidi.html
