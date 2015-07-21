@@ -11,14 +11,14 @@ Overview
 **RtMidi** is a set of C++ classes which provides a concise and simple,
 cross-platform API (Application Programming Interface) for realtime MIDI
 input/output across Linux (ALSA & JACK), Macintosh OS X (CoreMIDI & JACK), and
-Windows (Multimedia Library & Kernel Streaming) operating systems.
+Windows (Multimedia Library) operating systems.
 
 **python-rtmidi** is a Python binding for RtMidi implemented with Cython and
 provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
 parameters adapted to the Python PEP-8 conventions and requirements of the
 Python package naming structure. **python-rtmidi** supports Python 2 (tested
-with Python 2.7) and Python 3 (3.2, 3.3).
+with Python 2.7) and Python 3 (3.3, 3.4).
 
 
 Public API
@@ -26,6 +26,7 @@ Public API
 
 See the docstrings of each function and class and their methods for more
 information.
+
 
 Functions
 ---------
@@ -63,7 +64,15 @@ used to specify the low-level MIDI backend API to use when creating a
 ``API_WINDOWS_MM``
     Windows MultiMedia
 ``API_RTMIDI_DUMMY``
-    RtMidi Dummy (used when no suitable API was found)
+    RtMidi Dummy API (used when no suitable API was found)
+
+
+Exceptions
+----------
+
+``RtMidiError``
+    General RtMidi error. Raised, for example, when opening a (virtual) MIDI
+    port fails.
 
 
 Usage example
@@ -106,10 +115,7 @@ from libcpp.string cimport string
 from libcpp.vector cimport vector
 
 
-class RtMidiError(Exception):
-    """Base general RtMidi error."""
-    pass
-
+# Declarations for RtMidi C++ classes and their methods we use
 
 cdef extern from "RtMidi.h":
     # Enums nested in classes are apparently not supported by Cython yet
@@ -131,7 +137,8 @@ cdef extern from "RtMidi.h":
 
     cdef cppclass RtMidiIn:
         Api RtMidiIn() except +
-        Api RtMidiIn(Api rtapi, string clientName, unsigned int queueSizeLimit) except +
+        Api RtMidiIn(Api rtapi, string clientName,
+                     unsigned int queueSizeLimit) except +
         void cancelCallback()
         void closePort()
         Api getCurrentApi()
@@ -155,15 +162,6 @@ cdef extern from "RtMidi.h":
         void sendMessage(vector[unsigned char] *message) except +
 
 
-# export Api enum values to Python
-
-API_UNSPECIFIED = UNSPECIFIED
-API_MACOSX_CORE = MACOSX_CORE
-API_LINUX_ALSA = LINUX_ALSA
-API_UNIX_JACK = UNIX_JACK
-API_WINDOWS_MM = WINDOWS_MM
-API_RTMIDI_DUMMY = RTMIDI_DUMMY
-
 # internal functions
 
 cdef void _cb_func(double delta_time, vector[unsigned char] *msg_v,
@@ -185,7 +183,18 @@ def _to_bytes(name):
 
     return name
 
+
 # Public API
+
+# export Api enum values to Python
+
+API_UNSPECIFIED = UNSPECIFIED
+API_MACOSX_CORE = MACOSX_CORE
+API_LINUX_ALSA = LINUX_ALSA
+API_UNIX_JACK = UNIX_JACK
+API_WINDOWS_MM = WINDOWS_MM
+API_RTMIDI_DUMMY = RTMIDI_DUMMY
+
 
 def get_compiled_api():
     """Return a list of low-level MIDI backend APIs this module supports.
@@ -201,6 +210,11 @@ def get_compiled_api():
 
     RtMidi_getCompiledApi(api_v)
     return [api_v[i] for i in range(api_v.size())]
+
+
+class RtMidiError(Exception):
+    """Base general RtMidi error."""
+    pass
 
 
 cdef class MidiIn:
@@ -490,7 +504,7 @@ cdef class MidiIn:
         argument passed to this function when the callback is registered.
 
         Registering a callback function replaces any previously registered
-        callbacḱ.
+        callback.
 
         The callback function is safely removed when the input port is closed
         or the ``MidiIn`` instance is deleted.
@@ -634,10 +648,11 @@ cdef class MidiOut:
         non-ASCII characters in them have to be passed as unicode or utf-8
         encoded strings in Python 2. The default name is "RtMidi Output".
 
-        Note: Closing a port and opening it again with a different name does
-        not change the port name. To change the output port name, drop its
-        ``MidiOut`` instance, create a new one and open the port again giving a
-        different name.
+        .. note::
+            Closing a port and opening it again with a different name does not
+            change the port name. To change the output port name, drop its
+            ``MidiOut`` instance, create a new one and open the port again
+            giving a different name.
 
         """
         if self._port == -1:
