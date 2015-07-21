@@ -31,6 +31,12 @@ import time
 
 from os.path import exists
 
+try:
+    from functools import lru_cache
+except ImportError:
+    # Python < 3.2
+    lru_cache = lambda func: func
+
 import yaml
 
 import rtmidi
@@ -77,7 +83,6 @@ class MidiInputHandler(object):
     def __call__(self, event, data=None):
         event, deltatime = event
         self._wallclock += deltatime
-        log.debug("[%s] @%0.6f %r", self.port, self._wallclock, event)
 
         if event[0] < 0xF0:
             channel = (event[0] & 0xF) + 1
@@ -94,31 +99,33 @@ class MidiInputHandler(object):
         if num_bytes >= 3:
             data2 = event[2]
 
+        log.debug("[%s] @%i CH:%2s %02X %s %s", self.port, self._wallclock,
+            channel or '-', status, data1, data2 or '')
+
         # Look for matching command definitions
-        # XXX: use memoize cache here
-        if status in self.commands:
-            for cmd in self.commands[status]:
-                if channel is not None and cmd.channel != channel:
-                    continue
+        cmd = self.lookup_command(status, channel, data1, data2)
 
-                found = False
-                if num_bytes == 1 or cmd.data is None:
-                    found = True
-                elif isinstance(cmd.data, int) and cmd.data == data1:
-                    found = True
-                elif (isinstance(cmd.data, (list, tuple)) and
-                        cmd.data[0] == data1 and cmd.data[1] == data2):
-                    found = True
+        if cmd:
+            cmdline = cmd.command % dict(
+                channel=channel,
+                data1=data1,
+                data2=data2,
+                status=status)
+            self.do_command(cmdline)
 
-                if found:
-                    cmdline = cmd.command % dict(
-                        channel=channel,
-                        data1=data1,
-                        data2=data2,
-                        status=status)
-                    self.do_command(cmdline)
-            else:
-                return
+    @lru_cache()
+    def lookup_command(self, status, channel, data1, data2):
+        for cmd in self.commands.get(status, []):
+            if channel is not None and cmd.channel != channel:
+                continue
+
+            if (data1 is None and data2 is None) or cmd.data is None:
+                return cmd
+            elif isinstance(cmd.data, int) and cmd.data == data1:
+                return cmd
+            elif (isinstance(cmd.data, (list, tuple)) and
+                    cmd.data[0] == data1 and cmd.data[1] == data2):
+                return cmd
 
     def do_command(self, cmdline):
         log.info("Calling external command: %s", cmdline)
