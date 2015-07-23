@@ -97,6 +97,8 @@ def main(args=None):
         return 0
 
     filters = []
+    #filters = [CCToBankChange(cc=99, channel=15, msb=0, lsb=1, program=99)]
+
     if args.transpose:
         filters.append(Transpose(transpose=args.filterargs[0]))
     if args.mpresstocc:
