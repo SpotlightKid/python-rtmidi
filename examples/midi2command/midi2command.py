@@ -45,6 +45,12 @@ from rtmidi.midiconstants import *
 
 
 log = logging.getLogger('midi2command')
+BACKEND_MAP = {
+    'alsa': rtmidi.API_LINUX_ALSA,
+    'jack': rtmidi.API_UNIX_JACK,
+    'coremidi': rtmidi.API_MACOSX_CORE,
+    'windowsmm': rtmidi.API_WINDOWS_MM
+}
 STATUS_MAP = {
     'noteon': NOTE_ON,
     'noteoff': NOTE_OFF,
@@ -174,10 +180,13 @@ def main(args=None):
 
     """
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument('-p',  '--port', dest='port',
+    parser.add_argument('-b',  '--backend',
+        choices=sorted(BACKEND_MAP),
+        help='MIDI backend API (default: OS dependant)')
+    parser.add_argument('-p',  '--port',
         help='MIDI input port name or number (default: open virtual input)')
-    parser.add_argument('-v',  '--verbose', action="store_true",
-        help='verbose output')
+    parser.add_argument('-v',  '--verbose',
+        action="store_true", help='verbose output')
     parser.add_argument(dest='config', metavar="CONFIG",
         help='Configuration file in YAML syntax.')
 
@@ -188,9 +197,12 @@ def main(args=None):
 
     try:
         midiin, port_name = open_midiport(args.port, use_virtual=True,
+            api=BACKEND_MAP.get(args.backend, rtmidi.API_UNSPECIFIED),
             client_name='midi2command', port_name='MIDI input')
+    except (IOError, ValueError) as exc:
+        return "Could not open MIDI input: %s" % exc
     except (EOFError, KeyboardInterrupt):
-        sys.exit()
+        return
 
     log.debug("Attaching MIDI input callback handler.")
     midiin.set_callback(MidiInputHandler(port_name, args.config))

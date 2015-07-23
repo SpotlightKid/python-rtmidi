@@ -26,9 +26,22 @@ and the user is prompted to select one.
 
 If no port is specified, ``midi2command`` opens a virtual MIDI input port.
 
+For systems where several MIDI backend API are available (i.e. ALSA and JACK
+on Linux or CoreMIDI and JACk on OS X), you can select the backend to use with
+the ``-b`` (or ``--backend``) option. The available backends are:
+
+* alsa (Linux)
+* coremidi (OS X)
+* JACK (Linux, OS X)
+* windowsmm (Windows)
+
+If you do not specify a backend or one which is not available on the system,
+the first backend which has any input ports available will be used.
+
 Here's the full synopsis of the command::
 
-    usage: midi2command.py [-h] [-p PORT] [-v] CONFIG
+    usage: midi2command.py [-h] [-b {alsa,coremidi,jack,windowsmm}] [-p PORT] [-v]
+                           CONFIG
 
     Execute external commands when specific MIDI messages are received.
 
@@ -37,8 +50,10 @@ Here's the full synopsis of the command::
 
     optional arguments:
       -h, --help            show this help message and exit
-      -p PORT, --port PORT  MIDI input port name or number (default: open
-                            virtual input)
+      -b {alsa,coremidi,jack,windowsmm}, --backend {alsa,coremidi,jack,windowsmm}
+                            MIDI backend API (default: OS dependant)
+      -p PORT, --port PORT  MIDI input port name or number (default: open virtual
+                            input)
       -v, --verbose         verbose output
 
 
