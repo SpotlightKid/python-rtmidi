@@ -3,16 +3,20 @@
 #
 # midifilter.py
 #
-"""Simple MIDI filter/ processor."""
+"""Simple MIDI filter / processor."""
 
 from __future__ import absolute_import
 
 import argparse
 import logging
-import Queue
 import sys
 import threading
 import time
+
+try:
+    import Queue as queue
+except ImportError:  # Python 3
+    import queue
 
 import rtmidi
 from rtmidi.midiutil import open_midiport
@@ -30,7 +34,7 @@ class MidiDispatcher(threading.Thread):
         self.midiout = midiout
         self.filters = filters
         self._wallclock = time.time()
-        self.queue = Queue.Queue()
+        self.queue = queue.Queue()
 
     def __call__(self, event, data=None):
         message, deltatime = event
@@ -62,7 +66,7 @@ class MidiDispatcher(threading.Thread):
 
 
 def main(args=None):
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(prog='midifilter', description=__doc__)
     parser.add_argument('-m',  '--mpresstocc', action="store_true",
         help='Map mono pressure (channel aftertouch) to CC')
     parser.add_argument('-r',  '--mapccrange', action="store_true",
@@ -75,7 +79,7 @@ def main(args=None):
         help='MIDI output port number (default: ask)')
     parser.add_argument('-v',  '--verbose', action="store_true",
         help='verbose output')
-    parser.add_argument('filter-args', nargs="*", type=int,
+    parser.add_argument('filterargs', nargs="*", type=int,
         help='MIDI filter argument(s)')
 
     args = parser.parse_args(args if args is not None else sys.argv[1:])
@@ -85,7 +89,7 @@ def main(args=None):
 
     try:
         midiin, inport_name = open_midiport(args.inport, "input")
-        midiout, outport_name = open_midiport(args.outport, "input")
+        midiout, outport_name = open_midiport(args.outport, "output")
     except IOError as exc:
         print(exc)
         return 1
@@ -94,11 +98,11 @@ def main(args=None):
 
     filters = []
     if args.transpose:
-        filters.append(Transpose(transpose=args.filter_args[0]))
+        filters.append(Transpose(transpose=args.filterargs[0]))
     if args.mpresstocc:
-        MonoPressureToCC(cc=args.filter_args[0]))
+        filters.append(MonoPressureToCC(cc=args.filterargs[0]))
     if args.mapccrange:
-        filters.append(MapControllerValue(*args.filter_args))
+        filters.append(MapControllerValue(*args.filterargs))
 
     dispatcher = MidiDispatcher(midiin, midiout, *filters)
 
