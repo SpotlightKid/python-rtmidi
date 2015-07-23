@@ -187,7 +187,8 @@ def main(args=None):
         level=logging.DEBUG if args.verbose else logging.WARNING)
 
     try:
-        midiin, port_name = open_midiport(args.port, use_virtual=True)
+        midiin, port_name = open_midiport(args.port, use_virtual=True,
+            client_name='midi2command', port_name='MIDI input')
     except (EOFError, KeyboardInterrupt):
         sys.exit()
 
