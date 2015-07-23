@@ -110,8 +110,8 @@ is parsed into tokens by `shlex.split()`_ and then passed to
 prepend it with environment variable assignments or use any shell variable
 substitutions or similar. Just use a wrapper shell or batch script is you need
 this. The program must be found on your ``PATH`` or you need to specify the
-absolute path to the executable. The command will be started in the current
-working directory, i.e. the one you started ``midi2command`` in.
+absolute or relative path to the executable. The command will be started in the
+current working directory, i.e. the one you started ``midi2command`` in.
 
 You can put some placeholders into the command string, which will be replaced
 with values from the MIDI message which triggered the command. The placeholders
