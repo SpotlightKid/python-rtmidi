@@ -119,7 +119,7 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
                     (use_virtual or
                     (interactive and _prompt_for_virtual(type_)))):
                 if not port_name:
-                    port_name = "Virtual MIDI Input"
+                    port_name = "Virtual MIDI %s" % type_
                 log.info("Opening virtual MIDI %s port.", type_)
                 midiobj.open_virtual_port(port_name)
                 return midiobj, port_name
