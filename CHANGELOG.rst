@@ -8,15 +8,48 @@ For details and minor changes, please see the `version control log messages
 2015-06-21 version 0.6b1
 ------------------------
 
+Fixes:
+
+  * ``midiutil.open_port``:
+
+    * Correctly report and log I/O direction and instance type.
+    * Fix naming of virtual port.
+
 Enhancements / Changes:
   * Synced with upstream RtMidi_ (2.1.0-16-g28321c0).
+  * Some source code re-ordering.
+
+Documentation:
+  * Documented exceptions raised by `MidiIn/Out.open_[virtual_]port()`.
+  * Some docstring corrections and formatting fixes.
 
 Building:
   * Simplified ``setup.py`` by throwing out old compatibility stuff.
+  * Explicitly call `PyEval_InitThreads` from Cython code instead of using
+    undocumented compiler macro.
 
 Examples:
-  * ``midifilter``: moved ``main.py`` to ``__main__.py``, removed old code and
-    fixed command line args access.
+  * Add new ``sequencer`` example.
+
+  * ``midifilter``:
+
+    * Moved ``main.py`` to ``__main__.py``, removed old code and fixed command
+      line args access.
+    * Streamline event matching.
+    * Added 'CCToBankChange' filter.
+    * 'Queue' module renamed to 'queue' in Python 3.
+    * Fixed: opening of output port erroneously used "input".
+    * Fixed positional command line args handling.
+    * Set command name for argparse.
+
+  * ``midi2command``:
+
+    * Added README.
+    * Added command line option to select backend API.
+    * Catch errors when opening port.
+    * Set client and port name.
+    * Cache command lookup (Python 3.2+ only)
+
 
   * ``sysexsaver``:
 
