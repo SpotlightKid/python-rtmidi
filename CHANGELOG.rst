@@ -28,12 +28,12 @@ Enhancements / Changes:
     ``API_`` prefix, e.g. ``UNIX_JACK`` for thr Jack API.
 
 Documentation:
-  * Documented exceptions raised by `MidiIn/Out.open_[virtual_]port()`.
+  * Documented exceptions raised by ``MidiIn/Out.open_[virtual_]port()``.
   * Some docstring corrections and formatting fixes.
 
 Building:
   * Simplified ``setup.py`` by throwing out old compatibility stuff.
-  * Explicitly call `PyEval_InitThreads` from Cython code instead of using
+  * Explicitly call ``PyEval_InitThreads`` from Cython code instead of using
     undocumented compiler macro.
 
 Examples:
@@ -146,7 +146,7 @@ Building:
     template with release meta data.
 
   * Setuptools is now required, pure distutils won't work anymore, so removing
-    the fallback import of ``setup``  from distutils.
+    the fallback import of ``setup`` from distutils.
 
 
 2013-11-05 version 0.4.1b
