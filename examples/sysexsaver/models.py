@@ -282,7 +282,9 @@ models = {
     (0, 32, 127): {}, # Serato Inc LP
     (0, 33, 0): {}, # Limex Music Handles GmbH
     (0, 33, 1): {}, # Kyodday/Tokai
-    (0, 33, 2): {}, # Mutable Instruments
+    (0, 33, 2): {
+        0x02: ("Shruthi-1", "shruthi-1"),
+    }, # Mutable Instruments
     (0, 33, 3): {}, # PreSonus Software Ltd
     (0, 33, 4): {}, # Xiring
     (0, 33, 5): {}, # Fairlight Instruments Pty Ltd
