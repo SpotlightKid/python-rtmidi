@@ -123,10 +123,10 @@ class SysexSaver(object):
 
             # XXX: This should be implemented in a subclass
             #      loaded via a plugin infrastructure
-            data = dict(timestamp=dt.strftime('%Y%m%dT%H%M%S'))
+            data = dict(timestamp=dt.strftime('%Y%m%dT%H%M%S.%f'))
             data['manufacturer'] = sanitize_name(
                 sysex.manufacturer_tag or 'unknown')
-            data['device'] = sanitize_name(sysex.model_tag)
+            data['device'] = sanitize_name(sysex.model_tag or 'unknown')
 
             if sysex.manufacturer_id == 62 and sysex.model_id == 0x0E:
                 if sysex[4] == 0x10:
@@ -166,9 +166,11 @@ class SysexSaver(object):
                     log.info("Sysex message of %i bytes written to '%s'.",
                         len(data), outfn)
         except:
-            if self.debug:
-                import traceback
-                traceback.print_exc()
+            msg = "Error handling MIDI message: %s" % sys.exc_info()[1]
+            if debug:
+                log.debug(msg, exc_info=True)
+            else:
+                log.error(msg)
 
 
 def main(args=None):
