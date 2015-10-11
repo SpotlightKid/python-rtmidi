@@ -34,8 +34,8 @@ def convert_bool(s):
     it is considered True, else False.
 
     """
-    return (True if s in ('1', 'enable', 'on', 't', 'true', 'y', 'yes')
-        else False)
+    return s in ('1', 'enable', 'on', 't', 'true', 'y', 'yes')
+
 
 Pattern = namedtuple('Pattern',
     ('addrpattern', 'typecodes', 'handler', 'convdict', 'params'))
@@ -65,7 +65,7 @@ class OSCDispatcher(list):
         conversion functions are looked up. It can be any object, which
         supports attribute or dictionary with string keys lookup, e.g. a module
         object, a class instance, the dictionary returned by ``globals()`` or
-        locals()`` or similar.
+        ``locals()`` or similar.
 
         """
         super(OSCDispatcher, self).__init__()
@@ -99,11 +99,11 @@ class OSCDispatcher(list):
 
             (addrpattern, typecodes, handler[, params])
 
-        where ``addrpattern`` is a regular expression for matching the path of
-        incoming OSC messages, ``typecodes`` a string with OSC argument type
-        codes and ``handler`` the name of a handler function to call when
-        an OSC message matches the address pattern and has exactly the number
-        and types of arguments specified in ``typecodes``.
+        where ``addrpattern`` is a regular expression for matching the address
+        pattern of incoming OSC messages, ``typecodes`` a string with OSC
+        argument type codes and ``handler`` the name of a handler function to
+        call when an OSC message matches the address pattern and has exactly
+        the number and types of arguments specified in ``typecodes``.
 
         The handler function is looked up in the namespace passed to the
         constructor of this instance (see constructor docstring). The function
@@ -111,16 +111,16 @@ class OSCDispatcher(list):
         given in ``typecodes`` and keyword arguments for any named group in
         the address pattern (see below for details).
 
-        The pattern in ``addrpattern`` is a regular expression as understood
-        by the standard Python ``re`` module with one important syntax
-        extension. Groupnames can have the form ``prefix:name``, where name is
-        the normal group name, which must be a valid Python identifier (no
-        non-ASCII chars allowed though), and ``prefix`` is an identifier for a
-        conversion function, which is applied to the string matched by the
-        group. This identifier can either refer to a builtin conversion
-        function (see list below) or a callable found in the namespace passed
-        to the constructor of this instance. The prefix is optional and, when
-        left out, no conversion function is applied.
+        The pattern in ``addrpattern`` is a regular expression as understood by
+        the standard Python ``re`` module with one important syntax extension.
+        Group names can have the form ``prefix:name``, where name is the normal
+        group name, which must be a valid Python identifier (no non-ASCII chars
+        allowed though), and ``prefix`` is an identifier for a conversion
+        function, which is applied to the string matched by the group. This
+        identifier can either refer to a builtin conversion function (see list
+        below) or a callable found in the namespace passed to the constructor
+        of this instance. The prefix is optional and, when left out, no
+        conversion function is applied.
 
         OSC arguments are passed to the handler function as positional
         arguments and are converted to Python types according to their typecode
