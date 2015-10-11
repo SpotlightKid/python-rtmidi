@@ -59,13 +59,21 @@ class SequencerThread(threading.Thread):
         self._bpm = value
         self.resolution = 60. / value / self.ppqn
 
-    def stop(self):
+    def stop(self, timeout=5):
         """Set thread stop event, causing it to exit its mainloop."""
         self._stopped.set()
         log.debug("SequencerThread stop event set.")
 
         if self.is_alive():
-            self._finished.wait()
+            self._finished.wait(timeout)
+
+        # flush event queue, otherwise joining the thread/process may deadlock
+        # (see http://docs.python.org/library/multiprocessing.html#programming-guidelines)
+        try:
+            while True:
+                self.queue.get(True, 1)
+        except QueueEmpty:
+            pass
 
         self.join()
 
