@@ -26,11 +26,31 @@ log = logging.getLogger(__name__)
 
 
 class MidiEvent(object):
+    __slots__ = ('timestamp', 'message')
+
     def __init__(self, timestamp, message):
         self.timestamp = timestamp
         self.message = message
+
     def __repr__(self):
-        return "%r @ %.2f" % (self.message, self.timestamp)
+        return "@ %.2f %r" % (self.timestamp, self.message)
+
+    def __eq__(self, other):
+        return (self.timestamp == other.timestamp and
+                self.message == other.message)
+
+    def __lt__(self, other):
+        return self.timestamp < other.timestamp
+
+    def __le__(self, other):
+        return self.timestamp <= other.timestamp
+
+    def __gt__(self, other):
+        return self.timestamp > other.timestamp
+
+    def __ge__(self, other):
+        return self.timestamp >= other.timestamp
+
 
 class SequencerThread(threading.Thread):
     def __init__(self, midiout, queue=None, bpm=120.0, ppqn=480):
@@ -133,10 +153,12 @@ class SequencerThread(threading.Thread):
                     log.debug("Got event from input queue: %r", queue_event)
                     # Check whether event should be sent out immediately
                     # or needs to be scheduled
-                    if queue_event.timestamp <= current_time:
+                    deadline = current_time + self.resolution / 2
+
+                    if queue_event.timestamp <= deadline:
                         heappush(due, queue_event)
                         log.debug("Queued event for output.")
-                        jitter.append(current_time - queue_event.timestamp)
+                        jitter.append(abs(current_time - queue_event.timestamp))
                     else:
                         heappush(pending, queue_event)
                         log.debug("Scheduled event.")
@@ -173,13 +195,26 @@ def _test():
     from rtmidi.midiutil import open_midiport
 
     logging.basicConfig(level=logging.DEBUG)
-    midiout, port = open_midiport(None, "output",
-                                  client_name="RtMidi Sequencer")
+
+    try:
+        midiout, port = open_midiport(None, "output",
+                                      client_name="RtMidi Sequencer")
+    except (IOError, ValueError) as exc:
+        return "Could not open MIDI input: %s" % exc
+    except (EOFError, KeyboardInterrupt):
+        return
+
     seq = SequencerThread(midiout)
     seq.start()
 
     seq.add((NOTE_ON, 60, 100))
-    seq.add((NOTE_OFF, 60, 0), delta=2)
+    seq.add((NOTE_OFF, 60, 0), delta=0.5)
+    seq.add((NOTE_ON, 64, 100), delta=0.5)
+    seq.add((NOTE_OFF, 64, 0), delta=1.)
+    seq.add((NOTE_ON, 67, 100), delta=1.)
+    seq.add((NOTE_OFF, 67, 0), delta=1.5)
+    seq.add((NOTE_ON, 72, 100), delta=1.5)
+    seq.add((NOTE_OFF, 62, 0), delta=2.)
 
     try:
         while True:
