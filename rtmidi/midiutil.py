@@ -13,7 +13,7 @@ __all__ = [
 ]
 
 import logging
-import sys
+import os
 
 try:
     raw_input
@@ -108,6 +108,15 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
     """
     midiclass_ = rtmidi.MidiIn if type_ == "input" else rtmidi.MidiOut
     log.debug("Creating %s object.", midiclass_.__name__)
+
+    if api == rtmidi.API_UNSPECIFIED and 'RTMIDI_API' in os.environ:
+        try:
+            api_name = os.environ['RTMIDI_API'].upper()
+            api = getattr(rtmidi, 'API_' + api_name)
+        except AttributeError:
+            log.warning("Ignoring unknown API '%s' in environment variable "
+                        "RTMIDI_API." % api_name)
+
     midiobj = midiclass_(api, name=client_name)
     type_ = "input" if isinstance(midiobj, rtmidi.MidiIn) else "output"
 
