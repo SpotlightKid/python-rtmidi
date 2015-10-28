@@ -27,12 +27,12 @@ and the user is prompted to select one.
 If no port is specified, ``midi2command`` opens a virtual MIDI input port.
 
 For systems where several MIDI backend API are available (i.e. ALSA and JACK
-on Linux or CoreMIDI and JACk on OS X), you can select the backend to use with
+on Linux or CoreMIDI and JACK on OS X), you can select the backend to use with
 the ``-b`` (or ``--backend``) option. The available backends are:
 
 * alsa (Linux)
 * coremidi (OS X)
-* JACK (Linux, OS X)
+* jack (Linux, OS X)
 * windowsmm (Windows)
 
 If you do not specify a backend or one which is not available on the system,
@@ -60,9 +60,9 @@ Here's the full synopsis of the command::
 Configuration
 -------------
 
-The script takes a the name of a configuration file in YAML_ syntax as the
-first and only positional argument. The configuration consist of a list of
-mappings, where each mapping defines one command.
+The script takes the name of a configuration file in YAML_ syntax as the first
+and only positional argument. The configuration consist of a list of mappings,
+where each mapping defines one command.
 
 Here is a simple example configuration defining two commands. The description
 of each command explains what it does::
@@ -98,20 +98,21 @@ following values:
 The value of ``data`` key is matched against the data bytes of the incoming
 MIDI message. It may be a single integer or a list or tuple with one or two
 integer items. If ``data`` is not present or empty, the configuration matches
-against any incoming MIDI message with a matching status byte. If it is a
-single integer or a list/tuple with one item, only the first data byte of the
-MIDI message must match.
+against any incoming MIDI message with a matching status byte. If ``data`` is a
+single integer or a list or tuple with only one item, only the first data byte
+of the MIDI message must match.
 
 The command to execute when a matching MIDI message is received is specified
 with the value of the ``command`` key. This should be the full command line
 with all needed options and arguments to the external program. The command line
 is parsed into tokens by `shlex.split()`_ and then passed to
-`subprocess.Popen()`_. The command line is not passed to a shell, so can't
-prepend it with environment variable assignments or use any shell variable
-substitutions or similar. Just use a wrapper shell or batch script is you need
-this. The program must be found on your ``PATH`` or you need to specify the
-absolute or relative path to the executable. The command will be started in the
-current working directory, i.e. the one you started ``midi2command`` in.
+`subprocess.Popen()`_. The command line is not passed to a shell, so it is not
+supported to prepend environment variable assignments or use any shell variable
+substitutions or similar. If you need this functionality, just use a wrapper
+shell or batch script for your external program. The program must be found on
+your ``PATH`` or you need to specify the absolute or relative path to the
+executable. The command will be executed in the current working directory, i.e.
+the one you started ``midi2command`` in.
 
 You can put some placeholders into the command string, which will be replaced
 with values from the MIDI message which triggered the command. The placeholders
