@@ -216,7 +216,7 @@ def _test():
     from rtmidi.midiconstants import NOTE_ON, NOTE_OFF
     from rtmidi.midiutil import open_midiport
 
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG, format="%(message)s")
 
     try:
         midiout, port = open_midiport(
