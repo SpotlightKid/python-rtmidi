@@ -10,11 +10,12 @@ Welcome to python-rtmidi's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    readme
    installation
    usage
+   modules
    contributing
    authors
    history
