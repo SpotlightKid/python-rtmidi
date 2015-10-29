@@ -55,6 +55,7 @@ class MidiEvent(object):
 class SequencerThread(threading.Thread):
     def __init__(self, midiout, queue=None, bpm=120.0, ppqn=480):
         super(SequencerThread, self).__init__()
+        log.debug("Created sequencer thread.")
         self.midiout = midiout
 
         # inter-thread communication
@@ -147,10 +148,20 @@ class SequencerThread(threading.Thread):
 
         try:
             while not self._stopped.is_set():
-                q_event = self.get_event()
+                q_events = []
+                due = []
                 current_time = time.time()
                 deadline = current_time + self._tick / 2
-                due = []
+
+                # Pop events of the input queue until there are no more
+                while True:
+                    evt = self.get_event()
+
+                    if evt:
+                        q_events.append(evt)
+                    else:
+                        break
+
 
                 # Pop events of the pending queue if the are due for this tick
                 while True:
@@ -166,20 +177,20 @@ class SequencerThread(threading.Thread):
                     log.debug("Queued pending event for output: %r", evt)
                     jitter.append(abs(current_time - evtdue))
 
-                if q_event:
+                for q_event in q_events:
                     log.debug("Got event from input queue: %r", q_event)
                     # Check whether event should be sent out immediately
                     # or needs to be scheduled
 
-                    eventdue = self._start_time + q_event.ticks * self._tick
+                    evtdue = self._start_time + q_event.ticks * self._tick
 
-                    if eventdue <= deadline:
+                    if evtdue <= deadline:
                         heappush(due, q_event)
                         log.debug("Queued event for output.")
-                        jitter.append(abs(current_time - eventdue))
+                        jitter.append(abs(current_time - evtdue))
                     else:
                         heappush(pending, q_event)
-                        log.debug("Scheduled event.")
+                        log.debug("Scheduled event in pending queue.")
 
                 # If this batch contains any due events,
                 # send them to the MIDI output.
