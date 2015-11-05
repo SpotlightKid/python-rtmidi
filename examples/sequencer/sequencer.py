@@ -9,12 +9,8 @@ import logging
 import threading
 import time
 
+from collections import deque
 from heapq import heappush, heappop
-
-try:
-    from Queue import Empty as QueueEmpty, Queue
-except ImportError:
-    from queue import Empty as QueueEmpty, Queue
 
 try:
     range = xrange
@@ -61,7 +57,7 @@ class SequencerThread(threading.Thread):
         # inter-thread communication
         self.queue = queue
         if queue is None:
-            self.queue = Queue()
+            self.queue = deque()
             log.debug("Created queue for MIDI output.")
 
         self._stopped = threading.Event()
@@ -103,8 +99,8 @@ class SequencerThread(threading.Thread):
         # (see http://docs.python.org/library/multiprocessing.html#programming-guidelines)
         try:
             while True:
-                self.queue.get(True, 1)
-        except QueueEmpty:
+                self.queue.popleft()
+        except IndexError:
             pass
 
         self.join()
@@ -122,13 +118,13 @@ class SequencerThread(threading.Thread):
             event.ticks = ticks
 
         event.ticks += delta
-        self.queue.put_nowait(event)
+        self.queue.append(event)
 
     def get_event(self):
         """Poll the input queue for events without blocking."""
         try:
-            return self.queue.get_nowait()
-        except QueueEmpty:
+            return self.queue.popleft()
+        except IndexError:
             return None
 
     def run(self):
