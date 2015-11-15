@@ -22,6 +22,13 @@ log = logging.getLogger(__name__)
 
 
 class MidiEvent(object):
+    """Container for a MIDI message and a timing tick.
+
+    Bascially like a two-item named tuple, but we overwrite the comparison
+    operators, so that they (execpt testing for equality) use only on the
+    timing ticks.
+
+    """
     __slots__ = ('tick', 'message')
 
     def __init__(self, tick, message):
@@ -123,11 +130,26 @@ class SequencerThread(threading.Thread):
         self.queue.append(event)
 
     def get_event(self):
-        """Poll the input queue for events without blocking."""
+        """Poll the input queue for events without blocking.
+
+        Could be overwritten, e.g. if you passed in your own queue instance
+        with a different API.
+
+        """
         try:
             return self.queue.popleft()
         except IndexError:
             return None
+
+    def handle_event(self, event):
+        """Handle the event by sending it to MIDI out.
+
+        Could be overwritten, e.g. to handle meta events, like time signature
+        and tick division changes.
+
+        """
+        # log.debug("Midi Out: %r", event.message)
+        self.midiout.send_message(event.message)
 
     def run(self):
         """Start the thread's main loop.
@@ -182,9 +204,7 @@ class SequencerThread(threading.Thread):
                 # send them to the MIDI output.
                 if due:
                     for i in range(len(due)):
-                        message = heappop(due).message
-                        # log.debug("Midi Out: %r", message)
-                        self.midiout.send_message(message)
+                        self.handle_event(heappop(due))
 
                 # loop speed adjustment
                 elapsed = time.time() - curtime
