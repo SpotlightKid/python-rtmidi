@@ -22,30 +22,30 @@ log = logging.getLogger(__name__)
 
 
 class MidiEvent(object):
-    __slots__ = ('ticks', 'message')
+    __slots__ = ('tick', 'message')
 
-    def __init__(self, ticks, message):
-        self.ticks = ticks
+    def __init__(self, tick, message):
+        self.tick = tick
         self.message = message
 
     def __repr__(self):
-        return "@ %05i %r" % (self.ticks, self.message)
+        return "@ %05i %r" % (self.tick, self.message)
 
     def __eq__(self, other):
-        return (self.ticks == other.ticks and
+        return (self.tick == other.tick and
                 self.message == other.message)
 
     def __lt__(self, other):
-        return self.ticks < other.ticks
+        return self.tick < other.tick
 
     def __le__(self, other):
-        return self.ticks <= other.ticks
+        return self.tick <= other.tick
 
     def __gt__(self, other):
-        return self.ticks > other.ticks
+        return self.tick > other.tick
 
     def __ge__(self, other):
-        return self.ticks >= other.ticks
+        return self.tick >= other.tick
 
 
 class SequencerThread(threading.Thread):
@@ -107,19 +107,19 @@ class SequencerThread(threading.Thread):
 
         self.join()
 
-    def add(self, event, ticks=None, delta=0):
+    def add(self, event, tick=None, delta=0):
         """Enqueue event for sending to MIDI output."""
 
-        if ticks is None:
-            ticks = self._tickcnt or 0
+        if tick is None:
+            tick = self._tickcnt or 0
 
         if not isinstance(event, MidiEvent):
-            event = MidiEvent(ticks, event)
+            event = MidiEvent(tick, event)
 
-        if not event.ticks:
-            event.ticks = ticks
+        if not event.tick:
+            event.tick = tick
 
-        event.ticks += delta
+        event.tick += delta
         self.queue.append(event)
 
     def get_event(self):
@@ -149,22 +149,16 @@ class SequencerThread(threading.Thread):
             while not self._stopped.is_set():
                 due = []
                 curtime = time.time()
-                deadline = curtime + self._tick / 2
 
                 # Pop events off the pending queue
                 # if they are due for this tick
                 while True:
-                    if pending:
-                        evtdue = (self._starttime + pending[0].ticks *
-                                  self._tick)
-
-                    if not pending or evtdue > deadline:
+                    if not pending or pending[0].tick > self._tickcnt:
                         break
 
                     evt = heappop(pending)
                     heappush(due, evt)
                     # log.debug("Queued pending event for output: %r", evt)
-                    jitter += abs(curtime - evtdue)
 
                 # Pop up to events off the input queue
                 for i in range(self._batchsize):
@@ -177,12 +171,9 @@ class SequencerThread(threading.Thread):
                     # Check whether event should be sent out immediately
                     # or needs to be scheduled
 
-                    evtdue = self._starttime + evt.ticks * self._tick
-
-                    if evtdue <= deadline:
+                    if evt.tick <= self._tickcnt:
                         heappush(due, evt)
                         # log.debug("Queued event for output.")
-                        jitter += abs(curtime - evtdue)
                     else:
                         heappush(pending, evt)
                         # log.debug("Scheduled event in pending queue.")
@@ -194,12 +185,6 @@ class SequencerThread(threading.Thread):
                         message = heappop(due).message
                         # log.debug("Midi Out: %r", message)
                         self.midiout.send_message(message)
-
-                # calculate jitter
-                if self._tickcnt and not self._tickcnt % jitter_interval:
-                    # log.debug("Avg. jitter (over %i ticks): %0.3f",
-                    #           jitter_interval, jitter / self._tickcnt)
-                    jitter = 0.
 
                 # loop speed adjustment
                 elapsed = time.time() - curtime
@@ -236,9 +221,9 @@ def _test():
 
     seq = SequencerThread(midiout, bpm=100, ppqn=240)
 
-    def add_quarter(ticks, note, vel=100):
-        seq.add((NOTE_ON, note, vel), ticks)
-        seq.add((NOTE_OFF, note, 0), ticks=ticks + seq.ppqn)
+    def add_quarter(tick, note, vel=100):
+        seq.add((NOTE_ON, note, vel), tick)
+        seq.add((NOTE_OFF, note, 0), tick=tick + seq.ppqn)
 
     t = 0
     p = seq.ppqn
