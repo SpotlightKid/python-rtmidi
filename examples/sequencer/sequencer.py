@@ -13,7 +13,7 @@ from collections import deque
 from heapq import heappush, heappop
 
 try:
-    range = xrange
+    range = xrange  # noqa
 except NameError:
     pass
 
@@ -70,8 +70,6 @@ class SequencerThread(threading.Thread):
         self._stopped = threading.Event()
         self._finished = threading.Event()
 
-        # Set to current time when sequence is started
-        self._starttime = None
         # Counts elapsed ticks when sequence is running
         self._tickcnt = None
         # Max number of input queue events to get in one loop
@@ -93,9 +91,6 @@ class SequencerThread(threading.Thread):
         # log.debug("Changed BPM => %s, tick interval %.2f ms.",
         #           self._bpm, self._tick * 1000)
 
-        if self._starttime:
-            self._starttime = time.time() - self._tickcnt * self._tick
-
     def stop(self, timeout=5):
         """Set thread stop event, causing it to exit its mainloop."""
         self._stopped.set()
@@ -103,14 +98,6 @@ class SequencerThread(threading.Thread):
 
         if self.is_alive():
             self._finished.wait(timeout)
-
-        # flush event queue, otherwise joining the thread/process may deadlock
-        # (see http://docs.python.org/library/multiprocessing.html#programming-guidelines)
-        try:
-            while True:
-                self.queue.popleft()
-        except IndexError:
-            pass
 
         self.join()
 
@@ -162,10 +149,7 @@ class SequencerThread(threading.Thread):
         # busy loop to wait for time when next batch of events needs to
         # be written to output
         pending = []
-        jitter = 0.
-        jitter_interval = self.ppqn * 4
         self._tickcnt = 0
-        self._starttime = time.time()
 
         try:
             while not self._stopped.is_set():
