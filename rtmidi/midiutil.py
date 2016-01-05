@@ -4,12 +4,22 @@
 #
 """Collection of utility functions for handling MIDI I/O and ports.
 
-Currently only contains one public function, ``open_midiport``.
+Currently contains functions to list MIDI input/output ports, to get the RtMidi
+API to use from the environment and to open MIDI ports.
 
 """
 
+from __future__ import print_function, unicode_literals
+
+
 __all__ = [
-    'open_midiport'
+    'get_api_from_environment',
+    'list_avaiilable_ports',
+    'list_input_ports',
+    'list_output_ports',
+    'open_midiinput',
+    'open_midioutput',
+    'open_midiport',
 ]
 
 import logging
@@ -33,6 +43,70 @@ def _prompt_for_virtual(type_):
 
     return raw_input("Do you want to create a virtual MIDI %s port? (y/N) "
         % type_).strip().lower() in ['y', 'yes']
+
+
+def get_api_from_environment(api=rtmidi.API_UNSPECIFIED):
+    """Return RtMidi API specified in the environment if any.
+
+    If the optional api argument is rtmidi.API_UNSPECIFIED (the default),
+    look in the environment variable RTMIDI_API for the name of the RtMidi
+    API to use. Valid names are LINUX_ALSA, UNIX_JACK, MACOSXX_CORE,
+    WINDOWS_MM and RTMIDI_DUMMY. If no valid value is found,
+    rtmidi.API_UNSPECIFIED will be used.
+
+    Returns a rtmmidi.API_* constant.
+
+    """
+    if api == rtmidi.API_UNSPECIFIED and 'RTMIDI_API' in os.environ:
+        try:
+            api_name = os.environ['RTMIDI_API'].upper()
+            api = getattr(rtmidi, 'API_' + api_name)
+        except AttributeError:
+            log.warning("Ignoring unknown API '%s' in environment variable "
+                        "RTMIDI_API." % api_name)
+
+    return api
+
+
+def list_available_ports(ports=None, midiio=None):
+    """List MIDI ports given or available on given MIDI I/O instance."""
+    if ports is None:
+        ports = midiio.get_ports()
+        type_ = " input" if isinstance(midiio, rtmidi.MidiIn) else " ouput"
+    else:
+        type_ = ''
+
+    if ports:
+        print("Available MIDI{} ports:\n".format(type_))
+
+        for portno, name in enumerate(ports):
+            print("[{}] {}".format(portno, name))
+    else:
+        print("No MIDI{} ports found.".format(type_))
+
+    print()
+
+
+def list_input_ports(api=rtmidi.API_UNSPECIFIED):
+    """List available MIDI input ports.
+
+    Optionally the RtMidi API can be passed with the ``api`` argument. If not
+    it will be determined via the ``get_api_from_environment`` function.
+
+    """
+    midiin = rtmidi.MidiIn(get_api_from_environment(api))
+    list_available_ports(midiio=midiin)
+
+
+def list_output_ports(api=rtmidi.API_UNSPECIFIED):
+    """List available MIDI output ports.
+
+    Optionally the RtMidi API can be passed with the ``api`` argument. If not
+    it will be determined via the ``get_api_from_environment`` function.
+
+    """
+    midiout = rtmidi.MidiOut(get_api_from_environment(api))
+    list_available_ports(midiio=midiout)
 
 
 def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
@@ -109,13 +183,7 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
     midiclass_ = rtmidi.MidiIn if type_ == "input" else rtmidi.MidiOut
     log.debug("Creating %s object.", midiclass_.__name__)
 
-    if api == rtmidi.API_UNSPECIFIED and 'RTMIDI_API' in os.environ:
-        try:
-            api_name = os.environ['RTMIDI_API'].upper()
-            api = getattr(rtmidi, 'API_' + api_name)
-        except AttributeError:
-            log.warning("Ignoring unknown API '%s' in environment variable "
-                        "RTMIDI_API." % api_name)
+    api = get_api_from_environment(api)
 
     midiobj = midiclass_(api, name=client_name)
     type_ = "input" if isinstance(midiobj, rtmidi.MidiIn) else "output"
@@ -127,8 +195,10 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
             if (midiobj.get_current_api() != rtmidi.API_WINDOWS_MM and
                     (use_virtual or
                     (interactive and _prompt_for_virtual(type_)))):
+
                 if not port_name:
                     port_name = "Virtual MIDI %s" % type_
+
                 log.info("Opening virtual MIDI %s port.", type_)
                 midiobj.open_virtual_port(port_name)
                 return midiobj, port_name
@@ -155,12 +225,7 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
                 port = None
 
     while interactive and (port is None or (port < 0 or port >= len(ports))):
-        print("Available MIDI %s ports:\n" % type_)
-
-        for portno, name in enumerate(ports):
-            print("[%i] %s" % (portno, name))
-
-        print('')
+        list_available_ports(ports)
 
         try:
             r = raw_input("Select MIDI %s port (Control-C to exit): " % type_)
@@ -181,3 +246,15 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
         return midiobj, port_name
     else:
         raise ValueError("Invalid port.")
+
+
+def open_midiinput(port=None, api=rtmidi.API_UNSPECIFIED, use_virtual=False,
+                   interactive=True, client_name=None, port_name=None):
+    return open_midiport(port, "input", api, use_virtual, interactive,
+                         client_name, port_name)
+
+
+def open_midioutput(port=None, api=rtmidi.API_UNSPECIFIED, use_virtual=False,
+                    interactive=True, client_name=None, port_name=None):
+    return open_midiport(port, "output", api, use_virtual, interactive,
+                         client_name, port_name)
