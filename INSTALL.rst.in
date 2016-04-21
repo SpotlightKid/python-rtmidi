@@ -175,3 +175,36 @@ Please see the detailed instructions for Windows in the file
 .. _jack for os x: http://www.jackosx.com/
 .. _pyliblo: http://das.nasophon.de/pyliblo/
 .. _pyyaml: https://pypi.python.org/pypi/PyYAML
+
+Bash on Windows
+---------------
+Using the latest insider preview of Windows adds a subsystem for Linux and users can use Bash just like a Linux shell. In order to set-up RtMidi,
+there are a few additional setup steps.
+
+* Setup the Pip and Python
+    * `apt-get remove upstart`
+    * `apt-get remove udev`
+    * `apt-get autoremove`
+    * `sudo apt-get install python-pip`
+    * `sudo apt-get install python-dev`
+    * `nano /usr/sbin/policy-rc.d`
+    * Write in this file the following:
+
+        #!/bin/sh
+        exit 101
+
+    * `chmod +x /usr/sbin/policy-rc.d`
+    * `dpkg-divert --local --rename --add /sbin/initctl`
+    * `ln -s /bin/true /sbin/initctl`            
+* Setup RtMidi
+    * `sudo apt-get download udev`
+    * `sudo apt-get install initramfs-tools` 
+    * `sudo dpkg -i --force-all confmiss udev_*.deb
+    * `apt-get install -y alsa-utils`
+    * `gpasswd -a root audio`
+
+Unfortunately, there are some issues around the current version of Bash on Windows which prevents the Alsa and soundcards from being accessible.
+(Try running `alsamixer` and `aplay -l` to see if it works on your device)
+The issue is here: https://github.com/Microsoft/BashOnWindows/issues/237
+
+Still, RtMidi can be installed and is technically accessible through Python.
