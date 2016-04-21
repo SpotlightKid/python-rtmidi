@@ -130,7 +130,45 @@ Compiling with MinGW also does not work out-of-the-box yet. If you have any
 useful hints, please let the author know.
 
 
+Install through Bash on Windows
+-------------------------------
+
+Using the latest insider preview of Windows adds a subsystem for Linux and users can use Bash just like a Linux shell. In order to set-up RtMidi,
+there are a few additional setup steps.
+
+- Setup the Pip and Python
+    - ``apt-get remove upstart``
+    - ``apt-get remove udev``
+    - ``apt-get autoremove``
+    - ``sudo apt-get install python-pip``
+    - ``sudo apt-get install python-dev``
+    - ``nano /usr/sbin/policy-rc.d``
+    - Write in this file the following:
+    
+    ::
+
+        #!/bin/sh
+        exit 101
+
+    - ``chmod +x /usr/sbin/policy-rc.d``
+    - ``dpkg-divert --local --rename --add /sbin/initctl``
+    - ``ln -s /bin/true /sbin/initctl``            
+- Setup RtMidi
+    - ``sudo apt-get download udev``
+    - ``sudo apt-get install initramfs-tools`` 
+    - ``sudo dpkg -i --force-all confmiss udev_*.deb``
+    - ``apt-get install -y alsa-utils``
+    - ``gpasswd -a root audio``
+
+Unfortunately, there are some issues around the current version of Bash on Windows which prevents the Alsa and soundcards from being accessible.
+(Try running `alsamixer` and `aplay -l` to see if it works on your device)
+An issue_ about this has been filed. 
+
+Still, RtMidi can be installed and is technically accessible through Python.
+
+
 .. _ez_setup.py: https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py
 .. _pip: https://pypi.python.org/pypi/pip
 .. _setuptools: https://pypi.python.org/pypi/setuptools
 .. _virtualenv: https://pypi.python.org/pypi/virtualenv
+.. _issue: https://github.com/Microsoft/BashOnWindows/issues/237

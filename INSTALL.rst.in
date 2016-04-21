@@ -175,3 +175,10 @@ Please see the detailed instructions for Windows in the file
 .. _jack for os x: http://www.jackosx.com/
 .. _pyliblo: http://das.nasophon.de/pyliblo/
 .. _pyyaml: https://pypi.python.org/pypi/PyYAML
+
+
+Bash on Windows
+---------------
+
+Please see the detailed instructions for Bash on Windows in the file
+``INSTALL-windows.rst``.
