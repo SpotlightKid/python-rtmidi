@@ -166,6 +166,15 @@ Please see the detailed instructions for Windows in the file
 ``INSTALL-windows.rst``.
 
 
+User Contributed Documentation
+------------------------------
+
+The python-rtmidi wiki on GitHub contains some `user contributed
+documentation`_ for additional installation scenarios. Please check these, if
+you have trouble installing python-rtmidi in an uncommon or not-yet-covered
+environment.
+
+
 .. _pypi page: http://python.org/pypi/python-rtmidi#downloads
 .. _cython: http://cython.org/
 .. _pip: http://python.org/pypi/pip
@@ -175,3 +184,5 @@ Please see the detailed instructions for Windows in the file
 .. _jack for os x: http://www.jackosx.com/
 .. _pyliblo: http://das.nasophon.de/pyliblo/
 .. _pyyaml: https://pypi.python.org/pypi/PyYAML
+.. _user contributed documentation:
+    https://github.com/SpotlightKid/python-rtmidi/wiki/User-contributed-documentation
