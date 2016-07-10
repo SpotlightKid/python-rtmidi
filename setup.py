@@ -42,10 +42,8 @@ class PyTest(TestCommand):
 
 
 # For compiling python-rtmidi for Windows, get Microsoft Visual Studio
-# Express (for Python <= 3.2 get the 2008 Edition, for Python >= 3.3 get
-# the 2010 edition!), install it and adapt the directory below to the
-# location of WinMM.Lib
-WINLIB_DIR = r'C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib'
+# Express (for Python <= 3.2 get the 2008 Edition, for Python 3.3 get
+# the 2010 edition, for python 3.4 get SDK 7.1)
 
 # Suport for Windows Kernel Streaming API was removed, so the WININC_DIR
 # setting below is currently not needed and therefor commented out.
@@ -146,7 +144,7 @@ elif sys.platform.startswith('darwin'):
 elif sys.platform.startswith('win'):
     extra_compile_args += ['/EHsc']
 
-    if winmm and exists(join(WINLIB_DIR, "winmm.lib")):
+    if winmm:
         define_macros += [('__WINDOWS_MM__', None)]
         libraries += ["winmm"]
 
@@ -155,8 +153,9 @@ elif sys.platform.startswith('win'):
     #    define_macros += [('__WINDOWS_KS__', None)]
     #    libraries += ["setupapi", "ksuser"]
     #    include_dirs += [WININC_DIR]
-
-    library_dirs += [WINLIB_DIR]
+    
+    # Should only be necessary for winks
+    # library_dirs += [WINLIB_DIR]
 else:
     print("WARNING: This operating system (%s) is not supported by RtMidi.\n"
         "Linux, Mac OS X (>= 10.5), Windows (XP, Vista, 7) are supported\n"
