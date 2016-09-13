@@ -141,47 +141,45 @@ cdef extern from "RtMidi.h":
     cdef void RtMidi_getCompiledApi "RtMidi::getCompiledApi"(vector[Api] &apis)
 
     ctypedef void (*RtMidiCallback)(double timeStamp,
-        vector[unsigned char] *message, void *userData)
+                                    vector[unsigned char] *message,
+                                    void *userData)
 
-    cdef cppclass RtMidiIn:
+    cdef cppclass RtMidi:
+        unsigned int getPortCount()
+        string getPortName(unsigned int portNumber)
+        void openPort(unsigned int portNumber, string portName) except +
+        void openVirtualPort(string portName) except +
+        void closePort()
+
+    cdef cppclass RtMidiIn(RtMidi):
         Api RtMidiIn() except +
         Api RtMidiIn(Api rtapi, string clientName,
                      unsigned int queueSizeLimit) except +
-        void cancelCallback()
-        void closePort()
         Api getCurrentApi()
+        void cancelCallback()
         double getMessage(vector[unsigned char] *message)
-        unsigned int getPortCount()
-        string getPortName(unsigned int portNumber)
         void ignoreTypes(bool midiSysex, bool midiTime, bool midiSense)
-        void openPort(unsigned int portNumber, string portName) except +
-        void openVirtualPort(string portName) except +
         void setCallback(RtMidiCallback callback, void *data) except +
 
-    cdef cppclass RtMidiOut:
+    cdef cppclass RtMidiOut(RtMidi):
         Api RtMidiOut() except +
         Api RtMidiOut(Api rtapi, string clientName) except +
-        void closePort()
         Api getCurrentApi()
-        unsigned int getPortCount()
-        string getPortName(unsigned int portNumber)
-        void openPort(unsigned int portNumber, string portName) except +
-        void openVirtualPort(string portName) except +
         void sendMessage(vector[unsigned char] *message) except +
 
 
 # internal functions
 
 cdef void _cb_func(double delta_time, vector[unsigned char] *msg_v,
-        void *cb_info) with gil:
+                   void *cb_info) with gil:
     """Wrapper for a Python callback function for MIDI input."""
     func, data = (<object> cb_info)
     message = [msg_v.at(i) for i in range(msg_v.size())]
     func((message, delta_time), data)
 
+
 def _to_bytes(name):
     """Convert a unicode (Python 2) or str (Python 3) object into bytes."""
-
     # 'bytes' == 'str' in Python 2 but a separate type in Python 3
     if not isinstance(name, bytes):
         try:
@@ -225,7 +223,186 @@ class RtMidiError(Exception):
     pass
 
 
-cdef class MidiIn:
+cdef class MidiBase:
+    cdef object _port
+
+    cdef RtMidi* baseptr(self):
+        return NULL
+
+    # context management
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc_info):
+        self.close_port()
+
+    def _check_port(self):
+        inout = "input" if isinstance(self, MidiIn) else "output"
+        if self._port == -1:
+            raise RtMidiError("%r already opened virtual %s port." %
+                              (self, inout))
+        elif self._port is not None:
+            raise RtMidiError("%r already opened %i port %i." %
+                              (self, inout, self._port))
+        return inout
+
+    def _decode_string(self, s, encoding):
+        """Decode given byte string with given encoding."""
+        if encoding == 'auto':
+            if sys.platform.startswith('win'):
+                encoding = 'latin1'
+            elif (self.get_current_api() == API_MACOSX_CORE and
+                  sys.platform == 'darwin'):
+                encoding = 'macroman'
+            else:
+                encoding = 'utf-8'
+
+        return s.decode(encoding, "ignore")
+
+    def get_port_count(self):
+        """Return the number of available MIDI input or output ports."""
+        return self.baseptr().getPortCount()
+
+    def get_port_name(self, unsigned int port, encoding='auto'):
+        """Return the name of the MIDI input or output port with given number.
+
+        Ports are numbered from zero, separately for input and output ports.
+        The number of available ports is returned by the ``get_port_count``
+        method.
+
+        The port name is decoded to a (unicode) string with the encoding given
+        by ``encoding``. If ``encoding`` is ``"auto"`` (the default), then an
+        appropriate encoding is chosen based on the system and the used backend
+        API. If ``encoding`` is ``None``, the name is returned un-decoded, i.e.
+        as type ``str`` in Python 2 or ``bytes`` in Python 3.
+
+        """
+        cdef string name = self.baseptr().getPortName(port)
+
+        if len(name):
+            return self._decode_string(name, encoding) if encoding else name
+
+    def get_ports(self, encoding='auto'):
+        """Return a list of names of available MIDI input or output ports.
+
+        The list index of each port name corresponds to its port number.
+
+        The port names are decoded to (unicode) strings with the encoding given
+        by ``encoding``. If ``encoding`` is ``"auto"`` (the default), then an
+        appropriate encoding is chosen based on the system and the used backend
+        API. If ``encoding`` is ``None``, the names are returned un-decoded,
+        i.e. as type ``str`` in Python 2 or ``bytes`` in Python 3.
+
+        """
+        return [self.get_port_name(p, encoding=encoding)
+                for p in range(self.get_port_count())]
+
+    def open_port(self, unsigned int port=0, name=None):
+        """Open the MIDI input or output port with the given port number.
+
+        Only one port can be opened per ``MidiIn`` or ``MidiOut`` instance. An
+        ``RtMidiError`` exception is raised if an attempt is made to open a
+        port on a ``MidiIn`` or ``MidiOut`` instance, which already opened a
+        (virtual) port.
+
+        You can optionally pass a name for the RtMidi port with the ``name``
+        keyword or the second positional argument. Names with non-ASCII
+        characters in them have to be passed as unicode or utf-8 encoded
+        strings in Python 2. The default name is "RtMidi input" resp. "RtMidi
+        output".
+
+        .. note::
+            Closing a port and opening it again with a different name does not
+            change the port name. To change the port name, delete its instance,
+            create a new one and open the port again giving a different name.
+
+        Exceptions:
+
+        ``RtMidiError``
+            Raised when trying to open a MIDI port when a (virtual) port has
+            already been opened by this instance.
+
+        """
+        inout = self._check_port()
+        self.baseptr().openPort(port, _to_bytes(name or "RtMidi %s" % inout))
+        self._port = port
+        return self
+
+    def open_virtual_port(self, name=None):
+        """Open a virtual MIDI input or output port.
+
+        Only one port can be opened per ``MidiIn`` or ``MidiOut`` instance. An
+        ``RtMidiError`` exception is raised if an attempt is made to open a
+        port on a ``MidiIn`` or ``MidiOut`` instance, which already opened a
+        (virtual) port.
+
+        A virtual port is not connected to a physical MIDI device or system
+        port when first opened. You can connect it to another MIDI output with
+        the OS-dependent tools provided by the low-level MIDI framework, e.g.
+        ``aconnect`` for ALSA, ``jack_connect`` for JACK, or the Audio & MIDI
+        settings dialog for CoreMIDI.
+
+        .. note::
+            Virtual ports are not supported by some backend APIs, namely the
+            Windows MultiMedia API. You can use special MIDI drivers like `MIDI
+            Yoke`_ or loopMIDI_ to provide hardware-independent virtual MIDI
+            ports as an alternative.
+
+        You can optionally pass a name for the RtMidi port with the ``name``
+        keyword or the second positional argument. Names with non-ASCII
+        characters in them have to be passed as unicode or utf-8 encoded
+        strings in Python 2. The default name is "RtMidi virtual input" resp.
+        "RtMidi virtual output".
+
+        .. note::
+            Closing a port and opening it again with a different name does not
+            change the port name. To change the port name, delete its instance,
+            create a new one and open the port again giving a different name.
+
+            Also, to close a virtual input port, you have to delete its
+            ``MidiIn`` or ``MidiOut`` instance.
+
+        Exceptions:
+
+        ``NotImplementedError``
+            Raised when trying to open a virtual MIDI port with the Windows
+            MultiMedia API, which doesn't support virtual ports.
+        ``RtMidiError``
+            Raised when trying to open a virtual port when a (virtual) port has
+            already been opened by this instance.
+
+        .. _midi yoke: http://www.midiox.com/myoke.htm
+        .. _loopmidi: http://www.tobias-erichsen.de/software/loopmidi.html
+
+        """
+        if self.get_current_api() == API_WINDOWS_MM:
+            raise NotImplementedError("Virtual ports are not supported "
+                                      "by the Windows MultiMedia API.")
+
+        inout = self._check_port()
+        self.baseptr().openVirtualPort(_to_bytes(name or
+                                       "RtMidi virtual %s" % inout))
+        self._port = -1
+        return self
+
+    def close_port(self):
+        """Close the MIDI input or output port opened via ``open_port``.
+
+        It is safe to call this method repeatedly or if no port has been opened
+        (yet) by this instance.
+
+        Also cancels a callback function set with ``set_callback``.
+
+        To close a virtual port opened via ``open_virtual_port``, you have to
+        delete its ``MidiIn`` or ``MidiOut`` instance.
+
+        """
+        if self._port != -1:
+            self._port = None
+        self.baseptr().closePort()
+
+
+cdef class MidiIn(MidiBase):
     """Midi input client interface.
 
     You can specify the low-level MIDI backend API to use via the ``rtapi``
@@ -255,29 +432,22 @@ cdef class MidiIn:
     """
     cdef RtMidiIn *thisptr
     cdef object _callback
-    cdef object _port
+
+    cdef RtMidi* baseptr(self):
+        return self.thisptr
 
     def __cinit__(self, Api rtapi=UNSPECIFIED, name=None,
-            unsigned int queue_size_limit=1024):
+                  unsigned int queue_size_limit=1024):
         """Create a new client instance for MIDI input.
 
         See the class docstring for a description of the constructor arguments.
 
         """
-        self.thisptr = new RtMidiIn(rtapi, _to_bytes(name or "RtMidiIn Client"),
-            queue_size_limit)
+        self.thisptr = new RtMidiIn(rtapi,
+                                    _to_bytes(name or "RtMidiIn Client"),
+                                    queue_size_limit)
         self._callback = None
         self._port = None
-
-    def __dealloc__(self):
-        del self.thisptr
-
-    # context management
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *exc_info):
-        self.close_port()
 
     def get_current_api(self):
         """Return the low-level MIDI backend API used by this instance.
@@ -293,165 +463,14 @@ cdef class MidiIn:
         """
         return self.thisptr.getCurrentApi()
 
-    def get_port_count(self):
-        """Return the number of available MIDI input ports."""
-
-        return self.thisptr.getPortCount()
-
-    def get_port_name(self, unsigned int port, encoding='auto'):
-        """Return the name of the MIDI input port with the given number.
-
-        Ports are numbered from zero, separately for input and output ports.
-        The number of available ports is returned by the ``get_port_count``
-        method.
-
-        The port name is decoded to a (unicode) string with the encoding given
-        by ``encoding``. If ``encoding`` is ``"auto"`` (the default) then an
-        appropriate encoding is chosen based on the system and the used
-        backend API. If ``encoding`` is ``None``, the names are returned
-        un-decoded, i.e. as type ``str`` in Python 2 or ``bytes`` in Python 3.
-
-        """
-        cdef string name = self.thisptr.getPortName(port)
-
-        if len(name):
-            if encoding:
-                if encoding == 'auto':
-                    if sys.platform.startswith('win'):
-                        encoding = 'latin1'
-                    elif (self.get_current_api() == API_MACOSX_CORE and
-                            sys.platform == 'darwin'):
-                        encoding = 'macroman'
-                    else:
-                        encoding = 'utf-8'
-                return name.decode(encoding, "ignore")
-            else:
-                return name
-
-    def get_ports(self, encoding='auto'):
-        """Return a list of names of available MIDI input ports.
-
-        The list index of each port name corresponds to its port number.
-
-        The port names are decoded to (unicode) strings with the encoding given
-        by ``encoding``. If ``encoding`` is ``"auto"`` (the default) then an
-        appropriate encoding is chosen based on the system and the used
-        backend API. If ``encoding`` is ``None``, the names are returned
-        un-decoded, i.e. as type ``str`` in Python 2 or ``bytes`` in Python 3.
-
-        """
-        return [self.get_port_name(p, encoding=encoding)
-            for p in range(self.get_port_count())]
-
-    def open_port(self, unsigned int port=0, name=None):
-        """Open the MIDI input port with the given port number.
-
-        Only one port can be opened per ``MidiIn`` instance. An ``RtMidiError``
-        exception is raised if an attempt is made to open a port on a
-        ``MidiIn`` instance, which already opened a (virtual) port.
-
-        You can optionally pass a name for the RtMidi input port with the
-        ``name`` keyword or the second positional argument. Names with
-        non-ASCII characters in them have to be passed as unicode or utf-8
-        encoded strings in Python 2. The default name is "RtMidi Input".
-
-        .. note::
-            Closing a port and opening it again with a different name does not
-            change the port name. To change the input port name, drop its
-            ``MidiIn`` instance, create a new one and open the port again
-            giving a different name.
-
-        Exceptions:
-
-        ``RtMidiError``
-            Raised when trying to open a MIDI input port when a (virtual) input
-            port has already been opened by this instance.
-
-        """
-        if self._port == -1:
-            raise RtMidiError("%r already opened virtual input port." % self)
-        elif self._port is not None:
-            raise RtMidiError(
-                "%r already opened input port %i." % (self, self._port))
-
-        self.thisptr.openPort(port, _to_bytes(name or "RtMidi Input"))
-        self._port = port
-        return self
-
-    def open_virtual_port(self, name=None):
-        """Open a virtual MIDI input port.
-
-        Only one port can be opened per ``MidiIn`` instance. An ``RtMidiError``
-        exception is raised if an attempt is made to open a port on a
-        ``MidiIn`` instance, which already opened a (virtual) port.
-
-        A virtual port is not connected to a physical MIDI device or system
-        port when first opened. You can connect it to another MIDI output with
-        the OS-dependent tools provided the low-level MIDI framework, e.g.
-        ``aconnect`` for ALSA, ``jack_connect`` for JACK, or the Audio & MIDI
-        settings dialog for CoreMIDI.
-
-        .. note::
-            Virtual ports are not supported by some backend APIs, namely the
-            Windows MultiMedia API. You can use special MIDI drivers like `MIDI
-            Yoke`_ or loopMIDI_ to provide hardware-independent virtual MIDI
-            ports as an alternative.
-
-        You can optionally pass a name for the virtual input port with the
-        ``name`` keyword or second positional argument. Names with non-ASCII
-        characters in them have to be passed as unicode or utf-8 encoded
-        strings in Python 2. The default name is "RtMidi Virtual Input".
-
-        To change the virtual input port name, drop its ``MidiIn`` instance,
-        create a new one and open a virtual port again giving a different name.
-
-        Also, to close a virtual input port, you have to delete its ``MidiIn``
-        instance.
-
-        Exceptions:
-
-        ``NotImplementedError``
-            Raised when trying to open a virtual MIDI port with the Windows
-            MultiMedia API, which doesn't support virtual ports.
-        ``RtMidiError``
-            Raised when trying to open a virtual input port when a (virtual)
-            input port has already been opened by this instance.
-
-        .. _midi yoke: http://www.midiox.com/myoke.htm
-        .. _loopmidi: http://www.tobias-erichsen.de/software/loopmidi.html
-
-        """
-        if self.get_current_api() == API_WINDOWS_MM:
-            raise NotImplementedError("Virtual ports are not supported "
-                "by the Windows MultiMedia API.")
-
-        if self._port == -1:
-            raise RtMidiError("%r already opened virtual input port." % self)
-        elif self._port is not None:
-            raise RtMidiError(
-                "%r already opened input port %i." % (self, self._port))
-
-        self.thisptr.openVirtualPort(
-            _to_bytes(name or "RtMidi Virtual Input"))
-        self._port = -1
-        return self
+    def __dealloc__(self):
+        del self.thisptr
 
     def close_port(self):
-        """Close the MIDI input port opened via ``open_port``.
-
-        It is safe to call this method repeatedly or if no input port has been
-        opened (yet).
-
-        Also cancels a callback function set with ``set_callback``.
-
-        To close a virtual input port opened via ``open_virtual_port``, you
-        have to delete its ``MidiIn`` instance.
-
-        """
-        if self._port != -1:
-            self._port = None
         self.cancel_callback()
-        self.thisptr.closePort()
+        MidiBase.close_port(self)
+
+    close_port.__doc__ == MidiBase.close_port.__doc__
 
     def ignore_types(self, sysex=True, timing=True, active_sense=True):
         """Enable/Disable input filtering of certain types of MIDI events.
@@ -529,6 +548,7 @@ cdef class MidiIn:
         """
         if self._callback:
             self.cancel_callback()
+
         self._callback = (func, data)
         self.thisptr.setCallback(&_cb_func, <void *>self._callback)
 
@@ -544,7 +564,7 @@ cdef class MidiIn:
             self._callback = None
 
 
-cdef class MidiOut:
+cdef class MidiOut(MidiBase):
     """Midi output client interface.
 
     You can specify the low-level MIDI backend API to use via the ``rtapi``
@@ -567,7 +587,9 @@ cdef class MidiOut:
 
     """
     cdef RtMidiOut *thisptr
-    cdef object _port
+
+    cdef RtMidi* baseptr(self):
+        return self.thisptr
 
     def __cinit__(self, Api rtapi=UNSPECIFIED, name=None):
         """Create a new client instance for MIDI output.
@@ -582,13 +604,6 @@ cdef class MidiOut:
     def __dealloc__(self):
         del self.thisptr
 
-    # context management
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *exc_info):
-        self.close_port()
-
     def get_current_api(self):
         """Return the low-level MIDI backend API used by this instance.
 
@@ -602,163 +617,6 @@ cdef class MidiOut:
 
         """
         return self.thisptr.getCurrentApi()
-
-    def get_port_count(self):
-        """Return the number of available MIDI output ports."""
-
-        return self.thisptr.getPortCount()
-
-    def get_port_name(self, unsigned int port, encoding='auto'):
-        """Return the name of the MIDI output port with the given number.
-
-        Ports are numbered from zero, separately for input and output ports.
-        The number of available ports is returned by the ``get_port_count``
-        method.
-
-        The port name is decoded to a (unicode) string with the encoding given
-        by ``encoding``. If ``encoding`` is ``"auto"`` (the default) then an
-        appropriate encoding is chosen based on the system and the used backend
-        API. If ``encoding`` is ``None``, the names are returned un-decoded,
-        i.e. as type ``str`` in Python 2 or ``bytes`` in Python 3.
-
-        """
-        cdef string name = self.thisptr.getPortName(port)
-
-        if len(name):
-            if encoding:
-                if encoding == 'auto':
-                    if sys.platform.startswith('win'):
-                        encoding = 'latin1'
-                    elif (self.get_current_api() == API_MACOSX_CORE and
-                            sys.platform == 'darwin'):
-                        encoding = 'macroman'
-                    else:
-                        encoding = 'utf-8'
-                return name.decode(encoding, "ignore")
-            else:
-                return name
-
-    def get_ports(self, encoding='auto'):
-        """Return a list of names of available MIDI output ports.
-
-        The list index of each port name corresponds to its port number.
-
-        The port names are decoded to (unicode) strings with the encoding given
-        by ``encoding``. If ``encoding`` is ``"auto"`` (the default) then an
-        appropriate encoding is chosen based on the system and the used backend
-        API. If ``encoding`` is ``None``, the names are returned un-decoded,
-        i.e. as type ``str`` in Python 2 or ``bytes`` in Python 3.
-
-        """
-        return [self.get_port_name(p, encoding=encoding)
-            for p in range(self.get_port_count())]
-
-    def open_port(self, unsigned int port=0, name=None):
-        """Open the MIDI output port with the given port number.
-
-        Only one port can be opened per ``MidiOut`` instance. An
-        ``RtMidiError`` exception is raised if an attempt is made to open a
-        port on a ``MidiOut`` instance, which already opened a (virtual) port.
-
-        You can optionally pass a name for the RtMidi output port with the
-        ``name`` keyword or the second positional argument. Names with
-        non-ASCII characters in them have to be passed as unicode or utf-8
-        encoded strings in Python 2. The default name is "RtMidi Output".
-
-        .. note::
-            Closing a port and opening it again with a different name does not
-            change the port name. To change the output port name, drop its
-            ``MidiOut`` instance, create a new one and open the port again
-            giving a different name.
-
-        Exceptions:
-
-        ``RtMidiError``
-            Raised when trying to open a MIDI output port when a (virtual)
-            output port has already been opened by this instance.
-
-        """
-        if self._port == -1:
-            raise RtMidiError("%r already opened virtual output port." % self)
-        elif self._port is not None:
-            raise RtMidiError(
-                "%r already opened output port %i." % (self, self._port))
-
-        self.thisptr.openPort(port, _to_bytes(name or "RtMidi Output"))
-        self._port = port
-        return self
-
-    def open_virtual_port(self, name=None):
-        """Open a virtual MIDI output port.
-
-        A virtual port is not connected to a physical MIDI device or system
-        port when fist opened. You can connect it to another MIDI input with
-        the OS-dependant tools provided the low-level MIDI framework, e.g.
-        ``aconnect`` for ALSA, ``jack_connect`` for JACK, or the Audio & MIDI
-        settings dialog for CoreMIDI.
-
-        Only one port can be opened per ``MidiOut`` instance. An
-        ``RtMidiError`` exception is raised if an attempt is made to open a
-        port on a ``MidiOut`` instance, which already opened a (virtual) port.
-
-        .. note::
-            Virtual ports are not supported by some backend APIs, namely the
-            Windows MultiMedia API. You can use special MIDI drivers like `MIDI
-            Yoke`_ or loopMIDI_ to provide hardware-independent virtual MIDI
-            ports as an alternative.
-
-        You can optionally pass a name for the virtual output port with the
-        ``name`` keyword or second positional argument. Names with non-ASCII
-        characters in them have to be passed as unicode or utf-8 encoded
-        strings in Python 2. The default name is "RtMidi Virtual Output".
-
-        To change the virtual output port name, drop its ``MidiOut`` instance,
-        create a new one and open a virtual port again giving a different name.
-
-        Also, to close a virtual output port, you have to delete its
-        ``MidiOut`` instance.
-
-        Exceptions:
-
-        ``NotImplementedError``
-            Raised when trying to open a virtual MIDI port with the Windows
-            MultiMedia API, which doesn't support this.
-        ``RtMidiError``
-            Raised when trying to open a virtual output port when a (virtual)
-            output port has already been opened by this instance.
-
-        .. _midi yoke: http://www.midiox.com/myoke.htm
-        .. _loopmidi: http://www.tobias-erichsen.de/software/loopmidi.html
-
-        """
-        if self.get_current_api() == API_WINDOWS_MM:
-            raise NotImplementedError("Virtual ports are not supported "
-                "by the Windows MultiMedia API.")
-
-        if self._port == -1:
-            raise RtMidiError("%r already opened virtual output port." % self)
-        elif self._port is not None:
-            raise RtMidiError(
-                "%r already opened output port %i." % (self, self._port))
-
-        self.thisptr.openVirtualPort(
-            _to_bytes(name or "RtMidi Virtual Output"))
-        self._port = -1
-        return self
-
-    def close_port(self):
-        """Close the output port opened via ``open_port``.
-
-        It is safe to call this method repeatedly or if no output port has been
-        opened (yet).
-
-        To close a virtual output port opened via ``open_virtual_port``, you
-        have to delete its ``MidiOut`` instance.
-
-        """
-        if self._port != -1:
-            self._port = None
-        self.thisptr.closePort()
 
     def send_message(self, message):
         """Send a MIDI message to the output port.
