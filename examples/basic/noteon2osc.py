@@ -4,8 +4,11 @@
 #
 """Send an OSC message when a MIDI Note On message is received."""
 
+import sys
 import time
+
 import liblo
+
 from rtmidi.midiconstants import NOTE_ON
 from rtmidi.midiutil import open_midiinput
 
