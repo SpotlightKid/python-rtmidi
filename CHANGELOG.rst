@@ -12,22 +12,31 @@ Project infrastructure:
   * Moved repository to Github.
 
 Fixes:
-  * ``midiutil.open_port``:
+  * ``midiutil.open_midiport``:
 
     * Correctly report and log I/O direction and instance type.
     * Fix naming of virtual port.
 
 Enhancements / Changes:
-  * Synced with upstream RtMidi_ (2.1.0-16-g28321c0).
-  * Some source code re-ordering.
-  * ``midiutil.open_port``:
+  * Synced with upstream RtMidi_ (2.1.1-399a8ee).
+  * ``midiutil``:
 
-    RtMid API to use can be specified via the ``RTMIDI_API`` environment
-    variable. Only used when ``API_UNSPECIFIED`` is passed for the ``api``
-    argument. Value should be one of the ``API_*`` constant names with out the
-    ``API_`` prefix, e.g. ``UNIX_JACK`` for thr Jack API.
+    * The function ``midiutil.open_port`` has been renamed to ``open_midiport``.
+
+    * Added convenience functions ``open_midiinput`` and ``open_midioutput``,
+      which wrap ``open_midiport``.
+
+    * RtMidi API to use can be specified via the ``RTMIDI_API`` environment
+      variable. Only used when ``API_UNSPECIFIED`` is passed for the ``api``
+      argument. Value should be one of the ``API_*`` constant names with out
+      the ``API_`` prefix, e.g. ``UNIX_JACK`` for the Jack API.
+
+  * Cython wrapper class hierarchy restructured to better match the underlying
+    C++ classes and remove code duplication.
+  * Some source code re-ordering was done.
 
 Documentation:
+  * Added basic structure and initial content of Sphinx documentation.
   * Documented exceptions raised by ``MidiIn/Out.open_[virtual_]port()``.
   * Some docstring corrections and formatting fixes.
 
@@ -38,6 +47,8 @@ Building:
 
 Examples:
   * Add new ``sequencer`` example.
+
+  * Add new ``noteon2osc`` example.
 
   * ``midifilter``:
 
