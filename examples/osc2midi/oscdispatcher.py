@@ -305,7 +305,7 @@ def main(args=None):
         def __init__(self, dispatcher, port=5555):
             super(OSCTestServer, self).__init__(port)
             log.info("Listening on URL: " + self.get_url())
-            self.add_method(None, None, dispatcher.dispatch)
+            self.add_method(None, None, dispatcher)
 
     server = OSCTestServer(dispatcher)
 
