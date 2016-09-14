@@ -7,6 +7,7 @@ import unittest.mock
 
 import rtmidi
 
+
 class TestErrorCallback(unittest.TestCase):
 
     INVALID_PORT_NUMBER = 9999
@@ -32,6 +33,7 @@ class TestErrorCallback(unittest.TestCase):
         errcb.assert_called_with(rtmidi.ERRORTYPE_INVALID_PARAMETER,
                                  unittest.mock.ANY,
                                  self.MIDI_IN_ERROR_USER_DATA)
+
 
 if __name__ == '__main__':
     unittest.main()
