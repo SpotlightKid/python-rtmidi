@@ -7,7 +7,7 @@ import unittest.mock
 
 import rtmidi
 
-class RtMidiTestCase(unittest.TestCase):
+class TestErrorCallback(unittest.TestCase):
 
     INVALID_PORT_NUMBER = 9999
     MIDI_OUT_ERROR_USER_DATA = 'midiOutError'
