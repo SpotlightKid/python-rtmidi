@@ -7,6 +7,7 @@ imagesize==0.7.1
 Jinja2==2.8
 MarkupSafe==0.23
 mccabe==0.5.2
+mock==2.0.0
 pep257==0.7.0
 pep8==1.7.0
 pluggy==0.3.1
