@@ -206,7 +206,7 @@ cdef void _cb_error_func(ErrorType errorType, const string &errorText,
                          void *cb_info) with gil:
     """Wrapper for a Python callback function for errors."""
     func, data, decoder = (<object> cb_info)
-    func(errorType, decoder(errorText, 'auto'), data)
+    func(errorType, decoder(errorText), data)
 
 def _to_bytes(name):
     """Convert a unicode (Python 2) or str (Python 3) object into bytes."""
@@ -293,7 +293,7 @@ cdef class MidiBase:
                               (self, inout, self._port))
         return inout
 
-    def _decode_string(self, s, encoding):
+    def _decode_string(self, s, encoding='auto'):
         """Decode given byte string with given encoding."""
         if encoding == 'auto':
             if sys.platform.startswith('win'):
