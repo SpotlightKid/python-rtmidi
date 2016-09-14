@@ -105,6 +105,13 @@ available MIDI output port and send a middle C note on MIDI channel 1::
 __all__ = [
     'API_UNSPECIFIED', 'API_MACOSX_CORE', 'API_LINUX_ALSA', 'API_UNIX_JACK',
     'API_WINDOWS_MM', 'API_RTMIDI_DUMMY',
+
+    'ERRORTYPE_WARNING', 'ERRORTYPE_DEBUG_WARNING', 'ERRORTYPE_UNSPECIFIED',
+    'ERRORTYPE_NO_DEVICES_FOUND', 'ERRORTYPE_INVALID_DEVICE',
+    'ERRORTYPE_MEMORY_ERROR', 'ERRORTYPE_INVALID_PARAMETER',
+    'ERRORTYPE_INVALID_USE', 'ERRORTYPE_DRIVER_ERROR',
+    'ERRORTYPE_SYSTEM_ERROR', 'ERRORTYPE_THREAD_ERROR',
+
     'MidiIn', 'MidiOut', 'get_compiled_api'
 ]
 
@@ -137,6 +144,19 @@ cdef extern from "RtMidi.h":
         WINDOWS_MM   "RtMidi::WINDOWS_MM"
         RTMIDI_DUMMY "RtMidi::RTMIDI_DUMMY"
 
+    cdef enum ErrorType "RtMidiError::Type":
+        ERR_WARNING           "RtMidiError::WARNING"
+        ERR_DEBUG_WARNING     "RtMidiError::DEBUG_WARNING"
+        ERR_UNSPECIFIED       "RtMidiError::UNSPECIFIED"
+        ERR_NO_DEVICES_FOUND  "RtMidiError::NO_DEVICES_FOUND"
+        ERR_INVALID_DEVICE    "RtMidiError::INVALID_DEVICE"
+        ERR_MEMORY_ERROR      "RtMidiError::MEMORY_ERROR"
+        ERR_INVALID_PARAMETER "RtMidiError::INVALID_PARAMETER"
+        ERR_INVALID_USE       "RtMidiError::INVALID_USE"
+        ERR_DRIVER_ERROR      "RtMidiError::DRIVER_ERROR"
+        ERR_SYSTEM_ERROR      "RtMidiError::SYSTEM_ERROR"
+        ERR_THREAD_ERROR      "RtMidiError::THREAD_ERROR"
+
     # Another work-around for calling a C++ static method:
     cdef void RtMidi_getCompiledApi "RtMidi::getCompiledApi"(vector[Api] &apis)
 
@@ -144,12 +164,17 @@ cdef extern from "RtMidi.h":
                                     vector[unsigned char] *message,
                                     void *userData)
 
+    ctypedef void (*RtMidiErrorCallback)(ErrorType errorType,
+                                         const string errorText,
+                                         void *userData)
+
     cdef cppclass RtMidi:
         unsigned int getPortCount()
         string getPortName(unsigned int portNumber)
         void openPort(unsigned int portNumber, string portName) except +
         void openVirtualPort(string portName) except +
         void closePort()
+        void setErrorCallback(RtMidiErrorCallback callback, void *userData) except +
 
     cdef cppclass RtMidiIn(RtMidi):
         Api RtMidiIn() except +
@@ -177,6 +202,11 @@ cdef void _cb_func(double delta_time, vector[unsigned char] *msg_v,
     message = [msg_v.at(i) for i in range(msg_v.size())]
     func((message, delta_time), data)
 
+cdef void _cb_error_func(ErrorType errorType, const string &errorText,
+                         void *cb_info) with gil:
+    """Wrapper for a Python callback function for errors."""
+    func, data = (<object> cb_info)
+    func(errorType, errorText, data)
 
 def _to_bytes(name):
     """Convert a unicode (Python 2) or str (Python 3) object into bytes."""
@@ -201,6 +231,19 @@ API_UNIX_JACK = UNIX_JACK
 API_WINDOWS_MM = WINDOWS_MM
 API_RTMIDI_DUMMY = RTMIDI_DUMMY
 
+# export error values to Python
+
+ERRORTYPE_WARNING = ERR_WARNING
+ERRORTYPE_DEBUG_WARNING = ERR_DEBUG_WARNING
+ERRORTYPE_UNSPECIFIED = ERR_UNSPECIFIED
+ERRORTYPE_NO_DEVICES_FOUND = ERR_NO_DEVICES_FOUND
+ERRORTYPE_INVALID_DEVICE = ERR_INVALID_DEVICE
+ERRORTYPE_MEMORY_ERROR = ERR_MEMORY_ERROR
+ERRORTYPE_INVALID_PARAMETER = ERR_INVALID_PARAMETER
+ERRORTYPE_INVALID_USE = ERR_INVALID_USE
+ERRORTYPE_DRIVER_ERROR = ERR_DRIVER_ERROR
+ERRORTYPE_SYSTEM_ERROR = ERR_SYSTEM_ERROR
+ERRORTYPE_THREAD_ERROR = ERR_THREAD_ERROR
 
 def get_compiled_api():
     """Return a list of low-level MIDI backend APIs this module supports.
@@ -225,9 +268,13 @@ class RtMidiError(Exception):
 
 cdef class MidiBase:
     cdef object _port
+    cdef object _error_callback
 
     cdef RtMidi* baseptr(self):
         return NULL
+
+    def __init__(self):
+        self._error_callback = None
 
     # context management
     def __enter__(self):
@@ -400,6 +447,23 @@ cdef class MidiBase:
         if self._port != -1:
             self._port = None
         self.baseptr().closePort()
+
+    def set_error_callback(self, func, data=None):
+        """Register a callback function for errors.
+
+        The callback function is called when an error occurs and must take
+        three arguments. The first argument is a member of enum
+        ``RtMidiError::Type``, represented by one of the ERRORTYPE_* constants.
+        The second argument is an error message. The third argument is the
+        value of the ``data`` argument passed to this function when the
+        callback is registered.
+
+        Registering an error callback function replaces any previously
+        registered error callback.
+
+        """
+        self._error_callback = (func, data)
+        self.baseptr().setErrorCallback(&_cb_error_func, <void *>self._error_callback)
 
 
 cdef class MidiIn(MidiBase):
