@@ -16,8 +16,8 @@ class RtMidiTestCase(unittest.TestCase):
     DELAY = 0.1
 
     def setUp(self):
-        self.midi_out = rtmidi.MidiOut(name=self.TEST_PORT_NAME)
-        self.midi_out.open_virtual_port()
+        self.midi_out = rtmidi.MidiOut()
+        self.midi_out.open_virtual_port(name=self.TEST_PORT_NAME)
 
         self.midi_in = rtmidi.MidiIn()
         for portnum, port in enumerate(self.midi_in.get_ports()):
