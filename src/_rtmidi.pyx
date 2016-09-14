@@ -205,8 +205,8 @@ cdef void _cb_func(double delta_time, vector[unsigned char] *msg_v,
 cdef void _cb_error_func(ErrorType errorType, const string &errorText,
                          void *cb_info) with gil:
     """Wrapper for a Python callback function for errors."""
-    func, data = (<object> cb_info)
-    func(errorType, errorText, data)
+    func, data, decoder = (<object> cb_info)
+    func(errorType, decoder(errorText, 'auto'), data)
 
 def _to_bytes(name):
     """Convert a unicode (Python 2) or str (Python 3) object into bytes."""
@@ -462,7 +462,7 @@ cdef class MidiBase:
         registered error callback.
 
         """
-        self._error_callback = (func, data)
+        self._error_callback = (func, data, self._decode_string)
         self.baseptr().setErrorCallback(&_cb_error_func, <void *>self._error_callback)
 
 
