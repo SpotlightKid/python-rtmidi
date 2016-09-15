@@ -14,7 +14,7 @@ from __future__ import print_function, unicode_literals
 
 __all__ = [
     'get_api_from_environment',
-    'list_avaiilable_ports',
+    'list_available_ports',
     'list_input_ports',
     'list_output_ports',
     'open_midiinput',
