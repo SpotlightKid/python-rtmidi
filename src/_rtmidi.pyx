@@ -110,7 +110,7 @@ __all__ = [
     'ERRORTYPE_MEMORY_ERROR', 'ERRORTYPE_INVALID_PARAMETER',
     'ERRORTYPE_INVALID_USE', 'ERRORTYPE_DRIVER_ERROR',
     'ERRORTYPE_SYSTEM_ERROR', 'ERRORTYPE_THREAD_ERROR',
-    'MidiIn', 'MidiOut', 'get_compiled_api'
+    'MidiIn', 'MidiOut', 'RtMidiError', 'get_compiled_api'
 ]
 
 import sys
