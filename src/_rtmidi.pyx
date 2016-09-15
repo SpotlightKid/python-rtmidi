@@ -288,7 +288,7 @@ cdef class MidiBase:
             raise RtMidiError("%r already opened virtual %s port." %
                               (self, inout))
         elif self._port is not None:
-            raise RtMidiError("%r already opened %i port %i." %
+            raise RtMidiError("%r already opened %s port %i." %
                               (self, inout, self._port))
         return inout
 
