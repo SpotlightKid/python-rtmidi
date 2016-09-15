@@ -37,6 +37,24 @@ class TestErrorCallback(unittest.TestCase):
                                  mock.ANY,
                                  self.MIDI_IN_ERROR_USER_DATA)
 
+    def test_error_callback_without_user_data(self):
+        errcb = mock.Mock()
+        self.midi_out.set_error_callback(errcb)
+        self.midi_out.open_port(self.INVALID_PORT_NUMBER)
+        errcb.assert_called_with(rtmidi.ERRORTYPE_INVALID_PARAMETER,
+                                 mock.ANY,
+                                 None)
+
+    def test_cancel_error_callback(self):
+        errcb = mock.Mock()
+        self.midi_out.set_error_callback(errcb)
+        self.midi_out.cancel_error_callback()
+        try:
+            self.midi_out.open_port(self.INVALID_PORT_NUMBER)
+        except RuntimeError:
+            pass
+        errcb.assert_not_called()
+
 
 if __name__ == '__main__':
     unittest.main()
