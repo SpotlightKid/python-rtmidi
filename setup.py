@@ -190,7 +190,7 @@ setup(
             'osc2midi = osc2midi.main:main [osc2midi]',
         ]
     },
-    tests_require=['pytest'],
+    tests_require=['pytest','mock'],
     # On systems without a RTC (e.g. Raspberry Pi), system time will be the
     # Unix epoch when booted without network connection, which makes zip fail,
     # because it does not support dates < 1980-01-01.
