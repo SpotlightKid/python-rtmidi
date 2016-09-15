@@ -462,7 +462,8 @@ cdef class MidiBase:
 
         """
         self._error_callback = (func, data, self._decode_string)
-        self.baseptr().setErrorCallback(&_cb_error_func, <void *>self._error_callback)
+        self.baseptr().setErrorCallback(&_cb_error_func,
+                                        <void *>self._error_callback)
 
     def cancel_error_callback(self):
         """Remove the registered callback function for errors.
