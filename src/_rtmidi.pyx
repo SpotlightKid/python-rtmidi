@@ -472,8 +472,7 @@ cdef class MidiBase:
         registered.
 
         """
-        self.baseptr().setErrorCallback(NULL, NULL);
-        pass
+        self.baseptr().setErrorCallback(NULL, NULL)
 
 
 cdef class MidiIn(MidiBase):
