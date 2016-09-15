@@ -464,6 +464,16 @@ cdef class MidiBase:
         self._error_callback = (func, data, self._decode_string)
         self.baseptr().setErrorCallback(&_cb_error_func, <void *>self._error_callback)
 
+    def cancel_error_callback(self):
+        """Remove the registered callback function for errors.
+
+        This can be safely called even when no callback function has been
+        registered.
+
+        """
+        self.baseptr().setErrorCallback(NULL, NULL);
+        pass
+
 
 cdef class MidiIn(MidiBase):
     """Midi input client interface.
