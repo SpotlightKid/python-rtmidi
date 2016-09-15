@@ -172,7 +172,7 @@ cdef extern from "RtMidi.h":
         void openPort(unsigned int portNumber, string portName) except +
         void openVirtualPort(string portName) except +
         void closePort()
-        void setErrorCallback(RtMidiErrorCallback callback, void *userData) except +
+        void setErrorCallback(RtMidiErrorCallback callback, void *userData)
 
     cdef cppclass RtMidiIn(RtMidi):
         Api RtMidiIn() except +
