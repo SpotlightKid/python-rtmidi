@@ -272,9 +272,6 @@ cdef class MidiBase:
     cdef RtMidi* baseptr(self):
         return NULL
 
-    def __init__(self):
-        self._error_callback = None
-
     # context management
     def __enter__(self):
         return self
