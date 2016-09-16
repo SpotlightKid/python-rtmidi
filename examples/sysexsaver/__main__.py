@@ -1,4 +1,4 @@
-#/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # sysexsaver.py
@@ -13,10 +13,10 @@ import sys
 import time
 
 from datetime import datetime
-from os.path import exists, isdir, join
+from os.path import exists, join
 
 
-from rtmidi.midiconstants import *
+from rtmidi.midiconstants import END_OF_EXCLUSIVE, SYSTEM_EXCLUSIVE
 from rtmidi.midiutil import open_midiport
 from .manufacturers import manufacturers
 from .models import models
@@ -37,11 +37,11 @@ class SysexMessage(object):
     def fromdata(cls, data):
         self = cls()
         if data[0] != SYSTEM_EXCLUSIVE:
-            raise ValuError("Message does not start with 0xF0")
+            raise ValueError("Message does not start with 0xF0")
         if data[-1] != END_OF_EXCLUSIVE:
-            raise ValuError("Message does not end with 0xF7")
+            raise ValueError("Message does not end with 0xF7")
         if len(data) < 5:
-            raise ValuError("Message too short")
+            raise ValueError("Message too short")
         if data[1] == 0:
             self.manufacturer_id = (data[1], data[2], data[3])
             self.model_id = data[5]
@@ -151,7 +151,6 @@ class SysexSaver(object):
                 else:
                     name = "%02X" % sysex[4]
 
-                #print(repr(name))
                 data['name'] = sanitize_name(name)
 
             outfn = join(self.directory, (
@@ -164,10 +163,10 @@ class SysexSaver(object):
                 with open(outfn, 'wb') as outfile:
                     outfile.write(data)
                     log.info("Sysex message of %i bytes written to '%s'.",
-                        len(data), outfn)
+                             len(data), outfn)
         except:
             msg = "Error handling MIDI message: %s" % sys.exc_info()[1]
-            if debug:
+            if self.debug:
                 log.debug(msg, exc_info=True)
             else:
                 log.error(msg)
@@ -176,17 +175,18 @@ class SysexSaver(object):
 def main(args=None):
     """Save revceived sysex message to directory given on command line."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('-o', '--outdir', default=os.getcwd(),
-        help="Output directory (default: current working directory).")
-    parser.add_argument('-p', '--port',
-        help='MIDI output port number (default: ask)')
-    parser.add_argument('-v', '--verbose', action="store_true",
-        help='verbose output')
+    padd = parser.add_argument
+    padd('-o', '--outdir', default=os.getcwd(),
+         help="Output directory (default: current working directory).")
+    padd('-p', '--port',
+         help='MIDI output port number (default: ask)')
+    padd('-v', '--verbose', action="store_true",
+         help='verbose output')
 
     args = parser.parse_args(args if args is not None else sys.argv[1:])
 
     logging.basicConfig(format="%(name)s: %(levelname)s - %(message)s",
-        level=logging.DEBUG if args.verbose else logging.INFO)
+                        level=logging.DEBUG if args.verbose else logging.INFO)
 
     try:
         midiin, port = open_midiport(args.port)

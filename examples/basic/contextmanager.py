@@ -7,9 +7,9 @@
 import time
 import rtmidi
 
-from rtmidi.midiconstants import *
+from rtmidi.midiconstants import NOTE_OFF, NOTE_ON
 
-NOTE = 60 # middle C
+NOTE = 60  # middle C
 
 midiout = rtmidi.MidiOut()
 

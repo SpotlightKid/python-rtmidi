@@ -40,8 +40,9 @@ except ImportError:
 import yaml
 
 import rtmidi
-from rtmidi.midiutil import open_midiport
-from rtmidi.midiconstants import *
+from rtmidi.midiutil import open_midiinput
+from rtmidi.midiconstants import (CHANNEL_PRESSURE, CONTROLLER_CHANGE, NOTE_ON, NOTE_OFF,
+                                  PITCH_BEND, POLY_PRESSURE, PROGRAM_CHANGE)
 
 
 log = logging.getLogger('midi2command')
@@ -63,8 +64,8 @@ STATUS_MAP = {
 
 
 class Command(object):
-    def __init__(self, name='', description='', status=0xB0, channel=None,
-            data=None, command=None):
+    def __init__(self, name='', description='', status=0xB0, channel=None, data=None,
+                 command=None):
         self.name = name
         self.description = description
         self.status = status
@@ -106,7 +107,7 @@ class MidiInputHandler(object):
             data2 = event[2]
 
         log.debug("[%s] @%i CH:%2s %02X %s %s", self.port, self._wallclock,
-            channel or '-', status, data1, data2 or '')
+                  channel or '-', status, data1, data2 or '')
 
         # Look for matching command definitions
         cmd = self.lookup_command(status, channel, data1, data2)
@@ -165,7 +166,7 @@ class MidiInputHandler(object):
                         int(cmd.status)
                     except:
                         log.error("Unknown status '%s'. Ignoring command",
-                            cmd.status)
+                                  cmd.status)
 
                 log.debug("Config: %s\n%s\n", cmd.name, cmd.description)
                 self.commands.setdefault(status, []).append(cmd)
@@ -180,25 +181,28 @@ def main(args=None):
 
     """
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument('-b',  '--backend',
-        choices=sorted(BACKEND_MAP),
-        help='MIDI backend API (default: OS dependant)')
-    parser.add_argument('-p',  '--port',
-        help='MIDI input port name or number (default: open virtual input)')
-    parser.add_argument('-v',  '--verbose',
-        action="store_true", help='verbose output')
-    parser.add_argument(dest='config', metavar="CONFIG",
-        help='Configuration file in YAML syntax.')
+    padd = parser.add_argument
+    padd('-b', '--backend', choices=sorted(BACKEND_MAP),
+         help='MIDI backend API (default: OS dependant)')
+    padd('-p', '--port',
+         help='MIDI input port name or number (default: open virtual input)')
+    padd('-v', '--verbose',
+         action="store_true", help='verbose output')
+    padd(dest='config', metavar="CONFIG",
+         help='Configuration file in YAML syntax.')
 
     args = parser.parse_args(args if args is not None else sys.argv[1:])
 
     logging.basicConfig(format="%(name)s: %(levelname)s - %(message)s",
-        level=logging.DEBUG if args.verbose else logging.WARNING)
+                        level=logging.DEBUG if args.verbose else logging.INFO)
 
     try:
-        midiin, port_name = open_midiport(args.port, use_virtual=True,
+        midiin, port_name = open_midiinput(
+            args.port,
+            use_virtual=True,
             api=BACKEND_MAP.get(args.backend, rtmidi.API_UNSPECIFIED),
-            client_name='midi2command', port_name='MIDI input')
+            client_name='midi2command',
+            port_name='MIDI input')
     except (IOError, ValueError) as exc:
         return "Could not open MIDI input: %s" % exc
     except (EOFError, KeyboardInterrupt):

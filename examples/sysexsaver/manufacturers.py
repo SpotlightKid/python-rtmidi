@@ -1,5 +1,5 @@
 manufacturers = {
-    #id: (name, shortname),
+    # id: (name, shortname),
     1: ('Sequential Circuits',),
     4: ('Moog',),
     6: ('Lexicon',),

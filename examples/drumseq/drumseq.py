@@ -17,8 +17,10 @@ from random import gauss
 from time import sleep, time as timenow
 
 import rtmidi
-from rtmidi.midiutil import open_midiport
-from rtmidi.midiconstants import *
+from rtmidi.midiutil import open_midioutput
+from rtmidi.midiconstants import (ALL_SOUND_OFF, BANK_SELECT_LSB,
+                                  BANK_SELECT_MSB, CHANNEL_VOLUME,
+                                  CONTROL_CHANGE, NOTE_ON, PROGRAM_CHANGE)
 
 
 FUNKYDRUMMER = """
@@ -98,13 +100,13 @@ class Drumpattern(object):
     """Container and iterator for a multi-track step sequence."""
 
     velocities = {
-        "-": None, # continue note
-        ".": 0,    # off
-        "+": 10,   # ghost
-        "s": 60,   # soft
-        "m": 100,  # medium
-        "x": 120,  # hard
-        }
+        "-": None,  # continue note
+        ".": 0,     # off
+        "+": 10,    # ghost
+        "s": 60,    # soft
+        "m": 100,   # medium
+        "x": 120,   # hard
+    }
 
     def __init__(self, pattern, kit=0, humanize=0):
         self.instruments = []
@@ -141,6 +143,7 @@ class Drumpattern(object):
                 if velocity > 0:
                     if self.humanize:
                         velocity += int(round(gauss(0, velocity * self.humanize)))
+
                     midiout.send_message([NOTE_ON | channel, note, max(1, velocity)])
                     self._notes[note] = velocity
 
@@ -152,22 +155,23 @@ class Drumpattern(object):
 
 def main(args=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument('-b', '--bpm', type=float, default=100,
-        help="Beats per minute (BPM) (default: %(default)s)")
-    ap.add_argument('-c', '--channel', type=int, default=10, metavar='CH',
-        help="MIDI channel (default: %(default)s)")
-    ap.add_argument('-p', '--port',
-        help="MIDI output port number (default: ask)")
-    ap.add_argument('-k', '--kit', type=int, metavar='KIT',
-        help="Drum kit MIDI program number (default: none)")
-    ap.add_argument('--bank-msb', type=int, metavar='MSB',
-        help="MIDI bank select MSB (CC#00) number (default: none)")
-    ap.add_argument('--bank-lsb', type=int, metavar='MSB',
-        help="MIDI bank select LSB (CC#32) number (default: none)")
-    ap.add_argument('-H', '--humanize', type=float, default=0.0, metavar='VAL',
-        help="Random velocity variation (float, default: 0, try ~0.03)")
-    ap.add_argument('pattern', nargs='?', type=argparse.FileType(),
-        help="Drum pattern file (default: use built-in pattern)")
+    aadd = ap.add_argument
+    aadd('-b', '--bpm', type=float, default=100,
+         help="Beats per minute (BPM) (default: %(default)s)")
+    aadd('-c', '--channel', type=int, default=10, metavar='CH',
+         help="MIDI channel (default: %(default)s)")
+    aadd('-p', '--port',
+         help="MIDI output port number (default: ask)")
+    aadd('-k', '--kit', type=int, metavar='KIT',
+         help="Drum kit MIDI program number (default: none)")
+    aadd('--bank-msb', type=int, metavar='MSB',
+         help="MIDI bank select MSB (CC#00) number (default: none)")
+    aadd('--bank-lsb', type=int, metavar='MSB',
+         help="MIDI bank select LSB (CC#32) number (default: none)")
+    aadd('-H', '--humanize', type=float, default=0.0, metavar='VAL',
+         help="Random velocity variation (float, default: 0, try ~0.03)")
+    aadd('pattern', nargs='?', type=argparse.FileType(),
+         help="Drum pattern file (default: use built-in pattern)")
 
     args = ap.parse_args(args if args is not None else sys.argv[1:])
 
@@ -180,9 +184,11 @@ def main(args=None):
     pattern = Drumpattern(pattern, kit=kit, humanize=args.humanize)
 
     try:
-        midiout, port_name = open_midiport(args.port, "output",
+        midiout, port_name = open_midioutput(
+            args.port,
             api=rtmidi.API_UNIX_JACK,
-            client_name="drumseq", port_name="MIDI Out")
+            client_name="drumseq",
+            port_name="MIDI Out")
     except (EOFError, KeyboardInterrupt):
         return
 
@@ -196,7 +202,7 @@ def main(args=None):
     except KeyboardInterrupt:
         print('')
     finally:
-        seq.done = True # And kill it.
+        seq.done = True  # And kill it.
         seq.join()
         del midiout
         print("Done")

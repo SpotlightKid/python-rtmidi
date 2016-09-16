@@ -4,12 +4,6 @@
 #
 """URL regex-based OSC message dispatching."""
 
-__all__ = [
-    'Pattern',
-    'OSCDispatcher',
-    'convert_bool',
-    'main'
-]
 
 import logging
 import re
@@ -24,6 +18,12 @@ except ImportError:
     from lru_cache import lru_cache
 
 
+__all__ = [
+    'Pattern',
+    'OSCDispatcher',
+    'convert_bool',
+    'main'
+]
 log = logging.getLogger(__name__)
 
 
@@ -37,8 +37,8 @@ def convert_bool(s):
     return s in ('1', 'enable', 'on', 't', 'true', 'y', 'yes')
 
 
-Pattern = namedtuple('Pattern',
-    ('addrpattern', 'typecodes', 'handler', 'convdict', 'params'))
+Pattern = namedtuple('Pattern', 'addrpattern typecodes handler convdict params')
+
 
 class OSCDispatcher(list):
     """Dispatch OSC messages based on regular expression matching on path."""
@@ -208,8 +208,8 @@ class OSCDispatcher(list):
             pattern, match = self._get_pattern(path, typecodes)
         except KeyError:
             log.warning("No handler function found for OSC message (path=%r, "
-                "args=%r, typecodes=%r, addr=%r)",
-                path, args, typecodes, addr)
+                        "args=%r, typecodes=%r, addr=%r)",
+                        path, args, typecodes, addr)
         else:
             try:
                 func = getattr(self.search_ns, pattern.handler, None)
@@ -218,7 +218,7 @@ class OSCDispatcher(list):
                     func = self.search_ns[pattern.handler]
             except (KeyError, TypeError):
                 log.error("Handler function '%s' not found (namespace=%r).",
-                    pattern.handler, self.search_ns)
+                          pattern.handler, self.search_ns)
                 return
 
             kwargs = pattern.params.copy()
@@ -229,8 +229,8 @@ class OSCDispatcher(list):
             except:
                 funcname = getattr(func, 'func_name', func.__name__)
                 log.exception("Exception in handler func '%s' (path=%r, "
-                    "args=%r, kwargs=%r, typecodes=%r, addr=%r)",
-                    funcname, path, args, kwargs, typecodes, addr)
+                              "args=%r, kwargs=%r, typecodes=%r, addr=%r)",
+                              funcname, path, args, kwargs, typecodes, addr)
 
     def _convert_addrparams(self, convdict, match):
         """Apply conversion function (if any) to all named groups in match.
@@ -253,14 +253,14 @@ class OSCDispatcher(list):
                         convfunc = self._converters[convspec]
                 except (AttributeError, KeyError):
                     log.error("Conversion func '%s' for param '%s' not found.",
-                        convspec, name)
+                              convspec, name)
                 else:
                     try:
                         if convfunc:
                             value = convfunc(value)
                     except:
                         log.exception("Exception in conversion func '%s' for "
-                            "param '%s', value = %r", convspec, name, value)
+                                      "param '%s', value = %r", convspec, name, value)
 
             params[name] = value
 

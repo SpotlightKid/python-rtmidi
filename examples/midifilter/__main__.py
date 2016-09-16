@@ -18,10 +18,9 @@ try:
 except ImportError:  # Python 3
     import queue
 
-import rtmidi
 from rtmidi.midiutil import open_midiport
 
-from .filters import *
+from .filters import MapControllerValue, MonoPressureToCC, Transpose
 
 
 log = logging.getLogger("midifilter")
@@ -67,25 +66,26 @@ class MidiDispatcher(threading.Thread):
 
 def main(args=None):
     parser = argparse.ArgumentParser(prog='midifilter', description=__doc__)
-    parser.add_argument('-m',  '--mpresstocc', action="store_true",
-        help='Map mono pressure (channel aftertouch) to CC')
-    parser.add_argument('-r',  '--mapccrange', action="store_true",
-        help='Map controller value range to min/max value range')
-    parser.add_argument('-t',  '--transpose', action="store_true",
-        help='Transpose note on/off event note values')
-    parser.add_argument('-i',  '--inport',
-        help='MIDI input port number (default: ask)')
-    parser.add_argument('-o',  '--outport',
-        help='MIDI output port number (default: ask)')
-    parser.add_argument('-v',  '--verbose', action="store_true",
-        help='verbose output')
-    parser.add_argument('filterargs', nargs="*", type=int,
-        help='MIDI filter argument(s)')
+    padd = parser.add_argument
+    padd('-m', '--mpresstocc', action="store_true",
+         help='Map mono pressure (channel aftertouch) to CC')
+    padd('-r', '--mapccrange', action="store_true",
+         help='Map controller value range to min/max value range')
+    padd('-t', '--transpose', action="store_true",
+         help='Transpose note on/off event note values')
+    padd('-i', '--inport',
+         help='MIDI input port number (default: ask)')
+    padd('-o', '--outport',
+         help='MIDI output port number (default: ask)')
+    padd('-v', '--verbose', action="store_true",
+         help='verbose output')
+    padd('filterargs', nargs="*", type=int,
+         help='MIDI filter argument(s)')
 
     args = parser.parse_args(args if args is not None else sys.argv[1:])
 
     logging.basicConfig(format="%(name)s: %(levelname)s - %(message)s",
-        level=logging.DEBUG if args.verbose else logging.WARNING,)
+                        level=logging.DEBUG if args.verbose else logging.INFO)
 
     try:
         midiin, inport_name = open_midiport(args.inport, "input")

@@ -4,16 +4,12 @@
 #
 """Asynchroneous MIDI input / output framework."""
 
-__all__ = [
-    "MidiOutputBase",
-    "MidiOutputProc",
-    "MidiOutputThread",
-]
-
 import logging
 import multiprocessing
 import threading
 import time
+
+from operator import attrgetter
 
 try:
     import Queue as queue
@@ -26,17 +22,22 @@ try:
 except NameError:
     StandardError = Exception
 
-import rtmidi
-from rtmidi.midiconstants import *
+from rtmidi.midiconstants import ALL_NOTES_OFF, CONTROLLER_CHANGE, SYSTEM_EXCLUSIVE
 
 from . import device
 
+
+__all__ = [
+    "MidiOutputBase",
+    "MidiOutputProc",
+    "MidiOutputThread",
+]
 log = logging.getLogger(__name__)
 
 
 class MidiOutputBase(object):
-    def __init__(self, queue=None, bpm=120.0, ppqn=480,
-            get_event=None, driver_class="RtMidiDevice", **driver_args):
+    def __init__(self, queue=None, bpm=120.0, ppqn=480, get_event=None,
+                 driver_class="RtMidiDevice", **driver_args):
         super(MidiOutputBase, self).__init__()
         driver_args.setdefault('name', self.__class__.__name__)
         self._driver_args = driver_args
@@ -76,7 +77,7 @@ class MidiOutputBase(object):
         # We do this ourselves instead of passing in a driver instance
         # so that the I/O class can run in a different thread or process.
         log.debug("Creating %s instance with args: %r.",
-            self._driver_class, self._driver_args)
+                  self._driver_class, self._driver_args)
         driver = self.driver = getattr(device, self._driver_class)(**self._driver_args)
         try:
             driver.open_output()
@@ -100,8 +101,7 @@ class MidiOutputBase(object):
                     queue_event = self.get_event()
 
                     if queue_event == "STOP":
-                        log.debug("Received stop event. "
-                            "Exit MidiOutputProc loop.")
+                        log.debug("Received stop event. Exit MidiOutputProc loop.")
                         break_ = True
                         break
 
@@ -114,7 +114,7 @@ class MidiOutputBase(object):
                     while self.pending and self.pending[0].timestamp > current_time:
                         ev = self.pending.pop(0)
                         log.debug("%s: picked up event from schedule queue: %s",
-                            driver, ev)
+                                  driver, ev)
                         self._output_event(ev, event_list)
                         log.debug("%s: queued event for output.", driver)
                         jitter.append(current_time - ev.timestamp)
@@ -124,7 +124,7 @@ class MidiOutputBase(object):
                     # be sent out immediately or needs to be scheduled
                     if queue_event:
                         log.debug("%s: received event from IPC queue: %s",
-                            driver, queue_event)
+                                  driver, queue_event)
                         if queue_event.timestamp <= current_time:
                             self._output_event(queue_event, event_list)
                             log.debug("%s: queued event for output.", driver)
@@ -142,13 +142,13 @@ class MidiOutputBase(object):
                             driver.send(event_list)
                         except StandardError:
                             log.exception("%s: error writing MIDI events: %r",
-                                driver, event_list)
+                                          driver, event_list)
 
                     # calculate jitter
                     if loops >= 100:
-                        log.debug("%s: Jitter (over 100 events): %0.3f (max: %0.3f,"
-                            " min: %0.3f)", driver, sum(jitter) / loops,
-                            max(jitter), min(jitter))
+                        log.debug("%s: Jitter (over 100 events): %0.3f "
+                                  "(max: %0.3f, min: %0.3f)", driver,
+                                  sum(jitter) / loops, max(jitter), min(jitter))
                         jitter = []
                         loops = 0
 
@@ -161,7 +161,7 @@ class MidiOutputBase(object):
 
             except KeyboardInterrupt:
                 log.debug("KeyboardInterrupt / INT signal received in output "
-                    "thread. Ignoring it.")
+                          "thread. Ignoring it.")
 
         log.debug("Midi output mainloop exited.")
         # cleanup
@@ -220,7 +220,6 @@ class MidiOutputBase(object):
         else:
             raise RuntimeError("Output queue is not running.")
 
-
     def time(self):
         """Return driver's notion of the current time.
 
@@ -237,6 +236,7 @@ class MidiOutputBase(object):
     def _get_bpm(self):
         """Return current beats-per-minute value."""
         return self._bpm
+
     def _set_bpm(self, bpm):
         self._bpm = bpm
         self.resolution = 60. / self.bpm / self.ppqn
@@ -281,7 +281,7 @@ class MidiOutputBase(object):
             # write sysex message to MIDI output driver immediately
             self.driver.send_sysex('\xF0' + ev.data)
             log.debug("Midi Out(%s): System Exclusive %i bytes",
-                self.driver.port, len(ev.data))
+                      self.driver.port, len(ev.data))
         else:
             # write channel and system events to MIDI output driver
             if ev.channel is not None:
@@ -305,7 +305,7 @@ class MidiOutputBase(object):
         messages = []
         for channel in channels:
             log.debug("%s: Sending ALL NOTES OFF on channel %02i",
-                self.driver, channel + 1)
+                      self.driver, channel + 1)
             messages.append([CONTROLLER_CHANGE | channel, ALL_NOTES_OFF, 0])
 
         self.driver.send(messages)

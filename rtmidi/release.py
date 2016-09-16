@@ -101,7 +101,8 @@ Topic :: Multimedia :: Sound/Audio :: MIDI
 Topic :: Software Development :: Libraries :: Python Modules
 """
 classifiers = [c.strip() for c in classifiers.splitlines()
-    if c.strip() and not c.startswith('#')]
-try: # Python 2.x
-    del c
-except: pass
+               if c.strip() and not c.startswith('#')]
+try:  # Python 2.x
+    del c  # noqa
+except:
+    pass

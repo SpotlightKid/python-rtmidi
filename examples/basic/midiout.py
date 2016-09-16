@@ -8,12 +8,10 @@ import logging
 import sys
 import time
 
-import rtmidi
 from rtmidi.midiutil import open_midiport
-from rtmidi.midiconstants import *
+from rtmidi.midiconstants import NOTE_OFF, NOTE_ON
 
 log = logging.getLogger('test_midiout')
-
 logging.basicConfig(level=logging.DEBUG)
 
 port = sys.argv[1] if len(sys.argv) > 1 else None
@@ -23,7 +21,7 @@ try:
 except (EOFError, KeyboardInterrupt):
     sys.exit()
 
-note_on = [NOTE_ON, 60, 112] # channel 1, middle C, velocity 112
+note_on = [NOTE_ON, 60, 112]  # channel 1, middle C, velocity 112
 note_off = [NOTE_OFF, 60, 0]
 
 print("Sending NoteOn event.")

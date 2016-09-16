@@ -8,7 +8,6 @@ import logging
 import sys
 import time
 
-import rtmidi
 from rtmidi.midiutil import open_midiport
 
 log = logging.getLogger('test_midiin_poll')

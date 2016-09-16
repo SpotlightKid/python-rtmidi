@@ -127,7 +127,7 @@ if sys.platform.startswith('linux'):
 
     if not find_library('pthread'):
         print("The 'pthread' library is required to build python-rtmidi on"
-            "Linux. Please install the libc6 development package")
+              "Linux. Please install the libc6 development package")
         sys.exit(1)
 
     libraries += ["pthread"]
@@ -159,33 +159,33 @@ elif sys.platform.startswith('win'):
     library_dirs += [WINLIB_DIR]
 else:
     print("WARNING: This operating system (%s) is not supported by RtMidi.\n"
-        "Linux, Mac OS X (>= 10.5), Windows (XP, Vista, 7) are supported\n"
-        "Continuing and hoping for the best...\n" % sys.platform)
+          "Linux, Mac OS X (>= 10.5), Windows (XP, Vista, 7) are supported\n"
+          "Continuing and hoping for the best...\n" % sys.platform)
 
 # define _rtmidi Extension
 extensions = [
     Extension(
         PKG_DIR + "._rtmidi",
-        sources = sources,
-        language = "c++",
-        define_macros = define_macros,
-        include_dirs = include_dirs,
-        libraries = libraries,
-        library_dirs = library_dirs,
-        extra_compile_args = extra_compile_args,
-        extra_link_args = extra_link_args
+        sources=sources,
+        language="c++",
+        define_macros=define_macros,
+        include_dirs=include_dirs,
+        libraries=libraries,
+        library_dirs=library_dirs,
+        extra_compile_args=extra_compile_args,
+        extra_link_args=extra_link_args
     )
 ]
 
 # Finally, set up our distribution
 setup(
-    packages = ['rtmidi', 'osc2midi'],
-    package_dir = {'osc2midi': 'examples/osc2midi'},
-    ext_modules = cythonize(extensions),
-    extras_require = {
-        'osc2midi':  ['pyliblo', 'PyYAML'],
+    packages=['rtmidi', 'osc2midi'],
+    package_dir={'osc2midi': 'examples/osc2midi'},
+    ext_modules=cythonize(extensions),
+    extras_require={
+        'osc2midi': ['pyliblo', 'PyYAML'],
     },
-    entry_points = {
+    entry_points={
         'console_scripts': [
             'osc2midi = osc2midi.main:main [osc2midi]',
         ]

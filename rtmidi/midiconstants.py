@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 ###################################################
-## Definitions of the different midi events
+# Definitions of the different midi events
 
 
 ###################################################
-## Midi channel events (The most usual events)
-## also called "Channel Voice Messages"
+# Midi channel events (the most common events)
+# Also called "Channel Voice Messages"
 
 NOTE_OFF = 0x80
 # 1000cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
@@ -17,7 +17,7 @@ NOTE_ON = 0x90
 POLYPHONIC_PRESSURE = POLY_PRESSURE = 0xA0
 # 1010cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)
 
- # see Channel Mode Messages for Controller Numbers
+# see Channel Mode Messages for Controller Numbers
 CONTROLLER_CHANGE = CONTROL_CHANGE = 0xB0
 # 1011cccc 0ccccccc 0vvvvvvv (channel, controller, value)
 
@@ -32,9 +32,9 @@ PITCH_BEND = 0xE0
 
 
 ###################################################
-##  Channel Mode Messages (Continuous Controller)
-##  All CCs have the same status byte (0xBn).
-##  The controller number is the first data byte
+# Channel Mode Messages (Continuous Controller)
+# All CCs have the same status byte (0xBn).
+# The controller number is the first data byte
 
 # High resolution continuous controllers (MSB)
 
@@ -157,7 +157,7 @@ POLY_MODE_ON = 0x7F
 
 
 ###################################################
-## System Common Messages, for all channels
+# System Common Messages, for all channels
 
 # 11110000 0iiiiiii 0ddddddd ... 11110111
 SYSTEM_EXCLUSIVE = 0xF0
@@ -172,74 +172,70 @@ SONG_POSITION_POINTER = 0xF2
 # 11110011 0sssssss (songnumber)
 SONG_SELECT = 0xF3
 
-## 11110100
-#UNDEFINED = 0xF4
-
-## 11110101
-#UNDEFINED = 0xF5
+# 11110100 (0xF4) is undefined
+# 11110101 (0xF5) is undefined
 
 # 11110110
 TUNING_REQUEST = TUNE_REQUEST = 0xF6
 
 # 11110111 # End of system exclusive
-END_OF_EXCLUSIVE = 0xF7 # terminator
+END_OF_EXCLUSIVE = 0xF7
 
 
 ###################################################
-## Midifile meta-events
+# Midifile meta-events
 
-SEQUENCE_NUMBER = 0x00      # 00 02 ss ss (seq-number)
-TEXT            = 0x01      # 01 len text...
-COPYRIGHT       = 0x02      # 02 len text...
-SEQUENCE_NAME   = 0x03      # 03 len text...
-INSTRUMENT_NAME = 0x04      # 04 len text...
-LYRIC           = 0x05      # 05 len text...
-MARKER          = 0x06      # 06 len text...
-CUEPOINT        = 0x07      # 07 len text...
-PROGRAM_NAME    = 0x08      # 08 len text...
-DEVICE_NAME     = 0x09      # 09 len text...
+SEQUENCE_NUMBER = 0x00  # 00 02 ss ss (seq-number)
+TEXT = 0x01             # 01 len text...
+COPYRIGHT = 0x02        # 02 len text...
+SEQUENCE_NAME = 0x03    # 03 len text...
+INSTRUMENT_NAME = 0x04  # 04 len text...
+LYRIC = 0x05            # 05 len text...
+MARKER = 0x06           # 06 len text...
+CUEPOINT = 0x07         # 07 len text...
+PROGRAM_NAME = 0x08     # 08 len text...
+DEVICE_NAME = 0x09      # 09 len text...
 
-MIDI_CH_PREFIX  = 0x20      # MIDI channel prefix assignment (deprecated)
+MIDI_CH_PREFIX = 0x20   # MIDI channel prefix assignment (deprecated)
 
-MIDI_PORT       = 0x21      # 21 01 port, deprecated but still used
-END_OF_TRACK    = 0x2F      # 2f 00
-TEMPO           = 0x51      # 51 03 tt tt tt (tempo in µs/quarternote)
-SMTP_OFFSET     = 0x54      # 54 05 hh mm ss ff xx
-TIME_SIGNATURE  = 0x58      # 58 04 nn dd cc bb
-KEY_SIGNATURE   = 0x59      # 59 02 sf mi (sf = number of sharps(+) or flats(-)
-                            # mi = major(0) or minor (1))
-SPECIFIC        = 0x7F      # Sequencer specific event
+MIDI_PORT = 0x21        # 21 01 port, deprecated but still used
+END_OF_TRACK = 0x2F     # 2f 00
+TEMPO = 0x51            # 51 03 tt tt tt (tempo in µs/quarternote)
+SMTP_OFFSET = 0x54      # 54 05 hh mm ss ff xx
+TIME_SIGNATURE = 0x58   # 58 04 nn dd cc bb
+KEY_SIGNATURE = 0x59    # 59 02 sf mi (sf = number of sharps(+) or flats(-)
+                        # mi = major(0) or minor (1))
+SPECIFIC = 0x7F         # Sequencer specific event
 
 
 ###################################################
-## System Realtime messages
-## These should not occur in midi files
+# System Realtime messages
+# These should not occur in midi files
 
-TIMING_CLOCK   = 0xF8
-# undefined    = 0xF9
-SONG_START     = 0xFA
-SONG_CONTINUE  = 0xFB
-SONG_STOP      = 0xFC
-# undefined    = 0xFD
+TIMING_CLOCK = 0xF8
+# 0xF9 is undefined
+SONG_START = 0xFA
+SONG_CONTINUE = 0xFB
+SONG_STOP = 0xFC
+# 0xFD is undefined
 ACTIVE_SENSING = 0xFE
-SYSTEM_RESET   = 0xFF
+SYSTEM_RESET = 0xFF
 
 
 ###################################################
-## META EVENT, it is used only in midi files.
-## In transmitted data it means system reset!!!
+# META EVENT, it is used only in midi files.
+# In transmitted data it means system reset!!!
 
-META_EVENT     = 0xFF
 # 11111111
-
+META_EVENT = 0xFF
 ESCAPE_SEQUENCE = 0xF7
 
 
 ###################################################
-## Misc constants
+# Misc constants
 
-FILE_HEADER     = 'MThd'
-TRACK_HEADER    = 'MTrk'
+FILE_HEADER = 'MThd'
+TRACK_HEADER = 'MTrk'
 
 # Timecode resolution: frames per second
 FPS_24 = 0xE8
@@ -249,8 +245,7 @@ FPS_30 = 0xE2
 
 
 ###################################################
-## Helper functions
+# Helper functions
 
 def is_status(byte):
-    return (byte & 0x80) == 0x80 # 1000 0000
-
+    return (byte & 0x80) == 0x80  # 1000 0000

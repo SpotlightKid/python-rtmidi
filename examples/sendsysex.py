@@ -13,12 +13,6 @@ output, after confirmation (which can be turned off).
 
 """
 
-__program__ = 'sendsysex.py'
-__version__ = '1.1 ($Rev$)'
-__author__  = 'Christopher Arndt'
-__date__    = '$Date$'
-
-
 import argparse
 import logging
 import os
@@ -35,6 +29,11 @@ except NameError:
     # Python 3
     raw_input = input
 
+
+__program__ = 'sendsysex.py'
+__version__ = '1.1'
+__author__ = 'Christopher Arndt'
+__date__ = '$Date$'
 
 log = logging.getLogger("sendsysex")
 
@@ -71,7 +70,7 @@ def send_sysex_file(filename, midiout, portname, prompt=True, delay=50):
                         eox = data.find(END_OF_EXCLUSIVE, sox)
 
                         if eox >= 0:
-                            sysex_msg = data[sox:eox+1]
+                            sysex_msg = data[sox:eox + 1]
                             # Python 2: convert data into list of integers
                             if isinstance(sysex_msg, str):
                                 sysex_msg = [ord(c) for c in sysex_msg]
@@ -94,28 +93,29 @@ def main(args=None):
 
     Parses command line (parsed via ``args`` or from ``sys.argv``), detects
     and optionally lists MIDI output ports, opens given MIDI output port,
-    assembles list of sysex files and calls ``send_sysex_file`` on each of them.
+    assembles list of sysex files and calls ``send_sysex_file`` on each of
+    them.
 
     """
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(dest='sysexfiles', nargs="*", metavar="SYSEX",
-        help='MIDI system exclusive files or directories to send.')
-    parser.add_argument('-l',  '--list-ports', action="store_true",
-        help='list available MIDI output ports')
-    parser.add_argument('-p',  '--port', dest='port', default=0, type=int,
-        help='MIDI output port number (default: %(default)s)')
-    parser.add_argument('-d',  '--delay', default="50", metavar="MS", type=int,
-        help='delay between sending each Sysex message in milliseconds '
-        '(default: %(default)s)')
-    parser.add_argument('-y',  '--no-prompt', dest='prompt',
-        action="store_false", help='do not ask for confirmation before sending')
-    parser.add_argument('-v',  '--verbose', action="store_true",
-        help='verbose output')
+    padd = parser.add_argument
+    padd(dest='sysexfiles', nargs="*", metavar="SYSEX",
+         help='MIDI system exclusive files or directories to send.')
+    padd('-l', '--list-ports', action="store_true",
+         help='list available MIDI output ports')
+    padd('-p', '--port', dest='port', default=0, type=int,
+         help='MIDI output port number (default: %(default)s)')
+    padd('-d', '--delay', default="50", metavar="MS", type=int,
+         help='delay between sending each Sysex message in milliseconds '
+         '(default: %(default)s)')
+    padd('-y', '--no-prompt', dest='prompt', action="store_false",
+         help='do not ask for confirmation before sending')
+    padd('-v', '--verbose', action="store_true", help='verbose output')
 
     args = parser.parse_args(args if args is not None else sys.argv[1:])
 
     logging.basicConfig(format="%(name)s: %(levelname)s - %(message)s",
-        level=logging.DEBUG if args.verbose else logging.WARNING)
+                        level=logging.DEBUG if args.verbose else logging.INFO)
 
     try:
         midiout = rtmidi.MidiOut()
@@ -144,7 +144,7 @@ def main(args=None):
         for path in args.sysexfiles or [os.curdir]:
             if isdir(path):
                 files.extend(sorted([join(path, fn) for fn in os.listdir(path)
-                    if fn.lower().endswith('.syx')]))
+                                     if fn.lower().endswith('.syx')]))
             elif exists(path):
                 files.append(path)
             else:
@@ -152,7 +152,7 @@ def main(args=None):
 
         if not files:
             log.warning("No sysex (.syx) files found in given directories or "
-                "working directory.")
+                        "working directory.")
 
         for filename in files:
             try:

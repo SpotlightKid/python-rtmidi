@@ -11,17 +11,6 @@ API to use from the environment and to open MIDI ports.
 
 from __future__ import print_function, unicode_literals
 
-
-__all__ = [
-    'get_api_from_environment',
-    'list_avaiilable_ports',
-    'list_input_ports',
-    'list_output_ports',
-    'open_midiinput',
-    'open_midioutput',
-    'open_midiport',
-]
-
 import logging
 import os
 
@@ -35,14 +24,24 @@ except NameError:
 import rtmidi
 
 
+__all__ = [
+    'get_api_from_environment',
+    'list_available_ports',
+    'list_input_ports',
+    'list_output_ports',
+    'open_midiinput',
+    'open_midioutput',
+    'open_midiport',
+]
+
 log = logging.getLogger(__name__)
 
 
 def _prompt_for_virtual(type_):
     """Prompt on the console whether a virtual MIDI port should be opened."""
 
-    return raw_input("Do you want to create a virtual MIDI %s port? (y/N) "
-        % type_).strip().lower() in ['y', 'yes']
+    return raw_input("Do you want to create a virtual MIDI %s port? (y/N) " %
+                     type_).strip().lower() in ['y', 'yes']
 
 
 def get_api_from_environment(api=rtmidi.API_UNSPECIFIED):
@@ -110,8 +109,8 @@ def list_output_ports(api=rtmidi.API_UNSPECIFIED):
 
 
 def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
-        use_virtual=False, interactive=True, client_name=None,
-        port_name=None):
+                  use_virtual=False, interactive=True, client_name=None,
+                  port_name=None):
     """Open MIDI port for input or output and return MidiIn/MidiOut instance.
 
     Arguments:
@@ -193,9 +192,7 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
     if port is None:
         try:
             if (midiobj.get_current_api() != rtmidi.API_WINDOWS_MM and
-                    (use_virtual or
-                    (interactive and _prompt_for_virtual(type_)))):
-
+                    (use_virtual or (interactive and _prompt_for_virtual(type_)))):
                 if not port_name:
                     port_name = "Virtual MIDI %s" % type_
 
@@ -209,6 +206,7 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
 
     if len(ports) == 0:
         del midiobj
+        raise IOError("No MIDI %s ports found." % type_)
         raise IOError("No MIDI %s ports found." % type_)
 
     try:

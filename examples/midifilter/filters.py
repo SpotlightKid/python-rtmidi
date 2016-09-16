@@ -4,6 +4,10 @@
 #
 """Collection MIDI filter classes."""
 
+from rtmidi.midiconstants import (BANK_SELECT_LSB, BANK_SELECT_MSB, CHANNEL_PRESSURE,
+                                  CONTROLLER_CHANGE, NOTE_ON, NOTE_OFF, PROGRAM_CHANGE)
+
+
 __all__ = (
     'CCToBankChange',
     'MapControllerValue',
@@ -11,8 +15,6 @@ __all__ = (
     'MonoPressureToCC',
     'Transpose',
 )
-
-from rtmidi.midiconstants import *
 
 
 class MidiFilter(object):

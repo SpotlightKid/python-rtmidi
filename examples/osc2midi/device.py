@@ -4,17 +4,13 @@
 #
 """MIDI device abstraction classes."""
 
-__all__ = [
-    "RtMidiDevice"
-]
-
 import logging
 import time
 
-import rtmidi
+from rtmidi.midiutil import open_midioutput
 
-from rtmidi.midiutil import open_midiport
 
+__all__ = ["RtMidiDevice"]
 log = logging.getLogger(__name__)
 
 
@@ -31,8 +27,8 @@ class RtMidiDevice(object):
         return self.portname
 
     def open_output(self):
-        self._output, self.portname = open_midiport(self.port, "output",
-            interactive=False, client_name=self.name)
+        self._output, self.portname = open_midioutput(self.port, interactive=False,
+                                                      client_name=self.name)
 
     def close_output(self):
         if self._output is not None:

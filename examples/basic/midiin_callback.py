@@ -8,12 +8,11 @@ import logging
 import sys
 import time
 
-import rtmidi
 from rtmidi.midiutil import open_midiport
 
 log = logging.getLogger('test_midiin_callback')
-
 logging.basicConfig(level=logging.DEBUG)
+
 
 class MidiInputHandler(object):
     def __init__(self, port):
