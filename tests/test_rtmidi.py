@@ -16,12 +16,19 @@ class RtMidiTestCase(unittest.TestCase):
     DELAY = 0.1
 
     def setUp(self):
-        self.midi_out = rtmidi.MidiOut(name=self.TEST_PORT_NAME)
-        self.midi_out.open_virtual_port()
-
         self.midi_in = rtmidi.MidiIn()
-        for portnum, port in enumerate(self.midi_in.get_ports()):
-            if port.startswith(self.TEST_PORT_NAME):
+        self.midi_out = rtmidi.MidiOut()
+
+        # TODO: hack-ish strategy to find out the port number of the virtual
+        # output port, which should should work on ALSA too
+        # See: https://github.com/thestk/rtmidi/issues/88
+        ports_before = self.midi_in.get_ports()
+        self.midi_out.open_virtual_port()
+        ports_after = self.midi_in.get_ports()
+        port_name = list(set(ports_after).difference(ports_before))[0]
+
+        for portnum, port in enumerate(ports_after):
+            if port == port_name:
                 self.midi_in.open_port(portnum)
                 break
         else:
@@ -29,9 +36,9 @@ class RtMidiTestCase(unittest.TestCase):
 
     def tearDown(self):
         self.midi_in.close_port()
-        self.midi_in = None
+        del self.midi_in
         self.midi_out.close_port()
-        self.midi_out = None
+        del self.midi_out
 
     def test_send_and_get_message(self):
         self.midi_out.send_message(self.NOTE_ON)
