@@ -102,7 +102,14 @@ available MIDI output port and send a middle C note on MIDI channel 1::
 
 """
 
-__all__ = [
+import sys
+
+from libcpp cimport bool
+from libcpp.string cimport string
+from libcpp.vector cimport vector
+
+
+__all__ = (
     'API_UNSPECIFIED', 'API_MACOSX_CORE', 'API_LINUX_ALSA', 'API_UNIX_JACK',
     'API_WINDOWS_MM', 'API_RTMIDI_DUMMY',
     'ERRORTYPE_WARNING', 'ERRORTYPE_DEBUG_WARNING', 'ERRORTYPE_UNSPECIFIED',
@@ -111,21 +118,12 @@ __all__ = [
     'ERRORTYPE_INVALID_USE', 'ERRORTYPE_DRIVER_ERROR',
     'ERRORTYPE_SYSTEM_ERROR', 'ERRORTYPE_THREAD_ERROR',
     'MidiIn', 'MidiOut', 'RtMidiError', 'get_compiled_api'
-]
-
-import sys
-
-from libcpp cimport bool
-from libcpp.string cimport string
-from libcpp.vector cimport vector
-
+)
 
 # Init Python threads and GIL, because RtMidi calls Python from native threads.
 # See http://permalink.gmane.org/gmane.comp.python.cython.user/5837
 cdef extern from "Python.h":
     void PyEval_InitThreads()
-
-PyEval_InitThreads()
 
 
 # Declarations for RtMidi C++ classes and their methods we use
@@ -191,6 +189,9 @@ cdef extern from "RtMidi.h":
         void sendMessage(vector[unsigned char] *message) except +
 
 
+PyEval_InitThreads()
+
+
 # internal functions
 
 cdef void _cb_func(double delta_time, vector[unsigned char] *msg_v,
@@ -200,20 +201,22 @@ cdef void _cb_func(double delta_time, vector[unsigned char] *msg_v,
     message = [msg_v.at(i) for i in range(msg_v.size())]
     func((message, delta_time), data)
 
+
 cdef void _cb_error_func(ErrorType errorType, const string &errorText,
                          void *cb_info) with gil:
     """Wrapper for a Python callback function for errors."""
     func, data, decoder = (<object> cb_info)
     func(errorType, decoder(errorText), data)
 
+
 def _to_bytes(name):
     """Convert a unicode (Python 2) or str (Python 3) object into bytes."""
     # 'bytes' == 'str' in Python 2 but a separate type in Python 3
     if not isinstance(name, bytes):
         try:
-            name = bytes(name, 'utf-8') # Python 3
+            name = bytes(name, 'utf-8')  # Python 3
         except TypeError:
-            name = bytes(name.encode('utf-8')) # Python 2
+            name = bytes(name.encode('utf-8'))  # Python 2
 
     return name
 
