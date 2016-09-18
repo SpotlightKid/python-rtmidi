@@ -1,6 +1,10 @@
 .PHONY: clean-pyc clean-build docs clean
 
+PYTHON ?= python
+SOURCES = src/_rtmidi.cpp src/RtMidi.cpp
+
 help:
+	@echo "build - build extension module (and place it in the rtmidi package)"
 	@echo "clean-build - remove build artifacts"
 	@echo "clean-docs - remove docs output"
 	@echo "clean-pyc - remove Python file artifacts"
@@ -11,6 +15,9 @@ help:
 	@echo "docs - generate Sphinx HTML documentation, including API docs"
 	@echo "release - package and upload a release"
 	@echo "dist - build distribution packages"
+
+build: $(SOURCES)
+	$(PYTHON) setup.py build_ext --inplace
 
 clean: clean-build clean-docs clean-pyc
 	rm -fr htmlcov/
@@ -32,10 +39,10 @@ clean-pyc:
 	find . -name __pycache__ -type d -exec rm -rf {} +
 
 lint:
-	flake8 rtmidi tests
+	flake8 rtmidi tests examples
 
 test:
-	PYTHONPATH=examples python setup.py test
+	PYTHONPATH=examples $(PYTHON) setup.py test
 
 test-all:
 	tox
@@ -55,8 +62,8 @@ docs:
 	xdg-open docs/_build/html/index.html
 
 release: clean
-	python setup.py release_upload
+	$(PYTHON) setup.py release_upload
 
 dist: clean
-	python setup.py release
+	$(PYTHON) setup.py release
 	ls -l dist
