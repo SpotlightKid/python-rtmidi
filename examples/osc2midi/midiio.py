@@ -27,11 +27,11 @@ from rtmidi.midiconstants import ALL_NOTES_OFF, CONTROLLER_CHANGE, SYSTEM_EXCLUS
 from . import device
 
 
-__all__ = [
+__all__ = (
     "MidiOutputBase",
     "MidiOutputProc",
     "MidiOutputThread",
-]
+)
 log = logging.getLogger(__name__)
 
 
@@ -317,6 +317,7 @@ class MidiOutputThread(MidiOutputBase, threading.Thread):
     Uses a thread for concurrent processing.
 
     """
+
     event_class = staticmethod(threading.Event)
     queue_class = staticmethod(queue.Queue)
 
@@ -327,5 +328,6 @@ class MidiOutputProc(MidiOutputBase, multiprocessing.Process):
     Uses a child process for concurrent processing.
 
     """
+
     event_class = staticmethod(multiprocessing.Event)
     queue_class = staticmethod(multiprocessing.Queue)

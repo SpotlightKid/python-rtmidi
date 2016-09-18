@@ -10,7 +10,7 @@ import time
 from rtmidi.midiutil import open_midioutput
 
 
-__all__ = ["RtMidiDevice"]
+__all__ = ("RtMidiDevice",)
 log = logging.getLogger(__name__)
 
 

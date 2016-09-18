@@ -18,12 +18,12 @@ except ImportError:
     from lru_cache import lru_cache
 
 
-__all__ = [
+__all__ = (
     'Pattern',
     'OSCDispatcher',
     'convert_bool',
     'main'
-]
+)
 log = logging.getLogger(__name__)
 
 

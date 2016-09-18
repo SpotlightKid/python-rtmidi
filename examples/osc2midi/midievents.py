@@ -4,9 +4,7 @@
 #
 """MIDI event classes."""
 
-__all__ = [
-    'MidiEvent'
-]
+__all__ = ('MidiEvent',)
 
 
 class MidiEvent(object):
@@ -24,6 +22,7 @@ class MidiEvent(object):
     registered classes and the status byte.
 
     """
+
     _event_register = {}
 
     type = 0xFE

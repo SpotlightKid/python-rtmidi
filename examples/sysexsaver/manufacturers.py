@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Map manufacturer ID to manufacturer name and short name."""
+
 manufacturers = {
     # id: (name, shortname),
     1: ('Sequential Circuits',),

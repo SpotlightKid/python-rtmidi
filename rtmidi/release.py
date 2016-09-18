@@ -4,7 +4,6 @@
 #
 """A Python wrapper for the RtMidi C++ library written with Cython.
 
-
 Overview
 ========
 

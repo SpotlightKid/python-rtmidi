@@ -29,6 +29,7 @@ class MidiEvent(object):
     timing ticks.
 
     """
+
     __slots__ = ('tick', 'message')
 
     def __init__(self, tick, message):
@@ -103,7 +104,6 @@ class SequencerThread(threading.Thread):
 
     def add(self, event, tick=None, delta=0):
         """Enqueue event for sending to MIDI output."""
-
         if tick is None:
             tick = self._tickcnt or 0
 

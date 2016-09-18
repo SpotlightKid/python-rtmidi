@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-
-###################################################
-# Definitions of the different midi events
-
+"""Definitions of midi events, controller numbers and paramters."""
 
 ###################################################
 # Midi channel events (the most common events)
@@ -248,4 +245,5 @@ FPS_30 = 0xE2
 # Helper functions
 
 def is_status(byte):
+    """Return True if the given byte is a MIDI status byte, False otherwise."""
     return (byte & 0x80) == 0x80  # 1000 0000

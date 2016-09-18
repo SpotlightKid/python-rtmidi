@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Map manufacturer's model ID to name."""
+
 models = {
     # id: (name, shortname),
     1: {},  # Sequential Circuits

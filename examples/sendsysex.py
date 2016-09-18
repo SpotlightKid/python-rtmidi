@@ -42,8 +42,10 @@ END_OF_EXCLUSIVE = b'\xF7'
 
 
 def send_sysex_file(filename, midiout, portname, prompt=True, delay=50):
-    """Read file given by filename and send all consecutive sysex messages
-    found in it to given midiout after prompt.
+    """Send contents of sysex file to given MIDI output.
+
+    Reads file given by filename and sends all consecutive sysex messages found
+    in it to given midiout after prompt.
 
     """
     bn = basename(filename)

@@ -39,7 +39,6 @@ log = logging.getLogger(__name__)
 
 def _prompt_for_virtual(type_):
     """Prompt on the console whether a virtual MIDI port should be opened."""
-
     return raw_input("Do you want to create a virtual MIDI %s port? (y/N) " %
                      type_).strip().lower() in ['y', 'yes']
 
@@ -49,7 +48,7 @@ def get_api_from_environment(api=rtmidi.API_UNSPECIFIED):
 
     If the optional api argument is rtmidi.API_UNSPECIFIED (the default),
     look in the environment variable RTMIDI_API for the name of the RtMidi
-    API to use. Valid names are LINUX_ALSA, UNIX_JACK, MACOSXX_CORE,
+    API to use. Valid names are ``LINUX_ALSA, UNIX_JACK, MACOSX_CORE,
     WINDOWS_MM and RTMIDI_DUMMY. If no valid value is found,
     rtmidi.API_UNSPECIFIED will be used.
 
@@ -128,7 +127,9 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
 
     ``api``
         Select the low-level MIDI API to use. Defaults to ``API_UNSPECIFIED``,
-        i.e. the first compiled-in API, which has any input resp. output ports
+        The specified api will be passed to the ``get_api_from_environment``
+        function and its return value will be used. If it's ``API_UNSPECIFIED``
+        the first compiled-in API, which has any input resp. output ports
         available, will be used.
 
     ``use_virtual``
@@ -248,11 +249,19 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
 
 def open_midiinput(port=None, api=rtmidi.API_UNSPECIFIED, use_virtual=False,
                    interactive=True, client_name=None, port_name=None):
+    """Open a MIDI port for input and return a MidiIn instance.
+
+    See the ``open_midiport`` functon for information on parameters.
+    """
     return open_midiport(port, "input", api, use_virtual, interactive,
                          client_name, port_name)
 
 
 def open_midioutput(port=None, api=rtmidi.API_UNSPECIFIED, use_virtual=False,
                     interactive=True, client_name=None, port_name=None):
+    """Open a MIDI port for output and return a MidiOut instance.
+
+    See the ``open_midiport`` function for information on parameters.
+    """
     return open_midiport(port, "output", api, use_virtual, interactive,
                          client_name, port_name)
