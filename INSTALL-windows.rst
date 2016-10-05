@@ -1,9 +1,9 @@
 How to install python-rtmidi from source on Windows
 ===================================================
 
-These instruction are only working for installing ``python-rtmidi`` from source
-using Python 2.7 or Python 3.3 in the 32-bit versions (you can run these on
-Windows 64-bit versions with no problems).
+These instruction should work for installing ``python-rtmidi`` from source
+using Python 2.7 or Python 3.5 in the 32-bit (you can run these on
+Windows 64-bit versions with no problems) or 64-bit versions.
 
 Please follow all the steps below in the exact order.
 
@@ -11,45 +11,30 @@ Please follow all the steps below in the exact order.
 Installing required software
 ----------------------------
 
-You probably need adminstrator rights for some or all of the following steps.
+You probably need administrator rights for some or all of the following steps.
 
-#. Install Python 2.7.x or Python 3.3 (32-bit!) from
-   http://python.org/download/ to the default location (i.e. ``C:\Python27`` or
-   ``C:\Python33``).
+#. Install the latest release of Python 2.7 and/or Python 3.5 from
+   https://www.python.org/downloads/windows/ to the default location (i.e.
+   ``C:\Python27`` resp. ``C:\Python35``). You can install either or both
+   the 32-bit and the 64-bit version.
 
-#. (Optional: add ``C:\Python27`` and ``C:\Python27\Scripts`` resp.
-   ``C:\Python33`` and ``C:\Python33\Scripts`` to your PATH.)
+   In the installer, enable the option to install pip. Optionally, for only one
+   of the chosen Python versions, enable the options to add the installation
+   directory to your ``PATH`` and set it as the system's default version. Also
+   enable the option to install the ``py`` help script..
 
-#. Install setuptools_ (the following commands assume that you are using
-   Python 2.7. If you are using Python 3.3, use ``C:\Python33`` in place of
-   ``C:Python27`` in the commands given).
+#. Install virtualenv_ from a command prompt::
 
-   - Download ez_setup.py_.
+        > python -m pip install -U virtualenv
 
-   - Open a command line and run it::
+    Repeat this for all Python versions you have installed (run ``py --help``
+    to get help on how to run different python version from the command line).
 
-        > C:\Python27\python ez_setup.py
+#. Go to https://wiki.python.org/moin/WindowsCompilers and follow the
+   instructions there to select and install the correct version(s) of the
+   Visual C++ compiler for the version(s) of Python you installed.
 
-#. Install pip_::
-
-        > C:\Python27\Scripts\easy_install pip
-
-#. Install virtualenv_::
-
-        > C:\Python27\Scripts\pip install virtualenv
-
-#. Install Visual Studio Express (Microsoft Visual C++).
-
-   - For Python 2.7 (and 3.2) install Visual Studio Express **2008**.
-
-   - For Python 3.3 install Visual Studio Express **2010**.
-
-   You'll have to use an internet search to find a current download link for
-   the installer or an ISO with the whole distribution.
-
-   Please make sure that you install the correct Visual Studio Express edition
-   for the Python version you are using as detailed above. You can install
-   Visual Studio Express 2008 *and* 2010 at the same time.
+   You can install several versions of Visual C++ at the same time.
 
    After installation, use Windows Update to get any pending security updates
    and fixes.
@@ -60,29 +45,37 @@ Setting up a virtual environment
 
 #. Open a command line and run::
 
-        > C:\Python27\Scripts\virtualenv rtmidi
+        > python -m virtualenv rtmidi
         > rtmidi\Scripts\activate
+
+#. Update pip and setuptools_ within your virtual environment to the latest
+   versions with::
+
+        (rtmidi)> pip install -U pip setuptools
 
 #. Install Cython (still in the same command line window)::
 
-        > pip install Cython
+        (rtmidi)> pip install Cython
 
 
 Download & unpack python-rtmidi source
 --------------------------------------
 
 Get the latest python-rtmidi distribution as a Zip archive from
-https://pypi.python.org/pypi/python-rtmidi, unpack it somewhere, and, in the
-command line window you opened above, change into ``python-rtmidi`` directory,
-which you unpacked, e.g.::
+https://pypi.python.org/pypi/python-rtmidi and unpack it somewhere.
+You can do the downloading and unpacking in one step using pip::
 
-    > pip install --no-install -d . "python-rtmidi>=0.4"
-    > cd python-rtmidi
+    > pip install --no-install -d . "python-rtmidi"
 
-If you use a non-english version of Windows XP (or possibly Vista), adapt the
-values of ``WINLIB_DIR`` and ``WININC_DIR`` at the top of file ``setup.py`` to
-your system to point to the location of ``WinMM.lib`` and the Microsoft SDK
-headers.
+Alternatively, clone the python--rtmidi git repository::
+
+    > git clone https://github.com/SpotlightKid/python-rtmidi.git
+
+In the command line window you opened above, change into the ``python-rtmidi``
+directory, which you created by unpacking the source or cloning the
+repository::
+
+    (rtmidi)> cd python-rtmidi
 
 
 Build & install python-rtmidi
@@ -91,13 +84,7 @@ Build & install python-rtmidi
 Just run the usual setup command from within the source directory with the
 active virtual environment, i.e. from still the same command line window::
 
-    > python setup.py install
-
-This might also download some version of setuptools in the process again. You
-can also update setuptools within your virtual environment beforhand to the
-latest version with::
-
-    > pip install -U setuptools
+    (rtmidi)> python setup.py install
 
 
 Verify your installation
@@ -105,8 +92,8 @@ Verify your installation
 
 Change out of the ``python-rtmidi`` source directory (important!) and run::
 
-    > cd ..
-    > python
+    (rtmidi)> cd ..
+    (rtmidi)> python
     >>> import rtmidi
     >>> rtmidi.API_WINDOWS_MM in rtmidi.get_compiled_api()
     True
@@ -130,7 +117,6 @@ Compiling with MinGW also does not work out-of-the-box yet. If you have any
 useful hints, please let the author know.
 
 
-.. _ez_setup.py: https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py
 .. _pip: https://pypi.python.org/pypi/pip
 .. _setuptools: https://pypi.python.org/pypi/setuptools
 .. _virtualenv: https://pypi.python.org/pypi/virtualenv
