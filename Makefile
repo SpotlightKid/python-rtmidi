@@ -9,6 +9,7 @@ help:
 	@echo "clean-docs - remove docs output"
 	@echo "clean-pyc - remove Python file artifacts"
 	@echo "lint - check style with flake8"
+	@echo "check-docs - check docstrings with pycodestyle"
 	@echo "test - run tests with the default Python against working dir"
 	@echo "test-all - run tests on every Python version with tox"
 	@echo "coverage - check code coverage quickly with the default Python"
@@ -40,6 +41,9 @@ clean-pyc:
 
 lint:
 	flake8 rtmidi tests examples
+
+check-docs:
+	pydocstyle rtmidi src
 
 test:
 	PYTHONPATH=examples $(PYTHON) setup.py test
