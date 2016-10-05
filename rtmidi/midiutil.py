@@ -24,7 +24,7 @@ except NameError:
 import rtmidi
 
 
-__all__ = [
+__all__ = (
     'get_api_from_environment',
     'list_available_ports',
     'list_input_ports',
@@ -32,7 +32,7 @@ __all__ = [
     'open_midiinput',
     'open_midioutput',
     'open_midiport',
-]
+)
 
 log = logging.getLogger(__name__)
 

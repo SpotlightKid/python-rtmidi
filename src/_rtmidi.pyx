@@ -265,7 +265,6 @@ def get_compiled_api():
 
 class RtMidiError(Exception):
     """Base general RtMidi error."""
-    pass
 
 
 cdef class MidiBase:
@@ -503,6 +502,7 @@ cdef class MidiIn(MidiBase):
     underlying C++ RtMidi library).
 
     """
+
     cdef RtMidiIn *thisptr
     cdef object _callback
 
@@ -537,6 +537,7 @@ cdef class MidiIn(MidiBase):
         return self.thisptr.getCurrentApi()
 
     def __dealloc__(self):
+        """De-allocate pointer to C++ class instance."""
         del self.thisptr
 
     def close_port(self):
@@ -659,6 +660,7 @@ cdef class MidiOut(MidiBase):
         new one is created.
 
     """
+
     cdef RtMidiOut *thisptr
 
     cdef RtMidi* baseptr(self):
@@ -675,6 +677,7 @@ cdef class MidiOut(MidiBase):
         self._port = None
 
     def __dealloc__(self):
+        """De-allocate pointer to C++ class instance."""
         del self.thisptr
 
     def get_current_api(self):
