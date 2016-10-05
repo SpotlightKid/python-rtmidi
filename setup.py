@@ -35,21 +35,11 @@ class PyTest(TestCommand):
         self.test_suite = True
 
     def run_tests(self):
-        #import here, cause outside the eggs aren't loaded
+        # import here, cause outside the eggs aren't loaded
         import pytest
         errno = pytest.main(self.pytest_args)
         sys.exit(errno)
 
-
-# For compiling python-rtmidi for Windows, get Microsoft Visual Studio
-# Express (for Python <= 3.2 get the 2008 Edition, for Python 3.3 get
-# the 2010 edition, for python 3.4 get SDK 7.1)
-
-# Suport for Windows Kernel Streaming API was removed, so the WININC_DIR
-# setting below is currently not needed and therefor commented out.
-## Also adapt the following path to the directory containing the Microsoft
-## SDK headers or copy 'ks.h' and 'ksmedia.h' to the 'src' directory.
-#WININC_DIR = r'C:\Program Files\Microsoft SDKs\Windows\v6.0A\Include'
 
 # source package structure
 SRC_DIR = "src"
@@ -73,15 +63,16 @@ setup_opts['cmdclass']['test'] = PyTest
 if cythonize:
     sources = [join(SRC_DIR, "_rtmidi.pyx"), join(SRC_DIR, "RtMidi.cpp")]
 elif exists(join(SRC_DIR, "_rtmidi.cpp")):
-    cythonize = lambda x: x
+    cythonize = lambda x: x  # noqa
     sources = [join(SRC_DIR, "_rtmidi.cpp"), join(SRC_DIR, "RtMidi.cpp")]
 else:
     print("""\
 Could not import Cython. Cython >= 0.17 is required to compile the Cython
 source into the C++ source.
 
-Install Cython from https://pypi.python.org/pypi/Cython or use the precompiled
-'_rtmidi.cpp' file from the python-rtmidi source distribution.""")
+Install Cython from https://pypi.python.org/pypi/Cython or use the
+pre-generated '_rtmidi.cpp' file from the python-rtmidi source distribution.
+""")
     sys.exit(1)
 
 define_macros = []
@@ -91,7 +82,6 @@ library_dirs = []
 extra_link_args = []
 extra_compile_args = []
 alsa = coremidi = jack = winmm = True
-winks = False
 
 if '--no-alsa' in sys.argv:
     alsa = False
@@ -108,11 +98,6 @@ if '--no-jack' in sys.argv:
 if '--no-winmm' in sys.argv:
     winmm = False
     sys.argv.remove('--no-winmm')
-
-#if '--winks' in sys.argv[1:]:
-#    winks = True
-#    sys.argv.remove('--winks')
-
 
 if sys.platform.startswith('linux'):
     if alsa and find_library('asound'):
@@ -148,18 +133,12 @@ elif sys.platform.startswith('win'):
         define_macros += [('__WINDOWS_MM__', None)]
         libraries += ["winmm"]
 
-    #if (winks and exists(join(WINLIB_DIR, "setupapi.lib")) and
-    #        exists(join(WINLIB_DIR, "setupapi.lib"))):
-    #    define_macros += [('__WINDOWS_KS__', None)]
-    #    libraries += ["setupapi", "ksuser"]
-    #    include_dirs += [WININC_DIR]
-    
-    # Should only be necessary for winks
-    # library_dirs += [WINLIB_DIR]
 else:
-    print("WARNING: This operating system (%s) is not supported by RtMidi.\n"
-          "Linux, Mac OS X (>= 10.5), Windows (XP, Vista, 7) are supported\n"
-          "Continuing and hoping for the best...\n" % sys.platform)
+    print("""\
+WARNING: This operating system (%s) is not supported by RtMidi.
+Linux, Mac OS X (>= 10.5), Windows (XP, Vista, 7/8/10) are supported.
+Continuing and hoping for the best...
+""" % sys.platform)
 
 # define _rtmidi Extension
 extensions = [
