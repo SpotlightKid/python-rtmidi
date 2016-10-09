@@ -13,6 +13,8 @@ Contributors
 ------------
 
 * Michiel Overtoom
+* Orhan Kavrakoğlu
+* tekHedd
 
 
 Testing
