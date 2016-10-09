@@ -18,17 +18,18 @@ You probably need administrator rights for some or all of the following steps.
    ``C:\Python27`` resp. ``C:\Python35``). You can install either or both
    the 32-bit and the 64-bit version.
 
-   In the installer, enable the option to install pip. Optionally, for only one
-   of the chosen Python versions, enable the options to add the installation
-   directory to your ``PATH`` and set it as the system's default version. Also
-   enable the option to install the ``py`` help script..
+   In the installer, enable the option to install pip_. Optionally, for only
+   one of the chosen Python versions, enable the options to add the
+   installation directory to your ``PATH`` and set it as the system's default
+   version. Also enable the option to install the ``py`` help script (only
+   available with some Python versions).
 
 #. Install virtualenv_ from a command prompt::
 
         > python -m pip install -U virtualenv
 
-    Repeat this for all Python versions you have installed (run ``py --help``
-    to get help on how to run different python version from the command line).
+   Repeat this for all Python versions you have installed (run ``py --help``
+   to get help on how to run different python version from the command line).
 
 #. Go to https://wiki.python.org/moin/WindowsCompilers and follow the
    instructions there to select and install the correct version(s) of the
@@ -67,7 +68,7 @@ You can do the downloading and unpacking in one step using pip::
 
     > pip install --no-install -d . "python-rtmidi"
 
-Alternatively, clone the python--rtmidi git repository::
+Alternatively, clone the python-rtmidi git repository::
 
     > git clone https://github.com/SpotlightKid/python-rtmidi.git
 
