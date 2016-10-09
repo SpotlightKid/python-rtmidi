@@ -14,6 +14,7 @@ Contents:
 
    readme
    installation
+   install-windows
    usage
    modules
    contributing

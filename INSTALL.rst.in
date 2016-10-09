@@ -61,8 +61,8 @@ commands, e.g.::
     $ python setup.py install
 
 
-From Subversion
----------------
+From the Source Code Repository
+-------------------------------
 
 Lastly, you can check out the **python-rtmidi** source code from the Git
 repository and then install it from your working copy. Since the repository
@@ -158,12 +158,7 @@ for OS X`_ with the full installer.
 Windows
 -------
 
-On Windows you'll need Visual Studio 2008 (Express) to build **python-rtmidi**
-for Python <= 3.2 or Visual Studio 2010 (Express) for Python 3.3 if you use the
-official Python binary distributions for Windows.
-
-Please see the detailed instructions for Windows in the file
-``INSTALL-windows.rst``.
+Please see the detailed instructions for Windows in :doc:`installl-windows`.
 
 
 User Contributed Documentation
