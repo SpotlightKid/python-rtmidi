@@ -157,17 +157,8 @@ extensions = [
 
 # Finally, set up our distribution
 setup(
-    packages=['rtmidi', 'osc2midi'],
-    package_dir={'osc2midi': 'examples/osc2midi'},
+    packages=['rtmidi'],
     ext_modules=cythonize(extensions),
-    extras_require={
-        'osc2midi': ['pyliblo', 'PyYAML'],
-    },
-    entry_points={
-        'console_scripts': [
-            'osc2midi = osc2midi.main:main [osc2midi]',
-        ]
-    },
     tests_require=['pytest', 'mock'],
     # On systems without a RTC (e.g. Raspberry Pi), system time will be the
     # Unix epoch when booted without network connection, which makes zip fail,
