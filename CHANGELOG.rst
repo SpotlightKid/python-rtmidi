@@ -5,8 +5,8 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
-2015-10-28 version 0.6b1
-------------------------
+2016-10-09 version 1.0.0rc1
+---------------------------
 
 Project infrastructure:
   * Moved repository to Github.
@@ -46,6 +46,9 @@ Building:
     undocumented compiler macro.
 
 Examples:
+  * Moved `osc2midi` example into its own repository at
+    https://github.com/SpotlightKid/osc2rtmidi.git
+
   * Add new ``sequencer`` example.
 
   * Add new ``noteon2osc`` example.
@@ -54,10 +57,10 @@ Examples:
 
     * Moved ``main.py`` to ``__main__.py``, removed old code and fixed command
       line args access.
-    * Streamline event matching.
+    * Streamlined event matching.
     * Added ``CCToBankChange`` filter.
     * ``Queue`` module renamed to ``queue`` in Python 3.
-    * Fixed: opening of output port erroneously used ``"input"``.
+    * Fixed opening of output port erroneously used ``"input"``.
     * Fixed positional command line args handling.
     * Set command name for argparse.
 
