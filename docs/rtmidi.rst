@@ -36,3 +36,14 @@ Module contents
     :members:
     :undoc-members:
     :show-inheritance:
+
+Classes
+~~~~~~~
+
+.. autoclass:: MidiIn
+   :members:
+   :inherited-members:
+
+.. autoclass:: MidiOut
+   :members:
+   :inherited-members:

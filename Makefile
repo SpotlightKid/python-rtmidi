@@ -60,7 +60,9 @@ coverage:
 docs:
 	rm -f docs/rtmidi.rst
 	rm -f docs/modules.rst
+	$(PYTHON) setup.py  build_ext --inplace
 	sphinx-apidoc -o docs/ rtmidi
+	cat docs/classes.rst >> docs/rtmidi.rst
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	xdg-open docs/_build/html/index.html
