@@ -19,13 +19,6 @@ parameters adapted to the Python PEP-8 conventions and requirements of
 the Python package naming structure. **python-rtmidi** supports Python 2
 (tested with Python 2.7) and Python 3 (3.3, 3.4, 3.5).
 
-.. note::
-    **python-rtmidi** is currently in **beta-stage**, which means it is
-    published in the hope that other developers try it out and help finding
-    bugs, and that its API is not yet finalised. What is there should work
-    but is currently only tested thoroughly under Linux ALSA/JACK and less
-    regularly under OS X (CoreMIDI/JACK) and Windows (WinMM).
-
 
 Usage example
 -------------
@@ -67,7 +60,7 @@ RtMidi_ documentation.
 """
 
 name = 'python-rtmidi'
-version = '0.6b1'
+version = '1.0.0rc1'
 description = __doc__.splitlines()
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
