@@ -115,14 +115,7 @@ use the appropriate compilations flags automatically.
 
     * Linux: ALSA, JACK
     * OS X: CoreMIDI, JACK
-    * Windows: MultiMedia (MM), Windows Kernel Streaming
-
-The ``osc2midi`` example, which is installed alongside **python-rtmidi**
-additionally requires the pyliblo_ and PyYAML_ libraries. These additional
-dependencies are only installed by the ``setup.py`` script, if you specify the
-*extra* ``osc2midi``, e.g.::
-
-    $ pip install "python-rtmidi[osc2midi]"
+    * Windows: MultiMedia (MM)
 
 
 Linux
@@ -178,6 +171,5 @@ environment.
 .. _virtualenvwrapper: http://www.doughellmann.com/projects/virtualenvwrapper/
 .. _jack for os x: http://www.jackosx.com/
 .. _pyliblo: http://das.nasophon.de/pyliblo/
-.. _pyyaml: https://pypi.python.org/pypi/PyYAML
 .. _user contributed documentation:
     https://github.com/SpotlightKid/python-rtmidi/wiki/User-contributed-documentation
