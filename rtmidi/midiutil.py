@@ -46,13 +46,13 @@ def _prompt_for_virtual(type_):
 def get_api_from_environment(api=rtmidi.API_UNSPECIFIED):
     """Return RtMidi API specified in the environment if any.
 
-    If the optional api argument is rtmidi.API_UNSPECIFIED (the default),
-    look in the environment variable RTMIDI_API for the name of the RtMidi
-    API to use. Valid names are ``LINUX_ALSA, UNIX_JACK, MACOSX_CORE,
-    WINDOWS_MM and RTMIDI_DUMMY. If no valid value is found,
+    If the optional api argument is ``rtmidi.API_UNSPECIFIED`` (the default),
+    look in the environment variable ``RTMIDI_API`` for the name of the RtMidi
+    API to use. Valid names are ``LINUX_ALSA``, ``UNIX_JACK``, ``MACOSX_CORE``,
+    ``WINDOWS_MM`` and ``RTMIDI_DUMMY``. If no valid value is found,
     rtmidi.API_UNSPECIFIED will be used.
 
-    Returns a rtmmidi.API_* constant.
+    Returns a ``rtmmidi.API_*`` constant.
 
     """
     if api == rtmidi.API_UNSPECIFIED and 'RTMIDI_API' in os.environ:
