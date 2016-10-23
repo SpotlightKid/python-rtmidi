@@ -5,6 +5,13 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+Development
+-----------
+
+Examples:
+    * Add new example script ``panic.py``.
+
+
 2016-10-09 version 1.0.0rc1
 ---------------------------
 
