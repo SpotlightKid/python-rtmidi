@@ -73,7 +73,7 @@ platforms = 'POSIX, Windows, MacOS X'
 long_description = "\n".join(description[2:]) % locals()
 description = description[0]
 classifiers = """\
-Development Status :: 4 - Beta
+Development Status :: 5 - Production/Stable
 Environment :: MacOS X
 Environment :: Win32 (MS Windows)
 Environment :: Console
