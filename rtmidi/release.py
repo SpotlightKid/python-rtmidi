@@ -45,17 +45,16 @@ available MIDI output port and send a middle C note on MIDI channel 1::
 
     del midiout
 
-More usage examples can be found in the ``tests`` and ``examples`` directory
-of the source distribution. API documentation is available by looking at the
-docstrings in the Cython source code ``src/_rtmidi.pyx`` or using tools like
-``pydoc`` or IPython_ and by reading the (somewhat terse and inaccurate)
-RtMidi_ documentation.
+More usage examples can be found in the ``examples`` directory of the source
+distribution.
 
+The documentation_ provides installation instructions and an API reference.
 
 .. _rtmidi: http://www.music.mcgill.ca/~gary/rtmidi/index.html
 .. _python-rtmidi: %(url)s
 .. _cython: http://cython.org/
 .. _ipython: http://ipython.org/
+.. _documentation: https://python-rtmidi.readthedocs.io/
 
 """
 
@@ -65,7 +64,7 @@ description = __doc__.splitlines()
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
 author_email = 'chris@chrisarndt.de'
-url = 'http://chrisarndt.de/projects/%s/' % name
+url = 'https://chrisarndt.de/projects/%s/' % name
 repository = 'https://github.com/SpotlightKid/%s.git' % name
 download_url = 'https://pypi.python.org/pypi/python-rtmidi'
 license = 'MIT License'

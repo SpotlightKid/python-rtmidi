@@ -15,7 +15,7 @@ the Python package naming structure. ``python-rtmidi`` supports Python 2
 
 For more information, visit ``python-rtmidi's`` web page:
 
-    http://chrisarndt.de/projects/python-rtmidi
+    https://chrisarndt.de/projects/python-rtmidi
 
 See the file ``INSTALL.rst`` for installation instructions, ``CHANGELOG.rst``
 for a history of changes per release and ``LICENSE.txt`` for information about
