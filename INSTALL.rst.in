@@ -20,32 +20,20 @@ From PyPI
 ---------
 
 If you have all the dependencies, you should be able to install the package
-with pip_ or ``easy_install`` (from setuptools_)::
+with pip_::
 
-    $ pip install --pre python-rtmidi
-
-or, if you prefer ``easy_install``::
-
-    $ easy_install python-rtmidi
+    $ pip install python-rtmidi
 
 This will download the source distribution, compile the extension and install
 it in your active Python installation. Unless you want to change the Cython_
 source file ``_rtmidi.pyx``, there is no need to have Cython installed.
 
-.. note::
-    Starting with pip version 1.4, the installer requires_ the ``--pre`` option
-    for installing pre-release versions of packages. Since development of
-    **python-rtmidi** is still in beta-stage and the version numbers of its
-    releases reflect this, the ``--pre`` option is necessary for now.
-
 **python-rtmidi** also works well with virtualenv_ and virtualenvwrapper_. If
-you have both installed, creating an isolated environment for testing and using
-**python-rtmidi** is as easy as::
+you have both installed, creating an isolated environment for testing and/or
+using **python-rtmidi** is as easy as::
 
     $ mkvirtualenv rtmidi
-    (rtmidi)$ pip install --pre python-rtmidi
-
-.. _requires: http://www.pip-installer.org/en/1.4/logic.html#pre-release-versions
+    (rtmidi)$ pip install python-rtmidi
 
 
 From the Source Distribution
