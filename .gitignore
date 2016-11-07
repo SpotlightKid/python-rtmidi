@@ -9,7 +9,7 @@ src/_rtmidi.cpp
 *.so
 
 # Generated documentation
-INSTALL.rst
+#INSTALL.rst
 
 # Packages
 *.egg

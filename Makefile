@@ -57,10 +57,10 @@ coverage:
 	coverage html
 	xdg-open htmlcov/index.html
 
-docs:
+docs: release
 	rm -f docs/rtmidi.rst
 	rm -f docs/modules.rst
-	$(PYTHON) setup.py  build_ext --inplace
+	$(PYTHON) setup.py build_ext --inplace
 	sphinx-apidoc -o docs/ rtmidi
 	cat docs/classes.rst >> docs/rtmidi.rst
 	$(MAKE) -C docs clean
@@ -68,8 +68,10 @@ docs:
 	xdg-open docs/_build/html/index.html
 
 release: clean
+	$(PYTHON) setup.py release
+
+release_upload: clean
 	$(PYTHON) setup.py release_upload
 
-dist: clean
-	$(PYTHON) setup.py release
+dist: clean release
 	ls -l dist
