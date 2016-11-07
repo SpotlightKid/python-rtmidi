@@ -5,11 +5,21 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
-Development
------------
+2016-11-07 version 1.0.0
+------------------------
+
+Project infrastructure:
+  * Added automatic documentation publishing on readthedocs.org.
+
+Documentation:
+  * Added auto docs for MidiIn/MidiOut classes to sphinx docs.
+  * Removed pre-release related information from installation docs.
+
+Building:
+  * Added generated INSTALL.rst to repo to make ReadTheDocs integration work.
 
 Examples:
-    * Add new example script ``panic.py``.
+  * Added new example script ``panic.py``.
 
 
 2016-10-09 version 1.0.0rc1
