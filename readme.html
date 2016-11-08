@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to python-rtmidi’s documentation! &#8212; python-rtmidi 1.0.0 documentation</title>
+    <title>Welcome to python-rtmidi! &#8212; python-rtmidi 1.0.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,8 +25,9 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="python-rtmidi 1.0.0 documentation" href="#" />
-    <link rel="next" title="Welcome to python-rtmidi!" href="readme.html" /> 
+    <link rel="top" title="python-rtmidi 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Welcome to python-rtmidi’s documentation!" href="index.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -39,9 +40,12 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="readme.html" title="Welcome to python-rtmidi!"
+          <a href="installation.html" title="Installation"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-rtmidi 1.0.0 documentation</a> &#187;</li> 
+        <li class="right" >
+          <a href="index.html" title="Welcome to python-rtmidi’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -50,30 +54,24 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-python-rtmidi-s-documentation">
-<h1>Welcome to python-rtmidi&#8217;s documentation!<a class="headerlink" href="#welcome-to-python-rtmidi-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="readme.html">Welcome to python-rtmidi!</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="install-windows.html">How to install python-rtmidi from source on Windows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">rtmidi</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="history.html">Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="license.html">Copyright &amp; License</a></li>
-</ul>
-</div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
-</ul>
+  <div class="section" id="welcome-to-python-rtmidi">
+<h1>Welcome to python-rtmidi!<a class="headerlink" href="#welcome-to-python-rtmidi" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://www.music.mcgill.ca/~gary/rtmidi/index.html">RtMidi</a> is a set of C++ classes which provides a concise and simple,
+cross-platform API (Application Programming Interface) for realtime MIDI
+input/output across Linux (ALSA &amp; JACK), Macintosh OS X (CoreMidi &amp; JACK),
+and Windows (Multimedia Library) operating systems.</p>
+<p>python-rtmidi is a Python binding for RtMidi implemented with <a class="reference external" href="http://cython.org/">Cython</a> and
+provides a thin wrapper around the RtMidi C++ interface. The API is basically
+the same as the C++ one but with the naming scheme of classes, methods and
+parameters adapted to the Python PEP-8 conventions and requirements of
+the Python package naming structure. <code class="docutils literal"><span class="pre">python-rtmidi</span></code> supports Python 2
+(tested with Python 2.7) and Python 3 (3.3, 3.4, 3.5).</p>
+<p>For more information, visit <code class="docutils literal"><span class="pre">python-rtmidi's</span></code> web page:</p>
+<blockquote>
+<div><a class="reference external" href="https://chrisarndt.de/projects/python-rtmidi">https://chrisarndt.de/projects/python-rtmidi</a></div></blockquote>
+<p>See the file <code class="docutils literal"><span class="pre">INSTALL.rst</span></code> for installation instructions, <code class="docutils literal"><span class="pre">CHANGELOG.rst</span></code>
+for a history of changes per release and <code class="docutils literal"><span class="pre">LICENSE.txt</span></code> for information about
+copyright and usage terms.</p>
 </div>
 
 
@@ -82,19 +80,16 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Welcome to python-rtmidi&#8217;s documentation!</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
-
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to python-rtmidi&#8217;s documentation!</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="readme.html"
-                        title="next chapter">Welcome to python-rtmidi!</a></p>
+  <p class="topless"><a href="installation.html"
+                        title="next chapter">Installation</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/index.txt"
+      <li><a href="_sources/readme.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -122,9 +117,12 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="readme.html" title="Welcome to python-rtmidi!"
+          <a href="installation.html" title="Installation"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-rtmidi 1.0.0 documentation</a> &#187;</li> 
+        <li class="right" >
+          <a href="index.html" title="Welcome to python-rtmidi’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation &#8212; python-rtmidi 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="python-rtmidi 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="How to install python-rtmidi from source on Windows" href="install-windows.html" />
+    <link rel="prev" title="Welcome to python-rtmidi!" href="readme.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="install-windows.html" title="How to install python-rtmidi from source on Windows"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="readme.html" title="Welcome to python-rtmidi!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p><strong>python-rtmidi</strong> uses the de-facto standard Python distutils and <a class="reference external" href="http://python.org/pypi/setuptools">setuptools</a>
+based installation mechanism. Since it is a Python C(++)-extension a C++
+compiler and build environment as well as some system-dependent libraries are
+needed. See &#8220;Requirements&#8221; below for details.</p>
+<div class="section" id="installer-windows-only">
+<h2>Installer (Windows only)<a class="headerlink" href="#installer-windows-only" title="Permalink to this headline">¶</a></h2>
+<p>An installer with a pre-compiled version for Windows with Windows MultiMedia
+API support is available through PyPI for some Python versions. Download it
+from python-rtmidi&#8217;s <a class="reference external" href="http://python.org/pypi/python-rtmidi#downloads">PyPI page</a> and start the installer by double-clicking.</p>
+</div>
+<div class="section" id="from-pypi">
+<h2>From PyPI<a class="headerlink" href="#from-pypi" title="Permalink to this headline">¶</a></h2>
+<p>If you have all the dependencies, you should be able to install the package
+with <a class="reference external" href="http://python.org/pypi/pip">pip</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ pip install python-rtmidi
+</pre></div>
+</div>
+<p>This will download the source distribution, compile the extension and install
+it in your active Python installation. Unless you want to change the <a class="reference external" href="http://cython.org/">Cython</a>
+source file <code class="docutils literal"><span class="pre">_rtmidi.pyx</span></code>, there is no need to have Cython installed.</p>
+<p><strong>python-rtmidi</strong> also works well with <a class="reference external" href="http://pypi.python.org/pypi/virtualenv">virtualenv</a> and <a class="reference external" href="http://www.doughellmann.com/projects/virtualenvwrapper/">virtualenvwrapper</a>. If
+you have both installed, creating an isolated environment for testing and/or
+using <strong>python-rtmidi</strong> is as easy as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ mkvirtualenv rtmidi
+(rtmidi)$ pip install python-rtmidi
+</pre></div>
+</div>
+</div>
+<div class="section" id="from-the-source-distribution">
+<h2>From the Source Distribution<a class="headerlink" href="#from-the-source-distribution" title="Permalink to this headline">¶</a></h2>
+<p>Of course, you can also download the source distribution package as a Zip
+archive or tarball, extract it and install using the common <code class="docutils literal"><span class="pre">distutils</span></code>
+commands, e.g.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ wget https://pypi.python.org/pypi/python-rtmidipython-rtmidi-1.0.0.tar.gz
+$ tar -xzf python-rtmidi-1.0.0.tar.gz
+$ cd python-rtmidi-1.0.0
+$ python setup.py install
+</pre></div>
+</div>
+</div>
+<div class="section" id="from-the-source-code-repository">
+<h2>From the Source Code Repository<a class="headerlink" href="#from-the-source-code-repository" title="Permalink to this headline">¶</a></h2>
+<p>Lastly, you can check out the <strong>python-rtmidi</strong> source code from the Git
+repository and then install it from your working copy. Since the repository
+does not include the C++ module source code pre-compiled from the Cython
+source, you&#8217;ll also need to install Cython &gt;= 0.17, either via pip or from its
+Git repository. Using virtualenv/virtualenvwrapper is strongly recommended in
+this scenario:</p>
+<p>Make a virtual environment:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ mkvirtualenv rtmidi
+(rtmidi)$ cdvirtualenv
+</pre></div>
+</div>
+<p>Install <code class="docutils literal"><span class="pre">Cython</span></code> from PyPI:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(rtmidi)$ pip install Cython
+</pre></div>
+</div>
+<p>or the Git repository:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(rtmidi)$ git clone https://github.com/cython/cython.git
+(rtmidi)$ cd cython
+(rtmidi)$ python setup.py install
+(rtmidi)$ cd ..
+</pre></div>
+</div>
+<p>Install <strong>python-rtmidi</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(rtmidi)$ git clone https://github.com/SpotlightKid/python-rtmidi.git
+(rtmidi)$ cd python-rtmidi
+(rtmidi)$ python setup.py install
+</pre></div>
+</div>
+<div class="section" id="requirements">
+<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<p>Naturally, you&#8217;ll need a C++ compiler and a build environment. See the
+platform-specific hints below.</p>
+<p>Only if you want to change the Cython source file <code class="docutils literal"><span class="pre">_rtmidi.pyx</span></code> or want to
+recompile <code class="docutils literal"><span class="pre">_rtmidi.cpp</span></code> with a newer Cython version, you&#8217;ll need to install
+Cython &gt;= 0.17. The <code class="docutils literal"><span class="pre">_rtmidi.cpp</span></code> file in the current source distribution
+(version 1.0.0) is tagged with:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/*</span> <span class="n">Generated</span> <span class="n">by</span> <span class="n">Cython</span> <span class="mf">0.24</span><span class="o">.</span><span class="mi">1</span> <span class="o">*/</span>
+</pre></div>
+</div>
+<p>RtMidi (and therefore <strong>python-rtmidi</strong>) supports several low-level MIDI
+libraries on different operating systems. Only one of the available options
+needs to be present on the target system, but support for more than one can be
+compiled in. The setup script will try to detect available libraries and should
+use the appropriate compilations flags automatically.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Linux: ALSA, JACK</li>
+<li>OS X: CoreMIDI, JACK</li>
+<li>Windows: MultiMedia (MM)</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="linux">
+<h2>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h2>
+<p>For the C++ compiler and the pthread library install the <code class="docutils literal"><span class="pre">build-essential</span></code>
+package on debian-based systems.</p>
+<p>Then you&#8217;ll need Python development headers and libraries. On Linux, install
+the <code class="docutils literal"><span class="pre">python-dev</span></code> package. If you use the official installers from python.org
+you should already have these.</p>
+<p>To get ALSA support, you must install development files for the <code class="docutils literal"><span class="pre">libasound</span></code>
+library (debian package: <code class="docutils literal"><span class="pre">libasound-dev</span></code>). For JACK support, install the
+<code class="docutils literal"><span class="pre">libjack</span></code> development files (<code class="docutils literal"><span class="pre">libjack-dev</span></code> or <code class="docutils literal"><span class="pre">libjack-jackd2-dev</span></code>).</p>
+</div>
+<div class="section" id="os-x">
+<h2>OS X<a class="headerlink" href="#os-x" title="Permalink to this headline">¶</a></h2>
+<p>Install the latest Xcode or <code class="docutils literal"><span class="pre">g++</span></code> from MacPorts or homebrew (untested).
+CoreMIDI support comes with installing Xcode. For JACK support, install <a class="reference external" href="http://www.jackosx.com/">JACK
+for OS X</a> with the full installer.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If you have a version of OS X and Xcode which still supports building
+binaries for PPC, you&#8217;ll have to tell distribute to build the package only
+for i386 and x86_64 architectures:</p>
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="n">ARCHFLAGS</span><span class="o">=</span><span class="s2">&quot;-arch i386 -arch x86_64&quot;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="windows">
+<h2>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h2>
+<p>Please see the detailed instructions for Windows in <a class="reference internal" href="install-windows.html"><span class="doc">How to install python-rtmidi from source on Windows</span></a>.</p>
+</div>
+<div class="section" id="user-contributed-documentation">
+<h2>User Contributed Documentation<a class="headerlink" href="#user-contributed-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The python-rtmidi wiki on GitHub contains some <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/wiki/User-contributed-documentation">user contributed
+documentation</a> for additional installation scenarios. Please check these, if
+you have trouble installing python-rtmidi in an uncommon or not-yet-covered
+environment.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#installer-windows-only">Installer (Windows only)</a></li>
+<li><a class="reference internal" href="#from-pypi">From PyPI</a></li>
+<li><a class="reference internal" href="#from-the-source-distribution">From the Source Distribution</a></li>
+<li><a class="reference internal" href="#from-the-source-code-repository">From the Source Code Repository</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#linux">Linux</a></li>
+<li><a class="reference internal" href="#os-x">OS X</a></li>
+<li><a class="reference internal" href="#windows">Windows</a></li>
+<li><a class="reference internal" href="#user-contributed-documentation">User Contributed Documentation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="readme.html"
+                        title="previous chapter">Welcome to python-rtmidi!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="install-windows.html"
+                        title="next chapter">How to install python-rtmidi from source on Windows</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/installation.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="install-windows.html" title="How to install python-rtmidi from source on Windows"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="readme.html" title="Welcome to python-rtmidi!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2012 - 2016, Christopher Arndt.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>rtmidi.midiconstants &#8212; python-rtmidi 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="python-rtmidi 1.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">python-rtmidi 1.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for rtmidi.midiconstants</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;Definitions of midi events, controller numbers and paramters.&quot;&quot;&quot;</span>
+
+<span class="c1">###################################################</span>
+<span class="c1"># Midi channel events (the most common events)</span>
+<span class="c1"># Also called &quot;Channel Voice Messages&quot;</span>
+
+<span class="n">NOTE_OFF</span> <span class="o">=</span> <span class="mh">0x80</span>
+<span class="c1"># 1000cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)</span>
+
+<span class="n">NOTE_ON</span> <span class="o">=</span> <span class="mh">0x90</span>
+<span class="c1"># 1001cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)</span>
+
+<span class="n">POLYPHONIC_PRESSURE</span> <span class="o">=</span> <span class="n">POLY_PRESSURE</span> <span class="o">=</span> <span class="mh">0xA0</span>
+<span class="c1"># 1010cccc 0nnnnnnn 0vvvvvvv (channel, note, velocity)</span>
+
+<span class="c1"># see Channel Mode Messages for Controller Numbers</span>
+<span class="n">CONTROLLER_CHANGE</span> <span class="o">=</span> <span class="n">CONTROL_CHANGE</span> <span class="o">=</span> <span class="mh">0xB0</span>
+<span class="c1"># 1011cccc 0ccccccc 0vvvvvvv (channel, controller, value)</span>
+
+<span class="n">PROGRAM_CHANGE</span> <span class="o">=</span> <span class="mh">0xC0</span>
+<span class="c1"># 1100cccc 0ppppppp (channel, program)</span>
+
+<span class="n">CHANNEL_PRESSURE</span> <span class="o">=</span> <span class="n">MONO_PRESSURE</span> <span class="o">=</span> <span class="mh">0xD0</span>
+<span class="c1"># 1101cccc 0ppppppp (channel, pressure)</span>
+
+<span class="n">PITCH_BEND</span> <span class="o">=</span> <span class="mh">0xE0</span>
+<span class="c1"># 1110cccc 0vvvvvvv 0wwwwwww (channel, value-lo, value-hi)</span>
+
+
+<span class="c1">###################################################</span>
+<span class="c1"># Channel Mode Messages (Continuous Controller)</span>
+<span class="c1"># All CCs have the same status byte (0xBn).</span>
+<span class="c1"># The controller number is the first data byte</span>
+
+<span class="c1"># High resolution continuous controllers (MSB)</span>
+
+<span class="n">BANK_SELECT</span> <span class="o">=</span> <span class="n">BANK_SELECT_MSB</span> <span class="o">=</span> <span class="mh">0x00</span>
+<span class="n">MODULATION_WHEEL</span> <span class="o">=</span> <span class="n">MODULATION_WHEEL_MSB</span> <span class="o">=</span> <span class="mh">0x01</span>
+<span class="n">BREATH_CONTROLLER</span> <span class="o">=</span> <span class="n">BREATH_CONTROLLER_MSB</span> <span class="o">=</span> <span class="mh">0x02</span>
+<span class="n">FOOT_CONTROLLER</span> <span class="o">=</span> <span class="n">FOOT_CONTROLLER_MSB</span> <span class="o">=</span> <span class="mh">0x04</span>
+<span class="n">PORTAMENTO_TIME</span> <span class="o">=</span> <span class="n">PORTAMENTO_TIME_MSB</span> <span class="o">=</span> <span class="mh">0x05</span>
+<span class="n">DATA_ENTRY</span> <span class="o">=</span> <span class="n">DATA_ENTRY_MSB</span> <span class="o">=</span> <span class="mh">0x06</span>
+<span class="n">CHANNEL_VOLUME</span> <span class="o">=</span> <span class="n">CHANNEL_VOLUME_MSB</span> <span class="o">=</span> <span class="mh">0x07</span>
+<span class="n">BALANCE</span> <span class="o">=</span> <span class="n">BALANCE_MSB</span> <span class="o">=</span> <span class="mh">0x08</span>
+<span class="n">PAN</span> <span class="o">=</span> <span class="n">PAN_MSB</span> <span class="o">=</span> <span class="mh">0x0A</span>
+<span class="n">EXPRESSION_CONTROLLER</span> <span class="o">=</span> <span class="n">EXPRESSION_CONTROLLER_MSB</span> <span class="o">=</span> <span class="mh">0x0B</span>
+<span class="n">EFFECT_CONTROL_1</span> <span class="o">=</span> <span class="n">EFFECT_CONTROL_1_MSB</span> <span class="o">=</span> <span class="mh">0x0C</span>
+<span class="n">EFFECT_CONTROL_2</span> <span class="o">=</span> <span class="n">EFFECT_CONTROL_2_MSB</span> <span class="o">=</span> <span class="mh">0x0D</span>
+<span class="n">GENERAL_PURPOSE_CONTROLLER_1</span> <span class="o">=</span> <span class="n">GENERAL_PURPOSE_CONTROLLER_1_MSB</span> <span class="o">=</span> <span class="mh">0x10</span>
+<span class="n">GENERAL_PURPOSE_CONTROLLER_2</span> <span class="o">=</span> <span class="n">GENERAL_PURPOSE_CONTROLLER_2_MSB</span> <span class="o">=</span> <span class="mh">0x11</span>
+<span class="n">GENERAL_PURPOSE_CONTROLLER_3</span> <span class="o">=</span> <span class="n">GENERAL_PURPOSE_CONTROLLER_3_MSB</span> <span class="o">=</span> <span class="mh">0x12</span>
+<span class="n">GENERAL_PURPOSE_CONTROLLER_4</span> <span class="o">=</span> <span class="n">GENERAL_PURPOSE_CONTROLLER_4_MSB</span> <span class="o">=</span> <span class="mh">0x13</span>
+
+<span class="c1"># High resolution continuous controllers (LSB)</span>
+
+<span class="n">BANK_SELECT_LSB</span> <span class="o">=</span> <span class="mh">0x20</span>
+<span class="n">MODULATION_WHEEL_LSB</span> <span class="o">=</span> <span class="mh">0x21</span>
+<span class="n">BREATH_CONTROLLER_LSB</span> <span class="o">=</span> <span class="mh">0x22</span>
+<span class="n">FOOT_CONTROLLER_LSB</span> <span class="o">=</span> <span class="mh">0x24</span>
+<span class="n">PORTAMENTO_TIME_LSB</span> <span class="o">=</span> <span class="mh">0x25</span>
+<span class="n">DATA_ENTRY_LSB</span> <span class="o">=</span> <span class="mh">0x26</span>
+<span class="n">CHANNEL_VOLUME_LSB</span> <span class="o">=</span> <span class="mh">0x27</span>
+<span class="n">BALANCE_LSB</span> <span class="o">=</span> <span class="mh">0x28</span>
+<span class="n">PAN_LSB</span> <span class="o">=</span> <span class="mh">0x2A</span>
+<span class="n">EXPRESSION_CONTROLLER_LSB</span> <span class="o">=</span> <span class="mh">0x2B</span>
+<span class="n">EFFECT_CONTROL_1_LSB</span> <span class="o">=</span> <span class="mh">0x2C</span>
+<span class="n">EFFECT_CONTROL_2_LSB</span> <span class="o">=</span> <span class="mh">0x2D</span>
+<span class="n">GENERAL_PURPOSE_CONTROLLER_1_LSB</span> <span class="o">=</span> <span class="mh">0x30</span>
+<span class="n">GENERAL_PURPOSE_CONTROLLER_2_LSB</span> <span class="o">=</span> <span class="mh">0x31</span>
+<span class="n">GENERAL_PURPOSE_CONTROLLER_3_LSB</span> <span class="o">=</span> <span class="mh">0x32</span>
+<span class="n">GENERAL_PURPOSE_CONTROLLER_4_LSB</span> <span class="o">=</span> <span class="mh">0x33</span>
+
+<span class="c1"># Switches</span>
+
+<span class="c1"># off: value &lt;= 63, on: value &gt;= 64</span>
+<span class="n">SUSTAIN</span> <span class="o">=</span> <span class="n">SUSTAIN_ONOFF</span> <span class="o">=</span> <span class="mh">0x40</span>
+<span class="n">PORTAMENTO</span> <span class="o">=</span> <span class="n">PORTAMENTO_ONOFF</span> <span class="o">=</span> <span class="mh">0x41</span>
+<span class="n">SOSTENUTO</span> <span class="o">=</span> <span class="n">SOSTENUTO_ONOFF</span> <span class="o">=</span> <span class="mh">0x42</span>
+<span class="n">SOFT_PEDAL</span> <span class="o">=</span> <span class="n">SOFT_PEDAL_ONOFF</span> <span class="o">=</span> <span class="mh">0x43</span>
+<span class="n">LEGATO</span> <span class="o">=</span> <span class="n">LEGATO_ONOFF</span> <span class="o">=</span> <span class="mh">0x44</span>
+<span class="n">HOLD_2</span> <span class="o">=</span> <span class="n">HOLD_2_ONOFF</span> <span class="o">=</span> <span class="mh">0x45</span>
+
+<span class="c1"># Low resolution continuous controllers</span>
+
+<span class="c1"># Sound Variation; FX: Exciter On/Off</span>
+<span class="n">SOUND_CONTROLLER_1</span> <span class="o">=</span> <span class="mh">0x46</span>
+<span class="c1"># Harmonic Content; FX: Compressor On/Off</span>
+<span class="n">SOUND_CONTROLLER_2</span> <span class="o">=</span> <span class="mh">0x47</span>
+<span class="c1"># Release Time; FX: Distortion On/Off</span>
+<span class="n">SOUND_CONTROLLER_3</span> <span class="o">=</span> <span class="mh">0x48</span>
+<span class="c1"># Attack Time; FX: EQ On/Off</span>
+<span class="n">SOUND_CONTROLLER_4</span> <span class="o">=</span> <span class="mh">0x49</span>
+<span class="c1"># Brightness; FX: Expander On/Off</span>
+<span class="n">SOUND_CONTROLLER_5</span> <span class="o">=</span> <span class="mh">0x4A</span>
+<span class="c1"># Decay Time; FX: Reverb On/Off</span>
+<span class="n">SOUND_CONTROLLER_6</span> <span class="o">=</span> <span class="mh">0x4B</span>
+<span class="c1"># Vibrato Rate; FX: Delay On/Off</span>
+<span class="n">SOUND_CONTROLLER_7</span> <span class="o">=</span> <span class="mh">0x4C</span>
+<span class="c1"># Vibrato Depth; FX: Pitch Transpose On/Off</span>
+<span class="n">SOUND_CONTROLLER_8</span> <span class="o">=</span> <span class="mh">0x4D</span>
+<span class="c1"># Vibrato Delay; FX: Flange/Chorus On/Off</span>
+<span class="n">SOUND_CONTROLLER_9</span> <span class="o">=</span> <span class="mh">0x4E</span>
+<span class="c1"># Undefined; FX: Special Effects On/Off</span>
+<span class="n">SOUND_CONTROLLER_10</span> <span class="o">=</span> <span class="mh">0x4F</span>
+<span class="n">GENERAL_PURPOSE_CONTROLLER_5</span> <span class="o">=</span> <span class="mh">0x50</span>
+<span class="n">GENERAL_PURPOSE_CONTROLLER_6</span> <span class="o">=</span> <span class="mh">0x51</span>
+<span class="n">GENERAL_PURPOSE_CONTROLLER_7</span> <span class="o">=</span> <span class="mh">0x52</span>
+<span class="n">GENERAL_PURPOSE_CONTROLLER_8</span> <span class="o">=</span> <span class="mh">0x53</span>
+<span class="c1"># PTC, 0vvvvvvv is the source Note number</span>
+<span class="n">PORTAMENTO_CONTROL</span> <span class="o">=</span> <span class="n">PTC</span> <span class="o">=</span> <span class="mh">0x54</span>
+<span class="n">HIGH_RESOLUTION_VELOCITY_PREFIX</span> <span class="o">=</span> <span class="mh">0x58</span>
+<span class="c1"># Reverb Send Level, formerly Ext. Effects Depth</span>
+<span class="n">EFFECTS_1</span> <span class="o">=</span> <span class="n">EFFECTS_1_DEPTH</span> <span class="o">=</span> <span class="mh">0x5B</span>
+<span class="c1"># formerly Tremelo Depth</span>
+<span class="n">EFFECTS_2</span> <span class="o">=</span> <span class="n">EFFECTS_2_DEPTH</span> <span class="o">=</span> <span class="mh">0x5C</span>
+<span class="c1"># Chorus Send Level, formerly Chorus Depth</span>
+<span class="n">EFFECTS_3</span> <span class="o">=</span> <span class="n">EFFECTS_3_DEPTH</span> <span class="o">=</span> <span class="mh">0x5D</span>
+<span class="c1"># formerly Celeste(Detune) Depth</span>
+<span class="n">EFFECTS_4</span> <span class="o">=</span> <span class="n">EFFECTS_4_DEPTH</span> <span class="o">=</span> <span class="mh">0x5E</span>
+<span class="c1"># formerly Phaser Depth</span>
+<span class="n">EFFECTS_5</span> <span class="o">=</span> <span class="n">EFFECTS_5_DEPTH</span> <span class="o">=</span> <span class="mh">0x5F</span>
+<span class="c1"># controller value byte should be 0</span>
+<span class="n">DATA_INCREMENT</span> <span class="o">=</span> <span class="mh">0x60</span>
+<span class="c1"># controller value byte should be 0</span>
+<span class="n">DATA_DECREMENT</span> <span class="o">=</span> <span class="mh">0x61</span>
+<span class="n">NRPN_LSB</span> <span class="o">=</span> <span class="n">NON_REGISTERED_PARAMETER_NUMBER_LSB</span> <span class="o">=</span> <span class="mh">0x62</span>
+<span class="n">NRPN_MSB</span> <span class="o">=</span> <span class="n">NON_REGISTERED_PARAMETER_NUMBER_MSB</span> <span class="o">=</span> <span class="mh">0x63</span>
+<span class="n">RPN_LSB</span> <span class="o">=</span> <span class="n">REGISTERED_PARAMETER_NUMBER_LSB</span> <span class="o">=</span> <span class="mh">0x64</span>
+<span class="n">RPN_MSB</span> <span class="o">=</span> <span class="n">REGISTERED_PARAMETER_NUMBER_MSB</span> <span class="o">=</span> <span class="mh">0x65</span>
+
+<span class="c1"># Channel Mode messages</span>
+
+<span class="c1"># controller value byte should be 0</span>
+<span class="n">ALL_SOUND_OFF</span> <span class="o">=</span> <span class="mh">0x78</span>
+<span class="c1"># controller value byte should be 0</span>
+<span class="n">RESET_ALL_CONTROLLERS</span> <span class="o">=</span> <span class="mh">0x79</span>
+<span class="c1"># 0 = off, 127 = on</span>
+<span class="n">LOCAL_CONTROL</span> <span class="o">=</span> <span class="n">LOCAL_CONTROL_ONOFF</span> <span class="o">=</span> <span class="mh">0x7A</span>
+<span class="c1"># controller value byte should be 0</span>
+<span class="n">ALL_NOTES_OFF</span> <span class="o">=</span> <span class="mh">0x7B</span>
+<span class="c1"># controller value byte should be 0, also causes ANO</span>
+<span class="n">OMNI_MODE_OFF</span> <span class="o">=</span> <span class="mh">0x7C</span>
+<span class="c1"># controller value byte should be 0, also causes ANO</span>
+<span class="n">OMNI_MODE_ON</span> <span class="o">=</span> <span class="mh">0x7D</span>
+<span class="c1"># Mono Mode on / Poly Off; also causes ANO</span>
+<span class="c1"># 1011nnnn 01111110 0000vvvv</span>
+<span class="c1"># vvvv &gt; 0 : Number of channels to use (Omni Off).</span>
+<span class="c1"># vvvv = 0 : Use all available channels (Omni On)</span>
+<span class="n">MONO_MODE_ON</span> <span class="o">=</span> <span class="mh">0x7E</span>
+<span class="c1"># Poly Mode On / Mono Off</span>
+<span class="c1"># controller value byte should be 0, also causes ANO</span>
+<span class="n">POLY_MODE_ON</span> <span class="o">=</span> <span class="mh">0x7F</span>
+
+
+<span class="c1">###################################################</span>
+<span class="c1"># System Common Messages, for all channels</span>
+
+<span class="c1"># 11110000 0iiiiiii 0ddddddd ... 11110111</span>
+<span class="n">SYSTEM_EXCLUSIVE</span> <span class="o">=</span> <span class="mh">0xF0</span>
+
+<span class="c1"># MIDI Time Code Quarter Frame</span>
+<span class="c1"># 11110001</span>
+<span class="n">MIDI_TIME_CODE</span> <span class="o">=</span> <span class="n">MTC</span> <span class="o">=</span> <span class="mh">0xF1</span>
+
+<span class="c1"># 11110010 0vvvvvvv 0wwwwwww (lo-position, hi-position)</span>
+<span class="n">SONG_POSITION_POINTER</span> <span class="o">=</span> <span class="mh">0xF2</span>
+
+<span class="c1"># 11110011 0sssssss (songnumber)</span>
+<span class="n">SONG_SELECT</span> <span class="o">=</span> <span class="mh">0xF3</span>
+
+<span class="c1"># 11110100 (0xF4) is undefined</span>
+<span class="c1"># 11110101 (0xF5) is undefined</span>
+
+<span class="c1"># 11110110</span>
+<span class="n">TUNING_REQUEST</span> <span class="o">=</span> <span class="n">TUNE_REQUEST</span> <span class="o">=</span> <span class="mh">0xF6</span>
+
+<span class="c1"># 11110111 # End of system exclusive</span>
+<span class="n">END_OF_EXCLUSIVE</span> <span class="o">=</span> <span class="mh">0xF7</span>
+
+
+<span class="c1">###################################################</span>
+<span class="c1"># Midifile meta-events</span>
+
+<span class="n">SEQUENCE_NUMBER</span> <span class="o">=</span> <span class="mh">0x00</span>  <span class="c1"># 00 02 ss ss (seq-number)</span>
+<span class="n">TEXT</span> <span class="o">=</span> <span class="mh">0x01</span>             <span class="c1"># 01 len text...</span>
+<span class="n">COPYRIGHT</span> <span class="o">=</span> <span class="mh">0x02</span>        <span class="c1"># 02 len text...</span>
+<span class="n">SEQUENCE_NAME</span> <span class="o">=</span> <span class="mh">0x03</span>    <span class="c1"># 03 len text...</span>
+<span class="n">INSTRUMENT_NAME</span> <span class="o">=</span> <span class="mh">0x04</span>  <span class="c1"># 04 len text...</span>
+<span class="n">LYRIC</span> <span class="o">=</span> <span class="mh">0x05</span>            <span class="c1"># 05 len text...</span>
+<span class="n">MARKER</span> <span class="o">=</span> <span class="mh">0x06</span>           <span class="c1"># 06 len text...</span>
+<span class="n">CUEPOINT</span> <span class="o">=</span> <span class="mh">0x07</span>         <span class="c1"># 07 len text...</span>
+<span class="n">PROGRAM_NAME</span> <span class="o">=</span> <span class="mh">0x08</span>     <span class="c1"># 08 len text...</span>
+<span class="n">DEVICE_NAME</span> <span class="o">=</span> <span class="mh">0x09</span>      <span class="c1"># 09 len text...</span>
+
+<span class="n">MIDI_CH_PREFIX</span> <span class="o">=</span> <span class="mh">0x20</span>   <span class="c1"># MIDI channel prefix assignment (deprecated)</span>
+
+<span class="n">MIDI_PORT</span> <span class="o">=</span> <span class="mh">0x21</span>        <span class="c1"># 21 01 port, deprecated but still used</span>
+<span class="n">END_OF_TRACK</span> <span class="o">=</span> <span class="mh">0x2F</span>     <span class="c1"># 2f 00</span>
+<span class="n">TEMPO</span> <span class="o">=</span> <span class="mh">0x51</span>            <span class="c1"># 51 03 tt tt tt (tempo in µs/quarternote)</span>
+<span class="n">SMTP_OFFSET</span> <span class="o">=</span> <span class="mh">0x54</span>      <span class="c1"># 54 05 hh mm ss ff xx</span>
+<span class="n">TIME_SIGNATURE</span> <span class="o">=</span> <span class="mh">0x58</span>   <span class="c1"># 58 04 nn dd cc bb</span>
+<span class="n">KEY_SIGNATURE</span> <span class="o">=</span> <span class="mh">0x59</span>    <span class="c1"># 59 02 sf mi (sf = number of sharps(+) or flats(-)</span>
+                        <span class="c1"># mi = major(0) or minor (1))</span>
+<span class="n">SPECIFIC</span> <span class="o">=</span> <span class="mh">0x7F</span>         <span class="c1"># Sequencer specific event</span>
+
+
+<span class="c1">###################################################</span>
+<span class="c1"># System Realtime messages</span>
+<span class="c1"># These should not occur in midi files</span>
+
+<span class="n">TIMING_CLOCK</span> <span class="o">=</span> <span class="mh">0xF8</span>
+<span class="c1"># 0xF9 is undefined</span>
+<span class="n">SONG_START</span> <span class="o">=</span> <span class="mh">0xFA</span>
+<span class="n">SONG_CONTINUE</span> <span class="o">=</span> <span class="mh">0xFB</span>
+<span class="n">SONG_STOP</span> <span class="o">=</span> <span class="mh">0xFC</span>
+<span class="c1"># 0xFD is undefined</span>
+<span class="n">ACTIVE_SENSING</span> <span class="o">=</span> <span class="mh">0xFE</span>
+<span class="n">SYSTEM_RESET</span> <span class="o">=</span> <span class="mh">0xFF</span>
+
+
+<span class="c1">###################################################</span>
+<span class="c1"># META EVENT, it is used only in midi files.</span>
+<span class="c1"># In transmitted data it means system reset!!!</span>
+
+<span class="c1"># 11111111</span>
+<span class="n">META_EVENT</span> <span class="o">=</span> <span class="mh">0xFF</span>
+<span class="n">ESCAPE_SEQUENCE</span> <span class="o">=</span> <span class="mh">0xF7</span>
+
+
+<span class="c1">###################################################</span>
+<span class="c1"># Misc constants</span>
+
+<span class="n">FILE_HEADER</span> <span class="o">=</span> <span class="s1">&#39;MThd&#39;</span>
+<span class="n">TRACK_HEADER</span> <span class="o">=</span> <span class="s1">&#39;MTrk&#39;</span>
+
+<span class="c1"># Timecode resolution: frames per second</span>
+<span class="n">FPS_24</span> <span class="o">=</span> <span class="mh">0xE8</span>
+<span class="n">FPS_25</span> <span class="o">=</span> <span class="mh">0xE7</span>
+<span class="n">FPS_29</span> <span class="o">=</span> <span class="mh">0xE3</span>
+<span class="n">FPS_30</span> <span class="o">=</span> <span class="mh">0xE2</span>
+
+
+<span class="c1">###################################################</span>
+<span class="c1"># Helper functions</span>
+
+<div class="viewcode-block" id="is_status"><a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiconstants.is_status">[docs]</a><span class="k">def</span> <span class="nf">is_status</span><span class="p">(</span><span class="n">byte</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return True if the given byte is a MIDI status byte, False otherwise.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">byte</span> <span class="o">&amp;</span> <span class="mh">0x80</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0x80</span>  <span class="c1"># 1000 0000</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">python-rtmidi 1.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2012 - 2016, Christopher Arndt.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>
