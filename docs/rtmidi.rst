@@ -40,10 +40,10 @@ Module contents
 Classes
 ~~~~~~~
 
-.. autoclass:: MidiIn
+.. autoclass:: rtmidi.MidiIn
    :members:
    :inherited-members:
 
-.. autoclass:: MidiOut
+.. autoclass:: rtmidi.MidiOut
    :members:
    :inherited-members:
