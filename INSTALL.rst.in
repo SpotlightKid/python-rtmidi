@@ -3,37 +3,41 @@ Installation
 ============
 
 **python-rtmidi** uses the de-facto standard Python distutils and setuptools_
-based installation mechanism. Since it is a Python C(++)-extension a C++
-compiler and build environment as well as some system-dependent libraries are
-needed. See "Requirements" below for details.
-
-
-Installer (Windows only)
-------------------------
-
-An installer with a pre-compiled version for Windows with Windows MultiMedia
-API support is available through PyPI for some Python versions. Download it
-from python-rtmidi's `PyPI page`_ and start the installer by double-clicking.
+based packaging system and can be installed from the Python Package Index via
+pip_. Since it is a Python C(++)-extension, a C++ compiler and build
+environment as well as some system-dependent libraries are needed to install,
+unless wheel packages with precompiled binaries are available for your system.
+See the Requirements_ section below for details.
 
 
 From PyPI
 ---------
 
-If you have all the dependencies, you should be able to install the package
+If you have all the requirements_, you should be able to install the package
 with pip_::
 
     $ pip install python-rtmidi
 
-This will download the source distribution, compile the extension and install
-it in your active Python installation. Unless you want to change the Cython_
-source file ``_rtmidi.pyx``, there is no need to have Cython installed.
+This will download the source distribution from python-rtmidi's `PyPI page`_,
+compile the extension and install it in your active Python installation. Unless
+you want to change the Cython_ source file ``_rtmidi.pyx``, there is no need to
+have Cython installed.
 
-**python-rtmidi** also works well with virtualenv_ and virtualenvwrapper_. If
-you have both installed, creating an isolated environment for testing and/or
-using **python-rtmidi** is as easy as::
+python-rtmidi also works well with virtualenv_ and virtualenvwrapper_. If you
+have both installed, creating an isolated environment for testing and/or using
+python-rtmidi is as easy as::
 
     $ mkvirtualenv rtmidi
     (rtmidi)$ pip install python-rtmidi
+
+
+Pre-compiled Binaries
+---------------------
+
+Binary wheels with a pre-compiled version for Windows with Windows MultiMedia
+API support are available through PyPI for several Python versions. If you
+install python-rtmidi via pip (see above), these wheels should be picked up by
+it automatically, if you have compatible Python and Windows versions.
 
 
 From the Source Distribution
@@ -52,12 +56,11 @@ commands, e.g.::
 From the Source Code Repository
 -------------------------------
 
-Lastly, you can check out the **python-rtmidi** source code from the Git
-repository and then install it from your working copy. Since the repository
-does not include the C++ module source code pre-compiled from the Cython
-source, you'll also need to install Cython >= 0.17, either via pip or from its
-Git repository. Using virtualenv/virtualenvwrapper is strongly recommended in
-this scenario:
+Lastly, you can check out the python-rtmidi source code from the Git repository
+and then install it from your working copy. Since the repository does not
+include the C++ module source code pre-compiled from the Cython source, you'll
+also need to install Cython >= 0.17, either via pip or from its Git repository.
+Using virtualenv/virtualenvwrapper is strongly recommended in this scenario:
 
 Make a virtual environment::
 
@@ -82,24 +85,26 @@ Install **python-rtmidi**::
     (rtmidi)$ python setup.py install
 
 
+.. _requirements:
+
 Requirements
 ============
 
 Naturally, you'll need a C++ compiler and a build environment. See the
 platform-specific hints below.
 
-Only if you want to change the Cython source file ``_rtmidi.pyx`` or want to
+If you want to change the Cython source file ``_rtmidi.pyx`` or want to
 recompile ``_rtmidi.cpp`` with a newer Cython version, you'll need to install
 Cython >= 0.17. The ``_rtmidi.cpp`` file in the current source distribution
 (version ${version}) is tagged with::
 
     ${cpp_info}
 
-RtMidi (and therefore **python-rtmidi**) supports several low-level MIDI
-libraries on different operating systems. Only one of the available options
-needs to be present on the target system, but support for more than one can be
-compiled in. The setup script will try to detect available libraries and should
-use the appropriate compilations flags automatically.
+RtMidi (and therefore python-rtmidi) supports several low-level MIDI frameworks
+on different operating systems. Only one of the available options needs to be
+present on the target system, but support for more than one can be compiled in.
+The setup script will try to detect available libraries and should use the
+appropriate compilations flags automatically.
 
     * Linux: ALSA, JACK
     * OS X: CoreMIDI, JACK
@@ -109,12 +114,12 @@ use the appropriate compilations flags automatically.
 Linux
 -----
 
-For the C++ compiler and the pthread library install the ``build-essential``
-package on debian-based systems.
+First you need a C++ compiler and the pthread library. Install the
+``build-essential`` package on debian-based systems to get these.
 
-Then you'll need Python development headers and libraries. On Linux, install
-the ``python-dev`` package. If you use the official installers from python.org
-you should already have these.
+Then you'll need Python development headers and libraries. On debian-based
+systems, install the ``python-dev`` package. If you use the official installers
+from python.org you should already have these.
 
 To get ALSA support, you must install development files for the ``libasound``
 library (debian package: ``libasound-dev``). For JACK support, install the
@@ -124,9 +129,9 @@ library (debian package: ``libasound-dev``). For JACK support, install the
 OS X
 ----
 
-Install the latest Xcode or ``g++`` from MacPorts or homebrew (untested).
-CoreMIDI support comes with installing Xcode. For JACK support, install `JACK
-for OS X`_ with the full installer.
+Install the latest Xcode version or ``g++`` from MacPorts or homebrew
+(untested). CoreMIDI support comes with installing Xcode. For JACK support,
+install `JACK for OS X`_ with the full installer.
 
 .. note::
     If you have a version of OS X and Xcode which still supports building

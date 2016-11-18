@@ -6,14 +6,14 @@ cross-platform API (Application Programming Interface) for realtime MIDI
 input/output across Linux (ALSA & JACK), Macintosh OS X (CoreMidi & JACK),
 and Windows (Multimedia Library) operating systems.
 
-python-rtmidi is a Python binding for RtMidi implemented with Cython_ and
+**python-rtmidi** is a Python binding for RtMidi implemented with Cython_ and
 provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
-parameters adapted to the Python PEP-8 conventions and requirements of
-the Python package naming structure. ``python-rtmidi`` supports Python 2
-(tested with Python 2.7) and Python 3 (3.3, 3.4, 3.5).
+parameters adapted to the Python PEP-8 conventions and requirements of the
+Python package naming structure. python-rtmidi supports Python 2 (tested with
+Python 2.7) and Python 3 (3.3, 3.4, 3.5).
 
-For more information, visit ``python-rtmidi's`` web page:
+For more information, visit python-rtmidi's web page:
 
     https://chrisarndt.de/projects/python-rtmidi
 
