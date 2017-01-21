@@ -141,15 +141,15 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
         available, should the user be prompted on the console whether to open
         a virtual MIDI port (if ``use_virtual`` is ``True``) and/or with a list
         of available MIDI ports and the option to choose one? Defaults to
-        `` True``.
+        ``True``.
 
     ``client_name``
         The name of the MIDI client passed when instantiating a `MidiIn`` or
         ``MidiOut`` object.
 
         See the documentation of the constructor for these classes for the
-        default values and caveats and OS-dependant ideosyncracies regarding
-        the name.
+        default values and caveats and OS-dependent ideosyncracies regarding
+        the client name.
 
     ``port_name``
         The name of the MIDI port passed to the ``open_port`` or
