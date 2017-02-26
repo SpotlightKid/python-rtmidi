@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Definitions of midi events, controller numbers and paramters."""
+"""Definitions of midi events, controller numbers and parameters."""
 
 ###################################################
 # Midi channel events (the most common events)
