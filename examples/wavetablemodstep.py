@@ -15,10 +15,11 @@ all the waves in a selected wavetable in succession.
 """
 
 import time
-import rtmidi
 
-from rtmidi.midiconstants import (CONTROLLER_CHANGE, MODULATION_WHEEL,
+import rtmidi
+from rtmidi.midiconstants import (CONTROL_CHANGE, MODULATION_WHEEL,
                                   NOTE_OFF, NOTE_ON, RESET_ALL_CONTROLLERS)
+
 
 CC_SET_WAVETABLE = 70
 
@@ -30,30 +31,33 @@ class Midi(object):
         self.midi = rtmidi.MidiOut()
         self.midi.open_port(port)
 
-    def play_stepping(self, note, dur=0.2, step=1, vel=64, rvel=None, ch=0):
-        """Play given note and step through cc #1 values over time."""
+    def play_stepping(self, note, cc, dur=0.2, step=1, vel=64, rvel=None, ch=0):
+        """Play given note and step through ctrl values over time."""
         # note on
-        self.midi.send_message([NOTE_ON | (ch & 0xF), note & 0x7F, vel & 0x7F])
+        note &= 0x7F
+        ch &= 0x0F
+        self.midi.send_message([CONTROL_CHANGE | ch, cc, 0])
+        time.sleep(0.1)
+        self.midi.send_message([NOTE_ON | ch, note, vel & 0x7F])
 
         # step through modulation controller values
         for i in range(0, 128, step):
-            self.midi.send_message([CONTROLLER_CHANGE | (ch & 0xF),
-                                   MODULATION_WHEEL, i])
+            self.midi.send_message([CONTROL_CHANGE | ch, cc, i])
             time.sleep(dur)
 
         # note off
-        self.midi.send_message([NOTE_OFF | (ch & 0xF), note & 0x7F,
-                               (rvel if rvel is not None else vel) & 0x7F])
+        self.midi.send_message(
+            [NOTE_OFF | ch, note, (vel if rvel is None else rvel) & 0x7F])
 
     def reset_controllers(self, ch=0):
         """Reset controllers on given channel."""
-        self.midi.send_message([CONTROLLER_CHANGE | (ch & 0xF),
-                               RESET_ALL_CONTROLLERS, 0])
+        self.midi.send_message(
+            [CONTROL_CHANGE | (ch & 0xF), RESET_ALL_CONTROLLERS, 0])
 
     def set_wavetable(self, wt, ch=0):
         """Set wavetable for current sound to given number."""
-        self.midi.send_message([CONTROLLER_CHANGE | (ch & 0xF),
-                               CC_SET_WAVETABLE, wt & 0x7F])
+        self.midi.send_message(
+            [CONTROL_CHANGE | (ch & 0xF), CC_SET_WAVETABLE, wt & 0x7F])
 
     def close(self):
         """Close MIDI outpurt."""
@@ -68,6 +72,8 @@ if __name__ == '__main__':
     aadd = argparser.add_argument
     aadd('-c', '--channel', type=int, default=1,
          help="MIDI channel (1-based, default: %(default)s)")
+    aadd('-C', '--controller', type=int, default=MODULATION_WHEEL,
+         help="MIDI controller number (default: %(default)s)")
     aadd('-p', '--port', type=int, default=0,
          help="MIDI output port (default: %(default)s)")
     aadd('-l', '--length', type=float, default=0.3,
@@ -80,14 +86,15 @@ if __name__ == '__main__':
     args = argparser.parse_args()
 
     m = Midi(args.port)
+    ch = max(0, args.channel - 1)
 
     if args.wavetable:
         m.set_wavetable(args.wavetable - 1, ch=args.channel - 1)
         time.sleep(0.1)
 
     try:
-        m.reset_controllers(ch=args.channel - 1)
-        m.play_stepping(args.note, dur=args.length, step=2, ch=args.channel - 1)
+        m.reset_controllers(ch)
+        m.play_stepping(args.note, args.controller, dur=args.length, step=2, ch=ch)
     finally:
-        m.reset_controllers(ch=args.channel - 1)
+        m.reset_controllers(ch)
         m.close()
