@@ -35,7 +35,10 @@ try:
     from functools import lru_cache
 except ImportError:
     # Python < 3.2
-    lru_cache = lambda func: func
+    try:
+        from backports.functools_lru_cache import lru_cache
+    except ImportError:
+        lru_cache = lambda: lambda func: func
 
 import yaml
 
