@@ -2,21 +2,27 @@
 #
 # test_midiin_poll.py
 #
-"""Shows how to receive MIDI input by polling an input port."""
+"""Show how to receive MIDI input by polling an input port."""
+
+from __future__ import print_function
 
 import logging
 import sys
 import time
 
-from rtmidi.midiutil import open_midiport
+from rtmidi.midiutil import open_midiinput
 
-log = logging.getLogger('test_midiin_poll')
 
+log = logging.getLogger('midiin_poll')
 logging.basicConfig(level=logging.DEBUG)
 
+# Prompts user for MIDI input port, unless a valid port number or name
+# is given as the first argument on the command line.
+# API backend defaults to ALSA on Linux.
 port = sys.argv[1] if len(sys.argv) > 1 else None
+
 try:
-    midiin, port_name = open_midiport(port)
+    midiin, port_name = open_midiinput(port)
 except (EOFError, KeyboardInterrupt):
     sys.exit()
 

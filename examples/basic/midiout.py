@@ -2,22 +2,28 @@
 #
 # test_midiout.py
 #
-"""Shows how to open an output port and send MIDI events."""
+"""Show how to open an output port and send MIDI events."""
+
+from __future__ import print_function
 
 import logging
 import sys
 import time
 
-from rtmidi.midiutil import open_midiport
+from rtmidi.midiutil import open_midioutput
 from rtmidi.midiconstants import NOTE_OFF, NOTE_ON
 
-log = logging.getLogger('test_midiout')
+
+log = logging.getLogger('midiout')
 logging.basicConfig(level=logging.DEBUG)
 
+# Prompts user for MIDI input port, unless a valid port number or name
+# is given as the first argument on the command line.
+# API backend defaults to ALSA on Linux.
 port = sys.argv[1] if len(sys.argv) > 1 else None
 
 try:
-    midiout, port_name = open_midiport(port, "output")
+    midiout, port_name = open_midioutput(port, "output")
 except (EOFError, KeyboardInterrupt):
     sys.exit()
 

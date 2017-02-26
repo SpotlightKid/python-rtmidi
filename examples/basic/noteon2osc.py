@@ -26,8 +26,10 @@ def midiin_callback(event, data=None):
             velocity)
 
 
-# Prompts user for MIDI input port, defaulting to ALSA on Linux
 try:
+    # Prompts user for MIDI input port, unless a valid port number or name
+    # is given as the first argument on the command line.
+    # API backend defaults to ALSA on Linux.
     port = sys.argv[1] if len(sys.argv) > 1 else None
 
     with open_midiinput(port, client_name='noteon2osc')[0] as midiin:

@@ -4,13 +4,16 @@
 #
 """Send AllSoundOff and ResetAllControllers on all JACK MIDI outputs and all channels."""
 
+from __future__ import print_function
+
 import rtmidi
 from rtmidi.midiconstants import (ALL_SOUND_OFF, CONTROL_CHANGE,
                                   RESET_ALL_CONTROLLERS)
 
-midiout = rtmidi.MidiOut(rtapi=rtmidi.API_UNIX_JACK)
 
+midiout = rtmidi.MidiOut(rtapi=rtmidi.API_UNIX_JACK)
 print(__doc__)
+
 for portnum, portname in enumerate(midiout.get_ports()):
     print("Port:", portname)
     midiout.open_port(portnum)
