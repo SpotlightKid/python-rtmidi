@@ -171,6 +171,7 @@ cdef extern from "RtMidi.h":
         void openVirtualPort(string portName) except +
         void closePort()
         void setErrorCallback(RtMidiErrorCallback callback, void *userData)
+        bool isPortOpen()
 
     cdef cppclass RtMidiIn(RtMidi):
         Api RtMidiIn() except +
@@ -472,6 +473,11 @@ cdef class MidiBase:
 
         """
         self.baseptr().setErrorCallback(NULL, NULL)
+
+    def is_port_open(self):
+        """Returns true if a port is open and false if not.
+        """
+        return self.baseptr().isPortOpen()
 
 
 cdef class MidiIn(MidiBase):
