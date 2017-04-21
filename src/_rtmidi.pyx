@@ -342,6 +342,10 @@ cdef class MidiBase:
         return [self.get_port_name(p, encoding=encoding)
                 for p in range(self.get_port_count())]
 
+    def is_port_open(self):
+        """Return True if a port is open and False if not."""
+        return self._port is not None
+
     def open_port(self, unsigned int port=0, name=None):
         """Open the MIDI input or output port with the given port number.
 
@@ -472,11 +476,6 @@ cdef class MidiBase:
 
         """
         self.baseptr().setErrorCallback(NULL, NULL)
-
-    def is_port_open(self):
-        """Returns true if a port is open and false if not.
-        """
-        return self._port is not None
 
 
 cdef class MidiIn(MidiBase):
