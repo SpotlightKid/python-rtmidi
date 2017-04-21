@@ -351,7 +351,14 @@ cdef class MidiBase:
                 for p in range(self.get_port_count())]
 
     def is_port_open(self):
-        """Return True if a port is open and False if not."""
+        """Return True if a port has been opened and False if not.
+
+        .. note::
+            The ``isPortOpen`` method of the RtMidi C++ library does not
+            return True when a virtual port has been openend. The python-rtmidi
+            implementation, on the other hand, does.
+
+        """
         return self._port is not None
 
     def open_port(self, unsigned int port=0, name=None):
