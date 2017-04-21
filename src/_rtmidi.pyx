@@ -120,10 +120,18 @@ __all__ = (
     'MidiIn', 'MidiOut', 'RtMidiError', 'get_compiled_api'
 )
 
+if bytes is str:
+    string_types = (str, unicode)
+else:
+    string_types = (str,)
+
+
 # Init Python threads and GIL, because RtMidi calls Python from native threads.
 # See http://permalink.gmane.org/gmane.comp.python.cython.user/5837
 cdef extern from "Python.h":
     void PyEval_InitThreads()
+
+PyEval_InitThreads()
 
 
 # Declarations for RtMidi C++ classes and their methods we use
@@ -189,9 +197,6 @@ cdef extern from "RtMidi.h":
         void sendMessage(vector[unsigned char] *message) except +
 
 
-PyEval_InitThreads()
-
-
 # internal functions
 
 cdef void _cb_func(double delta_time, vector[unsigned char] *msg_v,
@@ -212,11 +217,14 @@ cdef void _cb_error_func(ErrorType errorType, const string &errorText,
 def _to_bytes(name):
     """Convert a unicode (Python 2) or str (Python 3) object into bytes."""
     # 'bytes' == 'str' in Python 2 but a separate type in Python 3
-    if not isinstance(name, bytes):
+    if isinstance(name, string_types):
         try:
             name = bytes(name, 'utf-8')  # Python 3
         except TypeError:
-            name = bytes(name.encode('utf-8'))  # Python 2
+            name = name.encode('utf-8')  # Python 2
+
+    if not isinstance(name, bytes):
+        raise TypeError("name must be bytes or (unicode) string.")
 
     return name
 
@@ -373,7 +381,8 @@ cdef class MidiBase:
 
         """
         inout = self._check_port()
-        self.baseptr().openPort(port, _to_bytes(name or "RtMidi %s" % inout))
+        self.baseptr().openPort(port, _to_bytes(("RtMidi %s" % inout)
+                                                if name is None else name))
         self._port = port
         return self
 
@@ -429,8 +438,8 @@ cdef class MidiBase:
                                       "by the Windows MultiMedia API.")
 
         inout = self._check_port()
-        self.baseptr().openVirtualPort(_to_bytes(name or
-                                       "RtMidi virtual %s" % inout))
+        self.baseptr().openVirtualPort(_to_bytes(("RtMidi virtual %s" % inout)
+                                                if name is None else name))
         self._port = -1
         return self
 
@@ -520,9 +529,10 @@ cdef class MidiIn(MidiBase):
         See the class docstring for a description of the constructor arguments.
 
         """
-        self.thisptr = new RtMidiIn(rtapi,
-                                    _to_bytes(name or "RtMidiIn Client"),
-                                    queue_size_limit)
+        self.thisptr = new RtMidiIn(
+            rtapi,
+            _to_bytes("RtMidiIn Client" if name is None else name),
+            queue_size_limit)
         self._callback = None
         self._port = None
 
@@ -676,8 +686,9 @@ cdef class MidiOut(MidiBase):
         See the class docstring for a description of the constructor arguments.
 
         """
-        self.thisptr = new RtMidiOut(rtapi,
-                                     _to_bytes(name or "RtMidiOut Client"))
+        self.thisptr = new RtMidiOut(
+            rtapi,
+            _to_bytes("RtMidiOut Client" if name is None else name))
         self._port = None
 
     def __dealloc__(self):
