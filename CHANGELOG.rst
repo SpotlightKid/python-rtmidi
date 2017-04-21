@@ -14,6 +14,11 @@ Building:
   * Added script to automate updating github pages docs.
 
 Enhancements / Changes:
+  * Synced with upstream RtMidi_ (2.1.1-907a94c).
+  * Applied patch from https://github.com/thestk/rtmidi/pull/89.
+    This means that when using the ALSA API port names are reported in the form
+    ``<client name>:<port name> <port id>`` (this change was actually already
+    in version 1.0.0).
   * Added new ``MidiIn`` / ``MidiOut`` method ``is_port_open``.
   * ``MidiIn`` / ``MidiOut`` constructors and ``open_port`` /
     ``open_virtual_port`` methods now raise ``TypeError`` when and
