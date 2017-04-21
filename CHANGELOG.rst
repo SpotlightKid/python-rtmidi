@@ -4,6 +4,31 @@ Changelog
 For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
+Development
+-----------
+
+Project infrastructure:
+  * Updated project homepage URL; copyright year and link to docs in readme.
+
+Building:
+  * Added script to automate updating github pages docs.
+
+Enhancements / Changes:
+  * Added new ``MidiIn`` / ``MidiOut`` method ``is_port_open``.
+  * ``MidiIn`` / ``MidiOut`` constructors and ``open_port`` /
+    ``open_virtual_port`` methods now raise ``TypeError`` when and
+    and invalid type is passed as the client rep. port name.
+
+Documentation:
+  * Various small documentation improvements.
+
+Examples:
+  * Basic examples: some clean-up, more comments, updated API usage.
+  * Added new advanced example script ``midiwrapper.py``.
+  * Added new advanced example script ``recvrpn.py``.
+  * ``wavetablemodstep.py``: added command line param to set controller number.
+  * ``midi2command``: Fixed wrong mock lru_cache substitution for Python < 3.2.
+
 
 2016-11-07 version 1.0.0
 ------------------------
