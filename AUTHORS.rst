@@ -15,6 +15,7 @@ Contributors
 * Michiel Overtoom
 * Orhan Kavrakoğlu
 * tekHedd
+* Maurizio Berti
 
 
 Testing

@@ -23,7 +23,7 @@ Enhancements / Changes:
   * Added new ``MidiIn`` / ``MidiOut`` method ``is_port_open``.
   * ``MidiIn`` / ``MidiOut`` constructors and ``open_port`` /
     ``open_virtual_port`` methods now raise ``TypeError`` when an
-    and invalid type is passed as the client resp. port name.
+    invalid type is passed as the client resp. port name.
 
 Documentation:
   * Various small documentation improvements.
