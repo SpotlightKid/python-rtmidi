@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>rtmidi package &#8212; python-rtmidi 1.0.0 documentation</title>
+    <title>rtmidi package &#8212; python-rtmidi 1.1.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,10 +14,11 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.0.0',
+        VERSION:     '1.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -25,8 +26,6 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="python-rtmidi 1.0.0 documentation" href="index.html" />
-    <link rel="up" title="rtmidi" href="modules.html" />
     <link rel="next" title="Contributing" href="contributing.html" />
     <link rel="prev" title="rtmidi" href="modules.html" /> 
   </head>
@@ -46,7 +45,7 @@
         <li class="right" >
           <a href="modules.html" title="rtmidi"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.1.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">rtmidi</a> &#187;</li> 
       </ul>
     </div>  
@@ -63,7 +62,7 @@
 </div>
 <div class="section" id="module-rtmidi.midiconstants">
 <span id="rtmidi-midiconstants-module"></span><h2>rtmidi.midiconstants module<a class="headerlink" href="#module-rtmidi.midiconstants" title="Permalink to this headline">¶</a></h2>
-<p>Definitions of midi events, controller numbers and paramters.</p>
+<p>Definitions of midi events, controller numbers and parameters.</p>
 <dl class="function">
 <dt id="rtmidi.midiconstants.is_status">
 <code class="descclassname">rtmidi.midiconstants.</code><code class="descname">is_status</code><span class="sig-paren">(</span><em>byte</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiconstants.html#is_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rtmidi.midiconstants.is_status" title="Permalink to this definition">¶</a></dt>
@@ -153,13 +152,13 @@ to <code class="docutils literal"><span class="pre">False</span></code>.</dd>
 available, should the user be prompted on the console whether to open
 a virtual MIDI port (if <code class="docutils literal"><span class="pre">use_virtual</span></code> is <code class="docutils literal"><span class="pre">True</span></code>) and/or with a list
 of available MIDI ports and the option to choose one? Defaults to
-`` True``.</dd>
+<code class="docutils literal"><span class="pre">True</span></code>.</dd>
 <dt><code class="docutils literal"><span class="pre">client_name</span></code></dt>
 <dd><p class="first">The name of the MIDI client passed when instantiating a <cite>MidiIn`</cite> or
 <code class="docutils literal"><span class="pre">MidiOut</span></code> object.</p>
 <p class="last">See the documentation of the constructor for these classes for the
-default values and caveats and OS-dependant ideosyncracies regarding
-the name.</p>
+default values and caveats and OS-dependent ideosyncracies regarding
+the client name.</p>
 </dd>
 <dt><code class="docutils literal"><span class="pre">port_name</span></code></dt>
 <dd><p class="first">The name of the MIDI port passed to the <code class="docutils literal"><span class="pre">open_port</span></code> or
@@ -462,6 +461,18 @@ preprocessor defines in <code class="docutils literal"><span class="pre">RtMidi.
 </dd></dl>
 
 <dl class="method">
+<dt id="rtmidi.MidiIn.is_port_open">
+<code class="descname">is_port_open</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.is_port_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if a port has been opened and False if not.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">isPortOpen</span></code> method of the RtMidi C++ library does not
+return True when a virtual port has been openend. The python-rtmidi
+implementation, on the other hand, does.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="rtmidi.MidiIn.open_port">
 <code class="descname">open_port</code><span class="sig-paren">(</span><em>self</em>, <em>unsigned int port=0</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.open_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open the MIDI input or output port with the given port number.</p>
@@ -650,6 +661,18 @@ i.e. as type <code class="docutils literal"><span class="pre">str</span></code> 
 </dd></dl>
 
 <dl class="method">
+<dt id="rtmidi.MidiOut.is_port_open">
+<code class="descname">is_port_open</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.is_port_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if a port has been opened and False if not.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">isPortOpen</span></code> method of the RtMidi C++ library does not
+return True when a virtual port has been openend. The python-rtmidi
+implementation, on the other hand, does.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="rtmidi.MidiOut.open_port">
 <code class="descname">open_port</code><span class="sig-paren">(</span><em>self</em>, <em>unsigned int port=0</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.open_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open the MIDI input or output port with the given port number.</p>
@@ -798,7 +821,7 @@ registered error callback.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/rtmidi.txt"
+      <li><a href="_sources/rtmidi.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -831,13 +854,13 @@ registered error callback.</p>
         <li class="right" >
           <a href="modules.html" title="rtmidi"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.1.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >rtmidi</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2012 - 2016, Christopher Arndt.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
     </div>
   </body>
 </html>
