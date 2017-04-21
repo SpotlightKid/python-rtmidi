@@ -4,8 +4,9 @@ Changelog
 For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
-Development
------------
+
+2017-04-21 version 1.1.0
+------------------------
 
 Project infrastructure:
   * Updated project homepage URL; copyright year and link to docs in readme.
@@ -21,8 +22,8 @@ Enhancements / Changes:
     in version 1.0.0).
   * Added new ``MidiIn`` / ``MidiOut`` method ``is_port_open``.
   * ``MidiIn`` / ``MidiOut`` constructors and ``open_port`` /
-    ``open_virtual_port`` methods now raise ``TypeError`` when and
-    and invalid type is passed as the client rep. port name.
+    ``open_virtual_port`` methods now raise ``TypeError`` when an
+    and invalid type is passed as the client resp. port name.
 
 Documentation:
   * Various small documentation improvements.
