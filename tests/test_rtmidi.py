@@ -40,6 +40,22 @@ class RtMidiTestCase(unittest.TestCase):
         self.midi_out.close_port()
         del self.midi_out
 
+    def test_is_port_open(self):
+        assert self.midi_in.is_port_open()
+        self.midi_in.close_port()
+        assert not self.midi_in.is_port_open()
+
+        # virtual ports can't be closed
+        assert self.midi_out.is_port_open()
+        self.midi_out.close_port()
+        assert self.midi_out.is_port_open()
+
+        midi_out2 = rtmidi.MidiOut()
+        assert not midi_out2.is_port_open()
+        midi_out2.open_virtual_port()
+        assert midi_out2.is_port_open()
+        del midi_out2
+
     def test_send_and_get_message(self):
         self.midi_out.send_message(self.NOTE_ON)
         self.midi_out.send_message(self.NOTE_OFF)
