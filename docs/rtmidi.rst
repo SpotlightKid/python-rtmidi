@@ -4,24 +4,24 @@ rtmidi package
 Submodules
 ----------
 
-rtmidi.midiconstants module
----------------------------
+rtmidi\.midiconstants module
+----------------------------
 
 .. automodule:: rtmidi.midiconstants
     :members:
     :undoc-members:
     :show-inheritance:
 
-rtmidi.midiutil module
-----------------------
+rtmidi\.midiutil module
+-----------------------
 
 .. automodule:: rtmidi.midiutil
     :members:
     :undoc-members:
     :show-inheritance:
 
-rtmidi.release module
----------------------
+rtmidi\.release module
+----------------------
 
 .. automodule:: rtmidi.release
     :members:
