@@ -112,8 +112,8 @@ Before you submit a pull request, check that it meets these guidelines:
 1. The pull request should include tests.
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
-   feature to teh release notes in ``CHANGELOG.rst``.
-3. The pull request should work for Python 2.6, 2.7, and 3.3, 3.4, and 3.5.
+   feature to the release notes in ``CHANGELOG.rst``.
+3. The pull request should work for Python 2.7, and 3.3, 3.4, 3.5 and 3.6.
    Run tox to make sure that the tests pass for all supported Python versions.
 
 
