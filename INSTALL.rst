@@ -47,8 +47,8 @@ Of course, you can also download the source distribution package as a Zip
 archive or tarball, extract it and install using the common ``distutils``
 commands, e.g.::
 
-    $ wget https://pypi.python.org/pypi/python-rtmidipython-rtmidi-1.1.0.tar.gz
-    $ tar -xzf python-rtmidi-1.1.0.tar.gz
+    $ pip download python-rtmidi
+    $ unzip python-rtmidi-1.1.0.zip
     $ cd python-rtmidi-1.1.0
     $ python setup.py install
 
