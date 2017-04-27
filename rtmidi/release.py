@@ -54,7 +54,7 @@ The documentation_ provides installation instructions and an API reference.
 .. _python-rtmidi: %(url)s
 .. _cython: http://cython.org/
 .. _ipython: http://ipython.org/
-.. _documentation: https://python-rtmidi.readthedocs.io/
+.. _documentation: https://spotlightkid.github.io/python-rtmidi/
 
 """
 

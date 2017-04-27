@@ -17,10 +17,13 @@ For more information, visit python-rtmidi's web page:
 
     https://chrisarndt.de/projects/python-rtmidi
 
-See the file ``INSTALL.rst`` for installation instructions, ``CHANGELOG.rst``
-for a history of changes per release and ``LICENSE.txt`` for information about
+See the file `INSTALL.rst`_ for installation instructions, `CHANGELOG.rst`_
+for a history of changes per release and `LICENSE.txt`_ for information about
 copyright and usage terms.
 
 
 .. _rtmidi: http://www.music.mcgill.ca/~gary/rtmidi/index.html
 .. _cython: http://cython.org/
+.. _install.rst: https://github.com/SpotlightKid/python-rtmidi/blob/master/INSTALL.rst
+.. _changelog.rst: https://github.com/SpotlightKid/python-rtmidi/blob/master/CHANGELOG.rst
+.. _license.txt: https://github.com/SpotlightKid/python-rtmidi/blob/master/LICENSE.txt
