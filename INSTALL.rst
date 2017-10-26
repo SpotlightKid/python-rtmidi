@@ -121,8 +121,8 @@ Then you'll need Python development headers and libraries. On debian-based
 systems, install the ``python-dev`` package. If you use the official installers
 from python.org you should already have these.
 
-To get ALSA support, you must install development files for the ``libasound``
-library (debian package: ``libasound-dev``). For JACK support, install the
+To get ALSA support, you must install development files for the ``libasound2``
+library (debian package: ``libasound2-dev``). For JACK support, install the
 ``libjack`` development files (``libjack-dev`` or ``libjack-jackd2-dev``).
 
 
