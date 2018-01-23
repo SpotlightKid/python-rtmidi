@@ -25,7 +25,7 @@ class MidiEvent(object):
     """Container for a MIDI message and a timing tick.
 
     Bascially like a two-item named tuple, but we overwrite the comparison
-    operators, so that they (execpt testing for equality) use only on the
+    operators, so that they (except when testing for equality) use only the
     timing ticks.
 
     """
@@ -166,7 +166,7 @@ class SequencerThread(threading.Thread):
                     heappush(due, evt)
                     # log.debug("Queued pending event for output: %r", evt)
 
-                # Pop up to events off the input queue
+                # Pop up to self._batchsize events off the input queue
                 for i in range(self._batchsize):
                     evt = self.get_event()
 
