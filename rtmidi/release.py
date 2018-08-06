@@ -53,7 +53,6 @@ The documentation_ provides installation instructions and an API reference.
 .. _rtmidi: http://www.music.mcgill.ca/~gary/rtmidi/index.html
 .. _python-rtmidi: %(url)s
 .. _cython: http://cython.org/
-.. _ipython: http://ipython.org/
 .. _documentation: https://spotlightkid.github.io/python-rtmidi/
 
 """

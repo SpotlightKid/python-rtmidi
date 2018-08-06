@@ -67,7 +67,7 @@ elif exists(join(SRC_DIR, "_rtmidi.cpp")):
     sources = [join(SRC_DIR, "_rtmidi.cpp"), join(SRC_DIR, "RtMidi.cpp")]
 else:
     print("""\
-Could not import Cython. Cython >= 0.17 is required to compile the Cython
+Could not import Cython. Cython >= 0.28 is required to compile the Cython
 source into the C++ source.
 
 Install Cython from https://pypi.python.org/pypi/Cython or use the
