@@ -1,33 +1,21 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Classes &#8212; python-rtmidi 1.1.0 documentation</title>
-    
+    <title>Classes &#8212; python-rtmidi 1.1.1 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '1.1.0',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
-  </head>
-  <body role="document">
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -37,7 +25,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.1.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.1.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -52,27 +40,27 @@
 <dt id="rtmidi.MidiIn">
 <em class="property">class </em><code class="descclassname">rtmidi.</code><code class="descname">MidiIn</code><a class="headerlink" href="#rtmidi.MidiIn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Midi input client interface.</p>
-<p>You can specify the low-level MIDI backend API to use via the <code class="docutils literal"><span class="pre">rtapi</span></code>
+<p>You can specify the low-level MIDI backend API to use via the <code class="docutils literal notranslate"><span class="pre">rtapi</span></code>
 keyword or the first positional argument, passing one of the module-level
-<code class="docutils literal"><span class="pre">API_*</span></code> constants. You can get a list of compiled-in APIs with the
-module-level <code class="docutils literal"><span class="pre">get_compiled_api</span></code> function. If you pass <code class="docutils literal"><span class="pre">API_UNSPECIFIED</span></code>
+<code class="docutils literal notranslate"><span class="pre">API_*</span></code> constants. You can get a list of compiled-in APIs with the
+module-level <code class="docutils literal notranslate"><span class="pre">get_compiled_api</span></code> function. If you pass <code class="docutils literal notranslate"><span class="pre">API_UNSPECIFIED</span></code>
 (the default), the first compiled-in API, which has any input ports
 available, will be used.</p>
-<p>You can optionally pass a name for the MIDI client with the <code class="docutils literal"><span class="pre">name</span></code>
+<p>You can optionally pass a name for the MIDI client with the <code class="docutils literal notranslate"><span class="pre">name</span></code>
 keyword or the second positional argument. Names with non-ASCII characters
 in  them have to be passed as unicode or utf-8 encoded strings in Python 2.
-The default name is <code class="docutils literal"><span class="pre">&quot;RtMidiIn</span> <span class="pre">Client&quot;</span></code>.</p>
+The default name is <code class="docutils literal notranslate"><span class="pre">&quot;RtMidiIn</span> <span class="pre">Client&quot;</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">With some backend APIs (e.g. ALSA), the client name is set by the
-first <code class="docutils literal"><span class="pre">MidiIn</span></code> <em>or</em> <code class="docutils literal"><span class="pre">MidiOut</span></code> created by your program and does not
-change until <em>all</em> <code class="docutils literal"><span class="pre">MidiIn</span></code> and <code class="docutils literal"><span class="pre">MidiOut</span></code> instances are deleted and
+first <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> <em>or</em> <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> created by your program and does not
+change until <em>all</em> <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> and <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instances are deleted and
 then a new one is created.</p>
 </div>
-<p>The <code class="docutils literal"><span class="pre">queue_size_limit</span></code> argument specifies the size of the internal ring
+<p>The <code class="docutils literal notranslate"><span class="pre">queue_size_limit</span></code> argument specifies the size of the internal ring
 buffer in which incoming MIDI events are placed until retrieved via the
-<code class="docutils literal"><span class="pre">get_message</span></code> method (i.e. when no callback function is registered).
-The default value is <code class="docutils literal"><span class="pre">1024</span></code> (overriding the default value <code class="docutils literal"><span class="pre">100</span></code> of the
+<code class="docutils literal notranslate"><span class="pre">get_message</span></code> method (i.e. when no callback function is registered).
+The default value is <code class="docutils literal notranslate"><span class="pre">1024</span></code> (overriding the default value <code class="docutils literal notranslate"><span class="pre">100</span></code> of the
 underlying C++ RtMidi library).</p>
 <dl class="method">
 <dt id="rtmidi.MidiIn.cancel_callback">
@@ -99,9 +87,9 @@ registered.</p>
 <dt id="rtmidi.MidiIn.get_current_api">
 <code class="descname">get_current_api</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.get_current_api" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the low-level MIDI backend API used by this instance.</p>
-<p>Use this by comparing the returned value to the module-level <code class="docutils literal"><span class="pre">API_*</span></code>
+<p>Use this by comparing the returned value to the module-level <code class="docutils literal notranslate"><span class="pre">API_*</span></code>
 constants, e.g.:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">midiin</span> <span class="o">=</span> <span class="n">rtmidi</span><span class="o">.</span><span class="n">MidiIn</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">midiin</span> <span class="o">=</span> <span class="n">rtmidi</span><span class="o">.</span><span class="n">MidiIn</span><span class="p">()</span>
 
 <span class="k">if</span> <span class="n">midiin</span><span class="o">.</span><span class="n">get_current_api</span><span class="p">()</span> <span class="o">==</span> <span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNIX_JACK</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using JACK API for MIDI input.&quot;</span><span class="p">)</span>
@@ -119,7 +107,7 @@ MIDI message is a list of integers representing the data bytes of the
 message, the delta time is a float representing the time in seconds
 elapsed since the reception of the previous MIDI event.</p>
 <p>The function does not block. When no MIDI message is available, it
-returns <code class="docutils literal"><span class="pre">None</span></code>.</p>
+returns <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 </dd></dl>
 
 <dl class="method">
@@ -133,13 +121,13 @@ returns <code class="docutils literal"><span class="pre">None</span></code>.</p>
 <code class="descname">get_port_name</code><span class="sig-paren">(</span><em>self</em>, <em>unsigned int port</em>, <em>encoding='auto'</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.get_port_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the name of the MIDI input or output port with given number.</p>
 <p>Ports are numbered from zero, separately for input and output ports.
-The number of available ports is returned by the <code class="docutils literal"><span class="pre">get_port_count</span></code>
+The number of available ports is returned by the <code class="docutils literal notranslate"><span class="pre">get_port_count</span></code>
 method.</p>
 <p>The port name is decoded to a (unicode) string with the encoding given
-by <code class="docutils literal"><span class="pre">encoding</span></code>. If <code class="docutils literal"><span class="pre">encoding</span></code> is <code class="docutils literal"><span class="pre">&quot;auto&quot;</span></code> (the default), then an
+by <code class="docutils literal notranslate"><span class="pre">encoding</span></code>. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> (the default), then an
 appropriate encoding is chosen based on the system and the used backend
-API. If <code class="docutils literal"><span class="pre">encoding</span></code> is <code class="docutils literal"><span class="pre">None</span></code>, the name is returned un-decoded, i.e.
-as type <code class="docutils literal"><span class="pre">str</span></code> in Python 2 or <code class="docutils literal"><span class="pre">bytes</span></code> in Python 3.</p>
+API. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the name is returned un-decoded, i.e.
+as type <code class="docutils literal notranslate"><span class="pre">str</span></code> in Python 2 or <code class="docutils literal notranslate"><span class="pre">bytes</span></code> in Python 3.</p>
 </dd></dl>
 
 <dl class="method">
@@ -148,10 +136,10 @@ as type <code class="docutils literal"><span class="pre">str</span></code> in Py
 <dd><p>Return a list of names of available MIDI input or output ports.</p>
 <p>The list index of each port name corresponds to its port number.</p>
 <p>The port names are decoded to (unicode) strings with the encoding given
-by <code class="docutils literal"><span class="pre">encoding</span></code>. If <code class="docutils literal"><span class="pre">encoding</span></code> is <code class="docutils literal"><span class="pre">&quot;auto&quot;</span></code> (the default), then an
+by <code class="docutils literal notranslate"><span class="pre">encoding</span></code>. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> (the default), then an
 appropriate encoding is chosen based on the system and the used backend
-API. If <code class="docutils literal"><span class="pre">encoding</span></code> is <code class="docutils literal"><span class="pre">None</span></code>, the names are returned un-decoded,
-i.e. as type <code class="docutils literal"><span class="pre">str</span></code> in Python 2 or <code class="docutils literal"><span class="pre">bytes</span></code> in Python 3.</p>
+API. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the names are returned un-decoded,
+i.e. as type <code class="docutils literal notranslate"><span class="pre">str</span></code> in Python 2 or <code class="docutils literal notranslate"><span class="pre">bytes</span></code> in Python 3.</p>
 </dd></dl>
 
 <dl class="method">
@@ -164,11 +152,11 @@ because they can fill up input buffers very quickly.</p>
 <p>To receive them, you can selectively disable the filtering of these
 event types.</p>
 <p>To enable reception - i.e. turn off the default filtering - of sysex
-messages, pass <code class="docutils literal"><span class="pre">sysex</span> <span class="pre">=</span> <span class="pre">False</span></code>.</p>
-<p>To enable reception of MIDI Clock, pass <code class="docutils literal"><span class="pre">timing</span> <span class="pre">=</span> <span class="pre">False</span></code>.</p>
-<p>To enable reception of Active Sensing, pass <code class="docutils literal"><span class="pre">active_sensing</span> <span class="pre">=</span> <span class="pre">False</span></code>.</p>
+messages, pass <code class="docutils literal notranslate"><span class="pre">sysex</span> <span class="pre">=</span> <span class="pre">False</span></code>.</p>
+<p>To enable reception of MIDI Clock, pass <code class="docutils literal notranslate"><span class="pre">timing</span> <span class="pre">=</span> <span class="pre">False</span></code>.</p>
+<p>To enable reception of Active Sensing, pass <code class="docutils literal notranslate"><span class="pre">active_sensing</span> <span class="pre">=</span> <span class="pre">False</span></code>.</p>
 <p>These arguments can of course be combined in one call, and they all
-default to <code class="docutils literal"><span class="pre">True</span></code>.</p>
+default to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
 <p>If you enable reception of any of these event types, be sure to either
 use an input callback function, which returns quickly or poll for MIDI
 input often. Otherwise you might lose MIDI input because the input
@@ -179,8 +167,8 @@ compile time. Sysex messages longer than the buffer size can not be
 received properly when using the Windows Multi Media API.</p>
 <p>The default distribution of python-rtmidi sets the number of sysex
 buffers to four and the size of each to 8192 bytes. To change these
-values, edit the <code class="docutils literal"><span class="pre">RT_SYSEX_BUFFER_COUNT</span></code> and <code class="docutils literal"><span class="pre">RT_SYSEX_BUFFER_SIZE</span></code>
-preprocessor defines in <code class="docutils literal"><span class="pre">RtMidi.cpp</span></code> and recompile.</p>
+values, edit the <code class="docutils literal notranslate"><span class="pre">RT_SYSEX_BUFFER_COUNT</span></code> and <code class="docutils literal notranslate"><span class="pre">RT_SYSEX_BUFFER_SIZE</span></code>
+preprocessor defines in <code class="docutils literal notranslate"><span class="pre">RtMidi.cpp</span></code> and recompile.</p>
 </dd></dl>
 
 <dl class="method">
@@ -189,7 +177,7 @@ preprocessor defines in <code class="docutils literal"><span class="pre">RtMidi.
 <dd><p>Return True if a port has been opened and False if not.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The <code class="docutils literal"><span class="pre">isPortOpen</span></code> method of the RtMidi C++ library does not
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">isPortOpen</span></code> method of the RtMidi C++ library does not
 return True when a virtual port has been openend. The python-rtmidi
 implementation, on the other hand, does.</p>
 </div>
@@ -199,15 +187,15 @@ implementation, on the other hand, does.</p>
 <dt id="rtmidi.MidiIn.open_port">
 <code class="descname">open_port</code><span class="sig-paren">(</span><em>self</em>, <em>unsigned int port=0</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.open_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open the MIDI input or output port with the given port number.</p>
-<p>Only one port can be opened per <code class="docutils literal"><span class="pre">MidiIn</span></code> or <code class="docutils literal"><span class="pre">MidiOut</span></code> instance. An
-<code class="docutils literal"><span class="pre">RtMidiError</span></code> exception is raised if an attempt is made to open a
-port on a <code class="docutils literal"><span class="pre">MidiIn</span></code> or <code class="docutils literal"><span class="pre">MidiOut</span></code> instance, which already opened a
+<p>Only one port can be opened per <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance. An
+<code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code> exception is raised if an attempt is made to open a
+port on a <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance, which already opened a
 (virtual) port.</p>
-<p>You can optionally pass a name for the RtMidi port with the <code class="docutils literal"><span class="pre">name</span></code>
+<p>You can optionally pass a name for the RtMidi port with the <code class="docutils literal notranslate"><span class="pre">name</span></code>
 keyword or the second positional argument. Names with non-ASCII
 characters in them have to be passed as unicode or utf-8 encoded
-strings in Python 2. The default name is &#8220;RtMidi input&#8221; resp. &#8220;RtMidi
-output&#8221;.</p>
+strings in Python 2. The default name is “RtMidi input” resp. “RtMidi
+output”.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Closing a port and opening it again with a different name does not
@@ -216,7 +204,7 @@ create a new one and open the port again giving a different name.</p>
 </div>
 <p>Exceptions:</p>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">RtMidiError</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code></dt>
 <dd>Raised when trying to open a MIDI port when a (virtual) port has
 already been opened by this instance.</dd>
 </dl>
@@ -226,14 +214,14 @@ already been opened by this instance.</dd>
 <dt id="rtmidi.MidiIn.open_virtual_port">
 <code class="descname">open_virtual_port</code><span class="sig-paren">(</span><em>self</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.open_virtual_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open a virtual MIDI input or output port.</p>
-<p>Only one port can be opened per <code class="docutils literal"><span class="pre">MidiIn</span></code> or <code class="docutils literal"><span class="pre">MidiOut</span></code> instance. An
-<code class="docutils literal"><span class="pre">RtMidiError</span></code> exception is raised if an attempt is made to open a
-port on a <code class="docutils literal"><span class="pre">MidiIn</span></code> or <code class="docutils literal"><span class="pre">MidiOut</span></code> instance, which already opened a
+<p>Only one port can be opened per <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance. An
+<code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code> exception is raised if an attempt is made to open a
+port on a <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance, which already opened a
 (virtual) port.</p>
 <p>A virtual port is not connected to a physical MIDI device or system
 port when first opened. You can connect it to another MIDI output with
 the OS-dependent tools provided by the low-level MIDI framework, e.g.
-<code class="docutils literal"><span class="pre">aconnect</span></code> for ALSA, <code class="docutils literal"><span class="pre">jack_connect</span></code> for JACK, or the Audio &amp; MIDI
+<code class="docutils literal notranslate"><span class="pre">aconnect</span></code> for ALSA, <code class="docutils literal notranslate"><span class="pre">jack_connect</span></code> for JACK, or the Audio &amp; MIDI
 settings dialog for CoreMIDI.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -242,25 +230,25 @@ Windows MultiMedia API. You can use special MIDI drivers like <a class="referenc
 Yoke</a> or <a class="reference external" href="http://www.tobias-erichsen.de/software/loopmidi.html">loopMIDI</a> to provide hardware-independent virtual MIDI
 ports as an alternative.</p>
 </div>
-<p>You can optionally pass a name for the RtMidi port with the <code class="docutils literal"><span class="pre">name</span></code>
+<p>You can optionally pass a name for the RtMidi port with the <code class="docutils literal notranslate"><span class="pre">name</span></code>
 keyword or the second positional argument. Names with non-ASCII
 characters in them have to be passed as unicode or utf-8 encoded
-strings in Python 2. The default name is &#8220;RtMidi virtual input&#8221; resp.
-&#8220;RtMidi virtual output&#8221;.</p>
+strings in Python 2. The default name is “RtMidi virtual input” resp.
+“RtMidi virtual output”.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>Closing a port and opening it again with a different name does not
 change the port name. To change the port name, delete its instance,
 create a new one and open the port again giving a different name.</p>
 <p class="last">Also, to close a virtual input port, you have to delete its
-<code class="docutils literal"><span class="pre">MidiIn</span></code> or <code class="docutils literal"><span class="pre">MidiOut</span></code> instance.</p>
+<code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance.</p>
 </div>
 <p>Exceptions:</p>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">NotImplementedError</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">NotImplementedError</span></code></dt>
 <dd>Raised when trying to open a virtual MIDI port with the Windows
-MultiMedia API, which doesn&#8217;t support virtual ports.</dd>
-<dt><code class="docutils literal"><span class="pre">RtMidiError</span></code></dt>
+MultiMedia API, which doesn’t support virtual ports.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code></dt>
 <dd>Raised when trying to open a virtual port when a (virtual) port has
 already been opened by this instance.</dd>
 </dl>
@@ -273,12 +261,12 @@ already been opened by this instance.</dd>
 <p>The callback function is called whenever a MIDI message is received and
 must take two arguments. The first argument is a two-element tuple with
 the MIDI message and a delta time, like the one returned by the
-<code class="docutils literal"><span class="pre">get_message</span></code> method and the second argument is value of the <code class="docutils literal"><span class="pre">data</span></code>
+<code class="docutils literal notranslate"><span class="pre">get_message</span></code> method and the second argument is value of the <code class="docutils literal notranslate"><span class="pre">data</span></code>
 argument passed to this function when the callback is registered.</p>
 <p>Registering a callback function replaces any previously registered
 callback.</p>
 <p>The callback function is safely removed when the input port is closed
-or the <code class="docutils literal"><span class="pre">MidiIn</span></code> instance is deleted.</p>
+or the <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> instance is deleted.</p>
 </dd></dl>
 
 <dl class="method">
@@ -287,9 +275,9 @@ or the <code class="docutils literal"><span class="pre">MidiIn</span></code> ins
 <dd><p>Register a callback function for errors.</p>
 <p>The callback function is called when an error occurs and must take
 three arguments. The first argument is a member of enum
-<code class="docutils literal"><span class="pre">RtMidiError::Type</span></code>, represented by one of the ERRORTYPE_* constants.
+<code class="docutils literal notranslate"><span class="pre">RtMidiError::Type</span></code>, represented by one of the ERRORTYPE_* constants.
 The second argument is an error message. The third argument is the
-value of the <code class="docutils literal"><span class="pre">data</span></code> argument passed to this function when the
+value of the <code class="docutils literal notranslate"><span class="pre">data</span></code> argument passed to this function when the
 callback is registered.</p>
 <p>Registering an error callback function replaces any previously
 registered error callback.</p>
@@ -301,21 +289,21 @@ registered error callback.</p>
 <dt id="rtmidi.MidiOut">
 <em class="property">class </em><code class="descclassname">rtmidi.</code><code class="descname">MidiOut</code><a class="headerlink" href="#rtmidi.MidiOut" title="Permalink to this definition">¶</a></dt>
 <dd><p>Midi output client interface.</p>
-<p>You can specify the low-level MIDI backend API to use via the <code class="docutils literal"><span class="pre">rtapi</span></code>
+<p>You can specify the low-level MIDI backend API to use via the <code class="docutils literal notranslate"><span class="pre">rtapi</span></code>
 keyword or the first positional argument, passing one of the module-level
-<code class="docutils literal"><span class="pre">API_*</span></code> constants. You can get a list of compiled-in APIs with the
-module-level <code class="docutils literal"><span class="pre">get_compiled_api</span></code> function. If you pass <code class="docutils literal"><span class="pre">API_UNSPECIFIED</span></code>
+<code class="docutils literal notranslate"><span class="pre">API_*</span></code> constants. You can get a list of compiled-in APIs with the
+module-level <code class="docutils literal notranslate"><span class="pre">get_compiled_api</span></code> function. If you pass <code class="docutils literal notranslate"><span class="pre">API_UNSPECIFIED</span></code>
 (the default), the first compiled-in API, which has any input ports
 available, will be used.</p>
-<p>You can optionally pass a name for the MIDI client with the <code class="docutils literal"><span class="pre">name</span></code>
+<p>You can optionally pass a name for the MIDI client with the <code class="docutils literal notranslate"><span class="pre">name</span></code>
 keyword or the second positional argument. Names with non-ASCII characters
 in them have to be passed as unicode or utf-8 encoded strings in Python 2.
-The default name is <code class="docutils literal"><span class="pre">&quot;RtMidiOut</span> <span class="pre">Client&quot;</span></code>.</p>
+The default name is <code class="docutils literal notranslate"><span class="pre">&quot;RtMidiOut</span> <span class="pre">Client&quot;</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">With some APIs (e.g. ALSA), the client name is set by the first
-<code class="docutils literal"><span class="pre">MidiIn</span></code> <em>or</em> <code class="docutils literal"><span class="pre">MidiOut</span></code> created by your program and does not change
-until <em>all</em> <code class="docutils literal"><span class="pre">MidiIn</span></code> and <code class="docutils literal"><span class="pre">MidiOut</span></code> instances are deleted and then a
+<code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> <em>or</em> <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> created by your program and does not change
+until <em>all</em> <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> and <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instances are deleted and then a
 new one is created.</p>
 </div>
 <dl class="method">
@@ -329,21 +317,21 @@ registered.</p>
 <dl class="method">
 <dt id="rtmidi.MidiOut.close_port">
 <code class="descname">close_port</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.close_port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Close the MIDI input or output port opened via <code class="docutils literal"><span class="pre">open_port</span></code>.</p>
+<dd><p>Close the MIDI input or output port opened via <code class="docutils literal notranslate"><span class="pre">open_port</span></code>.</p>
 <p>It is safe to call this method repeatedly or if no port has been opened
 (yet) by this instance.</p>
-<p>Also cancels a callback function set with <code class="docutils literal"><span class="pre">set_callback</span></code>.</p>
-<p>To close a virtual port opened via <code class="docutils literal"><span class="pre">open_virtual_port</span></code>, you have to
-delete its <code class="docutils literal"><span class="pre">MidiIn</span></code> or <code class="docutils literal"><span class="pre">MidiOut</span></code> instance.</p>
+<p>Also cancels a callback function set with <code class="docutils literal notranslate"><span class="pre">set_callback</span></code>.</p>
+<p>To close a virtual port opened via <code class="docutils literal notranslate"><span class="pre">open_virtual_port</span></code>, you have to
+delete its <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="rtmidi.MidiOut.get_current_api">
 <code class="descname">get_current_api</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.get_current_api" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the low-level MIDI backend API used by this instance.</p>
-<p>Use this by comparing the returned value to the module-level <code class="docutils literal"><span class="pre">API_*</span></code>
+<p>Use this by comparing the returned value to the module-level <code class="docutils literal notranslate"><span class="pre">API_*</span></code>
 constants, e.g.:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">midiout</span> <span class="o">=</span> <span class="n">rtmidi</span><span class="o">.</span><span class="n">MidiOut</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">midiout</span> <span class="o">=</span> <span class="n">rtmidi</span><span class="o">.</span><span class="n">MidiOut</span><span class="p">()</span>
 
 <span class="k">if</span> <span class="n">midiout</span><span class="o">.</span><span class="n">get_current_api</span><span class="p">()</span> <span class="o">==</span> <span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNIX_JACK</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using JACK API for MIDI output.&quot;</span><span class="p">)</span>
@@ -362,13 +350,13 @@ constants, e.g.:</p>
 <code class="descname">get_port_name</code><span class="sig-paren">(</span><em>self</em>, <em>unsigned int port</em>, <em>encoding='auto'</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.get_port_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the name of the MIDI input or output port with given number.</p>
 <p>Ports are numbered from zero, separately for input and output ports.
-The number of available ports is returned by the <code class="docutils literal"><span class="pre">get_port_count</span></code>
+The number of available ports is returned by the <code class="docutils literal notranslate"><span class="pre">get_port_count</span></code>
 method.</p>
 <p>The port name is decoded to a (unicode) string with the encoding given
-by <code class="docutils literal"><span class="pre">encoding</span></code>. If <code class="docutils literal"><span class="pre">encoding</span></code> is <code class="docutils literal"><span class="pre">&quot;auto&quot;</span></code> (the default), then an
+by <code class="docutils literal notranslate"><span class="pre">encoding</span></code>. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> (the default), then an
 appropriate encoding is chosen based on the system and the used backend
-API. If <code class="docutils literal"><span class="pre">encoding</span></code> is <code class="docutils literal"><span class="pre">None</span></code>, the name is returned un-decoded, i.e.
-as type <code class="docutils literal"><span class="pre">str</span></code> in Python 2 or <code class="docutils literal"><span class="pre">bytes</span></code> in Python 3.</p>
+API. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the name is returned un-decoded, i.e.
+as type <code class="docutils literal notranslate"><span class="pre">str</span></code> in Python 2 or <code class="docutils literal notranslate"><span class="pre">bytes</span></code> in Python 3.</p>
 </dd></dl>
 
 <dl class="method">
@@ -377,10 +365,10 @@ as type <code class="docutils literal"><span class="pre">str</span></code> in Py
 <dd><p>Return a list of names of available MIDI input or output ports.</p>
 <p>The list index of each port name corresponds to its port number.</p>
 <p>The port names are decoded to (unicode) strings with the encoding given
-by <code class="docutils literal"><span class="pre">encoding</span></code>. If <code class="docutils literal"><span class="pre">encoding</span></code> is <code class="docutils literal"><span class="pre">&quot;auto&quot;</span></code> (the default), then an
+by <code class="docutils literal notranslate"><span class="pre">encoding</span></code>. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> (the default), then an
 appropriate encoding is chosen based on the system and the used backend
-API. If <code class="docutils literal"><span class="pre">encoding</span></code> is <code class="docutils literal"><span class="pre">None</span></code>, the names are returned un-decoded,
-i.e. as type <code class="docutils literal"><span class="pre">str</span></code> in Python 2 or <code class="docutils literal"><span class="pre">bytes</span></code> in Python 3.</p>
+API. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the names are returned un-decoded,
+i.e. as type <code class="docutils literal notranslate"><span class="pre">str</span></code> in Python 2 or <code class="docutils literal notranslate"><span class="pre">bytes</span></code> in Python 3.</p>
 </dd></dl>
 
 <dl class="method">
@@ -389,7 +377,7 @@ i.e. as type <code class="docutils literal"><span class="pre">str</span></code> 
 <dd><p>Return True if a port has been opened and False if not.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The <code class="docutils literal"><span class="pre">isPortOpen</span></code> method of the RtMidi C++ library does not
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">isPortOpen</span></code> method of the RtMidi C++ library does not
 return True when a virtual port has been openend. The python-rtmidi
 implementation, on the other hand, does.</p>
 </div>
@@ -399,15 +387,15 @@ implementation, on the other hand, does.</p>
 <dt id="rtmidi.MidiOut.open_port">
 <code class="descname">open_port</code><span class="sig-paren">(</span><em>self</em>, <em>unsigned int port=0</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.open_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open the MIDI input or output port with the given port number.</p>
-<p>Only one port can be opened per <code class="docutils literal"><span class="pre">MidiIn</span></code> or <code class="docutils literal"><span class="pre">MidiOut</span></code> instance. An
-<code class="docutils literal"><span class="pre">RtMidiError</span></code> exception is raised if an attempt is made to open a
-port on a <code class="docutils literal"><span class="pre">MidiIn</span></code> or <code class="docutils literal"><span class="pre">MidiOut</span></code> instance, which already opened a
+<p>Only one port can be opened per <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance. An
+<code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code> exception is raised if an attempt is made to open a
+port on a <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance, which already opened a
 (virtual) port.</p>
-<p>You can optionally pass a name for the RtMidi port with the <code class="docutils literal"><span class="pre">name</span></code>
+<p>You can optionally pass a name for the RtMidi port with the <code class="docutils literal notranslate"><span class="pre">name</span></code>
 keyword or the second positional argument. Names with non-ASCII
 characters in them have to be passed as unicode or utf-8 encoded
-strings in Python 2. The default name is &#8220;RtMidi input&#8221; resp. &#8220;RtMidi
-output&#8221;.</p>
+strings in Python 2. The default name is “RtMidi input” resp. “RtMidi
+output”.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Closing a port and opening it again with a different name does not
@@ -416,7 +404,7 @@ create a new one and open the port again giving a different name.</p>
 </div>
 <p>Exceptions:</p>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">RtMidiError</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code></dt>
 <dd>Raised when trying to open a MIDI port when a (virtual) port has
 already been opened by this instance.</dd>
 </dl>
@@ -426,14 +414,14 @@ already been opened by this instance.</dd>
 <dt id="rtmidi.MidiOut.open_virtual_port">
 <code class="descname">open_virtual_port</code><span class="sig-paren">(</span><em>self</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.open_virtual_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open a virtual MIDI input or output port.</p>
-<p>Only one port can be opened per <code class="docutils literal"><span class="pre">MidiIn</span></code> or <code class="docutils literal"><span class="pre">MidiOut</span></code> instance. An
-<code class="docutils literal"><span class="pre">RtMidiError</span></code> exception is raised if an attempt is made to open a
-port on a <code class="docutils literal"><span class="pre">MidiIn</span></code> or <code class="docutils literal"><span class="pre">MidiOut</span></code> instance, which already opened a
+<p>Only one port can be opened per <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance. An
+<code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code> exception is raised if an attempt is made to open a
+port on a <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance, which already opened a
 (virtual) port.</p>
 <p>A virtual port is not connected to a physical MIDI device or system
 port when first opened. You can connect it to another MIDI output with
 the OS-dependent tools provided by the low-level MIDI framework, e.g.
-<code class="docutils literal"><span class="pre">aconnect</span></code> for ALSA, <code class="docutils literal"><span class="pre">jack_connect</span></code> for JACK, or the Audio &amp; MIDI
+<code class="docutils literal notranslate"><span class="pre">aconnect</span></code> for ALSA, <code class="docutils literal notranslate"><span class="pre">jack_connect</span></code> for JACK, or the Audio &amp; MIDI
 settings dialog for CoreMIDI.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -442,25 +430,25 @@ Windows MultiMedia API. You can use special MIDI drivers like <a class="referenc
 Yoke</a> or <a class="reference external" href="http://www.tobias-erichsen.de/software/loopmidi.html">loopMIDI</a> to provide hardware-independent virtual MIDI
 ports as an alternative.</p>
 </div>
-<p>You can optionally pass a name for the RtMidi port with the <code class="docutils literal"><span class="pre">name</span></code>
+<p>You can optionally pass a name for the RtMidi port with the <code class="docutils literal notranslate"><span class="pre">name</span></code>
 keyword or the second positional argument. Names with non-ASCII
 characters in them have to be passed as unicode or utf-8 encoded
-strings in Python 2. The default name is &#8220;RtMidi virtual input&#8221; resp.
-&#8220;RtMidi virtual output&#8221;.</p>
+strings in Python 2. The default name is “RtMidi virtual input” resp.
+“RtMidi virtual output”.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>Closing a port and opening it again with a different name does not
 change the port name. To change the port name, delete its instance,
 create a new one and open the port again giving a different name.</p>
 <p class="last">Also, to close a virtual input port, you have to delete its
-<code class="docutils literal"><span class="pre">MidiIn</span></code> or <code class="docutils literal"><span class="pre">MidiOut</span></code> instance.</p>
+<code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance.</p>
 </div>
 <p>Exceptions:</p>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">NotImplementedError</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">NotImplementedError</span></code></dt>
 <dd>Raised when trying to open a virtual MIDI port with the Windows
-MultiMedia API, which doesn&#8217;t support virtual ports.</dd>
-<dt><code class="docutils literal"><span class="pre">RtMidiError</span></code></dt>
+MultiMedia API, which doesn’t support virtual ports.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code></dt>
 <dd>Raised when trying to open a virtual port when a (virtual) port has
 already been opened by this instance.</dd>
 </dl>
@@ -485,9 +473,9 @@ message.</p>
 <dd><p>Register a callback function for errors.</p>
 <p>The callback function is called when an error occurs and must take
 three arguments. The first argument is a member of enum
-<code class="docutils literal"><span class="pre">RtMidiError::Type</span></code>, represented by one of the ERRORTYPE_* constants.
+<code class="docutils literal notranslate"><span class="pre">RtMidiError::Type</span></code>, represented by one of the ERRORTYPE_* constants.
 The second argument is an error message. The third argument is the
-value of the <code class="docutils literal"><span class="pre">data</span></code> argument passed to this function when the
+value of the <code class="docutils literal notranslate"><span class="pre">data</span></code> argument passed to this function when the
 callback is registered.</p>
 <p>Registering an error callback function replaces any previously
 registered error callback.</p>
@@ -512,12 +500,14 @@ registered error callback.</p>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -533,12 +523,12 @@ registered error callback.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.1.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.1.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2012 - 2016, Christopher Arndt.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
     </div>
   </body>
 </html>
