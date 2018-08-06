@@ -96,5 +96,5 @@ classifiers = [c.strip() for c in classifiers.splitlines()
                if c.strip() and not c.startswith('#')]
 try:  # Python 2.x
     del c  # noqa
-except:
+except:    # noqa: E722
     pass

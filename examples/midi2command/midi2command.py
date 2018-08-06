@@ -142,7 +142,7 @@ class MidiInputHandler(object):
         try:
             args = shlex.split(cmdline)
             subprocess.Popen(args)
-        except:
+        except:  # noqa: E722
             log.exception("Error calling external command.")
 
     def load_config(self, filename):
@@ -167,7 +167,7 @@ class MidiInputHandler(object):
                 if status is None:
                     try:
                         int(cmd.status)
-                    except:
+                    except:  # noqa: E722
                         log.error("Unknown status '%s'. Ignoring command",
                                   cmd.status)
 

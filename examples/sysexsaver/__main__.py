@@ -164,7 +164,7 @@ class SysexSaver(object):
                     outfile.write(data)
                     log.info("Sysex message of %i bytes written to '%s'.",
                              len(data), outfn)
-        except:
+        except:  # noqa: E722
             msg = "Error handling MIDI message: %s" % sys.exc_info()[1]
             if self.debug:
                 log.debug(msg, exc_info=True)
