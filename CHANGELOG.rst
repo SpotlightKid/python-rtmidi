@@ -5,6 +5,21 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+2018-08-06 version 1.1.1
+------------------------
+
+Building:
+  * Rebuild ``src/_rtmidi.cpp`` with current Cython for Python 3.7
+    compatibility.
+  * Remove testing with Python 3.3 environment from ``tox.ini`` and add Python
+    3.6 and 3.7.
+  * Update dev requirements for Python 3.7 compatibility.
+  * Upload releases with twine.
+
+Documentation:
+  * Python 3.3 is not officially tested or supported anymore.
+
+
 2017-04-21 version 1.1.0
 ------------------------
 
