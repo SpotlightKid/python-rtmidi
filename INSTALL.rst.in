@@ -48,8 +48,8 @@ archive or tarball, extract it and install using the common ``distutils``
 commands, e.g.::
 
     $ pip download python-rtmidi
-    $ unzip python-rtmidi-1.1.0.zip
-    $ cd python-rtmidi-1.1.0
+    $ unzip python-rtmidi-${version}.zip
+    $ cd python-rtmidi-${version}
     $ python setup.py install
 
 
