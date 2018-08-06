@@ -59,7 +59,7 @@ The documentation_ provides installation instructions and an API reference.
 """
 
 name = 'python-rtmidi'
-version = '1.1.0'
+version = '1.1.1'
 description = __doc__.splitlines()
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
@@ -85,10 +85,10 @@ Programming Language :: Python
 Programming Language :: Python :: 2
 Programming Language :: Python :: 2.7
 Programming Language :: Python :: 3
-Programming Language :: Python :: 3.3
 Programming Language :: Python :: 3.4
 Programming Language :: Python :: 3.5
 Programming Language :: Python :: 3.6
+Programming Language :: Python :: 3.7
 Topic :: Multimedia :: Sound/Audio :: MIDI
 Topic :: Software Development :: Libraries :: Python Modules
 """
