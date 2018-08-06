@@ -70,8 +70,8 @@ docs: release
 release: clean
 	$(PYTHON) setup.py release
 
-release_upload: clean
-	$(PYTHON) setup.py release_upload
+release_upload: release
+	twine upload --skip-existing dist/*.whl dist/*.tar.bz2
 
 dist: clean release
 	ls -l dist
