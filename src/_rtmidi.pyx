@@ -173,9 +173,11 @@ cdef extern from "RtMidi.h":
                                          void *userData)
 
     cdef cppclass RtMidi:
+        void setClientName( string &clientName );
+        void setPortName( string &portName );
         unsigned int getPortCount()
         string getPortName(unsigned int portNumber)
-        void openPort(unsigned int portNumber, string portName) except +
+        void openPort(unsigned int portNumber, string &portName) except +
         void openVirtualPort(string portName) except +
         void closePort()
         void setErrorCallback(RtMidiErrorCallback callback, void *userData)
@@ -312,6 +314,53 @@ cdef class MidiBase:
 
         return s.decode(encoding, "ignore")
 
+    def set_client_name(self, name):
+        """Set the name of the MIDI client.
+
+        Names with non-ASCII characters in them have to be passed as unicode
+        or utf-8 encoded strings in Python 2.
+
+        Currently only supported by the ALSA API backend.
+
+        Exceptions:
+
+        ``NotImplementedError``
+            Raised when trying the backend API does not support changing the
+            client name.
+
+        """
+        if self.get_current_api() in (API_MACOSX_CORE, API_UNIX_JACK, API_WINDOWS_MM):
+            raise NotImplementedError(
+                "API backend does not support changing the client name.")
+
+        self.baseptr().setClientName(_to_bytes(name))
+
+    def set_port_name(self, name):
+        """Set the name of the currently opened port.
+
+        Names with non-ASCII characters in them have to be passed as unicode
+        or utf-8 encoded strings in Python 2.
+
+        Currently only supported by the ALSA and JACK API backends.
+
+        Exceptions:
+
+        ``NotImplementedError``
+            Raised when trying the backend API does not support changing the
+            port name.
+        ``RtMidiError``
+            Raised when no port is currently opened.
+
+        """
+        if self.get_current_api() in (API_MACOSX_CORE, API_WINDOWS_MM):
+            raise NotImplementedError(
+                "API backend does not support changing the port name.")
+
+        if self._port is None:
+            raise RtMidiError("No port currently opened.")
+
+        self.baseptr().setPortName(_to_bytes(name))
+
     def get_port_count(self):
         """Return the number of available MIDI input or output ports."""
         return self.baseptr().getPortCount()
@@ -377,7 +426,8 @@ cdef class MidiBase:
 
         .. note::
             Closing a port and opening it again with a different name does not
-            change the port name. To change the port name, delete its instance,
+            change the port name. To change the port name, use the
+            ``set_port_name`` method where supported, or delete its instance,
             create a new one and open the port again giving a different name.
 
         Exceptions:
@@ -421,7 +471,8 @@ cdef class MidiBase:
 
         .. note::
             Closing a port and opening it again with a different name does not
-            change the port name. To change the port name, delete its instance,
+            change the port name. To change the port name, use the
+            ``set_port_name`` method where supported, or delete its instance,
             create a new one and open the port again giving a different name.
 
             Also, to close a virtual input port, you have to delete its
@@ -510,10 +561,11 @@ cdef class MidiIn(MidiBase):
     The default name is ``"RtMidiIn Client"``.
 
     .. note::
-        With some backend APIs (e.g. ALSA), the client name is set by the
-        first ``MidiIn`` *or* ``MidiOut`` created by your program and does not
-        change until *all* ``MidiIn`` and ``MidiOut`` instances are deleted and
-        then a new one is created.
+        With some backend APIs (e.g. ALSA), the client name is set by the first
+        ``MidiIn`` *or* ``MidiOut`` created by your program and does not change
+        unless you either use the ``set_client_name`` method, or until *all*
+        ``MidiIn`` and ``MidiOut`` instances are deleted and then a new one is
+        created.
 
     The ``queue_size_limit`` argument specifies the size of the internal ring
     buffer in which incoming MIDI events are placed until retrieved via the
@@ -675,10 +727,11 @@ cdef class MidiOut(MidiBase):
     The default name is ``"RtMidiOut Client"``.
 
     .. note::
-        With some APIs (e.g. ALSA), the client name is set by the first
+        With some backend APIs (e.g. ALSA), the client name is set by the first
         ``MidiIn`` *or* ``MidiOut`` created by your program and does not change
-        until *all* ``MidiIn`` and ``MidiOut`` instances are deleted and then a
-        new one is created.
+        unless you either use the ``set_client_name`` method, or until *all*
+        ``MidiIn`` and ``MidiOut`` instances are deleted and then a new one is
+        created.
 
     """
 
