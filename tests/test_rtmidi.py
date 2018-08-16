@@ -19,8 +19,9 @@ class RtMidiTestCase(unittest.TestCase):
         self.midi_in = rtmidi.MidiIn()
         self.midi_out = rtmidi.MidiOut()
 
-        # TODO: hack-ish strategy to find out the port number of the virtual
-        # output port, which should should work on ALSA too
+        # TODO: find better solution than this hack-ish strategy to find out
+        # the port number of the virtual output port, which we have to use,
+        # because for ALSA virtual ports, their name includes the client id.
         # See: https://github.com/thestk/rtmidi/issues/88
         ports_before = self.midi_in.get_ports()
         self.midi_out.open_virtual_port()
