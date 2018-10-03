@@ -1,0 +1,36 @@
+skip_non_tags: true
+
+environment:
+
+  matrix:
+
+    - PYTHON: Python27
+    - PYTHON: Python27-x64
+    - PYTHON: Python35
+    - PYTHON: Python35-x64
+    - PYTHON: Python36
+    - PYTHON: Python36-x64
+    - PYTHON: Python37
+    - PYTHON: Python37-x64
+
+# To clear the cache, see https://ci.appveyor.com/api-keys for the token and use:
+# wget --header="Authorization: Bearer $TOKEN" --method DELETE https://ci.appveyor.com/api/projects/$USER/$PROJECT/buildcache
+cache:
+  - '%LOCALAPPDATA%\pip\Cache'
+
+clone_depth: 1
+
+install:
+  - "SET PATH=C:\\%PYTHON%;C:\\%PYTHON%\\Scripts;%PATH%"
+  - python --version
+  - python -m pip --disable-pip-version-check install -U pip setuptools wheel
+  - python -m pip install -U Cython twine"
+  - python -m pip freeze --all
+
+build_script:
+  - ps: $env:SOURCE_DATE_EPOCH = (git log -1 --date=unix --format='format:%ct' rtmidi/release.py) | Out-String
+  - "python setup.py release"
+
+test: off
+
+on_success: "if [%APPVEYOR_REPO_TAG%]==[true] twine upload dist\\*.whl"
