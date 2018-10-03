@@ -6,6 +6,7 @@ include tox.ini
 include *.rst
 include src/*.cpp src/*.h src/*.pyx
 
+exclude .appveyor.yml
 exclude *.rst.in
 exclude deploy.sh
 exclude *.sh
