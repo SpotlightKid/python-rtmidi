@@ -1,0 +1,54 @@
+if: tag IS present
+
+language: generic
+os: osx
+osx_image: xcode8
+
+cache:
+  directories:
+    - /Users/travis/Library/Caches/pip
+
+matrix:
+  include:
+    - name: Python 2.7
+      env:
+        PYTHON: python2.7
+        PYTHON_INSTALLER_URL: https://www.python.org/ftp/python/2.7.15/python-2.7.15-macosx10.6.pkg
+        PYTHON_INSTALLER_MD5: 9ac8c85150147f679f213addd1e7d96e
+        PATH: /Users/travis/Library/Python/2.7/bin:$PATH
+    - name: Python 3.6
+      env:
+        PYTHON: python3.6
+        PYTHON_INSTALLER_URL: https://www.python.org/ftp/python/3.6.6/python-3.6.6-macosx10.6.pkg
+        PYTHON_INSTALLER_MD5: c58267cab96f6d291d332a2b163edd33
+        PATH: /Users/travis/Library/Python/3.6/bin:$PATH
+    - name: Python 3.7
+      env:
+        PYTHON: python3.7
+        PYTHON_INSTALLER_URL: https://www.python.org/ftp/python/3.7.0/python-3.7.0-macosx10.6.pkg
+        PYTHON_INSTALLER_MD5: ca3eb84092d0ff6d02e42f63a734338e
+        PATH: /Users/travis/Library/Python/3.7/bin:$PATH
+
+git:
+  depth: 1
+
+install:
+  - wget -O python.pkg "$PYTHON_INSTALLER_URL"
+  - test "$(md5 -q python.pkg)" = $PYTHON_INSTALLER_MD5
+  - sudo installer -pkg python.pkg -target /
+  - $PYTHON --version
+  - $PYTHON -m pip --disable-pip-version-check install --user -U pip setuptools wheel
+  - $PYTHON -m pip install --user -U Cython twine
+  - $PYTHON -m pip freeze --all
+
+script:
+  - export SOURCE_DATE_EPOCH="$(git log -1 --date=unix --format='format:%ct' rtmidi/release.py)"
+  - $PYTHON setup.py release
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: $PYTHON -m twine upload dist/*.whl
+  on:
+    all_branches: true
+    tag: true
