@@ -58,7 +58,7 @@ The documentation_ provides installation instructions and an API reference.
 """
 
 name = 'python-rtmidi'
-version = '1.1.1'
+version = '1.1.2rc1'
 description = __doc__.splitlines()
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
