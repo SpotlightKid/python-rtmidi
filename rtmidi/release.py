@@ -2,17 +2,18 @@
 #
 # release.py - release information for the rtmidi package
 #
-"""A Python wrapper for the RtMidi C++ library written with Cython.
+"""A Python binding for the RtMidi C++ library implemented using Cython.
+
 
 Overview
 ========
 
 RtMidi_ is a set of C++ classes which provides a concise and simple,
 cross-platform API (Application Programming Interface) for realtime MIDI
-input/output across Linux (ALSA & JACK), Macintosh OS X (CoreMIDI & JACK),
+input/output across Linux (ALSA & JACK), macOS (CoreMIDI & JACK),
 and Windows (MultiMedia Library) operating systems.
 
-python-rtmidi_ is a Python binding for RtMidi implemented with Cython_ and
+python-rtmidi_ is a Python binding for RtMidi implemented using Cython_ and
 provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
 parameters adapted to the Python PEP-8 conventions and requirements of
