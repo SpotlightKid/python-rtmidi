@@ -3,25 +3,27 @@ Welcome to python-rtmidi!
 
 A Python binding for the RtMidi C++ library implemented using Cython.
 
-.. image:: http://badge.kloud51.com/pypi/v/python-rtmidi.svg
+|version| |status| |license| |python_versions| |formats| |wheel|
+
+.. |version| image:: http://badge.kloud51.com/pypi/v/python-rtmidi.svg
     :target: https://pypi.org/project/python-rtmidi
     :alt: Latest version
 
-.. image:: http://badge.kloud51.com/pypi/s/python-rtmidi.svg
+.. |status| image:: http://badge.kloud51.com/pypi/s/python-rtmidi.svg
     :alt: Status
 
-.. image:: http://badge.kloud51.com/pypi/l/python-rtmidi.svg
+.. |license| image:: http://badge.kloud51.com/pypi/l/python-rtmidi.svg
     :target: license.txt_
     :alt: MIT License
 
-.. image:: http://badge.kloud51.com/pypi/py_versions/python-rtmidi.svg
+.. |python_versions| image:: http://badge.kloud51.com/pypi/py_versions/python-rtmidi.svg
     :alt: Python versions
 
-.. image:: http://badge.kloud51.com/pypi/f/python-rtmidi.svg
+.. |formats| image:: http://badge.kloud51.com/pypi/f/python-rtmidi.svg
     :target: https://pypi.org/project/python-rtmidi/#files
     :alt: Distribution formats
 
-.. image:: http://badge.kloud51.com/pypi/w/python-rtmidi.svg
+.. |wheel| image:: http://badge.kloud51.com/pypi/w/python-rtmidi.svg
     :target: https://pypi.org/project/python-rtmidi/#files
     :alt: Wheel available
 
