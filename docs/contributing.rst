@@ -91,14 +91,13 @@ development.
 
     $ make lint
     $ make test
-    $ make test-all
 
    To get flake8 and tox, just ``pip install`` them into your virtualenv.
 
 6. Commit your changes and push your branch to GitHub::
 
     $ git add .
-    $ git commit -m "Your detailed description of your changes."
+    $ git commit -m "Detailed description of your changes."
     $ git push -u origin name-of-your-bugfix-or-feature
 
 7. Submit a pull request through the GitHub website.
@@ -113,7 +112,7 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the release notes in ``CHANGELOG.rst``.
-3. The pull request should work for Python 2.7, and 3.3, 3.4, 3.5 and 3.6.
+3. The pull request should work for Python 2.7, and 3.4, 3.5, 3.6 and 3.7.
    Run tox to make sure that the tests pass for all supported Python versions.
 
 
