@@ -16,6 +16,7 @@ Contributors
 * Orhan Kavrakoğlu
 * tekHedd
 * Maurizio Berti
+* Benoit Pierre
 
 
 Testing
