@@ -346,7 +346,7 @@ cdef class MidiBase:
         """Set the name of the MIDI client.
 
         Names with non-ASCII characters in them have to be passed as unicode
-        or utf-8 encoded strings in Python 2.
+        or UTF-8 encoded strings in Python 2.
 
         Currently only supported by the ALSA API backend.
 
@@ -367,7 +367,7 @@ cdef class MidiBase:
         """Set the name of the currently opened port.
 
         Names with non-ASCII characters in them have to be passed as unicode
-        or utf-8 encoded strings in Python 2.
+        or UTF-8 encoded strings in Python 2.
 
         Currently only supported by the ALSA and JACK API backends.
 
@@ -448,7 +448,7 @@ cdef class MidiBase:
 
         You can optionally pass a name for the RtMidi port with the ``name``
         keyword or the second positional argument. Names with non-ASCII
-        characters in them have to be passed as unicode or utf-8 encoded
+        characters in them have to be passed as unicode or UTF-8 encoded
         strings in Python 2. The default name is "RtMidi input" resp. "RtMidi
         output".
 
@@ -493,7 +493,7 @@ cdef class MidiBase:
 
         You can optionally pass a name for the RtMidi port with the ``name``
         keyword or the second positional argument. Names with non-ASCII
-        characters in them have to be passed as unicode or utf-8 encoded
+        characters in them have to be passed as unicode or UTF-8 encoded
         strings in Python 2. The default name is "RtMidi virtual input" resp.
         "RtMidi virtual output".
 
@@ -585,7 +585,7 @@ cdef class MidiIn(MidiBase):
 
     You can optionally pass a name for the MIDI client with the ``name``
     keyword or the second positional argument. Names with non-ASCII characters
-    in  them have to be passed as unicode or utf-8 encoded strings in Python 2.
+    in  them have to be passed as unicode or UTF-8 encoded strings in Python 2.
     The default name is ``"RtMidiIn Client"``.
 
     .. note::
@@ -751,7 +751,7 @@ cdef class MidiOut(MidiBase):
 
     You can optionally pass a name for the MIDI client with the ``name``
     keyword or the second positional argument. Names with non-ASCII characters
-    in them have to be passed as unicode or utf-8 encoded strings in Python 2.
+    in them have to be passed as unicode or UTF-8 encoded strings in Python 2.
     The default name is ``"RtMidiOut Client"``.
 
     .. note::
