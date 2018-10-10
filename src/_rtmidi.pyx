@@ -51,7 +51,7 @@ Constants
 These constants are returned by the ``get_compiled_api`` function and the
 ``MidiIn.get_current_api`` resp. ``MidiOut.get_current_api`` methods and are
 used to specify the low-level MIDI backend API to use when creating a
-``MidiIn`` or `MidiOut`` instance.
+``MidiIn`` or ``MidiOut`` instance.
 
 ``API_UNSPECIFIED``
     Use first compiled-in API, which has any input resp. output ports
