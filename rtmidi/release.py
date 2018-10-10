@@ -76,7 +76,6 @@ url = 'https://chrisarndt.de/projects/%s/' % name
 repository = 'https://github.com/SpotlightKid/%s.git' % name
 download_url = 'https://pypi.python.org/pypi/python-rtmidi'
 license = 'MIT License'
-platforms = 'POSIX, Windows, MacOS X'
 long_description = "\n".join(description[2:]) % locals()
 description = description[0]
 classifiers = """\
