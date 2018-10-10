@@ -6,6 +6,8 @@ include tox.ini
 include *.rst
 include src/*.cpp src/*.h src/*.pyx
 
+exclude .appveyor.yml
+exclude .travis.yml
 exclude *.rst.in
 exclude deploy.sh
 exclude *.sh
@@ -16,4 +18,4 @@ graft tests
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
 
-recursive-include docs *.rst conf.py Makefile make.bat
+recursive-include docs *.rst *.inc conf.py Makefile make.bat

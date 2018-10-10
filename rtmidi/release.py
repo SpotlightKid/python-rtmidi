@@ -2,22 +2,22 @@
 #
 # release.py - release information for the rtmidi package
 #
-"""A Python wrapper for the RtMidi C++ library written with Cython.
+"""A Python binding for the RtMidi C++ library implemented using Cython.
 
 Overview
 ========
 
 RtMidi_ is a set of C++ classes which provides a concise and simple,
 cross-platform API (Application Programming Interface) for realtime MIDI
-input/output across Linux (ALSA & JACK), Macintosh OS X (CoreMIDI & JACK),
+input / output across Linux (ALSA & JACK), macOS / OS X (CoreMIDI & JACK),
 and Windows (MultiMedia Library) operating systems.
 
-python-rtmidi_ is a Python binding for RtMidi implemented with Cython_ and
+python-rtmidi_ is a Python binding for RtMidi implemented using Cython_ and
 provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
-parameters adapted to the Python PEP-8 conventions and requirements of
-the Python package naming structure. **python-rtmidi** supports Python 2
-(tested with Python 2.7) and Python 3 (3.4, 3.5, 3.6 and 3.7).
+parameters adapted to the Python PEP-8 conventions and requirements of the
+Python package naming structure. **python-rtmidi** supports Python 2 (tested
+with Python 2.7) and Python 3 (3.4, 3.5, 3.6 and 3.7).
 
 
 Usage example
@@ -45,20 +45,29 @@ available MIDI output port and send a middle C note on MIDI channel 1::
 
     del midiout
 
-More usage examples can be found in the ``examples`` directory of the source
-distribution.
+More usage examples can be found in the examples_ and tests_ directories
+of the source repository.
 
-The documentation_ provides installation instructions and an API reference.
+The documentation_ provides installation instructions, a history of changes
+per release and an API reference.
 
-.. _rtmidi: http://www.music.mcgill.ca/~gary/rtmidi/index.html
-.. _python-rtmidi: %(url)s
+See the file `LICENSE.txt`_ about copyright and usage terms.
+
+For more information, visit https://chrisarndt.de/projects/python-rtmidi.
+
+
 .. _cython: http://cython.org/
 .. _documentation: https://spotlightkid.github.io/python-rtmidi/
+.. _examples: https://github.com/SpotlightKid/python-rtmidi/tree/master/examples
+.. _license.txt: https://github.com/SpotlightKid/python-rtmidi/blob/master/LICENSE.txt
+.. _python-rtmidi: %(url)s
+.. _rtmidi: http://www.music.mcgill.ca/~gary/rtmidi/index.html
+.. _tests: https://github.com/SpotlightKid/python-rtmidi/tree/master/tests
 
 """
 
 name = 'python-rtmidi'
-version = '1.1.1'
+version = '1.1.2'
 description = __doc__.splitlines()
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
@@ -67,7 +76,6 @@ url = 'https://chrisarndt.de/projects/%s/' % name
 repository = 'https://github.com/SpotlightKid/%s.git' % name
 download_url = 'https://pypi.python.org/pypi/python-rtmidi'
 license = 'MIT License'
-platforms = 'POSIX, Windows, MacOS X'
 long_description = "\n".join(description[2:]) % locals()
 description = description[0]
 classifiers = """\

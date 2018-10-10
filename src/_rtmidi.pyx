@@ -3,22 +3,22 @@
 #
 # rtmidi.pyx
 #
-"""A Python wrapper for the RtMidi C++ library written with Cython.
+"""A Python binding for the RtMidi C++ library implemented using Cython.
 
 Overview
 ========
 
 **RtMidi** is a set of C++ classes which provides a concise and simple,
 cross-platform API (Application Programming Interface) for realtime MIDI
-input/output across Linux (ALSA & JACK), Macintosh OS X (CoreMIDI & JACK), and
-Windows (Multimedia Library) operating systems.
+input / output across Linux (ALSA & JACK), macOS / OS X (CoreMIDI & JACK),
+and Windows (Multimedia Library) operating systems.
 
-**python-rtmidi** is a Python binding for RtMidi implemented with Cython and
+**python-rtmidi** is a Python binding for RtMidi implemented using Cython_ and
 provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
 parameters adapted to the Python PEP-8 conventions and requirements of the
 Python package naming structure. **python-rtmidi** supports Python 2 (tested
-with Python 2.7) and Python 3 (3.3, 3.4).
+with Python 2.7) and Python 3 (3.4, 3.5, 3.6 and 3.7).
 
 
 Public API
@@ -45,18 +45,30 @@ Classes
     Midi output client interface.
 
 
+Exceptions
+----------
+
+``RtMidiError``
+    General RtMidi error. Raised, for example, when opening a (virtual) MIDI
+    port fails.
+
+
 Constants
 ---------
+
+
+Low-level APIs
+~~~~~~~~~~~~~~
 
 These constants are returned by the ``get_compiled_api`` function and the
 ``MidiIn.get_current_api`` resp. ``MidiOut.get_current_api`` methods and are
 used to specify the low-level MIDI backend API to use when creating a
-``MidiIn`` or `MidiOut`` instance.
+``MidiIn`` or ``MidiOut`` instance.
 
 ``API_UNSPECIFIED``
     Use first compiled-in API, which has any input resp. output ports
 ``API_MACOSX_CORE``
-    OS X CoreMIDI
+    macOS (OS X) CoreMIDI
 ``API_LINUX_ALSA``
     Linux ALSA
 ``API_UNIX_JACK``
@@ -67,12 +79,25 @@ used to specify the low-level MIDI backend API to use when creating a
     RtMidi Dummy API (used when no suitable API was found)
 
 
-Exceptions
-----------
+Error types
+~~~~~~~~~~~
 
-``RtMidiError``
-    General RtMidi error. Raised, for example, when opening a (virtual) MIDI
-    port fails.
+These constants are passed as the first argument to an error handler
+function registered with ``set_error_callback`` method of a ``MidiIn``
+or ``MidiOut`` instance. For the meaning of each value, please see
+the `RtMidi API reference`_.
+
+* ``ERRORTYPE_DEBUG_WARNING``
+* ``ERRORTYPE_DRIVER_ERROR``
+* ``ERRORTYPE_INVALID_DEVICE``
+* ``ERRORTYPE_INVALID_PARAMETER``
+* ``ERRORTYPE_INVALID_USE``
+* ``ERRORTYPE_MEMORY_ERROR``
+* ``ERRORTYPE_NO_DEVICES_FOUND``
+* ``ERRORTYPE_SYSTEM_ERROR``
+* ``ERRORTYPE_THREAD_ERROR``
+* ``ERRORTYPE_UNSPECIFIED``
+* ``ERRORTYPE_WARNING``
 
 
 Usage example
@@ -100,6 +125,9 @@ available MIDI output port and send a middle C note on MIDI channel 1::
 
     del midiout
 
+
+.. _rtmidi api reference:
+    http://www.music.mcgill.ca/~gary/rtmidi/classRtMidiError.html
 """
 
 import sys
@@ -111,13 +139,13 @@ from libcpp.vector cimport vector
 
 __all__ = (
     'API_UNSPECIFIED', 'API_MACOSX_CORE', 'API_LINUX_ALSA', 'API_UNIX_JACK',
-    'API_WINDOWS_MM', 'API_RTMIDI_DUMMY',
-    'ERRORTYPE_WARNING', 'ERRORTYPE_DEBUG_WARNING', 'ERRORTYPE_UNSPECIFIED',
-    'ERRORTYPE_NO_DEVICES_FOUND', 'ERRORTYPE_INVALID_DEVICE',
-    'ERRORTYPE_MEMORY_ERROR', 'ERRORTYPE_INVALID_PARAMETER',
-    'ERRORTYPE_INVALID_USE', 'ERRORTYPE_DRIVER_ERROR',
+    'API_WINDOWS_MM', 'API_RTMIDI_DUMMY', 'ERRORTYPE_DEBUG_WARNING',
+    'ERRORTYPE_DRIVER_ERROR', 'ERRORTYPE_INVALID_DEVICE',
+    'ERRORTYPE_INVALID_PARAMETER', 'ERRORTYPE_INVALID_USE',
+    'ERRORTYPE_MEMORY_ERROR', 'ERRORTYPE_NO_DEVICES_FOUND',
     'ERRORTYPE_SYSTEM_ERROR', 'ERRORTYPE_THREAD_ERROR',
-    'MidiIn', 'MidiOut', 'RtMidiError', 'get_compiled_api'
+    'ERRORTYPE_UNSPECIFIED', 'ERRORTYPE_WARNING', 'MidiIn', 'MidiOut',
+    'RtMidiError', 'get_compiled_api'
 )
 
 if bytes is str:
@@ -400,12 +428,12 @@ cdef class MidiBase:
                 for p in range(self.get_port_count())]
 
     def is_port_open(self):
-        """Return True if a port has been opened and False if not.
+        """Return ``True`` if a port has been opened and ``False`` if not.
 
         .. note::
             The ``isPortOpen`` method of the RtMidi C++ library does not
-            return True when a virtual port has been openend. The python-rtmidi
-            implementation, on the other hand, does.
+            return ``True`` when a virtual port has been openend. The
+            python-rtmidi implementation, on the other hand, does.
 
         """
         return self._port is not None
@@ -522,9 +550,9 @@ cdef class MidiBase:
 
         The callback function is called when an error occurs and must take
         three arguments. The first argument is a member of enum
-        ``RtMidiError::Type``, represented by one of the ERRORTYPE_* constants.
-        The second argument is an error message. The third argument is the
-        value of the ``data`` argument passed to this function when the
+        ``RtMidiError::Type``, represented by one of the ``ERRORTYPE_*``
+        constants. The second argument is an error message. The third argument
+        is the value of the ``data`` argument passed to this function when the
         callback is registered.
 
         Registering an error callback function replaces any previously

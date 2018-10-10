@@ -15,7 +15,7 @@ except NameError:
     StandardError = Exception
 
 apis = {
-    API_MACOSX_CORE: "OS X CoreMIDI",
+    API_MACOSX_CORE: "macOS (OS X) CoreMIDI",
     API_LINUX_ALSA: "Linux ALSA",
     API_UNIX_JACK: "Jack Client",
     API_WINDOWS_MM: "Windows MultiMedia",

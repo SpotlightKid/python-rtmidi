@@ -1,29 +1,53 @@
 Welcome to python-rtmidi!
 =========================
 
+A Python binding for the RtMidi C++ library implemented using Cython.
+
+|version| |status| |license| |python_versions| |formats| |wheel|
+
+.. |version| image:: http://badge.kloud51.com/pypi/v/python-rtmidi.svg
+    :target: https://pypi.org/project/python-rtmidi
+    :alt: Latest version
+
+.. |status| image:: http://badge.kloud51.com/pypi/s/python-rtmidi.svg
+    :alt: Status
+
+.. |license| image:: http://badge.kloud51.com/pypi/l/python-rtmidi.svg
+    :target: license.txt_
+    :alt: MIT License
+
+.. |python_versions| image:: http://badge.kloud51.com/pypi/py_versions/python-rtmidi.svg
+    :alt: Python versions
+
+.. |formats| image:: http://badge.kloud51.com/pypi/f/python-rtmidi.svg
+    :target: https://pypi.org/project/python-rtmidi/#files
+    :alt: Distribution formats
+
+.. |wheel| image:: http://badge.kloud51.com/pypi/w/python-rtmidi.svg
+    :target: https://pypi.org/project/python-rtmidi/#files
+    :alt: Wheel available
+
 RtMidi_ is a set of C++ classes which provides a concise and simple,
 cross-platform API (Application Programming Interface) for realtime MIDI
-input/output across Linux (ALSA & JACK), Macintosh OS X (CoreMidi & JACK),
+input / output across Linux (ALSA & JACK), macOS / OS X (CoreMidi & JACK),
 and Windows (Multimedia Library) operating systems.
 
-**python-rtmidi** is a Python binding for RtMidi implemented with Cython_ and
+**python-rtmidi** is a Python binding for RtMidi implemented using Cython_ and
 provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
 parameters adapted to the Python PEP-8 conventions and requirements of the
-Python package naming structure. python-rtmidi supports Python 2 (tested with
-Python 2.7) and Python 3 (3.4, 3.5, 3.6 and 3.7).
+Python package naming structure. **python-rtmidi** supports Python 2 (tested
+with Python 2.7) and Python 3 (3.4, 3.5, 3.6 and 3.7).
 
-For more information, visit python-rtmidi's web page:
+The documentation_ provides installation instructions, usage examples,
+a history of changes per release and an API reference.
 
-    https://chrisarndt.de/projects/python-rtmidi
+See the file `LICENSE.txt`_ about copyright and usage terms.
 
-See the file `INSTALL.rst`_ for installation instructions, `CHANGELOG.rst`_
-for a history of changes per release and `LICENSE.txt`_ for information about
-copyright and usage terms.
+For more information, visit https://chrisarndt.de/projects/python-rtmidi.
 
 
-.. _rtmidi: http://www.music.mcgill.ca/~gary/rtmidi/index.html
 .. _cython: http://cython.org/
-.. _install.rst: https://github.com/SpotlightKid/python-rtmidi/blob/master/INSTALL.rst
-.. _changelog.rst: https://github.com/SpotlightKid/python-rtmidi/blob/master/CHANGELOG.rst
+.. _documentation: https://spotlightkid.github.io/python-rtmidi/
 .. _license.txt: https://github.com/SpotlightKid/python-rtmidi/blob/master/LICENSE.txt
+.. _rtmidi: http://www.music.mcgill.ca/~gary/rtmidi/index.html

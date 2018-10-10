@@ -250,7 +250,7 @@ def open_midiinput(port=None, api=rtmidi.API_UNSPECIFIED, use_virtual=False,
                    interactive=True, client_name=None, port_name=None):
     """Open a MIDI port for input and return a MidiIn instance.
 
-    See the ``open_midiport`` functon for information on parameters.
+    See the ``open_midiport`` function for information on parameters.
 
     """
     return open_midiport(port, "input", api, use_virtual, interactive,

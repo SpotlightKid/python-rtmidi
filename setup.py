@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 """Setup file for the Cython rtmidi wrapper."""
 
+import subprocess
 import sys
 
 from ctypes.util import find_library
-from os.path import exists, join
+from os.path import dirname, exists, join
 
 from setuptools import setup  # needs to stay before the imports below!
+import distutils
 from distutils.dist import DistributionMetadata
 from distutils.extension import Extension
-from setuptools.command.test import test as TestCommand
 
 from fill_template import FillTemplate
 
@@ -20,25 +21,33 @@ except ImportError:
     cythonize = None
 
 
-class PyTest(TestCommand):
-    """Custom setup command to run tests via pytest."""
+def read(*args):
+    return open(join(dirname(__file__), *args)).read()
 
-    user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
+
+class ToxTestCommand(distutils.cmd.Command):
+    """Distutils command to run tests via tox with 'python setup.py test'.
+
+    Please note that in this configuration tox uses the dependencies in
+    `requirements/dev.txt`, the list of dependencies in `tests_require` in
+    `setup.py` is ignored!
+
+    See https://docs.python.org/3/distutils/apiref.html#creating-a-new-distutils-command
+    for more documentation on custom distutils commands.
+
+    """
+    description = "Run tests via 'tox'."
+    user_options = []
 
     def initialize_options(self):
-        TestCommand.initialize_options(self)
-        self.pytest_args = []
+        pass
 
     def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = []
-        self.test_suite = True
+        pass
 
-    def run_tests(self):
-        # import here, cause outside the eggs aren't loaded
-        import pytest
-        errno = pytest.main(self.pytest_args)
-        sys.exit(errno)
+    def run(self):
+        self.announce("Running tests with 'tox'...", level=distutils.log.INFO)
+        return subprocess.call(['tox'])
 
 
 # source package structure
@@ -50,14 +59,13 @@ DistributionMetadata.repository = None
 
 # read meta-data from release.py
 setup_opts = {}
-release_info = join(PKG_DIR, 'release.py')
-exec(compile(open(release_info).read(), release_info, 'exec'), {}, setup_opts)
+exec(read(PKG_DIR, 'release.py'), {}, setup_opts)
 
 # Add our own custom distutils command to create *.rst files from templates
 # Template files are listed in setup.cfg
 setup_opts.setdefault('cmdclass', {})['filltmpl'] = FillTemplate
 # Add custom test command
-setup_opts['cmdclass']['test'] = PyTest
+setup_opts['cmdclass']['test'] = ToxTestCommand
 
 # Set up options for compiling the _rtmidi Extension
 if cythonize:
@@ -136,7 +144,7 @@ elif sys.platform.startswith('win'):
 else:
     print("""\
 WARNING: This operating system (%s) is not supported by RtMidi.
-Linux, Mac OS X (>= 10.5), Windows (XP, Vista, 7/8/10) are supported.
+Linux, macOS (OS X) (>= 10.5), Windows (XP, Vista, 7/8/10) are supported.
 Continuing and hoping for the best...
 """ % sys.platform)
 
@@ -159,7 +167,7 @@ extensions = [
 setup(
     packages=['rtmidi'],
     ext_modules=cythonize(extensions),
-    tests_require=['pytest', 'mock'],
+    tests_require=[],  # Test dependencies are handled by tox
     # On systems without a RTC (e.g. Raspberry Pi), system time will be the
     # Unix epoch when booted without network connection, which makes zip fail,
     # because it does not support dates < 1980-01-01.

@@ -5,6 +5,29 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+2018-10-10 version 1.1.2
+------------------------
+
+Project infrastructure:
+  * Added bagdes and link to documentation to README visible on GitHub page.
+  * Tweaked project description wording.
+  * Updated copyright year in various documentation files.
+
+Building:
+  * Binary wheels for Windows and OS X for Python 2.7, 3.5 (only Windows), 3.6,
+    and 3.7 are automatically built on AppVeyor resp. Travis CI and uploaded to
+    PyPI when a new release tag is pushed to GitHub.
+
+    Thanks to Benoit Pierre for the PR (#36).
+  * Upload Gzip'ed instead Bzip'ed tarballs for source distributions to PyPI.
+  * ``python setup.py test`` now runs ``tox``, so ``tests_require`` in
+    ``setup.py`` is empty now. We want dependencies to be only handled by
+    ``pip``, never by ``setuptools``.
+
+Documentation:
+  * Minor additions, updates, fixes and wording tweaks.
+
+
 2018-08-06 version 1.1.1
 ------------------------
 
