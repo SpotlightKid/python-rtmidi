@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>rtmidi.midiutil &#8212; python-rtmidi 1.1.1 documentation</title>
+    <title>rtmidi.midiutil &#8212; python-rtmidi 1.1.2 documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">python-rtmidi 1.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">python-rtmidi 1.1.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -88,7 +88,7 @@
 <span class="sd">    look in the environment variable ``RTMIDI_API`` for the name of the RtMidi</span>
 <span class="sd">    API to use. Valid names are ``LINUX_ALSA``, ``UNIX_JACK``, ``MACOSX_CORE``,</span>
 <span class="sd">    ``WINDOWS_MM`` and ``RTMIDI_DUMMY``. If no valid value is found,</span>
-<span class="sd">    rtmidi.API_UNSPECIFIED will be used.</span>
+<span class="sd">    ``rtmidi.API_UNSPECIFIED`` will be used.</span>
 
 <span class="sd">    Returns a ``rtmmidi.API_*`` constant.</span>
 
@@ -171,18 +171,18 @@
 <span class="sd">        available, will be used.</span>
 
 <span class="sd">    ``use_virtual``</span>
-<span class="sd">        If ``port is ``None``, should a virtual MIDI port be opened? Defaults</span>
+<span class="sd">        If ``port`` is ``None``, should a virtual MIDI port be opened? Defaults</span>
 <span class="sd">        to ``False``.</span>
 
 <span class="sd">    ``interactive``</span>
-<span class="sd">        If port is ``None`` or no MIDI port matching the port number or name is</span>
-<span class="sd">        available, should the user be prompted on the console whether to open</span>
-<span class="sd">        a virtual MIDI port (if ``use_virtual`` is ``True``) and/or with a list</span>
-<span class="sd">        of available MIDI ports and the option to choose one? Defaults to</span>
-<span class="sd">        ``True``.</span>
+<span class="sd">        If ``port`` is ``None`` or no MIDI port matching the port number or</span>
+<span class="sd">        name is available, should the user be prompted on the console whether</span>
+<span class="sd">        to open a virtual MIDI port (if ``use_virtual`` is ``True``) and/or</span>
+<span class="sd">        with a list of available MIDI ports and the option to choose one?</span>
+<span class="sd">        Defaults to ``True``.</span>
 
 <span class="sd">    ``client_name``</span>
-<span class="sd">        The name of the MIDI client passed when instantiating a `MidiIn`` or</span>
+<span class="sd">        The name of the MIDI client passed when instantiating a ``MidiIn`` or</span>
 <span class="sd">        ``MidiOut`` object.</span>
 
 <span class="sd">        See the documentation of the constructor for these classes for the</span>
@@ -288,7 +288,8 @@
                    <span class="n">interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">client_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Open a MIDI port for input and return a MidiIn instance.</span>
 
-<span class="sd">    See the ``open_midiport`` functon for information on parameters.</span>
+<span class="sd">    See the ``open_midiport`` function for information on parameters.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">open_midiport</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">use_virtual</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span>
                          <span class="n">client_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">)</span></div>
@@ -299,6 +300,7 @@
     <span class="sd">&quot;&quot;&quot;Open a MIDI port for output and return a MidiOut instance.</span>
 
 <span class="sd">    See the ``open_midiport`` function for information on parameters.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">open_midiport</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">use_virtual</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span>
                          <span class="n">client_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">)</span></div>
@@ -334,12 +336,12 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">python-rtmidi 1.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">python-rtmidi 1.1.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2012 - 2016, Christopher Arndt.
+        &#169; Copyright 2012 - 2018, Christopher Arndt.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
     </div>
   </body>

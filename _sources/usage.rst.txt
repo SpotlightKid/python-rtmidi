@@ -3,7 +3,9 @@ Usage
 ========
 
 Here's a quick example of how to use **python-rtmidi** to open the first
-available MIDI output port and send a middle C note on MIDI channel 1::
+available MIDI output port and send a middle C note on MIDI channel 1:
+
+.. code-block:: python
 
     import time
     import rtmidi
@@ -24,5 +26,9 @@ available MIDI output port and send a middle C note on MIDI channel 1::
 
     del midiout
 
-More usage examples can be found in the ``tests`` and ``examples`` directory
-of the source distribution.
+More usage examples can be found in the examples_ and tests_ directories
+of the source repository.
+
+
+.. _tests: https://github.com/SpotlightKid/python-rtmidi/tree/master/tests
+.. _examples: https://github.com/SpotlightKid/python-rtmidi/tree/master/examples
