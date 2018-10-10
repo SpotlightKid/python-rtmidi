@@ -5,6 +5,16 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+(not released yet) version 1.2.0
+--------------------------------
+
+Enhancements / Changes:
+  * Update RtMidi sources to upstream commit
+    d2fd4dcff8e1c13b4dc00a502efc9e554a126eb3.
+  * Add 'set_client_name' and 'set_port_name' methods to `MidiIn` and `MidiOut`
+    base class.
+
+
 2018-10-10 version 1.1.2
 ------------------------
 
