@@ -3,16 +3,14 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. include:: ../README.rst
 
-Welcome to python-rtmidi's documentation!
-=========================================
-
-Contents:
+Contents
+========
 
 .. toctree::
    :maxdepth: 1
 
-   readme
    installation
    install-windows
    usage

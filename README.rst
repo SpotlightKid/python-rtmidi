@@ -36,8 +36,8 @@ and Windows (Multimedia Library) operating systems.
 provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
 parameters adapted to the Python PEP-8 conventions and requirements of the
-Python package naming structure. python-rtmidi supports Python 2 (tested with
-Python 2.7) and Python 3 (3.4, 3.5, 3.6 and 3.7).
+Python package naming structure. **python-rtmidi** supports Python 2 (tested
+with Python 2.7) and Python 3 (3.4, 3.5, 3.6 and 3.7).
 
 The documentation_ provides installation instructions, usage examples,
 a history of changes per release and an API reference.
@@ -47,7 +47,7 @@ See the file `LICENSE.txt`_ about copyright and usage terms.
 For more information, visit https://chrisarndt.de/projects/python-rtmidi.
 
 
-.. _rtmidi: http://www.music.mcgill.ca/~gary/rtmidi/index.html
 .. _cython: http://cython.org/
 .. _documentation: https://spotlightkid.github.io/python-rtmidi/
 .. _license.txt: https://github.com/SpotlightKid/python-rtmidi/blob/master/LICENSE.txt
+.. _rtmidi: http://www.music.mcgill.ca/~gary/rtmidi/index.html

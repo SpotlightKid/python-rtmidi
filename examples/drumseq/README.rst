@@ -3,7 +3,7 @@ Drum Pattern Sequencer
 
 This example was contributed by Michiel Overtoom [1]_. I just embellished it
 a bit and added command line option handling. You can see Michiel's original
-script in the Subversion history.
+script in the repository history.
 
 The script ``drumseq.py`` implements a simple drum pattern sequencer, which
 reads patterns from text files in a very simple and easy to edit format, and
@@ -22,7 +22,7 @@ free to define a pattern with twelve steps and increase the BPM by a factor of
 Lines starting with a hash (``#``) are ignored and can be used for comments
 or temporarily muting a drum sound. The third field of each line, after the
 pattern sequence, should name or describe the drum sound to use, but you are
-free to put there whatever you want, the field is not used by the sequenzer.
+free to put there whatever you want, the field is not used by the sequencer.
 
 You can change the MIDI port, channel, bank and program via command line
 options and also specify the BPM at which the pattern is played back.
