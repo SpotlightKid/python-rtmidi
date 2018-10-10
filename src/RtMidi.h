@@ -90,7 +90,7 @@ class RTMIDI_DLL_PUBLIC RtMidiError : public std::exception
 
   //! The constructor.
   RtMidiError( const std::string& message, Type type = RtMidiError::UNSPECIFIED ) throw() : message_(message), type_(type) {}
- 
+
   //! The destructor.
   virtual ~RtMidiError( void ) throw() {}
 
@@ -130,7 +130,7 @@ class RTMIDI_DLL_PUBLIC RtMidi
   //! MIDI API specifier arguments.
   enum Api {
     UNSPECIFIED,    /*!< Search for a working compiled API. */
-    MACOSX_CORE,    /*!< Macintosh OS-X Core Midi API. */
+    MACOSX_CORE,    /*!< Macintosh OS-X CoreMIDI API. */
     LINUX_ALSA,     /*!< The Advanced Linux Sound Architecture API. */
     UNIX_JACK,      /*!< The JACK Low-Latency MIDI Server API. */
     WINDOWS_MM,     /*!< The Microsoft Multimedia MIDI API. */
@@ -517,8 +517,8 @@ class RTMIDI_DLL_PUBLIC MidiInApi : public MidiApi
 
   // A MIDI structure used internally by the class to store incoming
   // messages.  Each message represents one and only one MIDI message.
-  struct MidiMessage { 
-    std::vector<unsigned char> bytes; 
+  struct MidiMessage {
+    std::vector<unsigned char> bytes;
 
     //! Time in seconds elapsed since the previous message
     double timeStamp;

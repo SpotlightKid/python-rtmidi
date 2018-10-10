@@ -1567,6 +1567,7 @@ static void *alsaMidiHandler( void *ptr )
           break;
         }
       }
+      break;
 
     default:
       doDecode = true;
@@ -1603,21 +1604,25 @@ static void *alsaMidiHandler( void *ptr )
           // https://www.gnu.org/software/libc/manual/html_node/Elapsed-Time.html
 
           // Perform the carry for the later subtraction by updating y.
+          // Temp var y is timespec because computation requires signed types,
+          // while snd_seq_real_time_t has unsigned types.
           snd_seq_real_time_t &x(ev->time.time);
-          snd_seq_real_time_t &y(apiData->lastTime);
+          struct timespec y;
+          y.tv_nsec = apiData->lastTime.tv_nsec;
+          y.tv_sec = apiData->lastTime.tv_sec;
           if (x.tv_nsec < y.tv_nsec) {
-              int nsec = (y.tv_nsec - x.tv_nsec) / 1000000000 + 1;
+              int nsec = (y.tv_nsec - (int)x.tv_nsec) / 1000000000 + 1;
               y.tv_nsec -= 1000000000 * nsec;
               y.tv_sec += nsec;
           }
           if (x.tv_nsec - y.tv_nsec > 1000000000) {
-              int nsec = (x.tv_nsec - y.tv_nsec) / 1000000000;
+              int nsec = ((int)x.tv_nsec - y.tv_nsec) / 1000000000;
               y.tv_nsec += 1000000000 * nsec;
               y.tv_sec -= nsec;
           }
 
           // Compute the time difference.
-          time = x.tv_sec - y.tv_sec + (x.tv_nsec - y.tv_nsec)*1e-9;
+          time = (int)x.tv_sec - y.tv_sec + ((int)x.tv_nsec - y.tv_nsec)*1e-9;
 
           apiData->lastTime = ev->time.time;
 
