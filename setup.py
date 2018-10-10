@@ -113,7 +113,7 @@ if sys.platform.startswith('linux'):
         libraries += ['asound']
 
     if jack and find_library('jack'):
-        define_macros += [('__UNIX_JACK__', None)]
+        define_macros += [('__UNIX_JACK__', None), ('JACK_HAS_PORT_RENAME', None)]
         libraries += ['jack']
 
     if not find_library('pthread'):
@@ -124,7 +124,7 @@ if sys.platform.startswith('linux'):
     libraries += ["pthread"]
 elif sys.platform.startswith('darwin'):
     if jack and find_library('jack'):
-        define_macros += [('__UNIX_JACK__', None)]
+        define_macros += [('__UNIX_JACK__', None), ('JACK_HAS_PORT_RENAME', None)]
         libraries += ['jack']
 
     if coremidi:
