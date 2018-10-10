@@ -32,7 +32,7 @@ http://en.wikipedia.org/wiki/General_MIDI#Percussion
 
 For a General MIDI compatible software synthesizer, see:
 
-OS X
+macOS (OS X)
     SimpleSynth_
 Linux
     Qsynth_ (GUI) or fluidsynth_ (command line)

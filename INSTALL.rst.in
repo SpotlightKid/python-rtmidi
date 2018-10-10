@@ -107,7 +107,7 @@ The setup script will try to detect available libraries and should use the
 appropriate compilations flags automatically.
 
     * Linux: ALSA, JACK
-    * OS X: CoreMIDI, JACK
+    * macOS (OS X): CoreMIDI, JACK
     * Windows: MultiMedia (MM)
 
 
@@ -126,15 +126,15 @@ library (debian package: ``libasound2-dev``). For JACK support, install the
 ``libjack`` development files (``libjack-dev`` or ``libjack-jackd2-dev``).
 
 
-OS X
-----
+macOS (OS X)
+------------
 
 Install the latest Xcode version or ``g++`` from MacPorts or homebrew
 (untested). CoreMIDI support comes with installing Xcode. For JACK support,
-install `JACK for OS X`_ with the full installer.
+install `JackOSX`_ with the installer or build JACK from source.
 
 .. note::
-    If you have a version of OS X and Xcode which still supports building
+    If you have an old version of OS X and Xcode which still support building
     binaries for PPC, you'll have to tell distribute to build the package only
     for i386 and x86_64 architectures::
 
@@ -162,7 +162,7 @@ environment.
 .. _setuptools: http://python.org/pypi/setuptools
 .. _virtualenv: http://pypi.python.org/pypi/virtualenv
 .. _virtualenvwrapper: http://www.doughellmann.com/projects/virtualenvwrapper/
-.. _jack for os x: http://www.jackosx.com/
+.. _jackosx: hhttp://jackaudio.org/downloads/
 .. _pyliblo: http://das.nasophon.de/pyliblo/
 .. _user contributed documentation:
     https://github.com/SpotlightKid/python-rtmidi/wiki/User-contributed-documentation

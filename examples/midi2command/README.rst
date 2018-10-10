@@ -27,12 +27,12 @@ and the user is prompted to select one.
 If no port is specified, ``midi2command`` opens a virtual MIDI input port.
 
 For systems where several MIDI backend API are available (i.e. ALSA and JACK
-on Linux or CoreMIDI and JACK on OS X), you can select the backend to use with
-the ``-b`` (or ``--backend``) option. The available backends are:
+on Linux or CoreMIDI and JACK on macOS/OS X), you can select the backend to use
+with the ``-b`` (or ``--backend``) option. The available backends are:
 
 * alsa (Linux)
-* coremidi (OS X)
-* jack (Linux, OS X)
+* coremidi (macOS/OS X)
+* jack (Linux, macOS/OS X)
 * windowsmm (Windows)
 
 If you do not specify a backend or one which is not available on the system,

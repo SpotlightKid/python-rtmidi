@@ -29,7 +29,7 @@ A Python binding for the RtMidi C++ library implemented using Cython.
 
 RtMidi_ is a set of C++ classes which provides a concise and simple,
 cross-platform API (Application Programming Interface) for realtime MIDI
-input/output across Linux (ALSA & JACK), macOS (CoreMidi & JACK),
+input / output across Linux (ALSA & JACK), macOS / OS X (CoreMidi & JACK),
 and Windows (Multimedia Library) operating systems.
 
 **python-rtmidi** is a Python binding for RtMidi implemented using Cython_ and

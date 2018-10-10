@@ -10,7 +10,7 @@ Overview
 
 **RtMidi** is a set of C++ classes which provides a concise and simple,
 cross-platform API (Application Programming Interface) for realtime MIDI
-input/output across Linux (ALSA & JACK), Macintosh OS X (CoreMIDI & JACK), and
+input/output across Linux (ALSA & JACK), macOS / OS X (CoreMIDI & JACK), and
 Windows (Multimedia Library) operating systems.
 
 **python-rtmidi** is a Python binding for RtMidi implemented with Cython and
@@ -56,7 +56,7 @@ used to specify the low-level MIDI backend API to use when creating a
 ``API_UNSPECIFIED``
     Use first compiled-in API, which has any input resp. output ports
 ``API_MACOSX_CORE``
-    OS X CoreMIDI
+    macOS (OS X) CoreMIDI
 ``API_LINUX_ALSA``
     Linux ALSA
 ``API_UNIX_JACK``

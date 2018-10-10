@@ -144,7 +144,7 @@ elif sys.platform.startswith('win'):
 else:
     print("""\
 WARNING: This operating system (%s) is not supported by RtMidi.
-Linux, Mac OS X (>= 10.5), Windows (XP, Vista, 7/8/10) are supported.
+Linux, macOS (OS X) (>= 10.5), Windows (XP, Vista, 7/8/10) are supported.
 Continuing and hoping for the best...
 """ % sys.platform)
 
