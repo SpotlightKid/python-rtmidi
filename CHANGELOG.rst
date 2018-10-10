@@ -5,7 +5,7 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
-2018-10-09 version 1.1.2
+2018-10-10 version 1.1.2
 ------------------------
 
 Project infrastructure:
@@ -21,11 +21,11 @@ Building:
     Thanks to Benoit Pierre for the PR (#36).
   * Upload Gzip'ed instead Bzip'ed tarballs for source distributions to PyPI.
   * ``python setup.py test`` now runs ``tox``, so ``tests_require`` in
-    ``setup.py`` is empty now. We want dependencies only be handled by ``pip``,
-    never by ``setuptools``.
+    ``setup.py`` is empty now. We want dependencies to be only handled by
+    ``pip``, never by ``setuptools``.
 
 Documentation:
-  * Minor updates and wording tweaks.
+  * Minor additions, updates, fixes and wording tweaks.
 
 
 2018-08-06 version 1.1.1
