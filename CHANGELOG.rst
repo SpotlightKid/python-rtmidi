@@ -9,10 +9,16 @@ For details and minor changes, please see the `version control log messages
 --------------------------------
 
 Enhancements / Changes:
-  * Update RtMidi sources to upstream commit
-    d2fd4dcff8e1c13b4dc00a502efc9e554a126eb3.
-  * Add 'set_client_name' and 'set_port_name' methods to `MidiIn` and `MidiOut`
-    base class.
+  * Update RtMidi sources to upstream commit cadfcf6_.
+  * Add ``set_client_name`` and ``set_port_name`` methods to ``MidiIn``'s and
+    ``MidiOut``'s base class.
+
+Testing:
+  * Restructured tests in ``test_rtmidi`` and added tests for new methods.
+
+
+.. _cadfcf6:
+    https://github.com/thestk/rtmidi/commit/cadfcf6c7dd5d5f6e8b5a2fe3a1d3dd9e24b96ef
 
 
 2018-10-10 version 1.1.2
