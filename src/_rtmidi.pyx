@@ -34,6 +34,9 @@ Functions
 ``get_compiled_api``
     Return a list of low-level MIDI backend APIs this module supports.
 
+``get_rtmidi_version``
+    Return the version string of the wrapped RtMidi library.
+
 
 Classes
 -------
@@ -145,7 +148,7 @@ __all__ = (
     'ERRORTYPE_MEMORY_ERROR', 'ERRORTYPE_NO_DEVICES_FOUND',
     'ERRORTYPE_SYSTEM_ERROR', 'ERRORTYPE_THREAD_ERROR',
     'ERRORTYPE_UNSPECIFIED', 'ERRORTYPE_WARNING', 'MidiIn', 'MidiOut',
-    'RtMidiError', 'get_compiled_api'
+    'RtMidiError', 'get_compiled_api', 'get_rtmidi_version'
 )
 
 if bytes is str:
@@ -189,8 +192,9 @@ cdef extern from "RtMidi.h":
         ERR_SYSTEM_ERROR      "RtMidiError::SYSTEM_ERROR"
         ERR_THREAD_ERROR      "RtMidiError::THREAD_ERROR"
 
-    # Another work-around for calling a C++ static method:
+    # Another work-around for calling C++ static methods:
     cdef void RtMidi_getCompiledApi "RtMidi::getCompiledApi"(vector[Api] &apis)
+    cdef string RtMidi_getVersion "RtMidi::getVersion"()
 
     ctypedef void (*RtMidiCallback)(double timeStamp,
                                     vector[unsigned char] *message,
@@ -301,8 +305,11 @@ def get_compiled_api():
     return [api_v[i] for i in range(api_v.size())]
 
 
-class RtMidiError(Exception):
-    """Base general RtMidi error."""
+def get_rtmidi_version():
+    """Return the version string of the wrapped RtMidi library."""
+    return RtMidi_getVersion().decode('utf-8')
+
+
 
 
 cdef class MidiBase:
