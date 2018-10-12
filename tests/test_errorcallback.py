@@ -21,6 +21,10 @@ class TestErrorCallback(unittest.TestCase):
         self.midi_out = rtmidi.MidiOut()
         self.midi_in = rtmidi.MidiIn()
 
+    def test_default_error_handler(self):
+        with self.assertRaises(rtmidi.InvalidPortError):
+            self.midi_out.open_port(self.INVALID_PORT_NUMBER)
+
     def test_midiout_error_callback(self):
         errcb = mock.Mock()
         self.midi_out.set_error_callback(errcb, self.MIDI_OUT_ERROR_USER_DATA)
@@ -51,7 +55,7 @@ class TestErrorCallback(unittest.TestCase):
         self.midi_out.cancel_error_callback()
         try:
             self.midi_out.open_port(self.INVALID_PORT_NUMBER)
-        except RuntimeError:
+        except rtmidi.InvalidPortError:
             pass
         errcb.assert_not_called()
 

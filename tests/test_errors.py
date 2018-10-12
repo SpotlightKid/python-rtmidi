@@ -5,6 +5,7 @@
 import unittest
 
 import rtmidi
+from rtmidi import InvalidPortError, InvalidUseError
 
 
 class TestErrors(unittest.TestCase):
@@ -27,11 +28,11 @@ class TestErrors(unittest.TestCase):
                 rtmidi.MidiIn(rtapi=rtmidi.API_RTMIDI_DUMMY, name=name)
 
     def test_midiout_open_invalid_port(self):
-        with self.assertRaises(RuntimeError):
+        with self.assertRaises(InvalidPortError):
             self.midi_out.open_port(self.INVALID_PORT_NUMBER)
 
     def test_midiin_open_invalid_port(self):
-        with self.assertRaises(RuntimeError):
+        with self.assertRaises(InvalidPortError):
             self.midi_in.open_port(self.INVALID_PORT_NUMBER)
 
     def test_midiout_open_invalid_port_name_type(self):
@@ -46,22 +47,22 @@ class TestErrors(unittest.TestCase):
 
     def test_midiout_double_open_port(self):
         self.midi_out.open_port()
-        with self.assertRaises(rtmidi.RtMidiError):
+        with self.assertRaises(InvalidUseError):
             self.midi_out.open_port()
 
     def test_midiin_double_open_port(self):
         self.midi_in.open_port()
-        with self.assertRaises(rtmidi.RtMidiError):
+        with self.assertRaises(InvalidUseError):
             self.midi_in.open_port()
 
     def test_midiout_double_open_virtual_port(self):
         self.midi_out.open_virtual_port()
-        with self.assertRaises(rtmidi.RtMidiError):
+        with self.assertRaises(InvalidUseError):
             self.midi_out.open_virtual_port()
 
     def test_midiin_double_open_virtual_port(self):
         self.midi_in.open_virtual_port()
-        with self.assertRaises(rtmidi.RtMidiError):
+        with self.assertRaises(InvalidUseError):
             self.midi_in.open_virtual_port()
 
 

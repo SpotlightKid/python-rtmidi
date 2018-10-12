@@ -21,88 +21,6 @@ Python package naming structure. **python-rtmidi** supports Python 2 (tested
 with Python 2.7) and Python 3 (3.4, 3.5, 3.6 and 3.7).
 
 
-Public API
-==========
-
-See the docstrings of each function and class and their methods for more
-information.
-
-
-Functions
----------
-
-``get_compiled_api``
-    Return a list of low-level MIDI backend APIs this module supports.
-
-``get_rtmidi_version``
-    Return the version string of the wrapped RtMidi library.
-
-
-Classes
--------
-
-``MidiIn(rtapi=API_UNSPECIFIED, name="RtMidi Client", queue_size_limit=1024)``
-    Midi input client interface.
-
-``MidiOut(rtapi=API_UNSPECIFIED, name="RtMidi Client")``
-    Midi output client interface.
-
-
-Exceptions
-----------
-
-``RtMidiError``
-    General RtMidi error. Raised, for example, when opening a (virtual) MIDI
-    port fails.
-
-
-Constants
----------
-
-
-Low-level APIs
-~~~~~~~~~~~~~~
-
-These constants are returned by the ``get_compiled_api`` function and the
-``MidiIn.get_current_api`` resp. ``MidiOut.get_current_api`` methods and are
-used to specify the low-level MIDI backend API to use when creating a
-``MidiIn`` or ``MidiOut`` instance.
-
-``API_UNSPECIFIED``
-    Use first compiled-in API, which has any input resp. output ports
-``API_MACOSX_CORE``
-    macOS (OS X) CoreMIDI
-``API_LINUX_ALSA``
-    Linux ALSA
-``API_UNIX_JACK``
-    Jack Client
-``API_WINDOWS_MM``
-    Windows MultiMedia
-``API_RTMIDI_DUMMY``
-    RtMidi Dummy API (used when no suitable API was found)
-
-
-Error types
-~~~~~~~~~~~
-
-These constants are passed as the first argument to an error handler
-function registered with ``set_error_callback`` method of a ``MidiIn``
-or ``MidiOut`` instance. For the meaning of each value, please see
-the `RtMidi API reference`_.
-
-* ``ERRORTYPE_DEBUG_WARNING``
-* ``ERRORTYPE_DRIVER_ERROR``
-* ``ERRORTYPE_INVALID_DEVICE``
-* ``ERRORTYPE_INVALID_PARAMETER``
-* ``ERRORTYPE_INVALID_USE``
-* ``ERRORTYPE_MEMORY_ERROR``
-* ``ERRORTYPE_NO_DEVICES_FOUND``
-* ``ERRORTYPE_SYSTEM_ERROR``
-* ``ERRORTYPE_THREAD_ERROR``
-* ``ERRORTYPE_UNSPECIFIED``
-* ``ERRORTYPE_WARNING``
-
-
 Usage example
 =============
 
@@ -129,11 +47,60 @@ available MIDI output port and send a middle C note on MIDI channel 1::
     del midiout
 
 
+Constants
+=========
+
+
+Low-level APIs
+--------------
+
+These constants are returned by the ``get_compiled_api`` function and the
+``MidiIn.get_current_api`` resp. ``MidiOut.get_current_api`` methods and are
+used to specify the low-level MIDI backend API to use when creating a
+``MidiIn`` or ``MidiOut`` instance.
+
+``API_UNSPECIFIED``
+    Use first compiled-in API, which has any input resp. output ports
+``API_MACOSX_CORE``
+    macOS (OS X) CoreMIDI
+``API_LINUX_ALSA``
+    Linux ALSA
+``API_UNIX_JACK``
+    Jack Client
+``API_WINDOWS_MM``
+    Windows MultiMedia
+``API_RTMIDI_DUMMY``
+    RtMidi Dummy API (used when no suitable API was found)
+
+
+Error types
+-----------
+
+These constants are passed as the first argument to an error handler
+function registered with ``set_error_callback`` method of a ``MidiIn``
+or ``MidiOut`` instance. For the meaning of each value, please see
+the `RtMidi API reference`_.
+
+* ``ERRORTYPE_DEBUG_WARNING``
+* ``ERRORTYPE_DRIVER_ERROR``
+* ``ERRORTYPE_INVALID_DEVICE``
+* ``ERRORTYPE_INVALID_PARAMETER``
+* ``ERRORTYPE_INVALID_USE``
+* ``ERRORTYPE_MEMORY_ERROR``
+* ``ERRORTYPE_NO_DEVICES_FOUND``
+* ``ERRORTYPE_SYSTEM_ERROR``
+* ``ERRORTYPE_THREAD_ERROR``
+* ``ERRORTYPE_UNSPECIFIED``
+* ``ERRORTYPE_WARNING``
+
+
+.. _cython: http://cython.org/
 .. _rtmidi api reference:
     http://www.music.mcgill.ca/~gary/rtmidi/classRtMidiError.html
 """
 
 import sys
+import warnings
 
 from libcpp cimport bool
 from libcpp.string cimport string
@@ -147,8 +114,10 @@ __all__ = (
     'ERRORTYPE_INVALID_PARAMETER', 'ERRORTYPE_INVALID_USE',
     'ERRORTYPE_MEMORY_ERROR', 'ERRORTYPE_NO_DEVICES_FOUND',
     'ERRORTYPE_SYSTEM_ERROR', 'ERRORTYPE_THREAD_ERROR',
-    'ERRORTYPE_UNSPECIFIED', 'ERRORTYPE_WARNING', 'MidiIn', 'MidiOut',
-    'RtMidiError', 'get_compiled_api', 'get_rtmidi_version'
+    'ERRORTYPE_UNSPECIFIED', 'ERRORTYPE_WARNING', 'InvalidPortError',
+    'InvalidUseError', 'MemoryAllocationError', 'MidiIn', 'MidiOut',
+    'NoDevicesError', 'RtMidiError', 'SystemError',
+    'UnsupportedOperationError', 'get_compiled_api', 'get_rtmidi_version'
 )
 
 if bytes is str:
@@ -202,33 +171,33 @@ cdef extern from "RtMidi.h":
 
     ctypedef void (*RtMidiErrorCallback)(ErrorType errorType,
                                          const string errorText,
-                                         void *userData)
+                                         void *userData) except *
 
     cdef cppclass RtMidi:
-        void setClientName( string &clientName );
-        void setPortName( string &portName );
-        unsigned int getPortCount()
-        string getPortName(unsigned int portNumber)
-        void openPort(unsigned int portNumber, string &portName) except +
-        void openVirtualPort(string portName) except +
-        void closePort()
-        void setErrorCallback(RtMidiErrorCallback callback, void *userData)
+        void closePort() except *
+        unsigned int getPortCount() except *
+        string getPortName(unsigned int portNumber) except *
+        void openPort(unsigned int portNumber, string &portName) except *
+        void openVirtualPort(string portName) except *
+        void setClientName(string &clientName) except *
+        void setErrorCallback(RtMidiErrorCallback callback, void *userData) except *
+        void setPortName(string &portName) except *
 
     cdef cppclass RtMidiIn(RtMidi):
         Api RtMidiIn() except +
         Api RtMidiIn(Api rtapi, string clientName,
                      unsigned int queueSizeLimit) except +
+        void cancelCallback() except *
         Api getCurrentApi()
-        void cancelCallback()
-        double getMessage(vector[unsigned char] *message)
-        void ignoreTypes(bool midiSysex, bool midiTime, bool midiSense)
-        void setCallback(RtMidiCallback callback, void *data) except +
+        double getMessage(vector[unsigned char] *message) except *
+        void ignoreTypes(bool midiSysex, bool midiTime, bool midiSense) except *
+        void setCallback(RtMidiCallback callback, void *data) except *
 
     cdef cppclass RtMidiOut(RtMidi):
         Api RtMidiOut() except +
         Api RtMidiOut(Api rtapi, string clientName) except +
         Api getCurrentApi()
-        void sendMessage(vector[unsigned char] *message) except +
+        void sendMessage(vector[unsigned char] *message) except *
 
 
 # internal functions
@@ -242,7 +211,7 @@ cdef void _cb_func(double delta_time, vector[unsigned char] *msg_v,
 
 
 cdef void _cb_error_func(ErrorType errorType, const string &errorText,
-                         void *cb_info) with gil:
+                         void *cb_info) except * with gil:
     """Wrapper for a Python callback function for errors."""
     func, data, decoder = (<object> cb_info)
     func(errorType, decoder(errorText), data)
@@ -289,6 +258,80 @@ ERRORTYPE_SYSTEM_ERROR = ERR_SYSTEM_ERROR
 ERRORTYPE_THREAD_ERROR = ERR_THREAD_ERROR
 
 
+# custom exceptions
+
+class RtMidiError(Exception):
+    """Base general RtMidi exception.
+
+    All other exceptions in this module derive form this exception.
+
+    Instances have a ``type`` attribute that maps to one of the
+    ``ERRORTYPE_*`` constants.
+
+    """
+    type = ERR_UNSPECIFIED
+
+    def __init__(self, msg, type=None):
+        super().__init__(msg)
+        self.type = self.type if type is None else type
+
+
+class InvalidPortError(RtMidiError, ValueError):
+    """Raised when an invalid port number is used.
+
+    Also derives from ``ValueError``.
+
+    """
+    type = ERR_INVALID_PARAMETER
+
+
+class InvalidUseError(RtMidiError, RuntimeError):
+    """Raised when an method call is not allowed in the current state.
+
+    Also derives from ``RuntimeError``.
+
+    """
+    type = ERR_INVALID_USE
+
+
+class MemoryAllocationError(RtMidiError, MemoryError):
+    """Raised if a memory allocation failed on the C++ level.
+
+    Also derives from ``MemoryError``.
+
+    """
+    type = ERR_MEMORY_ERROR
+
+
+class SystemError(RtMidiError, OSError):
+    """Raised if an error happened at the MIDI driver or OS level.
+
+    Also derives from ``OSError``.
+
+    """
+    pass
+
+
+class NoDevicesError(SystemError):
+    """Raised if no MIDI devices are found.
+
+    Derives from ``rtmidi.SystemError``.
+
+    """
+    type = ERR_NO_DEVICES_FOUND
+
+
+class UnsupportedOperationError(RtMidiError, RuntimeError):
+    """Raised if a method is not supported by the low-level API.
+
+    Also derives from ``RuntimeError``.
+
+    """
+    pass
+
+
+# wrappers for RtMidi's static methods and classes
+
 def get_compiled_api():
     """Return a list of low-level MIDI backend APIs this module supports.
 
@@ -310,6 +353,33 @@ def get_rtmidi_version():
     return RtMidi_getVersion().decode('utf-8')
 
 
+def _default_error_handler(etype, msg, data=None):
+    if etype == ERR_MEMORY_ERROR:
+        raise MemoryAllocationError(msg)
+    elif etype == ERR_INVALID_PARAMETER:
+        raise InvalidPortError(msg)
+    elif etype in (ERR_DRIVER_ERROR, ERR_SYSTEM_ERROR, ERR_THREAD_ERROR):
+        raise SystemError(msg, type=etype)
+    elif etype in (ERR_WARNING, ERR_DEBUG_WARNING):
+        if 'portNumber' in msg and msg.endswith('is invalid.'):
+            raise InvalidPortError(msg)
+        elif msg.endswith('no ports available!'):
+            raise InvalidPortError(msg)
+        elif msg.endswith('error looking for port name!'):
+            raise InvalidPortError(msg)
+        elif msg.endswith('event parsing error!'):
+            raise ValueError(msg)
+        elif msg.endswith('error sending MIDI message to port.'):
+            raise SystemError(msg, type=ERR_DRIVER_ERROR)
+        elif msg.endswith('error sending MIDI to virtual destinations.'):
+            raise SystemError(msg, type=ERR_DRIVER_ERROR)
+        elif msg.endswith('JACK server not running?'):
+            raise SystemError(msg, type=ERR_DRIVER_ERROR)
+        else:
+            warnings.warn(msg)
+            return
+
+    raise RtMidiError(msg, type=etype)
 
 
 cdef class MidiBase:
@@ -329,11 +399,11 @@ cdef class MidiBase:
     def _check_port(self):
         inout = "input" if isinstance(self, MidiIn) else "output"
         if self._port == -1:
-            raise RtMidiError("%r already opened virtual %s port." %
-                              (self, inout))
+            raise InvalidUseError("%r already opened virtual %s port." %
+                                  (self, inout))
         elif self._port is not None:
-            raise RtMidiError("%r already opened %s port %i." %
-                              (self, inout, self._port))
+            raise InvalidUseError("%r already opened %s port %i." %
+                                  (self, inout, self._port))
         return inout
 
     def _decode_string(self, s, encoding='auto'):
@@ -348,53 +418,6 @@ cdef class MidiBase:
                 encoding = 'utf-8'
 
         return s.decode(encoding, "ignore")
-
-    def set_client_name(self, name):
-        """Set the name of the MIDI client.
-
-        Names with non-ASCII characters in them have to be passed as unicode
-        or UTF-8 encoded strings in Python 2.
-
-        Currently only supported by the ALSA API backend.
-
-        Exceptions:
-
-        ``NotImplementedError``
-            Raised when trying the backend API does not support changing the
-            client name.
-
-        """
-        if self.get_current_api() in (API_MACOSX_CORE, API_UNIX_JACK, API_WINDOWS_MM):
-            raise NotImplementedError(
-                "API backend does not support changing the client name.")
-
-        self.baseptr().setClientName(_to_bytes(name))
-
-    def set_port_name(self, name):
-        """Set the name of the currently opened port.
-
-        Names with non-ASCII characters in them have to be passed as unicode
-        or UTF-8 encoded strings in Python 2.
-
-        Currently only supported by the ALSA and JACK API backends.
-
-        Exceptions:
-
-        ``NotImplementedError``
-            Raised when trying the backend API does not support changing the
-            port name.
-        ``RtMidiError``
-            Raised when no port is currently opened.
-
-        """
-        if self.get_current_api() in (API_MACOSX_CORE, API_WINDOWS_MM):
-            raise NotImplementedError(
-                "API backend does not support changing the port name.")
-
-        if self._port is None:
-            raise RtMidiError("No port currently opened.")
-
-        self.baseptr().setPortName(_to_bytes(name))
 
     def get_port_count(self):
         """Return the number of available MIDI input or output ports."""
@@ -449,7 +472,7 @@ cdef class MidiBase:
         """Open the MIDI input or output port with the given port number.
 
         Only one port can be opened per ``MidiIn`` or ``MidiOut`` instance. An
-        ``RtMidiError`` exception is raised if an attempt is made to open a
+        ``InvalidUseError`` exception is raised if an attempt is made to open a
         port on a ``MidiIn`` or ``MidiOut`` instance, which already opened a
         (virtual) port.
 
@@ -467,9 +490,14 @@ cdef class MidiBase:
 
         Exceptions:
 
-        ``RtMidiError``
+        ``InvalidPortError``
+            Raised when an invalid port number is passed.
+        ``InvalidUseError``
             Raised when trying to open a MIDI port when a (virtual) port has
             already been opened by this instance.
+        ``TypeError``
+            Raised when an incompatible type is passed for the ``name``
+            parameter.
 
         """
         inout = self._check_port()
@@ -482,7 +510,7 @@ cdef class MidiBase:
         """Open a virtual MIDI input or output port.
 
         Only one port can be opened per ``MidiIn`` or ``MidiOut`` instance. An
-        ``RtMidiError`` exception is raised if an attempt is made to open a
+        ``InvalidUseError`` exception is raised if an attempt is made to open a
         port on a ``MidiIn`` or ``MidiOut`` instance, which already opened a
         (virtual) port.
 
@@ -515,12 +543,15 @@ cdef class MidiBase:
 
         Exceptions:
 
-        ``NotImplementedError``
-            Raised when trying to open a virtual MIDI port with the Windows
-            MultiMedia API, which doesn't support virtual ports.
-        ``RtMidiError``
+        ``InvalidUseError``
             Raised when trying to open a virtual port when a (virtual) port has
             already been opened by this instance.
+        ``TypeError``
+            Raised when an incompatible type is passed for the ``name``
+            parameter.
+        ``UnsupportedOperationError``
+            Raised when trying to open a virtual MIDI port with the Windows
+            MultiMedia API, which doesn't support virtual ports.
 
         .. _midi yoke: http://www.midiox.com/myoke.htm
         .. _loopmidi: http://www.tobias-erichsen.de/software/loopmidi.html
@@ -552,6 +583,59 @@ cdef class MidiBase:
             self._port = None
         self.baseptr().closePort()
 
+    def set_client_name(self, name):
+        """Set the name of the MIDI client.
+
+        Names with non-ASCII characters in them have to be passed as unicode
+        or UTF-8 encoded strings in Python 2.
+
+        Currently only supported by the ALSA API backend.
+
+        Exceptions:
+
+        ``TypeError``
+            Raised when an incompatible type is passed for the ``name``
+            parameter.
+        ``UnsupportedOperationError``
+            Raised when trying the backend API does not support changing the
+            client name.
+
+        """
+        if self.get_current_api() in (API_MACOSX_CORE, API_UNIX_JACK, API_WINDOWS_MM):
+            raise NotImplementedError(
+                "API backend does not support changing the client name.")
+
+        self.baseptr().setClientName(_to_bytes(name))
+
+    def set_port_name(self, name):
+        """Set the name of the currently opened port.
+
+        Names with non-ASCII characters in them have to be passed as unicode
+        or UTF-8 encoded strings in Python 2.
+
+        Currently only supported by the ALSA and JACK API backends.
+
+        Exceptions:
+
+        ``InvalidUseError``
+            Raised when no port is currently opened.
+        ``TypeError``
+            Raised when an incompatible type is passed for the ``name``
+            parameter.
+        ``UnsupportedOperationError``
+            Raised when trying the backend API does not support changing the
+            port name.
+
+        """
+        if self.get_current_api() in (API_MACOSX_CORE, API_WINDOWS_MM):
+            raise UnsupportedOperationError(
+                "API backend does not support changing the port name.")
+
+        if self._port is None:
+            raise InvalidUseError("No port currently opened.")
+
+        self.baseptr().setPortName(_to_bytes(name))
+
     def set_error_callback(self, func, data=None):
         """Register a callback function for errors.
 
@@ -562,8 +646,17 @@ cdef class MidiBase:
         is the value of the ``data`` argument passed to this function when the
         callback is registered.
 
+        .. note::
+            A default error handler function is registered on new instances of
+            ``MidiIn`` and ``MidiOut``, which turns errors reported by the C++
+            layer into custom exceptions derived from ``RtMidiError``.
+
+            If you replace this default error handler, be aware that the
+            exception handling in your code probably needs to be adapted.
+
         Registering an error callback function replaces any previously
-        registered error callback.
+        registered error callback, including the above mentioned default error
+        handler.
 
         """
         self._error_callback = (func, data, self._decode_string)
@@ -574,14 +667,16 @@ cdef class MidiBase:
         """Remove the registered callback function for errors.
 
         This can be safely called even when no callback function has been
-        registered.
+        registered and reinstates the default error handler.
 
         """
-        self.baseptr().setErrorCallback(NULL, NULL)
+        self.set_error_callback(_default_error_handler)
 
 
 cdef class MidiIn(MidiBase):
     """Midi input client interface.
+
+    ``rtmidi.MidiIn(rtapi=API_UNSPECIFIED, name="RtMidi Client", queue_size_limit=1024)``
 
     You can specify the low-level MIDI backend API to use via the ``rtapi``
     keyword or the first positional argument, passing one of the module-level
@@ -608,6 +703,12 @@ cdef class MidiIn(MidiBase):
     The default value is ``1024`` (overriding the default value ``100`` of the
     underlying C++ RtMidi library).
 
+    Exceptions:
+
+    ``TypeError``
+        Raised when an incompatible type is passed for the ``name``
+        parameter.
+
     """
 
     cdef RtMidiIn *thisptr
@@ -627,6 +728,7 @@ cdef class MidiIn(MidiBase):
             rtapi,
             _to_bytes("RtMidiIn Client" if name is None else name),
             queue_size_limit)
+        self.set_error_callback(_default_error_handler)
         self._callback = None
         self._port = None
 
@@ -648,11 +750,42 @@ cdef class MidiIn(MidiBase):
         """De-allocate pointer to C++ class instance."""
         del self.thisptr
 
+    def cancel_callback(self):
+        """Remove the registered callback function for MIDI input.
+
+        This can be safely called even when no callback function has been
+        registered.
+
+        """
+        if self._callback:
+            self.thisptr.cancelCallback()
+            self._callback = None
+
     def close_port(self):
         self.cancel_callback()
         MidiBase.close_port(self)
 
     close_port.__doc__ == MidiBase.close_port.__doc__
+
+    def get_message(self):
+        """Poll for MIDI input.
+
+        Checks whether a MIDI event is available in the input buffer and
+        returns a two-element tuple with the MIDI message and a delta time. The
+        MIDI message is a list of integers representing the data bytes of the
+        message, the delta time is a float representing the time in seconds
+        elapsed since the reception of the previous MIDI event.
+
+        The function does not block. When no MIDI message is available, it
+        returns ``None``.
+
+        """
+        cdef vector[unsigned char] msg_v
+        cdef double delta_time = self.thisptr.getMessage(&msg_v)
+
+        if not msg_v.empty():
+            message = [msg_v.at(i) for i in range(msg_v.size())]
+            return (message, delta_time)
 
     def ignore_types(self, sysex=True, timing=True, active_sense=True):
         """Enable/Disable input filtering of certain types of MIDI events.
@@ -692,26 +825,6 @@ cdef class MidiIn(MidiBase):
         """
         self.thisptr.ignoreTypes(sysex, timing, active_sense)
 
-    def get_message(self):
-        """Poll for MIDI input.
-
-        Checks whether a MIDI event is available in the input buffer and
-        returns a two-element tuple with the MIDI message and a delta time. The
-        MIDI message is a list of integers representing the data bytes of the
-        message, the delta time is a float representing the time in seconds
-        elapsed since the reception of the previous MIDI event.
-
-        The function does not block. When no MIDI message is available, it
-        returns ``None``.
-
-        """
-        cdef vector[unsigned char] msg_v
-        cdef double delta_time = self.thisptr.getMessage(&msg_v)
-
-        if not msg_v.empty():
-            message = [msg_v.at(i) for i in range(msg_v.size())]
-            return (message, delta_time)
-
     def set_callback(self, func, data=None):
         """Register a callback function for MIDI input.
 
@@ -734,20 +847,11 @@ cdef class MidiIn(MidiBase):
         self._callback = (func, data)
         self.thisptr.setCallback(&_cb_func, <void *>self._callback)
 
-    def cancel_callback(self):
-        """Remove the registered callback function for MIDI input.
-
-        This can be safely called even when no callback function has been
-        registered.
-
-        """
-        if self._callback:
-            self.thisptr.cancelCallback()
-            self._callback = None
-
 
 cdef class MidiOut(MidiBase):
     """Midi output client interface.
+
+    ``rtmidi.MidiOut(rtapi=API_UNSPECIFIED, name="RtMidi Client")``
 
     You can specify the low-level MIDI backend API to use via the ``rtapi``
     keyword or the first positional argument, passing one of the module-level
@@ -784,6 +888,7 @@ cdef class MidiOut(MidiBase):
         self.thisptr = new RtMidiOut(
             rtapi,
             _to_bytes("RtMidiOut Client" if name is None else name))
+        self.set_error_callback(_default_error_handler)
         self._port = None
 
     def __dealloc__(self):
@@ -817,8 +922,21 @@ cdef class MidiOut(MidiBase):
         No check is made whether the passed data constitutes a valid MIDI
         message.
 
+        Exceptions:
+
+        ``ValueError``
+            Raised if ``message`` argument is empty or more than 3 bytes long
+            and not a SysEx message.
+
         """
         cdef vector[unsigned char] msg_v
+
+        if not message:
+            raise ValueError("'message' must not be empty.")
+
+        if len(message) > 3 and message[0] != 0xF0:
+            raise ValueError("'message' longer than 3 bytes but does not "
+                             "start with 0xF0.")
 
         for c in message:
             msg_v.push_back(c)

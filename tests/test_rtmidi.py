@@ -122,7 +122,8 @@ class SetPortNameSupportedTests:
         self.midi_out.open_virtual_port(name=self.OUT_PORT_NAME)
         found = False
         for port in self.midi_in.get_ports():
-            if port.startswith("%s:%s" % (self.OUT_CLIENT_NAME, self.OUT_PORT_NAME)):
+            client, port = port.split(':', 1)
+            if client.startswith(self.OUT_CLIENT_NAME) and port.startswith(self.OUT_PORT_NAME):
                 found = True
                 break
 
@@ -132,7 +133,8 @@ class SetPortNameSupportedTests:
 
         found = False
         for port in self.midi_in.get_ports():
-            if port.startswith("%s:%s" % (self.OUT_CLIENT_NAME, "new_port")):
+            client, port = port.split(':', 1)
+            if client.startswith(self.OUT_CLIENT_NAME) and port.startswith("new_port"):
                 found = True
                 break
 
@@ -149,7 +151,8 @@ class SetClientNameSupportedTests:
         self.midi_out.open_virtual_port(name=self.OUT_PORT_NAME)
         found = False
         for port in self.midi_in.get_ports():
-            if port.startswith("%s:%s" % (self.OUT_CLIENT_NAME, self.OUT_PORT_NAME)):
+            client, port = port.split(':', 1)
+            if client.startswith(self.OUT_CLIENT_NAME) and port.startswith(self.OUT_PORT_NAME):
                 found = True
                 break
 
@@ -159,7 +162,8 @@ class SetClientNameSupportedTests:
 
         found = False
         for port in self.midi_in.get_ports():
-            if port.startswith("%s:%s" % ("new_client", self.OUT_PORT_NAME)):
+            client, port = port.split(':', 1)
+            if client.startswith("new_client") and port.startswith(self.OUT_PORT_NAME):
                 found = True
                 break
 
