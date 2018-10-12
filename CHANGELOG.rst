@@ -9,9 +9,13 @@ For details and minor changes, please see the `version control log messages
 --------------------------------
 
 Enhancements / Changes:
-  * Update RtMidi sources to upstream commit cadfcf6_.
-  * Add ``set_client_name`` and ``set_port_name`` methods to ``MidiIn``'s and
+  * Updated RtMidi sources to upstream commit cadfcf6_.
+  * Added ``get_rtmidi_version`` module-level function.
+  * Added ``set_client_name`` and ``set_port_name`` methods to ``MidiIn``'s and
     ``MidiOut``'s base class.
+  * Added a bunch of new custom exceptions, all derived from ``RtMidiError``.
+  * A default error handler callback is now set for ``MidiIn`` and ``MidiOut``
+    instances, which maps C++ level errors into custom Python exceptions.
 
 Testing:
   * Restructured tests in ``test_rtmidi`` and added tests for new methods.
