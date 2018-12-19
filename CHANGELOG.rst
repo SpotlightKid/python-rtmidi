@@ -17,6 +17,10 @@ Enhancements / Changes:
   * A default error handler callback is now set for ``MidiIn`` and ``MidiOut``
     instances, which maps C++ level errors into custom Python exceptions.
 
+Examples:
+  * Enhanced example script ``midiwrapper.py`` with methods for more MIDI
+    messages.
+
 Testing:
   * Restructured tests in ``test_rtmidi`` and added tests for new methods.
 
