@@ -148,6 +148,58 @@ class MidiOutWrapper:
         """Send a 'All Notes Off' (CC #123) 'Control Change' message."""
         self.send_control_change(ALL_NOTES_OFF, 0, ch=ch)
 
+    def send_rpn(self, param=0, value=0, ch=None):
+        """Send a Registered Parameter Number (RPN) Change via a series of CC messages."""
+        if isinstance(param, int):
+            param_msb = (param >> 7)
+            param_lsb = param
+        else:
+            param_msb, param_lsb = params
+
+        if msb is not None:
+            self.send_control_change(RPN_MSB, param_msb, ch=ch)
+
+        if lsb is not None:
+            self.send_control_change(RPN_LSB, param_lsb, ch=ch)
+
+        if isinstance(value, int):
+            value_msb = (value >> 7)
+            value_lsb = value
+        else:
+            value_msb, value_lsb = value
+
+        if value_msb is not None:
+            self.send_control_change(DATA_ENTRY_MSB, value_msb, ch=ch)
+
+        if value_lsb is not None:
+            self.send_control_change(DATA_ENTRY_LSB, value_lsb, ch=ch)
+
+    def send_nrpn(self, param=0, value=0, ch=None):
+        """Send a Non-Registered Parameter Number (NRPN) Change via a series of CC messages."""
+        if isinstance(param, int):
+            param_msb = (param >> 7)
+            param_lsb = param
+        else:
+            param_msb, param_lsb = params
+
+        if param_msb is not None:
+            self.send_control_change(NRPN_MSB, param_msb, ch=ch)
+
+        if param_lsb is not None:
+            self.send_control_change(NRPN_LSB, param_lsb, ch=ch)
+
+        if isinstance(value, int):
+            value_msb = (value >> 7)
+            value_lsb = value
+        else:
+            value_msb, value_lsb = value
+
+        if value_msb is not None:
+            self.send_control_change(DATA_ENTRY_MSB, value_msb, ch=ch)
+
+        if value_lsb is not None:
+            self.send_control_change(DATA_ENTRY_LSB, value_lsb, ch=ch)
+
     # add more convenience methods for other common MIDI events here...
 
 
