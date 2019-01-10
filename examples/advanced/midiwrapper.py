@@ -95,7 +95,7 @@ class MidiOutWrapper:
     def send_bank_select(self, bank=None, msb=None, lsb=None, ch=None):
         """Send 'Bank Select' MSB and/or LSB 'Control Change' messages."""
         if bank is not None:
-            msb = (bank << 7) & 0x7F
+            msb = (bank >> 7) & 0x7F
             lsb = bank & 0x7F
 
         if msb is not None:
