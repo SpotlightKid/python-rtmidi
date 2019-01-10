@@ -186,7 +186,7 @@ def main(args=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     padd = parser.add_argument
     padd('-b', '--backend', choices=sorted(BACKEND_MAP),
-         help='MIDI backend API (default: OS dependant)')
+         help='MIDI backend API (default: OS dependent)')
     padd('-p', '--port',
          help='MIDI input port name or number (default: open virtual input)')
     padd('-v', '--verbose',
