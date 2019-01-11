@@ -802,7 +802,7 @@ cdef class MidiIn(MidiBase):
 
         To enable reception of MIDI Clock, pass ``timing = False``.
 
-        To enable reception of Active Sensing, pass ``active_sensing = False``.
+        To enable reception of Active Sensing, pass ``active_sense = False``.
 
         These arguments can of course be combined in one call, and they all
         default to ``True``.
