@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 #cython: embedsignature=True
+#cython: language_level=3
 #
 # rtmidi.pyx
 #
