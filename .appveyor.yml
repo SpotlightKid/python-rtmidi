@@ -27,6 +27,9 @@ install:
   - python -m pip install -U Cython twine"
   - python -m pip freeze --all
 
+before_build:
+  - git submodule update --init
+
 build_script:
   - ps: $env:SOURCE_DATE_EPOCH = (git log -1 --date=unix --format='format:%ct' rtmidi/release.py) | Out-String
   - "python setup.py release"
