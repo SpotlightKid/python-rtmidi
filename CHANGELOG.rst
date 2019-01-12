@@ -8,8 +8,14 @@ For details and minor changes, please see the `version control log messages
 (not released yet) version 1.2.0
 --------------------------------
 
+Project infrastructure:
+  * RtMidi Sources and header are now included as a git sub-module from
+    the 'python-rtmidi' branch of a fork_ of the upstream RtMidi repository.
+    This fork incorporates changes and fixes by pull requests to the
+    upstream repository, which are (yet) unmerged, and some changes
+    specific to python-rtmidi.
+
 Enhancements / Changes:
-  * Updated RtMidi sources to upstream commit cadfcf6_.
   * Added ``get_rtmidi_version`` module-level function.
   * Added ``set_client_name`` and ``set_port_name`` methods to ``MidiIn``'s and
     ``MidiOut``'s base class.
@@ -19,14 +25,15 @@ Enhancements / Changes:
 
 Examples:
   * Enhanced example script ``midiwrapper.py`` with methods for more MIDI
+    messages, including sending all kind of controller change and of (N)RPN
     messages.
 
 Testing:
   * Restructured tests in ``test_rtmidi`` and added tests for new methods.
 
 
-.. _cadfcf6:
-    https://github.com/thestk/rtmidi/commit/cadfcf6c7dd5d5f6e8b5a2fe3a1d3dd9e24b96ef
+.. _fork:
+    https://github.com/SpotlightKid/rtmidi
 
 
 2018-10-10 version 1.1.2
