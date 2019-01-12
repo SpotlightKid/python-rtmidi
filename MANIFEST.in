@@ -4,7 +4,10 @@ include Makefile
 include requirements-dev.txt
 include tox.ini
 include *.rst
-include src/*.cpp src/*.h src/*.pyx
+include src/_rtmidi.pyx
+include src/_rtmidi.cpp
+include src/rtmidi/RtMidi.cpp
+include src/rtmidi/RtMidi.h
 
 exclude .appveyor.yml
 exclude .travis.yml
