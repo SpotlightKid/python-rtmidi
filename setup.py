@@ -69,10 +69,10 @@ setup_opts['cmdclass']['test'] = ToxTestCommand
 
 # Set up options for compiling the _rtmidi Extension
 if cythonize:
-    sources = [join(SRC_DIR, "_rtmidi.pyx"), join(SRC_DIR, "RtMidi.cpp")]
+    sources = [join(SRC_DIR, "_rtmidi.pyx"), join(SRC_DIR, "rtmidi", "RtMidi.cpp")]
 elif exists(join(SRC_DIR, "_rtmidi.cpp")):
     cythonize = lambda x: x  # noqa
-    sources = [join(SRC_DIR, "_rtmidi.cpp"), join(SRC_DIR, "RtMidi.cpp")]
+    sources = [join(SRC_DIR, "_rtmidi.cpp"), join(SRC_DIR, "rtmidi", "RtMidi.cpp")]
 else:
     print("""\
 Could not import Cython. Cython >= 0.28 is required to compile the Cython
@@ -84,7 +84,7 @@ pre-generated '_rtmidi.cpp' file from the python-rtmidi source distribution.
     sys.exit(1)
 
 define_macros = []
-include_dirs = [SRC_DIR]
+include_dirs = [join(SRC_DIR, "rtmidi")]
 libraries = []
 library_dirs = []
 extra_link_args = []
