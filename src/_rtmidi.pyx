@@ -12,7 +12,7 @@ Overview
 **RtMidi** is a set of C++ classes which provides a concise and simple,
 cross-platform API (Application Programming Interface) for realtime MIDI
 input / output across Linux (ALSA & JACK), macOS / OS X (CoreMIDI & JACK),
-and Windows (Multimedia Library) operating systems.
+and Windows (MultiMedia System) operating systems.
 
 **python-rtmidi** is a Python binding for RtMidi implemented using Cython_ and
 provides a thin wrapper around the RtMidi C++ interface. The API is basically
