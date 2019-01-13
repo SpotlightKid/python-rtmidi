@@ -6,13 +6,15 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Changelog &#8212; python-rtmidi 1.1.2 documentation</title>
+    <title>Changelog &#8212; python-rtmidi 1.2.0 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Copyright &amp; License" href="license.html" />
@@ -33,7 +35,7 @@
         <li class="right" >
           <a href="authors.html" title="Credits"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.1.2 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -45,6 +47,51 @@
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <p>For details and minor changes, please see the <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/commits/master">version control log messages</a>.</p>
+<div class="section" id="version-1-2-0">
+<h2>2019-01-13 version 1.2.0<a class="headerlink" href="#version-1-2-0" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Project infrastructure:</dt>
+<dd><ul class="first last simple">
+<li>RtMidi Sources and header are now included as a git sub-module from
+the ‘python-rtmidi’ branch of a <a class="reference external" href="https://github.com/SpotlightKid/rtmidi">fork</a> of the upstream RtMidi repository.
+This fork incorporates changes and fixes by pull requests to the
+upstream repository, which are (yet) unmerged, and some changes
+specific to python-rtmidi.</li>
+</ul>
+</dd>
+<dt>Enhancements / Changes:</dt>
+<dd><ul class="first last simple">
+<li>Added <code class="docutils literal notranslate"><span class="pre">get_rtmidi_version</span></code> module-level function.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">set_client_name</span></code> and <code class="docutils literal notranslate"><span class="pre">set_port_name</span></code> methods to <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code>’s and
+<code class="docutils literal notranslate"><span class="pre">MidiOut</span></code>’s base class.</li>
+<li>Added a bunch of new custom exceptions, all derived from <code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code>.</li>
+<li>A default error handler callback is now set for <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> and <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code>
+instances, which maps C++ level errors into custom Python exceptions.</li>
+</ul>
+</dd>
+<dt>Examples:</dt>
+<dd><ul class="first last simple">
+<li>Enhanced example script <code class="docutils literal notranslate"><span class="pre">midiwrapper.py</span></code> with methods for more MIDI
+messages, including sending all kind of controller change and of (N)RPN
+messages.</li>
+</ul>
+</dd>
+<dt>Fixes:</dt>
+<dd><ul class="first last simple">
+<li>Fixed SysEx message reception in JACK backend in RtMidi: messages broken up
+over several events are now collected into a single event before being
+passed to the input callback or returned by <code class="docutils literal notranslate"><span class="pre">MidiIn.get_message</span></code>.</li>
+<li>Fixed missing MIDI message input filtering in JACK backend in RtMidi:
+<code class="docutils literal notranslate"><span class="pre">MidiIn.ignoreTypes</span></code> now works as intended.</li>
+</ul>
+</dd>
+<dt>Testing:</dt>
+<dd><ul class="first last simple">
+<li>Restructured tests in <code class="docutils literal notranslate"><span class="pre">test_rtmidi</span></code> and added tests for new methods.</li>
+</ul>
+</dd>
+</dl>
+</div>
 <div class="section" id="version-1-1-2">
 <h2>2018-10-10 version 1.1.2<a class="headerlink" href="#version-1-1-2" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
@@ -535,9 +582,10 @@ not compile due to syntax errors in RtMidi.cpp yet).</li>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#version-1-2-0">2019-01-13 version 1.2.0</a></li>
 <li><a class="reference internal" href="#version-1-1-2">2018-10-10 version 1.1.2</a></li>
 <li><a class="reference internal" href="#version-1-1-1">2018-08-06 version 1.1.1</a></li>
 <li><a class="reference internal" href="#version-1-1-0">2017-04-21 version 1.1.0</a></li>
@@ -600,12 +648,12 @@ not compile due to syntax errors in RtMidi.cpp yet).</li>
         <li class="right" >
           <a href="authors.html" title="Credits"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.1.2 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2012 - 2018, Christopher Arndt.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
     </div>
   </body>
 </html>

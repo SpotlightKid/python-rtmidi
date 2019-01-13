@@ -20,14 +20,6 @@ rtmidi.midiutil module
     :undoc-members:
     :show-inheritance:
 
-rtmidi.release module
----------------------
-
-.. automodule:: rtmidi.release
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 Module contents
 ---------------
@@ -37,8 +29,42 @@ Module contents
     :undoc-members:
     :show-inheritance:
 
+Functions
+~~~~~~~~~
+
+.. autofunction:: get_compiled_api
+
+.. autofunction:: get_rtmidi_version
+
+
+Exceptions
+~~~~~~~~~~
+
+.. autoclass:: rtmidi.RtMidiError
+   :members:
+
+.. autoclass:: rtmidi.InvalidPortError
+   :members:
+
+.. autoclass:: rtmidi.InvalidUseError
+   :members:
+
+.. autoclass:: rtmidi.MemoryAllocationError
+   :members:
+
+.. autoclass:: rtmidi.NoDevicesError
+   :members:
+
+.. autoclass:: rtmidi.SystemError
+   :members:
+
+.. autoclass:: rtmidi.UnsupportedOperationError
+   :members:
+
+
 Classes
 ~~~~~~~
+
 
 .. autoclass:: rtmidi.MidiIn
    :members:
