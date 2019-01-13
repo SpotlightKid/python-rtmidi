@@ -5,7 +5,14 @@
 import binascii
 
 import rtmidi
-from rtmidi.midiconstants import *
+from rtmidi.midiconstants import (ALL_NOTES_OFF, ALL_SOUND_OFF, BALANCE, BANK_SELECT_LSB,
+                                  BANK_SELECT_MSB, BREATH_CONTROLLER, CHANNEL_PRESSURE,
+                                  CHANNEL_VOLUME, CONTROL_CHANGE, DATA_ENTRY_LSB, DATA_ENTRY_MSB,
+                                  END_OF_EXCLUSIVE, EXPRESSION_CONTROLLER, FOOT_CONTROLLER,
+                                  LOCAL_CONTROL, MIDI_TIME_CODE, MODULATION, NOTE_OFF, NOTE_ON,
+                                  NRPN_LSB, NRPN_MSB, PAN, PITCH_BEND, POLY_PRESSURE,
+                                  PROGRAM_CHANGE, RESET_ALL_CONTROLLERS, RPN_LSB, RPN_MSB,
+                                  SONG_POSITION_POINTER, SONG_SELECT, TIMING_CLOCK)
 
 
 def parse_sysex_string(s):
@@ -154,12 +161,12 @@ class MidiOutWrapper:
             param_msb = (param >> 7)
             param_lsb = param
         else:
-            param_msb, param_lsb = params
+            param_msb, param_lsb = param
 
-        if msb is not None:
+        if param_msb is not None:
             self.send_control_change(RPN_MSB, param_msb, ch=ch)
 
-        if lsb is not None:
+        if param_lsb is not None:
             self.send_control_change(RPN_LSB, param_lsb, ch=ch)
 
         if isinstance(value, int):
@@ -180,7 +187,7 @@ class MidiOutWrapper:
             param_msb = (param >> 7)
             param_lsb = param
         else:
-            param_msb, param_lsb = params
+            param_msb, param_lsb = param
 
         if param_msb is not None:
             self.send_control_change(NRPN_MSB, param_msb, ch=ch)
