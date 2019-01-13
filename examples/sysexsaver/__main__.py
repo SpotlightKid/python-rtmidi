@@ -26,7 +26,7 @@ log = logging.getLogger('sysexsaver')
 
 def sanitize_name(s, replace='/?*&\\'):
     s = s.strip()
-    s = re.sub('\s+', '_', s)
+    s = re.sub(r'\s+', '_', s)
     for c in replace:
         s = s.replace(c, '_')
     return s.lower()
@@ -37,11 +37,11 @@ class SysexMessage(object):
     def fromdata(cls, data):
         self = cls()
         if data[0] != SYSTEM_EXCLUSIVE:
-            raise ValueError("Message does not start with 0xF0")
+            raise ValueError("Message does not start with 0xF0", data)
         if data[-1] != END_OF_EXCLUSIVE:
-            raise ValueError("Message does not end with 0xF7")
+            raise ValueError("Message does not end with 0xF7", data)
         if len(data) < 5:
-            raise ValueError("Message too short")
+            raise ValueError("Message too short", data)
         if data[1] == 0:
             self.manufacturer_id = (data[1], data[2], data[3])
             self.model_id = data[5]
@@ -164,10 +164,12 @@ class SysexSaver(object):
                     outfile.write(data)
                     log.info("Sysex message of %i bytes written to '%s'.",
                              len(data), outfn)
-        except:  # noqa: E722
-            msg = "Error handling MIDI message: %s" % sys.exc_info()[1]
+        except Exception as exc:
+            msg = "Error handling MIDI message: %s" % exc.args[0]
             if self.debug:
-                log.debug(msg, exc_info=True)
+                log.debug(msg)
+                if len(exc.args) >= 2:
+                    log.debug("Message data: %r", exc.args[1])
             else:
                 log.error(msg)
 
