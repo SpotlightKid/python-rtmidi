@@ -5,8 +5,8 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
-(not released yet) version 1.2.0
---------------------------------
+2019-01-13 version 1.2.0
+------------------------
 
 Project infrastructure:
   * RtMidi Sources and header are now included as a git sub-module from
@@ -27,6 +27,14 @@ Examples:
   * Enhanced example script ``midiwrapper.py`` with methods for more MIDI
     messages, including sending all kind of controller change and of (N)RPN
     messages.
+
+Fixes:
+  * Fixed SysEx message reception in JACK backend in RtMidi: messages broken up
+    over several events are now collected into a single event before being
+    passed to the input callback or returned by ``MidiIn.get_message``.
+  * Fixed missing MIDI message input filtering in JACK backend in RtMidi:
+    ``MidiIn.ignoreTypes`` now works as intended.
+
 
 Testing:
   * Restructured tests in ``test_rtmidi`` and added tests for new methods.
