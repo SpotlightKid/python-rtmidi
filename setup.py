@@ -12,6 +12,7 @@ from setuptools import setup  # needs to stay before the imports below!
 import distutils
 from distutils.dist import DistributionMetadata
 from distutils.extension import Extension
+from distutils.version import StrictVersion
 
 from fill_template import FillTemplate
 
@@ -21,8 +22,33 @@ except ImportError:
     cythonize = None
 
 
+JACK1_MIN_VERSION = StrictVersion('0.125.0')
+JACK2_MIN_VERSION = StrictVersion('1.9.11')
+
+
 def read(*args):
     return open(join(dirname(__file__), *args)).read()
+
+
+def check_for_jack(define_macros, libraries):
+    """Check for presence of jack library and set defines and libraries accordingly."""
+
+    if find_library('jack'):
+        define_macros.append(('__UNIX_JACK__', None))
+
+        # Check version of jack whether it is "new" enough to have the
+        # 'jack_port_rename' function:
+        try:
+            res = subprocess.check_output(['pkg-config', '--modversion', 'jack'])
+            jv = StrictVersion(res.decode())
+        except (subprocess.CalledProcessError, UnicodeError, ValueError):
+            pass
+        else:
+            if ((jv.version[0] == 0 and jv >= JACK1_MIN_VERSION) or
+                    (jv.version[0] == 1 and jv >= JACK2_MIN_VERSION)):
+                define_macros.append(('JACK_HAS_PORT_RENAME', None))
+
+        libraries.append('jack')
 
 
 class ToxTestCommand(distutils.cmd.Command):
@@ -86,7 +112,6 @@ pre-generated '_rtmidi.cpp' file from the python-rtmidi source distribution.
 define_macros = []
 include_dirs = [join(SRC_DIR, "rtmidi")]
 libraries = []
-library_dirs = []
 extra_link_args = []
 extra_compile_args = []
 alsa = coremidi = jack = winmm = True
@@ -109,37 +134,35 @@ if '--no-winmm' in sys.argv:
 
 if sys.platform.startswith('linux'):
     if alsa and find_library('asound'):
-        define_macros += [("__LINUX_ALSA__", None)]
-        libraries += ['asound']
+        define_macros.append(("__LINUX_ALSA__", None))
+        libraries.append('asound')
 
-    if jack and find_library('jack'):
-        define_macros += [('__UNIX_JACK__', None), ('JACK_HAS_PORT_RENAME', None)]
-        libraries += ['jack']
+    if jack:
+        check_for_jack(define_macros, libraries)
 
     if not find_library('pthread'):
         print("The 'pthread' library is required to build python-rtmidi on"
               "Linux. Please install the libc6 development package")
         sys.exit(1)
 
-    libraries += ["pthread"]
+    libraries.append("pthread")
 elif sys.platform.startswith('darwin'):
-    if jack and find_library('jack'):
-        define_macros += [('__UNIX_JACK__', None), ('JACK_HAS_PORT_RENAME', None)]
-        libraries += ['jack']
+    if jack:
+        check_for_jack(define_macros, libraries)
 
     if coremidi:
-        define_macros += [('__MACOSX_CORE__', '')]
-        extra_compile_args += ['-frtti']
-        extra_link_args += [
+        define_macros.append(('__MACOSX_CORE__', None))
+        extra_compile_args.append('-frtti')
+        extra_link_args.extend([
             '-framework', 'CoreAudio',
             '-framework', 'CoreMIDI',
-            '-framework', 'CoreFoundation']
+            '-framework', 'CoreFoundation'])
 elif sys.platform.startswith('win'):
-    extra_compile_args += ['/EHsc']
+    extra_compile_args.append('/EHsc')
 
     if winmm:
-        define_macros += [('__WINDOWS_MM__', None)]
-        libraries += ["winmm"]
+        define_macros.append(('__WINDOWS_MM__', None))
+        libraries.append("winmm")
 
 else:
     print("""\
@@ -157,7 +180,6 @@ extensions = [
         define_macros=define_macros,
         include_dirs=include_dirs,
         libraries=libraries,
-        library_dirs=library_dirs,
         extra_compile_args=extra_compile_args,
         extra_link_args=extra_link_args
     )
