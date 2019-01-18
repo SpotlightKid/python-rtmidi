@@ -7,10 +7,6 @@ set -ev
 
 DOWNLOAD_DIR="$HOME/Download"
 
-if [[ $TRAVIS_OS_NAME == 'linux' ]]; then
-    PYTHON=python
-fi
-
 if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
     # Install macOS / OS X build dependencies (i.e. Python) via official
     # installers from python.org
@@ -30,10 +26,10 @@ else
 fi
 
 # Report Python version used for this build
-"$PYTHON" --version
+"${PYTHON:-python}" --version
 # Update packaging tools
-"$PYTHON" -m pip --disable-pip-version-check install ${EXTRA_PIP_ARGS} -U pip setuptools wheel
+"${PYTHON:-python}" -m pip --disable-pip-version-check install ${EXTRA_PIP_ARGS} -U pip setuptools wheel
 # Install Python build and deployment dependencies
-"$PYTHON" -m pip install ${EXTRA_PIP_ARGS} -U Cython twine
+"${PYTHON:-python}" -m pip install ${EXTRA_PIP_ARGS} -U Cython twine
 # Show installed Python packages
-"$PYTHON" -m pip freeze --all
+"${PYTHON:-python}" -m pip freeze --all

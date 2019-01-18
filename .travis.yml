@@ -70,8 +70,7 @@ deploy:
   provider: script
   skip_cleanup: true
   script:
-    - ${PYTHON:-python} -m twine upload --skip-existing dist/*.whl
-    - test "$TRAVIS_OS_NAME" = "linux" -a "$TRAVIS_PYTHON_VERSION" = "3.7" && ${PYTHON:-python} -m twine upload dist/*.tar.gz
+    - ./ci/travis-deploy.sh
   on:
     all_branches: true
     condition: $TRAVIS_TAG =~ ^[0-9]+\.[0-9]+\.[0-9]+$
