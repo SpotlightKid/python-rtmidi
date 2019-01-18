@@ -7,6 +7,6 @@ set -ev
 
 if [[ $TRAVIS_OS_NAME = 'osx' ]]; then
     ${PYTHON:-python} -m twine upload --skip-existing dist/*.whl
-elif [[ $TRAVIS_OS_NAME = 'linux' -a $TRAVIS_PYTHON_VERSION = '3.7' ]]; then
+elif [[ $TRAVIS_OS_NAME = 'linux' && $TRAVIS_PYTHON_VERSION = '3.7' ]]; then
     ${PYTHON:-python} -m twine upload dist/*.tar.gz
 fi
