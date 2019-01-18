@@ -12,11 +12,11 @@ include src/rtmidi/RtMidi.h
 exclude .appveyor.yml
 exclude .travis.yml
 exclude *.rst.in
-exclude deploy.sh
-exclude *.sh
 
 graft examples
 graft tests
+
+prune ci
 
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
