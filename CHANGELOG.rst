@@ -5,12 +5,12 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
-(unreleased) version 1.2.1
---------------------------
+2019-01-18 version 1.2.1
+------------------------
 
 Fixes:
-  * Fixed build when compiling with JACK support, but jack version is
-    too old to have `jack_port_rename` function (#40).
+  * Fixed build when compiling with JACK support, but JACK version is too old
+    to have `jack_port_rename` function (#40).
 
 Project infrastructure:
   * Added Linux builds for Python 2.7 and 3.4 - 3.7 to Travis CI setup.
