@@ -5,6 +5,17 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+(unreleased) version 1.2.1
+--------------------------
+
+Fixes:
+  * Fixed build when compiling with JACK support, but jack version is
+    too old to have `jack_port_rename` function (#40).
+
+Project infrastructure:
+  * Added Linux builds for Python 2.7 and 3.4 - 3.7 to Travis CI setup.
+
+
 2019-01-13 version 1.2.0
 ------------------------
 
@@ -25,7 +36,7 @@ Enhancements / Changes:
 
 Examples:
   * Enhanced example script ``midiwrapper.py`` with methods for more MIDI
-    messages, including sending all kind of controller change and of (N)RPN
+    messages, including sending all kinds of controller change and of (N)RPN
     messages.
 
 Fixes:
@@ -34,7 +45,6 @@ Fixes:
     passed to the input callback or returned by ``MidiIn.get_message``.
   * Fixed missing MIDI message input filtering in JACK backend in RtMidi:
     ``MidiIn.ignoreTypes`` now works as intended.
-
 
 Testing:
   * Restructured tests in ``test_rtmidi`` and added tests for new methods.
