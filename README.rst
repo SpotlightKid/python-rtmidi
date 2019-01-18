@@ -3,14 +3,14 @@ Welcome to python-rtmidi!
 
 A Python binding for the RtMidi C++ library implemented using Cython.
 
-|version| |status| |license| |python_versions| |formats| |wheel|
+|version| |status| |license| |python_versions| |wheel| |travis|
 
 .. |version| image:: http://badge.kloud51.com/pypi/v/python-rtmidi.svg
     :target: https://pypi.org/project/python-rtmidi
     :alt: Latest version
 
 .. |status| image:: http://badge.kloud51.com/pypi/s/python-rtmidi.svg
-    :alt: Status
+    :alt: Project status
 
 .. |license| image:: http://badge.kloud51.com/pypi/l/python-rtmidi.svg
     :target: license.txt_
@@ -19,13 +19,13 @@ A Python binding for the RtMidi C++ library implemented using Cython.
 .. |python_versions| image:: http://badge.kloud51.com/pypi/py_versions/python-rtmidi.svg
     :alt: Python versions
 
-.. |formats| image:: http://badge.kloud51.com/pypi/f/python-rtmidi.svg
-    :target: https://pypi.org/project/python-rtmidi/#files
-    :alt: Distribution formats
-
 .. |wheel| image:: http://badge.kloud51.com/pypi/w/python-rtmidi.svg
     :target: https://pypi.org/project/python-rtmidi/#files
     :alt: Wheel available
+
+.. |travis| image:: https://travis-ci.org/SpotlightKid/python-rtmidi.svg?branch=master
+    :target: https://travis-ci.org/SpotlightKid/python-rtmidi
+    :alt: Travis CI status
 
 RtMidi_ is a set of C++ classes which provides a concise and simple,
 cross-platform API (Application Programming Interface) for realtime MIDI
