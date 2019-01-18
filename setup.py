@@ -44,8 +44,10 @@ def check_for_jack(define_macros, libraries):
         except (subprocess.CalledProcessError, UnicodeError, ValueError):
             pass
         else:
+            print("Detected JACK version %s." % jv)
             if ((jv.version[0] == 0 and jv >= JACK1_MIN_VERSION) or
                     (jv.version[0] == 1 and jv >= JACK2_MIN_VERSION)):
+                print("JACK version is recent enough to have 'jack_port_rename' function.")
                 define_macros.append(('JACK_HAS_PORT_RENAME', None))
 
         libraries.append('jack')
