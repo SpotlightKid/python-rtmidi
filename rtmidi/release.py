@@ -67,7 +67,7 @@ For more information, visit https://chrisarndt.de/projects/python-rtmidi.
 """
 
 name = 'python-rtmidi'
-version = '1.2.1rc1'
+version = '1.2.1'
 description = __doc__.splitlines()
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'
