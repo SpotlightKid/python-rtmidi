@@ -162,7 +162,7 @@ environment.
 .. _setuptools: http://python.org/pypi/setuptools
 .. _virtualenv: http://pypi.python.org/pypi/virtualenv
 .. _virtualenvwrapper: http://www.doughellmann.com/projects/virtualenvwrapper/
-.. _jackosx: hhttp://jackaudio.org/downloads/
+.. _jackosx: http://jackaudio.org/downloads/
 .. _pyliblo: http://das.nasophon.de/pyliblo/
 .. _user contributed documentation:
     https://github.com/SpotlightKid/python-rtmidi/wiki/User-contributed-documentation
