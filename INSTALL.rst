@@ -6,7 +6,7 @@ Installation
 based packaging system and can be installed from the Python Package Index via
 pip_. Since it is a Python C(++)-extension, a C++ compiler and build
 environment as well as some system-dependent libraries are needed to install,
-unless wheel packages with precompiled binaries are available for your system.
+unless wheel packages with pre-compiled binaries are available for your system.
 See the Requirements_ section below for details.
 
 
@@ -19,9 +19,9 @@ with pip_::
     $ pip install python-rtmidi
 
 This will download the source distribution from python-rtmidi's `PyPI page`_,
-compile the extension and install it in your active Python installation. Unless
-you want to change the Cython_ source file ``_rtmidi.pyx``, there is no need to
-have Cython installed.
+compile the extension (if no pre-compiled binary wheel is available) and
+install it in your active Python installation. Unless you want to change the
+Cython_ source file ``_rtmidi.pyx``, there is no need to have Cython installed.
 
 python-rtmidi also works well with virtualenv_ and virtualenvwrapper_. If you
 have both installed, creating an isolated environment for testing and/or using
@@ -30,62 +30,121 @@ python-rtmidi is as easy as::
     $ mkvirtualenv rtmidi
     (rtmidi)$ pip install python-rtmidi
 
+If you want to pass options to the build process, use pip's ``install-option``
+option. See the `From Source`_  section below for available options.
+
 
 Pre-compiled Binaries
 ---------------------
 
-Binary wheels with a pre-compiled version for Windows with Windows MultiMedia
-API support are available through PyPI for several Python versions. If you
-install python-rtmidi via pip (see above), these wheels should be picked up by
-it automatically, if you have compatible Python and Windows versions.
+Pre-compiled binary wheels of the latest python-rtmidi version for Windows and
+macOS / OS X are available on PyPI for several major Python versions. If you
+install python-rtmidi via pip (see above), these wheels will be selected by pip
+automatically, if you have a compatible Python and Windows or macOS version.
+
+The Windows binary wheels are compiled with Windows MultiMedia API support and
+are available in 32-bit and 64-bit versions. The macOS / OS X binary wheels are
+compiled with CoreMIDI support and are only available in 64-bit versions for
+OS X 10.6 and later. If you need JACK support on OS X, you need to compile
+python-rtmidi yourself (see the macOS_ section below for details).
+
+
+From Source
+-----------
+
+To compile python-rtmidi from source and install it manually without pip, you
+can either download a source distribution archive or check out the sources from
+the Git repository.
+
+While the steps to get the sources differ, the actual compilation step consists
+only of the usual ``python setup.py install`` command in both cases.
+
+``setup.py`` recognizes several options to control which OS-dependent MIDI
+backends will be supported by the python-rtmidi extension binary it produces.
+
+
++-------------------+-----------+---------------+-----------+----------------------------------------------------------+
+| Option            | Linux     | mac OS / OS X | Windows   |  Note                                                    |
++===================+===========+===============+===========+==========================================================+
+| ``--no-alsa``     | supported |               |           | Don't compile in support for ALSA backend.               |
++-------------------+-----------+---------------+-----------+----------------------------------------------------------+
+| ``--no-jack``     | supported | supported     |           | Don't compile in support for JACK backend.               |
++-------------------+-----------+---------------+-----------+----------------------------------------------------------+
+| ``--no-coremidi`` |           | supported     |           | Don't compile in support for CoreMIDI backend.           |
++-------------------+-----------+---------------+-----------+----------------------------------------------------------+
+| ``--no-winmm``    |           |               | supported | Don't compile in support for Windows MultiMedia backend. |
++-------------------+-----------+---------------+-----------+----------------------------------------------------------+
+
+Support for each OS dependent MIDI backend is only enabled, when the required
+library and header files are actually present on the system. When the options
+passed to ``setup.py`` change, it may be necessary to remove previously built
+files by deleting the ``build`` directory.
+
+You can also pass these options to ``setup.py`` when using pip, by using its
+``--install-option`` option, for example::
+
+    pip install python-rtmidi --install-option"--no-jack"
 
 
 From the Source Distribution
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Of course, you can also download the source distribution package as a Zip
-archive or tarball, extract it and install using the common ``distutils``
-commands, e.g.::
+To download the python-rtmidi source distribution archive for the current
+version, extract and install it, use the following commands::
 
     $ pip download python-rtmidi
-    $ unzip python-rtmidi-1.2.1.zip
+    $ tar -xzf python-rtmidi-1.2.1.tar.gz
     $ cd python-rtmidi-1.2.1
     $ python setup.py install
 
+On Linux or macOS / OS X, if you want to install python-rtmidi into the
+system-wide Python library directory, you may have to prefix the last
+command with ``sudo``, e.g.::
+
+    $ sudo python setup.py install
+
+The recommended way, though, is to install python-rtmidi only for your current
+user (which pip does by default) or into a virtual environment::
+
+    $ python setup.py install --user
+
 
 From the Source Code Repository
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Lastly, you can check out the python-rtmidi source code from the Git repository
-and then install it from your working copy. Since the repository does not
-include the C++ module source code pre-compiled from the Cython source, you'll
-also need to install Cython >= 0.28, either via pip or from its Git repository.
-Using virtualenv/virtualenvwrapper is strongly recommended in this scenario:
+Alternatively, you can check out the python-rtmidi source code from the Git
+repository and then install it from your working copy. Since the repository
+does not include the C++ module source code pre-compiled from the Cython
+source, you'll also need to install Cython >= 0.28, either via pip or from its
+Git repository. Using virtualenv / virtualenvwrapper is strongly recommended
+in this scenario:
 
 Make a virtual environment::
 
     $ mkvirtualenv rtmidi
     (rtmidi)$ cdvirtualenv
 
-Install ``Cython`` from PyPI::
+Install Cython from PyPI::
 
     (rtmidi)$ pip install Cython
 
-or the Git repository::
+*or* from its Git repository::
 
     (rtmidi)$ git clone https://github.com/cython/cython.git
     (rtmidi)$ cd cython
     (rtmidi)$ python setup.py install
     (rtmidi)$ cd ..
 
-Install **python-rtmidi**::
+Then install python-rtmidi::
 
     (rtmidi)$ git clone https://github.com/SpotlightKid/python-rtmidi.git
     (rtmidi)$ cd python-rtmidi
+    (rtmidi)$ git submodule update --init
     (rtmidi)$ python setup.py install
 
 
 .. _requirements:
+
 
 Requirements
 ============
@@ -123,8 +182,11 @@ from python.org you should already have these.
 
 To get ALSA support, you must install development files for the ``libasound2``
 library (debian package: ``libasound2-dev``). For JACK support, install the
-``libjack`` development files (``libjack-dev`` or ``libjack-jackd2-dev``).
+``libjack`` development files (if you are using Jack1, install ``libjack-dev``,
+if you are using Jack2, install ``libjack-jackd2-dev``).
 
+
+.. _macos:
 
 macOS (OS X)
 ------------
@@ -163,6 +225,5 @@ environment.
 .. _virtualenv: http://pypi.python.org/pypi/virtualenv
 .. _virtualenvwrapper: http://www.doughellmann.com/projects/virtualenvwrapper/
 .. _jackosx: http://jackaudio.org/downloads/
-.. _pyliblo: http://das.nasophon.de/pyliblo/
 .. _user contributed documentation:
     https://github.com/SpotlightKid/python-rtmidi/wiki/User-contributed-documentation
