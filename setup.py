@@ -102,14 +102,13 @@ elif exists(join(SRC_DIR, "_rtmidi.cpp")):
     cythonize = lambda x: x  # noqa
     sources = [join(SRC_DIR, "_rtmidi.cpp"), join(SRC_DIR, "rtmidi", "RtMidi.cpp")]
 else:
-    print("""\
+    sys.exit("""\
 Could not import Cython. Cython >= 0.28 is required to compile the Cython
 source into the C++ source.
 
 Install Cython from https://pypi.python.org/pypi/Cython or use the
 pre-generated '_rtmidi.cpp' file from the python-rtmidi source distribution.
 """)
-    sys.exit(1)
 
 define_macros = []
 include_dirs = [join(SRC_DIR, "rtmidi")]
@@ -143,9 +142,8 @@ if sys.platform.startswith('linux'):
         check_for_jack(define_macros, libraries)
 
     if not find_library('pthread'):
-        print("The 'pthread' library is required to build python-rtmidi on"
-              "Linux. Please install the libc6 development package")
-        sys.exit(1)
+        sys.exit("The 'pthread' library is required to build python-rtmidi on"
+                 "Linux. Please install the libc6 development package.")
 
     libraries.append("pthread")
 elif sys.platform.startswith('darwin'):
