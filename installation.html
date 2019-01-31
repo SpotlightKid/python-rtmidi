@@ -50,7 +50,7 @@
 based packaging system and can be installed from the Python Package Index via
 <a class="reference external" href="http://python.org/pypi/pip">pip</a>. Since it is a Python C(++)-extension, a C++ compiler and build
 environment as well as some system-dependent libraries are needed to install,
-unless wheel packages with precompiled binaries are available for your system.
+unless wheel packages with pre-compiled binaries are available for your system.
 See the <a class="reference internal" href="#requirements">Requirements</a> section below for details.</p>
 <div class="section" id="from-pypi">
 <h2>From PyPI<a class="headerlink" href="#from-pypi" title="Permalink to this headline">¶</a></h2>
@@ -60,9 +60,9 @@ with <a class="reference external" href="http://python.org/pypi/pip">pip</a>:</p
 </pre></div>
 </div>
 <p>This will download the source distribution from python-rtmidi’s <a class="reference external" href="http://python.org/pypi/python-rtmidi#downloads">PyPI page</a>,
-compile the extension and install it in your active Python installation. Unless
-you want to change the <a class="reference external" href="http://cython.org/">Cython</a> source file <code class="docutils literal notranslate"><span class="pre">_rtmidi.pyx</span></code>, there is no need to
-have Cython installed.</p>
+compile the extension (if no pre-compiled binary wheel is available) and
+install it in your active Python installation. Unless you want to change the
+<a class="reference external" href="http://cython.org/">Cython</a> source file <code class="docutils literal notranslate"><span class="pre">_rtmidi.pyx</span></code>, there is no need to have Cython installed.</p>
 <p>python-rtmidi also works well with <a class="reference external" href="http://pypi.python.org/pypi/virtualenv">virtualenv</a> and <a class="reference external" href="http://www.doughellmann.com/projects/virtualenvwrapper/">virtualenvwrapper</a>. If you
 have both installed, creating an isolated environment for testing and/or using
 python-rtmidi is as easy as:</p>
@@ -70,57 +70,137 @@ python-rtmidi is as easy as:</p>
 (rtmidi)$ pip install python-rtmidi
 </pre></div>
 </div>
+<p>If you want to pass options to the build process, use pip’s <code class="docutils literal notranslate"><span class="pre">install-option</span></code>
+option. See the <a class="reference internal" href="#from-source">From Source</a>  section below for available options.</p>
 </div>
 <div class="section" id="pre-compiled-binaries">
 <h2>Pre-compiled Binaries<a class="headerlink" href="#pre-compiled-binaries" title="Permalink to this headline">¶</a></h2>
-<p>Binary wheels with a pre-compiled version for Windows with Windows MultiMedia
-API support are available through PyPI for several Python versions. If you
-install python-rtmidi via pip (see above), these wheels should be picked up by
-it automatically, if you have compatible Python and Windows versions.</p>
+<p>Pre-compiled binary wheels of the latest python-rtmidi version for Windows and
+macOS / OS X are available on PyPI for several major Python versions. If you
+install python-rtmidi via pip (see above), these wheels will be selected by pip
+automatically, if you have a compatible Python and Windows or macOS version.</p>
+<p>The Windows binary wheels are compiled with Windows MultiMedia API support and
+are available in 32-bit and 64-bit versions. The macOS / OS X binary wheels are
+compiled with CoreMIDI support and are only available in 64-bit versions for
+OS X 10.6 and later. If you need JACK support on OS X, you need to compile
+python-rtmidi yourself (see the <a class="reference internal" href="#macos">macOS</a> section below for details).</p>
+</div>
+<div class="section" id="from-source">
+<h2>From Source<a class="headerlink" href="#from-source" title="Permalink to this headline">¶</a></h2>
+<p>To compile python-rtmidi from source and install it manually without pip, you
+can either download a source distribution archive or check out the sources from
+the Git repository.</p>
+<p>While the steps to get the sources differ, the actual compilation step consists
+only of the usual <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code> command in both cases.</p>
+<p><code class="docutils literal notranslate"><span class="pre">setup.py</span></code> recognizes several options to control which OS-dependent MIDI
+backends will be supported by the python-rtmidi extension binary it produces.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="10%" />
+<col width="13%" />
+<col width="10%" />
+<col width="51%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option</th>
+<th class="head">Linux</th>
+<th class="head">mac OS / OS X</th>
+<th class="head">Windows</th>
+<th class="head">Note</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--no-alsa</span></code></td>
+<td>supported</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>Don’t compile in support for ALSA backend.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--no-jack</span></code></td>
+<td>supported</td>
+<td>supported</td>
+<td>&#160;</td>
+<td>Don’t compile in support for JACK backend.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--no-coremidi</span></code></td>
+<td>&#160;</td>
+<td>supported</td>
+<td>&#160;</td>
+<td>Don’t compile in support for CoreMIDI backend.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--no-winmm</span></code></td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>supported</td>
+<td>Don’t compile in support for Windows MultiMedia backend.</td>
+</tr>
+</tbody>
+</table>
+<p>Support for each OS dependent MIDI backend is only enabled, when the required
+library and header files are actually present on the system. When the options
+passed to <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> change, it may be necessary to remove previously built
+files by deleting the <code class="docutils literal notranslate"><span class="pre">build</span></code> directory.</p>
+<p>You can also pass these options to <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> when using pip, by using its
+<code class="docutils literal notranslate"><span class="pre">--install-option</span></code> option, for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">rtmidi</span> <span class="o">--</span><span class="n">install</span><span class="o">-</span><span class="n">option</span><span class="s2">&quot;--no-jack&quot;</span>
+</pre></div>
 </div>
 <div class="section" id="from-the-source-distribution">
-<h2>From the Source Distribution<a class="headerlink" href="#from-the-source-distribution" title="Permalink to this headline">¶</a></h2>
-<p>Of course, you can also download the source distribution package as a Zip
-archive or tarball, extract it and install using the common <code class="docutils literal notranslate"><span class="pre">distutils</span></code>
-commands, e.g.:</p>
+<h3>From the Source Distribution<a class="headerlink" href="#from-the-source-distribution" title="Permalink to this headline">¶</a></h3>
+<p>To download the python-rtmidi source distribution archive for the current
+version, extract and install it, use the following commands:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip download python-rtmidi
-$ unzip python-rtmidi-1.2.1.zip
+$ tar -xzf python-rtmidi-1.2.1.tar.gz
 $ cd python-rtmidi-1.2.1
 $ python setup.py install
 </pre></div>
 </div>
+<p>On Linux or macOS / OS X, if you want to install python-rtmidi into the
+system-wide Python library directory, you may have to prefix the last
+command with <code class="docutils literal notranslate"><span class="pre">sudo</span></code>, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo python setup.py install
+</pre></div>
+</div>
+<p>The recommended way, though, is to install python-rtmidi only for your current
+user (which pip does by default) or into a virtual environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python setup.py install --user
+</pre></div>
+</div>
 </div>
 <div class="section" id="from-the-source-code-repository">
-<h2>From the Source Code Repository<a class="headerlink" href="#from-the-source-code-repository" title="Permalink to this headline">¶</a></h2>
-<p>Lastly, you can check out the python-rtmidi source code from the Git repository
-and then install it from your working copy. Since the repository does not
-include the C++ module source code pre-compiled from the Cython source, you’ll
-also need to install Cython &gt;= 0.28, either via pip or from its Git repository.
-Using virtualenv/virtualenvwrapper is strongly recommended in this scenario:</p>
+<h3>From the Source Code Repository<a class="headerlink" href="#from-the-source-code-repository" title="Permalink to this headline">¶</a></h3>
+<p>Alternatively, you can check out the python-rtmidi source code from the Git
+repository and then install it from your working copy. Since the repository
+does not include the C++ module source code pre-compiled from the Cython
+source, you’ll also need to install Cython &gt;= 0.28, either via pip or from its
+Git repository. Using virtualenv / virtualenvwrapper is strongly recommended
+in this scenario:</p>
 <p>Make a virtual environment:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mkvirtualenv rtmidi
 (rtmidi)$ cdvirtualenv
 </pre></div>
 </div>
-<p>Install <code class="docutils literal notranslate"><span class="pre">Cython</span></code> from PyPI:</p>
+<p>Install Cython from PyPI:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(rtmidi)$ pip install Cython
 </pre></div>
 </div>
-<p>or the Git repository:</p>
+<p><em>or</em> from its Git repository:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(rtmidi)$ git clone https://github.com/cython/cython.git
 (rtmidi)$ cd cython
 (rtmidi)$ python setup.py install
 (rtmidi)$ cd ..
 </pre></div>
 </div>
-<p>Install <strong>python-rtmidi</strong>:</p>
+<p>Then install python-rtmidi:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(rtmidi)$ git clone https://github.com/SpotlightKid/python-rtmidi.git
 (rtmidi)$ cd python-rtmidi
+(rtmidi)$ git submodule update --init
 (rtmidi)$ python setup.py install
 </pre></div>
 </div>
 <div class="section" id="requirements">
-<span id="id1"></span><h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<span id="id1"></span><h4>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h4>
 <p>Naturally, you’ll need a C++ compiler and a build environment. See the
 platform-specific hints below.</p>
 <p>If you want to change the Cython source file <code class="docutils literal notranslate"><span class="pre">_rtmidi.pyx</span></code> or want to
@@ -144,6 +224,7 @@ appropriate compilations flags automatically.</p>
 </div></blockquote>
 </div>
 </div>
+</div>
 <div class="section" id="linux">
 <h2>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h2>
 <p>First you need a C++ compiler and the pthread library. Install the
@@ -153,13 +234,14 @@ systems, install the <code class="docutils literal notranslate"><span class="pre
 from python.org you should already have these.</p>
 <p>To get ALSA support, you must install development files for the <code class="docutils literal notranslate"><span class="pre">libasound2</span></code>
 library (debian package: <code class="docutils literal notranslate"><span class="pre">libasound2-dev</span></code>). For JACK support, install the
-<code class="docutils literal notranslate"><span class="pre">libjack</span></code> development files (<code class="docutils literal notranslate"><span class="pre">libjack-dev</span></code> or <code class="docutils literal notranslate"><span class="pre">libjack-jackd2-dev</span></code>).</p>
+<code class="docutils literal notranslate"><span class="pre">libjack</span></code> development files (if you are using Jack1, install <code class="docutils literal notranslate"><span class="pre">libjack-dev</span></code>,
+if you are using Jack2, install <code class="docutils literal notranslate"><span class="pre">libjack-jackd2-dev</span></code>).</p>
 </div>
 <div class="section" id="macos-os-x">
-<h2>macOS (OS X)<a class="headerlink" href="#macos-os-x" title="Permalink to this headline">¶</a></h2>
+<span id="macos"></span><h2>macOS (OS X)<a class="headerlink" href="#macos-os-x" title="Permalink to this headline">¶</a></h2>
 <p>Install the latest Xcode version or <code class="docutils literal notranslate"><span class="pre">g++</span></code> from MacPorts or homebrew
 (untested). CoreMIDI support comes with installing Xcode. For JACK support,
-install <a class="reference external" href="hhttp://jackaudio.org/downloads/">JackOSX</a> with the installer or build JACK from source.</p>
+install <a class="reference external" href="http://jackaudio.org/downloads/">JackOSX</a> with the installer or build JACK from source.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>If you have an old version of OS X and Xcode which still support building
@@ -194,9 +276,12 @@ environment.</p>
 <li><a class="reference internal" href="#">Installation</a><ul>
 <li><a class="reference internal" href="#from-pypi">From PyPI</a></li>
 <li><a class="reference internal" href="#pre-compiled-binaries">Pre-compiled Binaries</a></li>
+<li><a class="reference internal" href="#from-source">From Source</a><ul>
 <li><a class="reference internal" href="#from-the-source-distribution">From the Source Distribution</a></li>
 <li><a class="reference internal" href="#from-the-source-code-repository">From the Source Code Repository</a><ul>
 <li><a class="reference internal" href="#requirements">Requirements</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#linux">Linux</a></li>
