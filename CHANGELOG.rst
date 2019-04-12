@@ -5,6 +5,18 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+Development
+-----------
+
+Enhancements / Changes:
+  * Updated ``rtmidi`` sub-module to include all changes from upstream up to
+    commit 791dfea.
+
+Documentation:
+  * Improved installation instructions and listed options recognized by
+    ``setup.py``.
+
+
 2019-01-18 version 1.2.1
 ------------------------
 
