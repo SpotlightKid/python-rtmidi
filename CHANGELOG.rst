@@ -5,10 +5,13 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
-Development
------------
+2019-04-15 version 1.2.2
+------------------------
 
 Enhancements / Changes:
+  * Added ``get_api_display_name`` module-level function.
+  * Added ``get_api_name`` module-level function.
+  * Added ``get_compiled_api_by_name`` module-level function.
   * Updated ``rtmidi`` sub-module to include all changes from upstream up to
     commit 791dfea.
 
