@@ -2,7 +2,13 @@
 Functions
 ~~~~~~~~~
 
+.. autofunction:: get_api_name
+
+.. autofunction:: get_api_display_name
+
 .. autofunction:: get_compiled_api
+
+.. autofunction:: get_compiled_api_by_name
 
 .. autofunction:: get_rtmidi_version
 
