@@ -118,7 +118,8 @@ __all__ = (
     'ERRORTYPE_UNSPECIFIED', 'ERRORTYPE_WARNING', 'InvalidPortError',
     'InvalidUseError', 'MemoryAllocationError', 'MidiIn', 'MidiOut',
     'NoDevicesError', 'RtMidiError', 'SystemError',
-    'UnsupportedOperationError', 'get_compiled_api', 'get_rtmidi_version'
+    'UnsupportedOperationError', 'get_api_name', 'get_compiled_api',
+    'get_rtmidi_version'
 )
 
 if bytes is str:
@@ -163,6 +164,7 @@ cdef extern from "RtMidi.h":
         ERR_THREAD_ERROR      "RtMidiError::THREAD_ERROR"
 
     # Another work-around for calling C++ static methods:
+    cdef string RtMidi_getApiName "RtMidi::getApiName"(Api rtapi)
     cdef void RtMidi_getCompiledApi "RtMidi::getCompiledApi"(vector[Api] &apis)
     cdef string RtMidi_getVersion "RtMidi::getVersion"()
 
@@ -332,6 +334,20 @@ class UnsupportedOperationError(RtMidiError, RuntimeError):
 
 
 # wrappers for RtMidi's static methods and classes
+
+def get_api_name(api):
+    """Return the name of a specified compiled MIDI API.
+
+    The ``api`` should be given as the one of ``API_*`` constants in the
+    module namespace, e.g.::
+
+        name = rtmidi.get_api_name(rtmidi.API_UNIX_JACK)
+
+    If the API is unknown, this function will return the empty string.
+
+    """
+    return RtMidi_getApiName(api).decode()
+
 
 def get_compiled_api():
     """Return a list of low-level MIDI backend APIs this module supports.
