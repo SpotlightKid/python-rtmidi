@@ -118,8 +118,8 @@ __all__ = (
     'ERRORTYPE_UNSPECIFIED', 'ERRORTYPE_WARNING', 'InvalidPortError',
     'InvalidUseError', 'MemoryAllocationError', 'MidiIn', 'MidiOut',
     'NoDevicesError', 'RtMidiError', 'SystemError',
-    'UnsupportedOperationError', 'get_api_name', 'get_compiled_api',
-    'get_rtmidi_version'
+    'UnsupportedOperationError', 'get_api_display_name', 'get_api_name',
+    'get_compiled_api', 'get_compiled_api_by_name', 'get_rtmidi_version'
 )
 
 if bytes is str:
@@ -164,8 +164,10 @@ cdef extern from "RtMidi.h":
         ERR_THREAD_ERROR      "RtMidiError::THREAD_ERROR"
 
     # Another work-around for calling C++ static methods:
+    cdef string RtMidi_getApiDisplayName "RtMidi::getApiDisplayName"(Api rtapi)
     cdef string RtMidi_getApiName "RtMidi::getApiName"(Api rtapi)
     cdef void RtMidi_getCompiledApi "RtMidi::getCompiledApi"(vector[Api] &apis)
+    cdef Api RtMidi_getCompiledApiByName "RtMidi::getCompiledApiByName"(string)
     cdef string RtMidi_getVersion "RtMidi::getVersion"()
 
     ctypedef void (*RtMidiCallback)(double timeStamp,
@@ -335,8 +337,26 @@ class UnsupportedOperationError(RtMidiError, RuntimeError):
 
 # wrappers for RtMidi's static methods and classes
 
+def get_api_display_name(api):
+    """Return the display name of a specified MIDI API.
+
+    This returns a long name used for display purposes.
+
+    The ``api`` should be given as the one of ``API_*`` constants in the
+    module namespace, e.g.::
+
+        display_name = rtmidi.get_api_display_name(rtmidi.API_UNIX_JACK)
+
+    If the API is unknown, this function will return the empty string.
+
+    """
+    return RtMidi_getApiDisplayName(api).decode('utf-8')
+
+
 def get_api_name(api):
-    """Return the name of a specified compiled MIDI API.
+    """Return the name of a specified MIDI API.
+
+    This returns a short lower-case name used for identification purposes.
 
     The ``api`` should be given as the one of ``API_*`` constants in the
     module namespace, e.g.::
@@ -346,7 +366,7 @@ def get_api_name(api):
     If the API is unknown, this function will return the empty string.
 
     """
-    return RtMidi_getApiName(api).decode()
+    return RtMidi_getApiName(api).decode('utf-8')
 
 
 def get_compiled_api():
@@ -363,6 +383,17 @@ def get_compiled_api():
 
     RtMidi_getCompiledApi(api_v)
     return [api_v[i] for i in range(api_v.size())]
+
+
+def get_compiled_api_by_name(name):
+    """Return the compiled MIDI API having the given name.
+
+    A case insensitive comparison will check the specified name against the
+    list of compiled APIs, and return the one which matches. On failure, the
+    function returns ``API_UNSPECIFIED``.
+
+    """
+    return RtMidi_getCompiledApiByName(_to_bytes(name))
 
 
 def get_rtmidi_version():
