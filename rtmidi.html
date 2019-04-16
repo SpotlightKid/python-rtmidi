@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>rtmidi package &#8212; python-rtmidi 1.2.1 documentation</title>
+    <title>rtmidi package &#8212; python-rtmidi 1.3.0 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -35,7 +35,7 @@
         <li class="right" >
           <a href="modules.html" title="rtmidi"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">rtmidi</a> &#187;</li> 
       </ul>
     </div>  
@@ -265,6 +265,32 @@ the <a class="reference external" href="http://www.music.mcgill.ca/~gary/rtmidi/
 <div class="section" id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
+<dt id="rtmidi.get_api_name">
+<code class="descclassname">rtmidi.</code><code class="descname">get_api_name</code><span class="sig-paren">(</span><em>api</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.get_api_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the name of a specified MIDI API.</p>
+<p>This returns a short lower-case name used for identification purposes.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">api</span></code> should be given as the one of <code class="docutils literal notranslate"><span class="pre">API_*</span></code> constants in the
+module namespace, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="n">rtmidi</span><span class="o">.</span><span class="n">get_api_name</span><span class="p">(</span><span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNIX_JACK</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the API is unknown, this function will return the empty string.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="rtmidi.get_api_display_name">
+<code class="descclassname">rtmidi.</code><code class="descname">get_api_display_name</code><span class="sig-paren">(</span><em>api</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.get_api_display_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the display name of a specified MIDI API.</p>
+<p>This returns a long name used for display purposes.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">api</span></code> should be given as the one of <code class="docutils literal notranslate"><span class="pre">API_*</span></code> constants in the
+module namespace, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display_name</span> <span class="o">=</span> <span class="n">rtmidi</span><span class="o">.</span><span class="n">get_api_display_name</span><span class="p">(</span><span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNIX_JACK</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the API is unknown, this function will return the empty string.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="rtmidi.get_compiled_api">
 <code class="descclassname">rtmidi.</code><code class="descname">get_compiled_api</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.get_compiled_api" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of low-level MIDI backend APIs this module supports.</p>
@@ -274,6 +300,15 @@ the module namespace, i.e.:</p>
     <span class="o">...</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="function">
+<dt id="rtmidi.get_compiled_api_by_name">
+<code class="descclassname">rtmidi.</code><code class="descname">get_compiled_api_by_name</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.get_compiled_api_by_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the compiled MIDI API having the given name.</p>
+<p>A case insensitive comparison will check the specified name against the
+list of compiled APIs, and return the one which matches. On failure, the
+function returns <code class="docutils literal notranslate"><span class="pre">API_UNSPECIFIED</span></code>.</p>
 </dd></dl>
 
 <dl class="function">
@@ -993,7 +1028,7 @@ port name.</dd>
         <li class="right" >
           <a href="modules.html" title="rtmidi"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >rtmidi</a> &#187;</li> 
       </ul>
     </div>
