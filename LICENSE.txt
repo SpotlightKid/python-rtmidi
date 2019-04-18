@@ -1,11 +1,11 @@
 Copyright & License
 ===================
 
-python-rtmidi was written by Christopher Arndt, 2012 - 2018.
+python-rtmidi was written by Christopher Arndt, 2012 - 2019.
 
 The software is released unter the MIT License:
 
-Copyright (c) 2012 - 2018 Christopher Arndt
+Copyright (c) 2012 - 2019 Christopher Arndt
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -29,7 +29,7 @@ Copyright (c) 2012 - 2018 Christopher Arndt
 RtMidi is distributed under a modified MIT License:
 
     RtMidi: realtime MIDI i/o C++ classes
-    Copyright (c) 2003-2017 Gary P. Scavone
+    Copyright (c) 2003-2019 Gary P. Scavone
 
     Permission is hereby granted, free of charge, to any person
     obtaining a copy of this software and associated documentation files
