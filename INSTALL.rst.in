@@ -145,7 +145,6 @@ Then install python-rtmidi::
 
 .. _requirements:
 
-
 Requirements
 ============
 

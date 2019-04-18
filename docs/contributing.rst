@@ -69,7 +69,7 @@ development.
 1. Fork the `python-rtmidi` repo on GitHub.
 2. Clone your fork locally::
 
-    $ git clone git@github.com:your_name_here/python-rtmidi.git
+    $ git clone --recursive git@github.com:your_name_here/python-rtmidi.git
 
 3. Install your local copy into a virtualenv. Assuming you have
    virtualenvwrapper installed, this is how you set up your fork for local
@@ -113,7 +113,8 @@ Before you submit a pull request, check that it meets these guidelines:
    your new functionality into a function with a docstring, and add the
    feature to the release notes in ``CHANGELOG.rst``.
 3. The pull request should work for Python 2.7, and 3.4, 3.5, 3.6 and 3.7.
-   Run tox to make sure that the tests pass for all supported Python versions.
+   Run ``tox`` to make sure that the tests pass for all supported Python
+   versions.
 
 
 Tips
@@ -121,4 +122,4 @@ Tips
 
 To run a subset of tests::
 
-	$ py.test tests.test_rtmidi
+    $ py.test -v tests/test_foo.py::test_foo
