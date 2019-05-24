@@ -23,7 +23,7 @@ logging.basicConfig(level=logging.DEBUG)
 port = sys.argv[1] if len(sys.argv) > 1 else None
 
 try:
-    midiout, port_name = open_midioutput(port, "output")
+    midiout, port_name = open_midioutput(port)
 except (EOFError, KeyboardInterrupt):
     sys.exit()
 
