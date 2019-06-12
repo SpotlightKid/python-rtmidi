@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# test_midiin_callback.py
+# contextmanager.py
 #
 """Shows how to use a MidiOut instance as a context manager."""
 

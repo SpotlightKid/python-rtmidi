@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#
+# midioutwrapper.py
+#
 """Wrap MidiOut to add convenience methods for sending common MIDI events."""
 
 import binascii

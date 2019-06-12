@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# test_probe_ports.py
+# probe_ports.py
 #
 """Shows how to probe for available MIDI input and output ports."""
 

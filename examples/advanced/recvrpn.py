@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#
+# recrpn.py
+#
 """Receive and decode RPN messages.
 
 RPN (registered parameter number) messages are just regular Control Change

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# midifilter.py
+# midifilter/__main__.py
 #
 """Simple MIDI filter / processor."""
 

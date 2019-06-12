@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #
-# midifilter.filters.py
+# midifilter/filters.py
 #
-"""Collection MIDI filter classes."""
+"""Collection of MIDI filter classes."""
 
 from rtmidi.midiconstants import (BANK_SELECT_LSB, BANK_SELECT_MSB, CHANNEL_PRESSURE,
                                   CONTROLLER_CHANGE, NOTE_ON, NOTE_OFF, PROGRAM_CHANGE)

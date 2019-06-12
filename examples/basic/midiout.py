@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# test_midiout.py
+# midiout.py
 #
 """Show how to open an output port and send MIDI events."""
 

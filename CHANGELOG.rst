@@ -5,6 +5,18 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+Development
+-----------
+
+Enhancements / Changes:
+  * Renamed example script ``midiwrapper.py`` to ``midioutwrapper.py`` to
+    better indicate its function.
+
+Fixes:
+  * ``midiout`` example: removed surplus second argument to ``open_midioutput``
+    left over from previous version of script.
+  * Fixed example script file names in header comments.
+
 2019-04-15 version 1.3.0
 ------------------------
 
@@ -25,7 +37,7 @@ Documentation:
 
 Fixes:
   * Fixed build when compiling with JACK support, but JACK version is too old
-    to have `jack_port_rename` function (#40).
+    to have ``jack_port_rename`` function (#40).
 
 Project infrastructure:
   * Added Linux builds for Python 2.7 and 3.4 - 3.7 to Travis CI setup.
