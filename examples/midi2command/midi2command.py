@@ -194,7 +194,7 @@ def main(args=None):
     padd(dest='config', metavar="CONFIG",
          help='Configuration file in YAML syntax.')
 
-    args = parser.parse_args(args if args is not None else sys.argv[1:])
+    args = parser.parse_args(args)
 
     logging.basicConfig(format="%(name)s: %(levelname)s - %(message)s",
                         level=logging.DEBUG if args.verbose else logging.INFO)
@@ -227,4 +227,4 @@ def main(args=None):
 
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv[1:]) or 0)
+    sys.exit(main() or 0)

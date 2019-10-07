@@ -20,5 +20,6 @@ with (midiout.open_port(0) if midiout.get_ports() else
     midiout.send_message(note_on)
     time.sleep(0.5)
     midiout.send_message(note_off)
+    time.sleep(0.1)
 
 del midiout

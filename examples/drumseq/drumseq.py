@@ -173,7 +173,7 @@ def main(args=None):
     aadd('pattern', nargs='?', type=argparse.FileType(),
          help="Drum pattern file (default: use built-in pattern)")
 
-    args = ap.parse_args(args if args is not None else sys.argv[1:])
+    args = ap.parse_args(args)
 
     if args.pattern:
         pattern = args.pattern.read()
@@ -204,9 +204,10 @@ def main(args=None):
     finally:
         seq.done = True  # And kill it.
         seq.join()
+        midiout.close_port()
         del midiout
         print("Done")
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1:]) or 0)
+    sys.exit(main() or 0)

@@ -217,10 +217,17 @@ if __name__ == '__main__':
     import time
 
     mout = rtmidi.MidiOut()
-    mout.open_virtual_port()
-    input('Connect to new MIDI port and then press key...')
-    mw = MidiOutWrapper(mout, ch=3)
-    mw.send_program_change(40)
-    mw.send_note_on(60)
-    time.sleep(1)
-    mw.send_note_off(60)
+
+    try:
+        with mout.open_virtual_port():
+            mw = MidiOutWrapper(mout, ch=3)
+            input('Connect to new MIDI port and then press key...')
+            mw.send_program_change(40)
+            mw.send_note_on(60)
+            time.sleep(1)
+            mw.send_note_off(60)
+            time.sleep(0.1)
+    except (EOFError, KeyboardInterrupt):
+        print('')
+
+    del mout

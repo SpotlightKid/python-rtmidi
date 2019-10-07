@@ -15,11 +15,12 @@ import time
 from datetime import datetime
 from os.path import exists, join
 
-
 from rtmidi.midiconstants import END_OF_EXCLUSIVE, SYSTEM_EXCLUSIVE
-from rtmidi.midiutil import open_midiport
+from rtmidi.midiutil import open_midiinput
+
 from .manufacturers import manufacturers
 from .models import models
+
 
 log = logging.getLogger('sysexsaver')
 
@@ -185,13 +186,13 @@ def main(args=None):
     padd('-v', '--verbose', action="store_true",
          help='verbose output')
 
-    args = parser.parse_args(args if args is not None else sys.argv[1:])
+    args = parser.parse_args(args)
 
     logging.basicConfig(format="%(name)s: %(levelname)s - %(message)s",
                         level=logging.DEBUG if args.verbose else logging.INFO)
 
     try:
-        midiin, port = open_midiport(args.port)
+        midiin, port = open_midiinput(args.port)
     except IOError as exc:
         log.error(exc)
         return 1
@@ -217,8 +218,6 @@ def main(args=None):
         midiin.close_port()
         del midiin
 
-    return 0
-
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv[1:]) or 0)
+    sys.exit(main() or 0)

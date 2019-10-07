@@ -74,6 +74,9 @@ def main(args=None):
             time.sleep(0.1)
     except KeyboardInterrupt:
         pass
+    finally:
+        m_in.close_port()
+        del m_in
 
 
 if __name__ == '__main__':
