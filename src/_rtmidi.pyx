@@ -189,7 +189,6 @@ cdef extern from "RtMidi.h":
         void setPortName(string &portName) except *
 
     cdef cppclass RtMidiIn(RtMidi):
-        Api RtMidiIn() except +
         Api RtMidiIn(Api rtapi, string clientName,
                      unsigned int queueSizeLimit) except +
         void cancelCallback() except *
@@ -199,7 +198,6 @@ cdef extern from "RtMidi.h":
         void setCallback(RtMidiCallback callback, void *data) except *
 
     cdef cppclass RtMidiOut(RtMidi):
-        Api RtMidiOut() except +
         Api RtMidiOut(Api rtapi, string clientName) except +
         Api getCurrentApi()
         void sendMessage(vector[unsigned char] *message) except *
@@ -544,13 +542,16 @@ cdef class MidiBase:
             Raised when trying to open a MIDI port when a (virtual) port has
             already been opened by this instance.
         ``TypeError``
-            Raised when an incompatible type is passed for the ``name``
-            parameter.
+            Raised when an incompatible value type is passed for the ``port``
+            or ``name`` parameter.
 
         """
         inout = self._check_port()
-        self.baseptr().openPort(port, _to_bytes(("RtMidi %s" % inout)
-                                                if name is None else name))
+
+        if name is None:
+            name = "RtMidi %s" % inout
+
+        self.baseptr().openPort(port, _to_bytes(name))
         self._port = port
         return self
 
@@ -595,7 +596,7 @@ cdef class MidiBase:
             Raised when trying to open a virtual port when a (virtual) port has
             already been opened by this instance.
         ``TypeError``
-            Raised when an incompatible type is passed for the ``name``
+            Raised when an incompatible value type is passed for the ``name``
             parameter.
         ``UnsupportedOperationError``
             Raised when trying to open a virtual MIDI port with the Windows
@@ -642,7 +643,7 @@ cdef class MidiBase:
         Exceptions:
 
         ``TypeError``
-            Raised when an incompatible type is passed for the ``name``
+            Raised when an incompatible value type is passed for the ``name``
             parameter.
         ``UnsupportedOperationError``
             Raised when trying the backend API does not support changing the
@@ -668,7 +669,7 @@ cdef class MidiBase:
         ``InvalidUseError``
             Raised when no port is currently opened.
         ``TypeError``
-            Raised when an incompatible type is passed for the ``name``
+            Raised when an incompatible value type is passed for the ``name``
             parameter.
         ``UnsupportedOperationError``
             Raised when trying the backend API does not support changing the
@@ -735,7 +736,7 @@ cdef class MidiIn(MidiBase):
 
     You can optionally pass a name for the MIDI client with the ``name``
     keyword or the second positional argument. Names with non-ASCII characters
-    in  them have to be passed as unicode or UTF-8 encoded strings in Python 2.
+    in them have to be passed as unicode or UTF-8 encoded strings in Python 2.
     The default name is ``"RtMidiIn Client"``.
 
     .. note::
@@ -753,9 +754,12 @@ cdef class MidiIn(MidiBase):
 
     Exceptions:
 
+    ``SystemError``
+        Raised when the RtMidi backend initialization fails. The execption
+        message should have more information on the cause of the error.
+
     ``TypeError``
-        Raised when an incompatible type is passed for the ``name``
-        parameter.
+        Raised when an incompatible value type is passed for a parameter.
 
     """
 
@@ -772,10 +776,14 @@ cdef class MidiIn(MidiBase):
         See the class docstring for a description of the constructor arguments.
 
         """
-        self.thisptr = new RtMidiIn(
-            rtapi,
-            _to_bytes("RtMidiIn Client" if name is None else name),
-            queue_size_limit)
+        if name is None:
+            name = "RtMidiIn Client"
+
+        try:
+            self.thisptr = new RtMidiIn(rtapi, _to_bytes(name), queue_size_limit)
+        except RuntimeError as exc:
+            raise SystemError(str(exc), type=ERR_DRIVER_ERROR)
+
         self.set_error_callback(_default_error_handler)
         self._callback = None
         self._port = None
@@ -920,6 +928,15 @@ cdef class MidiOut(MidiBase):
         ``MidiIn`` and ``MidiOut`` instances are deleted and then a new one is
         created.
 
+    Exceptions:
+
+    ``SystemError``
+        Raised when the RtMidi backend initialization fails. The execption
+        message should have more information on the cause of the error.
+
+    ``TypeError``
+        Raised when an incompatible value type is passed for a parameter.
+
     """
 
     cdef RtMidiOut *thisptr
@@ -933,9 +950,14 @@ cdef class MidiOut(MidiBase):
         See the class docstring for a description of the constructor arguments.
 
         """
-        self.thisptr = new RtMidiOut(
-            rtapi,
-            _to_bytes("RtMidiOut Client" if name is None else name))
+        if name is None:
+            name = "RtMidiOut Client"
+
+        try:
+            self.thisptr = new RtMidiOut(rtapi, _to_bytes(name))
+        except RuntimeError as exc:
+            raise SystemError(str(exc), type=ERR_DRIVER_ERROR)
+
         self.set_error_callback(_default_error_handler)
         self._port = None
 
