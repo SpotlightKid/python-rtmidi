@@ -91,6 +91,11 @@ def list_input_ports(api=rtmidi.API_UNSPECIFIED):
     Optionally the RtMidi API can be passed with the ``api`` argument. If not
     it will be determined via the ``get_api_from_environment`` function.
 
+    Exceptions:
+
+    ``rtmidi.SystemError``
+        Raised when RtMidi backend initialization fails.
+
     """
     midiin = rtmidi.MidiIn(get_api_from_environment(api))
     list_available_ports(midiio=midiin)
@@ -101,6 +106,11 @@ def list_output_ports(api=rtmidi.API_UNSPECIFIED):
 
     Optionally the RtMidi API can be passed with the ``api`` argument. If not
     it will be determined via the ``get_api_from_environment`` function.
+
+    Exceptions:
+
+    ``rtmidi.SystemError``
+        Raised when RtMidi backend initialization fails.
 
     """
     midiout = rtmidi.MidiOut(get_api_from_environment(api))
@@ -171,11 +181,14 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
         Raised when the user presses Control-C or Control-D during a console
         prompt.
 
-    ``IOError``
+    ``rtmidi.SystemError``
+        Raised when RtMidi backend initialization fails.
+
+    ``rtmidi.NoDevicesError``
         Raised when no MIDI input or output ports (depending on what was
         requested) are available.
 
-    ``ValueError``
+    ``rtmidi.InvalidPortError``
         Raised when an invalid port number or name is passed and
         ``interactive`` is ``False``.
 
@@ -207,7 +220,7 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
 
     if len(ports) == 0:
         del midiobj
-        raise IOError("No MIDI %s ports found." % type_)
+        raise rtmmidi.NoDevicesError("No MIDI %s ports found." % type_)
 
     try:
         port = int(port)
@@ -243,14 +256,15 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
         midiobj.open_port(port, port_name)
         return midiobj, port_name
     else:
-        raise ValueError("Invalid port.")
+        raise rtmidi.InvalidPortError("Invalid port.")
 
 
 def open_midiinput(port=None, api=rtmidi.API_UNSPECIFIED, use_virtual=False,
                    interactive=True, client_name=None, port_name=None):
     """Open a MIDI port for input and return a MidiIn instance.
 
-    See the ``open_midiport`` function for information on parameters.
+    See the ``open_midiport`` function for information on parameters and
+    possible exceptions.
 
     """
     return open_midiport(port, "input", api, use_virtual, interactive,
@@ -261,7 +275,8 @@ def open_midioutput(port=None, api=rtmidi.API_UNSPECIFIED, use_virtual=False,
                     interactive=True, client_name=None, port_name=None):
     """Open a MIDI port for output and return a MidiOut instance.
 
-    See the ``open_midiport`` function for information on parameters.
+    See the ``open_midiport`` function for information on parameters and
+    possible exceptions.
 
     """
     return open_midiport(port, "output", api, use_virtual, interactive,
