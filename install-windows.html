@@ -1,12 +1,10 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>How to install python-rtmidi from source on Windows &#8212; python-rtmidi 1.3.0 documentation</title>
+    <meta charset="utf-8" />
+    <title>How to install python-rtmidi from source on Windows &#8212; python-rtmidi 1.3.1 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -14,6 +12,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -35,7 +34,7 @@
         <li class="right" >
           <a href="installation.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -47,31 +46,31 @@
   <div class="section" id="how-to-install-python-rtmidi-from-source-on-windows">
 <h1>How to install python-rtmidi from source on Windows<a class="headerlink" href="#how-to-install-python-rtmidi-from-source-on-windows" title="Permalink to this headline">¶</a></h1>
 <p>These instruction should work for installing <code class="docutils literal notranslate"><span class="pre">python-rtmidi</span></code> from source
-using Python 2.7 or Python 3.5 in the 32-bit (you can run these on
-Windows 64-bit versions with no problems) or 64-bit versions.</p>
+using Python 2.7 or Python 3.5 in the 64-bit or 32-bit vsersions (you can
+run the latter on Windows 64-bit versions with no problems).</p>
 <p>Please follow all the steps below in the exact order.</p>
 <div class="section" id="installing-required-software">
 <h2>Installing required software<a class="headerlink" href="#installing-required-software" title="Permalink to this headline">¶</a></h2>
 <p>You probably need administrator rights for some or all of the following steps.</p>
 <ol class="arabic">
-<li><p class="first">Install the latest release of Python 2.7 and/or Python 3.5 from
+<li><p>Install the latest release of Python 2.7 and/or Python 3.5+ from
 <a class="reference external" href="https://www.python.org/downloads/windows/">https://www.python.org/downloads/windows/</a> to the default location (i.e.
 <code class="docutils literal notranslate"><span class="pre">C:\Python27</span></code> resp. <code class="docutils literal notranslate"><span class="pre">C:\Python35</span></code>). You can install either or both
 the 32-bit and the 64-bit version.</p>
-<p>In the installer, enable the option to install <a class="reference external" href="https://pypi.python.org/pypi/pip">pip</a>. Optionally, for only
-one of the chosen Python versions, enable the options to add the
+<p>In the installer, enable the option to install <a class="reference external" href="https://pypi.python.org/pypi/pip">pip</a>. Optionally, <em>for only
+one of the chosen Python versions</em>, enable the options to add the
 installation directory to your <code class="docutils literal notranslate"><span class="pre">PATH</span></code> and set it as the system’s default
-version. Also enable the option to install the <code class="docutils literal notranslate"><span class="pre">py</span></code> help script (only
+version. Also enable the option to install the <code class="docutils literal notranslate"><span class="pre">py</span></code> helper script (only
 available with some Python versions).</p>
 </li>
-<li><p class="first">Install <a class="reference external" href="https://pypi.python.org/pypi/virtualenv">virtualenv</a> from a command prompt:</p>
+<li><p>Install <a class="reference external" href="https://pypi.python.org/pypi/virtualenv">virtualenv</a> from a command prompt:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">virtualenv</span>
 </pre></div>
 </div>
 <p>Repeat this for all Python versions you have installed (run <code class="docutils literal notranslate"><span class="pre">py</span> <span class="pre">--help</span></code>
 to get help on how to run different python version from the command line).</p>
 </li>
-<li><p class="first">Go to <a class="reference external" href="https://wiki.python.org/moin/WindowsCompilers">https://wiki.python.org/moin/WindowsCompilers</a> and follow the
+<li><p>Go to <a class="reference external" href="https://wiki.python.org/moin/WindowsCompilers">https://wiki.python.org/moin/WindowsCompilers</a> and follow the
 instructions there to select and install the correct version(s) of the
 Visual C++ compiler for the version(s) of Python you installed.</p>
 <p>You can install several versions of Visual C++ at the same time.</p>
@@ -83,19 +82,19 @@ and fixes.</p>
 <div class="section" id="setting-up-a-virtual-environment">
 <h2>Setting up a virtual environment<a class="headerlink" href="#setting-up-a-virtual-environment" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic">
-<li><p class="first">Open a command line and run:</p>
+<li><p>Open a command line and run:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">virtualenv</span> <span class="n">rtmidi</span>
 <span class="o">&gt;</span> <span class="n">rtmidi</span>\<span class="n">Scripts</span>\<span class="n">activate</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">Update pip and <a class="reference external" href="https://pypi.python.org/pypi/setuptools">setuptools</a> within your virtual environment to the latest
+<li><p>Update pip and <a class="reference external" href="https://pypi.python.org/pypi/setuptools">setuptools</a> within your virtual environment to the latest
 versions with:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">rtmidi</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">pip</span> <span class="n">setuptools</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">Install Cython (still in the same command line window):</p>
+<li><p>Install Cython (still in the same command line window):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">rtmidi</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">Cython</span>
 </pre></div>
 </div>
@@ -139,7 +138,7 @@ active virtual environment, i.e. from still the same command line window:</p>
 <span class="kc">True</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">midiout</span> <span class="o">=</span> <span class="n">rtmidi</span><span class="o">.</span><span class="n">MidiOut</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">midiout</span><span class="o">.</span><span class="n">get_ports</span><span class="p">()</span>
-<span class="p">[</span><span class="sa">u</span><span class="s1">&#39;Microsoft GS Wavetable Synth&#39;</span><span class="p">]</span>
+<span class="p">[</span><span class="s1">&#39;Microsoft GS Wavetable Synth&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>If you have any other MIDI outputs (hardware MIDI interfaces, MIDI Yoke etc.)
@@ -188,13 +187,11 @@ useful hints, please let the author know.</p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -218,12 +215,12 @@ useful hints, please let the author know.</p>
         <li class="right" >
           <a href="installation.html" title="Installation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2012 - 2018, Christopher Arndt.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+        &#169; Copyright 2012 - 2019, Christopher Arndt.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
     </div>
   </body>
 </html>

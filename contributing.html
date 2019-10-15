@@ -1,12 +1,10 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Contributing &#8212; python-rtmidi 1.3.0 documentation</title>
+    <meta charset="utf-8" />
+    <title>Contributing &#8212; python-rtmidi 1.3.1 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -14,6 +12,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -35,7 +34,7 @@
         <li class="right" >
           <a href="rtmidi.html" title="rtmidi package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -56,9 +55,9 @@ helps, and credit will always be given.</p>
 <p>Report bugs at <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/issues">https://github.com/SpotlightKid/python-rtmidi/issues</a>.</p>
 <p>If you are reporting a bug, please include:</p>
 <ul class="simple">
-<li>Your operating system name and version.</li>
-<li>Any details about your local setup that might be helpful in troubleshooting.</li>
-<li>Detailed steps to reproduce the bug.</li>
+<li><p>Your operating system name and version.</p></li>
+<li><p>Any details about your local setup that might be helpful in troubleshooting.</p></li>
+<li><p>Detailed steps to reproduce the bug.</p></li>
 </ul>
 </div>
 <div class="section" id="fix-bugs">
@@ -83,10 +82,10 @@ articles, and such.</p>
 <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/issues">https://github.com/SpotlightKid/python-rtmidi/issues</a>.</p>
 <p>If you are proposing a feature:</p>
 <ul class="simple">
-<li>Explain in detail how it would work.</li>
-<li>Keep the scope as narrow as possible, to make it easier to implement.</li>
-<li>Remember that this is a volunteer-driven project, and that contributions
-are welcome :)</li>
+<li><p>Explain in detail how it would work.</p></li>
+<li><p>Keep the scope as narrow as possible, to make it easier to implement.</p></li>
+<li><p>Remember that this is a volunteer-driven project, and that contributions
+are welcome :)</p></li>
 </ul>
 </div>
 </div>
@@ -95,14 +94,13 @@ are welcome :)</li>
 <p>Ready to contribute? Here’s how to set up <cite>python-rtmidi</cite> for local
 development.</p>
 <ol class="arabic">
-<li><p class="first">Fork the <cite>python-rtmidi</cite> repo on GitHub.</p>
-</li>
-<li><p class="first">Clone your fork locally:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone git@github.com:your_name_here/python-rtmidi.git
+<li><p>Fork the <code class="docutils literal notranslate"><span class="pre">python-rtmidi</span></code> repo on GitHub.</p></li>
+<li><p>Clone your fork locally:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone --recursive git@github.com:your_name_here/python-rtmidi.git
 </pre></div>
 </div>
 </li>
-<li><p class="first">Install your local copy into a virtualenv. Assuming you have
+<li><p>Install your local copy into a virtualenv. Assuming you have
 virtualenvwrapper installed, this is how you set up your fork for local
 development:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mkvirtualenv python-rtmidi
@@ -112,13 +110,13 @@ $ python setup.py develop
 </pre></div>
 </div>
 </li>
-<li><p class="first">Create a branch for local development:</p>
+<li><p>Create a branch for local development:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git checkout -b name-of-your-bugfix-or-feature
 </pre></div>
 </div>
 <p>Now you can make your changes locally.</p>
 </li>
-<li><p class="first">When you’re done making changes, check that your changes pass flake8 and the
+<li><p>When you’re done making changes, check that your changes pass flake8 and the
 tests, including testing other Python versions with tox:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make lint
 $ make test
@@ -126,33 +124,33 @@ $ make test
 </div>
 <p>To get flake8 and tox, just <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> them into your virtualenv.</p>
 </li>
-<li><p class="first">Commit your changes and push your branch to GitHub:</p>
+<li><p>Commit your changes and push your branch to GitHub:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git add .
 $ git commit -m &quot;Detailed description of your changes.&quot;
 $ git push -u origin name-of-your-bugfix-or-feature
 </pre></div>
 </div>
 </li>
-<li><p class="first">Submit a pull request through the GitHub website.</p>
-</li>
+<li><p>Submit a pull request through the GitHub website.</p></li>
 </ol>
 </div>
 <div class="section" id="pull-request-guidelines">
 <h2>Pull Request Guidelines<a class="headerlink" href="#pull-request-guidelines" title="Permalink to this headline">¶</a></h2>
 <p>Before you submit a pull request, check that it meets these guidelines:</p>
 <ol class="arabic simple">
-<li>The pull request should include tests.</li>
-<li>If the pull request adds functionality, the docs should be updated. Put
+<li><p>The pull request should include tests.</p></li>
+<li><p>If the pull request adds functionality, the docs should be updated. Put
 your new functionality into a function with a docstring, and add the
-feature to the release notes in <code class="docutils literal notranslate"><span class="pre">CHANGELOG.rst</span></code>.</li>
-<li>The pull request should work for Python 2.7, and 3.4, 3.5, 3.6 and 3.7.
-Run tox to make sure that the tests pass for all supported Python versions.</li>
+feature to the release notes in <code class="docutils literal notranslate"><span class="pre">CHANGELOG.rst</span></code>.</p></li>
+<li><p>The pull request should work for Python 2.7, and 3.5, 3.6 and 3.7.
+Run <code class="docutils literal notranslate"><span class="pre">tox</span></code> to make sure that the tests pass for all supported Python
+versions.</p></li>
 </ol>
 </div>
 <div class="section" id="tips">
 <h2>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h2>
 <p>To run a subset of tests:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ py.test tests.test_rtmidi
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ py.test -v tests/test_foo.py::test_foo
 </pre></div>
 </div>
 </div>
@@ -196,13 +194,11 @@ Run tox to make sure that the tests pass for all supported Python versions.</li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -226,12 +222,12 @@ Run tox to make sure that the tests pass for all supported Python versions.</li>
         <li class="right" >
           <a href="rtmidi.html" title="rtmidi package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2012 - 2018, Christopher Arndt.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+        &#169; Copyright 2012 - 2019, Christopher Arndt.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
     </div>
   </body>
 </html>

@@ -1,12 +1,10 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Changelog &#8212; python-rtmidi 1.3.0 documentation</title>
+    <meta charset="utf-8" />
+    <title>Changelog &#8212; python-rtmidi 1.3.1 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -14,6 +12,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -35,7 +34,7 @@
         <li class="right" >
           <a href="authors.html" title="Credits"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -47,291 +46,313 @@
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <p>For details and minor changes, please see the <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/commits/master">version control log messages</a>.</p>
-<div class="section" id="version-1-3-0">
-<h2>2019-04-15 version 1.3.0<a class="headerlink" href="#version-1-3-0" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Enhancements / Changes:</dt>
-<dd><ul class="first last simple">
-<li>Added <code class="docutils literal notranslate"><span class="pre">get_api_display_name</span></code> module-level function.</li>
-<li>Added <code class="docutils literal notranslate"><span class="pre">get_api_name</span></code> module-level function.</li>
-<li>Added <code class="docutils literal notranslate"><span class="pre">get_compiled_api_by_name</span></code> module-level function.</li>
-<li>Updated <code class="docutils literal notranslate"><span class="pre">rtmidi</span></code> sub-module to include all changes from upstream up to
-commit 791dfea.</li>
+<div class="section" id="version-1-3-1">
+<h2>2019-10-15 version 1.3.1<a class="headerlink" href="#version-1-3-1" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>Enhancements / Changes:</dt><dd><ul class="simple">
+<li><p>RtMidi C++ exceptions are now caught when creating <code class="docutils literal notranslate"><span class="pre">RtMidiIn/Out</span></code>
+instances and converted into a Python <code class="docutils literal notranslate"><span class="pre">rtmidi.SystemError</span></code>
+exception.</p></li>
+<li><p>Helper functions in <code class="docutils literal notranslate"><span class="pre">rtmidi.midiutil</span></code> now raise sub-classes of
+<code class="docutils literal notranslate"><span class="pre">rtmidi.RtMidiError</span></code> wherever appropriate. The docstrings where updated
+accordingly.</p></li>
+<li><p>Updated <code class="docutils literal notranslate"><span class="pre">rtmidi</span></code> sub-module, which includes the following changes:</p>
+<ul>
+<li><p>C++ exceptions, when thrown, do not print the error message to stderr
+anymore.</p></li>
+<li><p>When the JACK backend can’t be initialized (e.g. when the server isn’t
+running) it causes a <code class="docutils literal notranslate"><span class="pre">DRIVER_ERROR</span></code> instead of just a printing a
+<code class="docutils literal notranslate"><span class="pre">WARNING</span></code>.</p></li>
+</ul>
+</li>
 </ul>
 </dd>
-<dt>Documentation:</dt>
-<dd><ul class="first last simple">
-<li>Improved installation instructions and listed options recognized by
-<code class="docutils literal notranslate"><span class="pre">setup.py</span></code>.</li>
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">midiout.py</span></code>: removed surplus second argument to <code class="docutils literal notranslate"><span class="pre">open_midioutput</span></code>
+left over from previous version of script.</p></li>
+<li><p>Renamed example script <code class="docutils literal notranslate"><span class="pre">midiwrapper.py</span></code> to <code class="docutils literal notranslate"><span class="pre">midioutwrapper.py</span></code> to
+better indicate its function.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sendsysex.py</span></code>: use helper functions from midiutil module to list
+and open MIDI ports; improve error handling.</p></li>
+<li><p>Made sure MIDI ports are always properly closed and <code class="docutils literal notranslate"><span class="pre">MidiIn/Out</span></code>
+instances are deleted.</p></li>
+<li><p>Inserted delay before closing/deleting output (may be needed with
+Windows MMS).</p></li>
+<li><p>Simplified command line argument handling.</p></li>
+<li><p>Fixed example script file names in header comments.</p></li>
+</ul>
+</dd>
+<dt>Documentation:</dt><dd><ul class="simple">
+<li><p>Made various small documentation wording changes and typo fixes.</p></li>
+<li><p>Updated year in copyright info in license file and Sphinx documentation.</p></li>
+</ul>
+</dd>
+<dt>Project infrastructure:</dt><dd><ul class="simple">
+<li><p>Updated development dependency on <code class="docutils literal notranslate"><span class="pre">urllib3</span></code> to 1.24.2 (CVE-2019-11324).</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="version-1-3-0">
+<h2>2019-04-15 version 1.3.0<a class="headerlink" href="#version-1-3-0" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>Enhancements / Changes:</dt><dd><ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_api_display_name</span></code> module-level function.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_api_name</span></code> module-level function.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_compiled_api_by_name</span></code> module-level function.</p></li>
+<li><p>Updated <code class="docutils literal notranslate"><span class="pre">rtmidi</span></code> sub-module to include all changes from upstream up to
+commit 791dfea.</p></li>
+</ul>
+</dd>
+<dt>Documentation:</dt><dd><ul class="simple">
+<li><p>Improved installation instructions and listed options recognized by
+<code class="docutils literal notranslate"><span class="pre">setup.py</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="version-1-2-1">
 <h2>2019-01-18 version 1.2.1<a class="headerlink" href="#version-1-2-1" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Fixes:</dt>
-<dd><ul class="first last simple">
-<li>Fixed build when compiling with JACK support, but JACK version is too old
-to have <cite>jack_port_rename</cite> function (#40).</li>
+<dl class="simple">
+<dt>Fixes:</dt><dd><ul class="simple">
+<li><p>Fixed build when compiling with JACK support, but JACK version is too old
+to have <code class="docutils literal notranslate"><span class="pre">jack_port_rename</span></code> function (#40).</p></li>
 </ul>
 </dd>
-<dt>Project infrastructure:</dt>
-<dd><ul class="first last simple">
-<li>Added Linux builds for Python 2.7 and 3.4 - 3.7 to Travis CI setup.</li>
+<dt>Project infrastructure:</dt><dd><ul class="simple">
+<li><p>Added Linux builds for Python 2.7 and 3.4 - 3.7 to Travis CI setup.</p></li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="version-1-2-0">
 <h2>2019-01-13 version 1.2.0<a class="headerlink" href="#version-1-2-0" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Project infrastructure:</dt>
-<dd><ul class="first last simple">
-<li>RtMidi Sources and header are now included as a git sub-module from
+<dl class="simple">
+<dt>Project infrastructure:</dt><dd><ul class="simple">
+<li><p>RtMidi Sources and header are now included as a git sub-module from
 the ‘python-rtmidi’ branch of a <a class="reference external" href="https://github.com/SpotlightKid/rtmidi">fork</a> of the upstream RtMidi repository.
 This fork incorporates changes and fixes by pull requests to the
 upstream repository, which are (yet) unmerged, and some changes
-specific to python-rtmidi.</li>
+specific to python-rtmidi.</p></li>
 </ul>
 </dd>
-<dt>Enhancements / Changes:</dt>
-<dd><ul class="first last simple">
-<li>Added <code class="docutils literal notranslate"><span class="pre">get_rtmidi_version</span></code> module-level function.</li>
-<li>Added <code class="docutils literal notranslate"><span class="pre">set_client_name</span></code> and <code class="docutils literal notranslate"><span class="pre">set_port_name</span></code> methods to <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code>’s and
-<code class="docutils literal notranslate"><span class="pre">MidiOut</span></code>’s base class.</li>
-<li>Added a bunch of new custom exceptions, all derived from <code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code>.</li>
-<li>A default error handler callback is now set for <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> and <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code>
-instances, which maps C++ level errors into custom Python exceptions.</li>
+<dt>Enhancements / Changes:</dt><dd><ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_rtmidi_version</span></code> module-level function.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">set_client_name</span></code> and <code class="docutils literal notranslate"><span class="pre">set_port_name</span></code> methods to <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code>’s and
+<code class="docutils literal notranslate"><span class="pre">MidiOut</span></code>’s base class.</p></li>
+<li><p>Added a bunch of new custom exceptions, all derived from <code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code>.</p></li>
+<li><p>A default error handler callback is now set for <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> and <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code>
+instances, which maps C++ level errors into custom Python exceptions.</p></li>
 </ul>
 </dd>
-<dt>Examples:</dt>
-<dd><ul class="first last simple">
-<li>Enhanced example script <code class="docutils literal notranslate"><span class="pre">midiwrapper.py</span></code> with methods for more MIDI
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p>Enhanced example script <code class="docutils literal notranslate"><span class="pre">midiwrapper.py</span></code> with methods for more MIDI
 messages, including sending all kinds of controller change and of (N)RPN
-messages.</li>
+messages.</p></li>
 </ul>
 </dd>
-<dt>Fixes:</dt>
-<dd><ul class="first last simple">
-<li>Fixed SysEx message reception in JACK backend in RtMidi: messages broken up
+<dt>Fixes:</dt><dd><ul class="simple">
+<li><p>Fixed SysEx message reception in JACK backend in RtMidi: messages broken up
 over several events are now collected into a single event before being
-passed to the input callback or returned by <code class="docutils literal notranslate"><span class="pre">MidiIn.get_message</span></code>.</li>
-<li>Fixed missing MIDI message input filtering in JACK backend in RtMidi:
-<code class="docutils literal notranslate"><span class="pre">MidiIn.ignoreTypes</span></code> now works as intended.</li>
+passed to the input callback or returned by <code class="docutils literal notranslate"><span class="pre">MidiIn.get_message</span></code>.</p></li>
+<li><p>Fixed missing MIDI message input filtering in JACK backend in RtMidi:
+<code class="docutils literal notranslate"><span class="pre">MidiIn.ignoreTypes</span></code> now works as intended.</p></li>
 </ul>
 </dd>
-<dt>Testing:</dt>
-<dd><ul class="first last simple">
-<li>Restructured tests in <code class="docutils literal notranslate"><span class="pre">test_rtmidi</span></code> and added tests for new methods.</li>
+<dt>Testing:</dt><dd><ul class="simple">
+<li><p>Restructured tests in <code class="docutils literal notranslate"><span class="pre">test_rtmidi</span></code> and added tests for new methods.</p></li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="version-1-1-2">
 <h2>2018-10-10 version 1.1.2<a class="headerlink" href="#version-1-1-2" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Project infrastructure:</dt>
-<dd><ul class="first last simple">
-<li>Added bagdes and link to documentation to README visible on GitHub page.</li>
-<li>Tweaked project description wording.</li>
-<li>Updated copyright year in various documentation files.</li>
+<dl>
+<dt>Project infrastructure:</dt><dd><ul class="simple">
+<li><p>Added bagdes and link to documentation to README visible on GitHub page.</p></li>
+<li><p>Tweaked project description wording.</p></li>
+<li><p>Updated copyright year in various documentation files.</p></li>
 </ul>
 </dd>
-<dt>Building:</dt>
-<dd><ul class="first last">
-<li><p class="first">Binary wheels for Windows and OS X for Python 2.7, 3.5 (only Windows), 3.6,
+<dt>Building:</dt><dd><ul>
+<li><p>Binary wheels for Windows and OS X for Python 2.7, 3.5 (only Windows), 3.6,
 and 3.7 are automatically built on AppVeyor resp. Travis CI and uploaded to
 PyPI when a new release tag is pushed to GitHub.</p>
 <p>Thanks to Benoit Pierre for the PR (#36).</p>
 </li>
-<li><p class="first">Upload Gzip’ed instead Bzip’ed tarballs for source distributions to PyPI.</p>
-</li>
-<li><p class="first"><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">test</span></code> now runs <code class="docutils literal notranslate"><span class="pre">tox</span></code>, so <code class="docutils literal notranslate"><span class="pre">tests_require</span></code> in
+<li><p>Upload Gzip’ed instead Bzip’ed tarballs for source distributions to PyPI.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">test</span></code> now runs <code class="docutils literal notranslate"><span class="pre">tox</span></code>, so <code class="docutils literal notranslate"><span class="pre">tests_require</span></code> in
 <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> is empty now. We want dependencies to be only handled by
-<code class="docutils literal notranslate"><span class="pre">pip</span></code>, never by <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>.</p>
-</li>
+<code class="docutils literal notranslate"><span class="pre">pip</span></code>, never by <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>.</p></li>
 </ul>
 </dd>
-<dt>Documentation:</dt>
-<dd><ul class="first last simple">
-<li>Minor additions, updates, fixes and wording tweaks.</li>
+<dt>Documentation:</dt><dd><ul class="simple">
+<li><p>Minor additions, updates, fixes and wording tweaks.</p></li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="version-1-1-1">
 <h2>2018-08-06 version 1.1.1<a class="headerlink" href="#version-1-1-1" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Building:</dt>
-<dd><ul class="first last simple">
-<li>Rebuild <code class="docutils literal notranslate"><span class="pre">src/_rtmidi.cpp</span></code> with current Cython for Python 3.7
-compatibility.</li>
-<li>Remove testing with Python 3.3 environment from <code class="docutils literal notranslate"><span class="pre">tox.ini</span></code> and add Python
-3.6 and 3.7.</li>
-<li>Update dev requirements for Python 3.7 compatibility.</li>
-<li>Upload releases with twine.</li>
+<dl class="simple">
+<dt>Building:</dt><dd><ul class="simple">
+<li><p>Rebuild <code class="docutils literal notranslate"><span class="pre">src/_rtmidi.cpp</span></code> with current Cython for Python 3.7
+compatibility.</p></li>
+<li><p>Remove testing with Python 3.3 environment from <code class="docutils literal notranslate"><span class="pre">tox.ini</span></code> and add Python
+3.6 and 3.7.</p></li>
+<li><p>Update dev requirements for Python 3.7 compatibility.</p></li>
+<li><p>Upload releases with twine.</p></li>
 </ul>
 </dd>
-<dt>Documentation:</dt>
-<dd><ul class="first last simple">
-<li>Python 3.3 is not officially tested or supported anymore.</li>
+<dt>Documentation:</dt><dd><ul class="simple">
+<li><p>Python 3.3 is not officially tested or supported anymore.</p></li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="version-1-1-0">
 <h2>2017-04-21 version 1.1.0<a class="headerlink" href="#version-1-1-0" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Project infrastructure:</dt>
-<dd><ul class="first last simple">
-<li>Updated project homepage URL; copyright year and link to docs in readme.</li>
+<dl class="simple">
+<dt>Project infrastructure:</dt><dd><ul class="simple">
+<li><p>Updated project homepage URL; copyright year and link to docs in readme.</p></li>
 </ul>
 </dd>
-<dt>Building:</dt>
-<dd><ul class="first last simple">
-<li>Added script to automate updating github pages docs.</li>
+<dt>Building:</dt><dd><ul class="simple">
+<li><p>Added script to automate updating github pages docs.</p></li>
 </ul>
 </dd>
-<dt>Enhancements / Changes:</dt>
-<dd><ul class="first last simple">
-<li>Synced with upstream <a class="reference external" href="https://github.com/thestk/rtmidi">RtMidi</a> (2.1.1-907a94c).</li>
-<li>Applied patch from <a class="reference external" href="https://github.com/thestk/rtmidi/pull/89">https://github.com/thestk/rtmidi/pull/89</a>.
+<dt>Enhancements / Changes:</dt><dd><ul class="simple">
+<li><p>Synced with upstream <a class="reference external" href="https://github.com/thestk/rtmidi">RtMidi</a> (2.1.1-907a94c).</p></li>
+<li><p>Applied patch from <a class="reference external" href="https://github.com/thestk/rtmidi/pull/89">https://github.com/thestk/rtmidi/pull/89</a>.
 This means that when using the ALSA API port names are reported in the form
 <code class="docutils literal notranslate"><span class="pre">&lt;client</span> <span class="pre">name&gt;:&lt;port</span> <span class="pre">name&gt;</span> <span class="pre">&lt;port</span> <span class="pre">id&gt;</span></code> (this change was actually already
-in version 1.0.0).</li>
-<li>Added new <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> / <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> method <code class="docutils literal notranslate"><span class="pre">is_port_open</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> / <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> constructors and <code class="docutils literal notranslate"><span class="pre">open_port</span></code> /
+in version 1.0.0).</p></li>
+<li><p>Added new <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> / <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> method <code class="docutils literal notranslate"><span class="pre">is_port_open</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> / <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> constructors and <code class="docutils literal notranslate"><span class="pre">open_port</span></code> /
 <code class="docutils literal notranslate"><span class="pre">open_virtual_port</span></code> methods now raise <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> when an
-invalid type is passed as the client resp. port name.</li>
+invalid type is passed as the client resp. port name.</p></li>
 </ul>
 </dd>
-<dt>Documentation:</dt>
-<dd><ul class="first last simple">
-<li>Various small documentation improvements.</li>
+<dt>Documentation:</dt><dd><ul class="simple">
+<li><p>Various small documentation improvements.</p></li>
 </ul>
 </dd>
-<dt>Examples:</dt>
-<dd><ul class="first last simple">
-<li>Basic examples: some clean-up, more comments, updated API usage.</li>
-<li>Added new advanced example script <code class="docutils literal notranslate"><span class="pre">midiwrapper.py</span></code>.</li>
-<li>Added new advanced example script <code class="docutils literal notranslate"><span class="pre">recvrpn.py</span></code>.</li>
-<li><code class="docutils literal notranslate"><span class="pre">wavetablemodstep.py</span></code>: added command line param to set controller number.</li>
-<li><code class="docutils literal notranslate"><span class="pre">midi2command</span></code>: Fixed wrong mock lru_cache substitution for Python &lt; 3.2.</li>
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p>Basic examples: some clean-up, more comments, updated API usage.</p></li>
+<li><p>Added new advanced example script <code class="docutils literal notranslate"><span class="pre">midiwrapper.py</span></code>.</p></li>
+<li><p>Added new advanced example script <code class="docutils literal notranslate"><span class="pre">recvrpn.py</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wavetablemodstep.py</span></code>: added command line param to set controller number.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">midi2command</span></code>: Fixed wrong mock lru_cache substitution for Python &lt; 3.2.</p></li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="version-1-0-0">
 <h2>2016-11-07 version 1.0.0<a class="headerlink" href="#version-1-0-0" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Project infrastructure:</dt>
-<dd><ul class="first last simple">
-<li>Added automatic documentation publishing on readthedocs.org.</li>
+<dl class="simple">
+<dt>Project infrastructure:</dt><dd><ul class="simple">
+<li><p>Added automatic documentation publishing on readthedocs.org.</p></li>
 </ul>
 </dd>
-<dt>Documentation:</dt>
-<dd><ul class="first last simple">
-<li>Added auto docs for MidiIn/MidiOut classes to sphinx docs.</li>
-<li>Removed pre-release related information from installation docs.</li>
+<dt>Documentation:</dt><dd><ul class="simple">
+<li><p>Added auto docs for MidiIn/MidiOut classes to sphinx docs.</p></li>
+<li><p>Removed pre-release related information from installation docs.</p></li>
 </ul>
 </dd>
-<dt>Building:</dt>
-<dd><ul class="first last simple">
-<li>Added generated INSTALL.rst to repo to make ReadTheDocs integration work.</li>
+<dt>Building:</dt><dd><ul class="simple">
+<li><p>Added generated INSTALL.rst to repo to make ReadTheDocs integration work.</p></li>
 </ul>
 </dd>
-<dt>Examples:</dt>
-<dd><ul class="first last simple">
-<li>Added new example script <code class="docutils literal notranslate"><span class="pre">panic.py</span></code>.</li>
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p>Added new example script <code class="docutils literal notranslate"><span class="pre">panic.py</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="version-1-0-0rc1">
 <h2>2016-10-09 version 1.0.0rc1<a class="headerlink" href="#version-1-0-0rc1" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Project infrastructure:</dt>
-<dd><ul class="first last simple">
-<li>Moved repository to Github.</li>
+<dl class="simple">
+<dt>Project infrastructure:</dt><dd><ul class="simple">
+<li><p>Moved repository to Github.</p></li>
 </ul>
 </dd>
-<dt>Fixes:</dt>
-<dd><ul class="first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">midiutil.open_midiport</span></code>:<ul>
-<li>Correctly report and log I/O direction and instance type.</li>
-<li>Fix naming of virtual port.</li>
+<dt>Fixes:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">midiutil.open_midiport</span></code>:</p>
+<ul>
+<li><p>Correctly report and log I/O direction and instance type.</p></li>
+<li><p>Fix naming of virtual port.</p></li>
 </ul>
 </li>
 </ul>
 </dd>
-<dt>Enhancements / Changes:</dt>
-<dd><ul class="first last simple">
-<li>Synced with upstream <a class="reference external" href="https://github.com/thestk/rtmidi">RtMidi</a> (2.1.1-399a8ee).</li>
-<li><code class="docutils literal notranslate"><span class="pre">midiutil</span></code>:<ul>
-<li>The function <code class="docutils literal notranslate"><span class="pre">midiutil.open_port</span></code> has been renamed to <code class="docutils literal notranslate"><span class="pre">open_midiport</span></code>.</li>
-<li>Added convenience functions <code class="docutils literal notranslate"><span class="pre">open_midiinput</span></code> and <code class="docutils literal notranslate"><span class="pre">open_midioutput</span></code>,
-which wrap <code class="docutils literal notranslate"><span class="pre">open_midiport</span></code>.</li>
-<li>RtMidi API to use can be specified via the <code class="docutils literal notranslate"><span class="pre">RTMIDI_API</span></code> environment
+<dt>Enhancements / Changes:</dt><dd><ul class="simple">
+<li><p>Synced with upstream <a class="reference external" href="https://github.com/thestk/rtmidi">RtMidi</a> (2.1.1-399a8ee).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">midiutil</span></code>:</p>
+<ul>
+<li><p>The function <code class="docutils literal notranslate"><span class="pre">midiutil.open_port</span></code> has been renamed to <code class="docutils literal notranslate"><span class="pre">open_midiport</span></code>.</p></li>
+<li><p>Added convenience functions <code class="docutils literal notranslate"><span class="pre">open_midiinput</span></code> and <code class="docutils literal notranslate"><span class="pre">open_midioutput</span></code>,
+which wrap <code class="docutils literal notranslate"><span class="pre">open_midiport</span></code>.</p></li>
+<li><p>RtMidi API to use can be specified via the <code class="docutils literal notranslate"><span class="pre">RTMIDI_API</span></code> environment
 variable. Only used when <code class="docutils literal notranslate"><span class="pre">API_UNSPECIFIED</span></code> is passed for the <code class="docutils literal notranslate"><span class="pre">api</span></code>
 argument. Value should be one of the <code class="docutils literal notranslate"><span class="pre">API_*</span></code> constant names with out
-the <code class="docutils literal notranslate"><span class="pre">API_</span></code> prefix, e.g. <code class="docutils literal notranslate"><span class="pre">UNIX_JACK</span></code> for the Jack API.</li>
+the <code class="docutils literal notranslate"><span class="pre">API_</span></code> prefix, e.g. <code class="docutils literal notranslate"><span class="pre">UNIX_JACK</span></code> for the Jack API.</p></li>
 </ul>
 </li>
-<li>Cython wrapper class hierarchy restructured to better match the underlying
-C++ classes and remove code duplication.</li>
-<li>Some source code re-ordering was done.</li>
+<li><p>Cython wrapper class hierarchy restructured to better match the underlying
+C++ classes and remove code duplication.</p></li>
+<li><p>Some source code re-ordering was done.</p></li>
 </ul>
 </dd>
-<dt>Documentation:</dt>
-<dd><ul class="first last simple">
-<li>Added basic structure and initial content of Sphinx documentation.</li>
-<li>Documented exceptions raised by <code class="docutils literal notranslate"><span class="pre">MidiIn/Out.open_[virtual_]port()</span></code>.</li>
-<li>Some docstring corrections and formatting fixes.</li>
+<dt>Documentation:</dt><dd><ul class="simple">
+<li><p>Added basic structure and initial content of Sphinx documentation.</p></li>
+<li><p>Documented exceptions raised by <code class="docutils literal notranslate"><span class="pre">MidiIn/Out.open_[virtual_]port()</span></code>.</p></li>
+<li><p>Some docstring corrections and formatting fixes.</p></li>
 </ul>
 </dd>
-<dt>Building:</dt>
-<dd><ul class="first last simple">
-<li>Simplified <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> by throwing out old compatibility stuff.</li>
-<li>Explicitly call <code class="docutils literal notranslate"><span class="pre">PyEval_InitThreads</span></code> from Cython code instead of using
-undocumented compiler macro.</li>
+<dt>Building:</dt><dd><ul class="simple">
+<li><p>Simplified <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> by throwing out old compatibility stuff.</p></li>
+<li><p>Explicitly call <code class="docutils literal notranslate"><span class="pre">PyEval_InitThreads</span></code> from Cython code instead of using
+undocumented compiler macro.</p></li>
 </ul>
 </dd>
-<dt>Examples:</dt>
-<dd><ul class="first last simple">
-<li>Moved <cite>osc2midi</cite> example into its own repository at
-<a class="reference external" href="https://github.com/SpotlightKid/osc2rtmidi.git">https://github.com/SpotlightKid/osc2rtmidi.git</a></li>
-<li>Add new <code class="docutils literal notranslate"><span class="pre">sequencer</span></code> example.</li>
-<li>Add new <code class="docutils literal notranslate"><span class="pre">noteon2osc</span></code> example.</li>
-<li><code class="docutils literal notranslate"><span class="pre">midifilter</span></code>:<ul>
-<li>Moved <code class="docutils literal notranslate"><span class="pre">main.py</span></code> to <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code>, removed old code and fixed command
-line args access.</li>
-<li>Streamlined event matching.</li>
-<li>Added <code class="docutils literal notranslate"><span class="pre">CCToBankChange</span></code> filter.</li>
-<li><code class="docutils literal notranslate"><span class="pre">Queue</span></code> module renamed to <code class="docutils literal notranslate"><span class="pre">queue</span></code> in Python 3.</li>
-<li>Fixed opening of output port erroneously used <code class="docutils literal notranslate"><span class="pre">&quot;input&quot;</span></code>.</li>
-<li>Fixed positional command line args handling.</li>
-<li>Set command name for argparse.</li>
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p>Moved <cite>osc2midi</cite> example into its own repository at
+<a class="reference external" href="https://github.com/SpotlightKid/osc2rtmidi.git">https://github.com/SpotlightKid/osc2rtmidi.git</a></p></li>
+<li><p>Add new <code class="docutils literal notranslate"><span class="pre">sequencer</span></code> example.</p></li>
+<li><p>Add new <code class="docutils literal notranslate"><span class="pre">noteon2osc</span></code> example.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">midifilter</span></code>:</p>
+<ul>
+<li><p>Moved <code class="docutils literal notranslate"><span class="pre">main.py</span></code> to <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code>, removed old code and fixed command
+line args access.</p></li>
+<li><p>Streamlined event matching.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">CCToBankChange</span></code> filter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Queue</span></code> module renamed to <code class="docutils literal notranslate"><span class="pre">queue</span></code> in Python 3.</p></li>
+<li><p>Fixed opening of output port erroneously used <code class="docutils literal notranslate"><span class="pre">&quot;input&quot;</span></code>.</p></li>
+<li><p>Fixed positional command line args handling.</p></li>
+<li><p>Set command name for argparse.</p></li>
 </ul>
 </li>
-<li><code class="docutils literal notranslate"><span class="pre">midi2command</span></code>:<ul>
-<li>Added README.</li>
-<li>Added command line option to select backend API.</li>
-<li>Catch errors when opening port.</li>
-<li>Set client and port name.</li>
-<li>Cache command lookup (Python 3.2+ only).</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">midi2command</span></code>:</p>
+<ul>
+<li><p>Added README.</p></li>
+<li><p>Added command line option to select backend API.</p></li>
+<li><p>Catch errors when opening port.</p></li>
+<li><p>Set client and port name.</p></li>
+<li><p>Cache command lookup (Python 3.2+ only).</p></li>
 </ul>
 </li>
-<li><code class="docutils literal notranslate"><span class="pre">sysexsaver</span></code>:<ul>
-<li>Moved <code class="docutils literal notranslate"><span class="pre">main.py</span></code> to <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code>, some refactoring.</li>
-<li><code class="docutils literal notranslate"><span class="pre">models.py</span></code>: Fixed wrong entry for manufacturer <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">32,</span> <span class="pre">81)</span></code>.</li>
-<li>Moved module level code into <code class="docutils literal notranslate"><span class="pre">main</span></code> function.</li>
-<li>Include model name in output file, if possible.</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sysexsaver</span></code>:</p>
+<ul>
+<li><p>Moved <code class="docutils literal notranslate"><span class="pre">main.py</span></code> to <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code>, some refactoring.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">models.py</span></code>: Fixed wrong entry for manufacturer <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">32,</span> <span class="pre">81)</span></code>.</p></li>
+<li><p>Moved module level code into <code class="docutils literal notranslate"><span class="pre">main</span></code> function.</p></li>
+<li><p>Include model name in output file, if possible.</p></li>
 </ul>
 </li>
-<li><code class="docutils literal notranslate"><span class="pre">drumseq</span></code>:<ul>
-<li>Fixed global access in <code class="docutils literal notranslate"><span class="pre">Sequencer</span></code> class.</li>
-<li>Use <code class="docutils literal notranslate"><span class="pre">args.FileType</span></code> for pattern command line args.</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">drumseq</span></code>:</p>
+<ul>
+<li><p>Fixed global access in <code class="docutils literal notranslate"><span class="pre">Sequencer</span></code> class.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">args.FileType</span></code> for pattern command line args.</p></li>
 </ul>
 </li>
 </ul>
@@ -340,268 +361,247 @@ line args access.</li>
 </div>
 <div class="section" id="version-0-5b1">
 <h2>2014-06-11 version 0.5b1<a class="headerlink" href="#version-0-5b1" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Fixes:</dt>
-<dd><ul class="first last simple">
-<li>Synced <a class="reference external" href="https://github.com/thestk/rtmidi">RtMidi</a> code with git repo &#64; 2c7a6664d6, which fixed several issues
-(see <a class="reference external" href="https://github.com/thestk/rtmidi/issues?state=closed">https://github.com/thestk/rtmidi/issues?state=closed</a>).</li>
-<li><code class="docutils literal notranslate"><span class="pre">MidiIn/Out.open_virtual_port</span></code> returns <code class="docutils literal notranslate"><span class="pre">self</span></code> for context manager
-support, consistent with <code class="docutils literal notranslate"><span class="pre">MidiIn/Out.open_port</span></code>.</li>
-<li>Fix Python &lt;= 2.6 incompatible encode method call (python-rtmidi
+<dl class="simple">
+<dt>Fixes:</dt><dd><ul class="simple">
+<li><p>Synced <a class="reference external" href="https://github.com/thestk/rtmidi">RtMidi</a> code with git repo &#64; 2c7a6664d6, which fixed several issues
+(see <a class="reference external" href="https://github.com/thestk/rtmidi/issues?state=closed">https://github.com/thestk/rtmidi/issues?state=closed</a>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MidiIn/Out.open_virtual_port</span></code> returns <code class="docutils literal notranslate"><span class="pre">self</span></code> for context manager
+support, consistent with <code class="docutils literal notranslate"><span class="pre">MidiIn/Out.open_port</span></code>.</p></li>
+<li><p>Fix Python &lt;= 2.6 incompatible encode method call (python-rtmidi
 officially only supports Python &gt;= 2.7). Thanks to Michiel Overtoom for
-reporting this.</li>
-<li>Respect passed MIDI api when requesting MidiOut instance from
-<code class="docutils literal notranslate"><span class="pre">midiutil.open_midiport</span></code>.</li>
+reporting this.</p></li>
+<li><p>Respect passed MIDI api when requesting MidiOut instance from
+<code class="docutils literal notranslate"><span class="pre">midiutil.open_midiport</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="docutils">
-<dt>Enhancements / Changes:</dt>
-<dd><ul class="first last simple">
-<li>Support for Windows Kernel Streaming API was removed in RtMidi (it was
-broken anyway) and consequently in <code class="docutils literal notranslate"><span class="pre">python-rtmidi</span></code> as well.</li>
-<li>Raise <code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code> exception when trying to open a (virtual) port on a
-<code class="docutils literal notranslate"><span class="pre">MidiIn/Out</span></code> instance that already has an open (virtual) port.</li>
-<li>Add some common synonyms for MIDI events and controllers and some source
-comments about controller usage to <code class="docutils literal notranslate"><span class="pre">midiconstants</span></code> module.</li>
+<dl class="simple">
+<dt>Enhancements / Changes:</dt><dd><ul class="simple">
+<li><p>Support for Windows Kernel Streaming API was removed in RtMidi (it was
+broken anyway) and consequently in <code class="docutils literal notranslate"><span class="pre">python-rtmidi</span></code> as well.</p></li>
+<li><p>Raise <code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code> exception when trying to open a (virtual) port on a
+<code class="docutils literal notranslate"><span class="pre">MidiIn/Out</span></code> instance that already has an open (virtual) port.</p></li>
+<li><p>Add some common synonyms for MIDI events and controllers and some source
+comments about controller usage to <code class="docutils literal notranslate"><span class="pre">midiconstants</span></code> module.</p></li>
 </ul>
 </dd>
-<dt>Documentation:</dt>
-<dd><ul class="first last simple">
-<li>Fix and clarify <code class="docutils literal notranslate"><span class="pre">queue_size_limit</span></code> default value in docstrings</li>
-<li>Various docstring consistency improvements and minor fixes.</li>
+<dt>Documentation:</dt><dd><ul class="simple">
+<li><p>Fix and clarify <code class="docutils literal notranslate"><span class="pre">queue_size_limit</span></code> default value in docstrings</p></li>
+<li><p>Various docstring consistency improvements and minor fixes.</p></li>
 </ul>
 </dd>
-<dt>Examples:</dt>
-<dd><ul class="first last simple">
-<li>New example script <code class="docutils literal notranslate"><span class="pre">midi2command.py</span></code>, which executes external commands
-on reception of configurable MIDI events, with example configuration.</li>
-<li>New example directory <code class="docutils literal notranslate"><span class="pre">drumseq</span></code> with a simple drum pattern sequencer
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p>New example script <code class="docutils literal notranslate"><span class="pre">midi2command.py</span></code>, which executes external commands
+on reception of configurable MIDI events, with example configuration.</p></li>
+<li><p>New example directory <code class="docutils literal notranslate"><span class="pre">drumseq</span></code> with a simple drum pattern sequencer
 and example drum patterns. Thanks to Michiel Overtoom for the original
-script!</li>
+script!</p></li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="version-0-4-3b1">
 <h2>2013-11-10 version 0.4.3b1<a class="headerlink" href="#version-0-4-3b1" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Building:</dt>
-<dd><ul class="first last simple">
-<li>Add numeric suffix to version number to comply with PEP 440.</li>
-<li>Add missing <code class="docutils literal notranslate"><span class="pre">fill_template.py</span></code> to source distribution.</li>
-<li>Set default setuptools version in <code class="docutils literal notranslate"><span class="pre">ez_setup.py</span></code> to 1.3.2, which
-contains fix for bug #99 mentioned below.</li>
+<dl class="simple">
+<dt>Building:</dt><dd><ul class="simple">
+<li><p>Add numeric suffix to version number to comply with PEP 440.</p></li>
+<li><p>Add missing <code class="docutils literal notranslate"><span class="pre">fill_template.py</span></code> to source distribution.</p></li>
+<li><p>Set default setuptools version in <code class="docutils literal notranslate"><span class="pre">ez_setup.py</span></code> to 1.3.2, which
+contains fix for bug #99 mentioned below.</p></li>
 </ul>
 </dd>
-<dt>Documentation:</dt>
-<dd><ul class="first last simple">
-<li>Add note to installation guide about required <code class="docutils literal notranslate"><span class="pre">--pre</span></code> option with pip.</li>
+<dt>Documentation:</dt><dd><ul class="simple">
+<li><p>Add note to installation guide about required <code class="docutils literal notranslate"><span class="pre">--pre</span></code> option with pip.</p></li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="version-0-4-2b">
 <h2>2013-11-07 version 0.4.2b<a class="headerlink" href="#version-0-4-2b" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Fixes:</dt>
-<dd><ul class="first last simple">
-<li>Add missing <code class="docutils literal notranslate"><span class="pre">API_*</span></code> constant to list of exported names of <code class="docutils literal notranslate"><span class="pre">_rtmidi</span></code>
-module.</li>
+<dl class="simple">
+<dt>Fixes:</dt><dd><ul class="simple">
+<li><p>Add missing <code class="docutils literal notranslate"><span class="pre">API_*</span></code> constant to list of exported names of <code class="docutils literal notranslate"><span class="pre">_rtmidi</span></code>
+module.</p></li>
 </ul>
 </dd>
-<dt>Enhancements / Changes:</dt>
-<dd><ul class="first last simple">
-<li>Change default value of <code class="docutils literal notranslate"><span class="pre">encoding</span></code> argument of <code class="docutils literal notranslate"><span class="pre">get_ports</span></code> and
+<dt>Enhancements / Changes:</dt><dd><ul class="simple">
+<li><p>Change default value of <code class="docutils literal notranslate"><span class="pre">encoding</span></code> argument of <code class="docutils literal notranslate"><span class="pre">get_ports</span></code> and
 <code class="docutils literal notranslate"><span class="pre">get_port_name</span></code> methods to <cite>“auto”</cite>, which selects appropriate encoding
-based on system and backend API used.</li>
-<li>Add <code class="docutils literal notranslate"><span class="pre">api</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">midiutil.open_midiport</span></code> function to select
-backend API.</li>
-<li>Make client name for <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> and `` MidiIn`` different again,
-because some backend APIs might require unique client names.</li>
+based on system and backend API used.</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">api</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">midiutil.open_midiport</span></code> function to select
+backend API.</p></li>
+<li><p>Make client name for <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> and `` MidiIn`` different again,
+because some backend APIs might require unique client names.</p></li>
 </ul>
 </dd>
-<dt>Building:</dt>
-<dd><ul class="first last simple">
-<li>Include workaround for setuptools bug (see bitbucket issue #99) in
-setup file.</li>
-<li>Add custom distutils command to fill placeholders in <code class="docutils literal notranslate"><span class="pre">INSTALL.rst.in</span></code>
-template with release meta data.</li>
-<li>Setuptools is now required, pure distutils won’t work anymore, so removing
-the fallback import of <code class="docutils literal notranslate"><span class="pre">setup</span></code> from distutils.</li>
+<dt>Building:</dt><dd><ul class="simple">
+<li><p>Include workaround for setuptools bug (see bitbucket issue #99) in
+setup file.</p></li>
+<li><p>Add custom distutils command to fill placeholders in <code class="docutils literal notranslate"><span class="pre">INSTALL.rst.in</span></code>
+template with release meta data.</p></li>
+<li><p>Setuptools is now required, pure distutils won’t work anymore, so removing
+the fallback import of <code class="docutils literal notranslate"><span class="pre">setup</span></code> from distutils.</p></li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="version-0-4-1b">
 <h2>2013-11-05 version 0.4.1b<a class="headerlink" href="#version-0-4-1b" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Building:</dt>
-<dd><ul class="first last simple">
-<li>Include missing <code class="docutils literal notranslate"><span class="pre">_rtmidi.cpp</span></code> file in source distribution.</li>
+<dl class="simple">
+<dt>Building:</dt><dd><ul class="simple">
+<li><p>Include missing <code class="docutils literal notranslate"><span class="pre">_rtmidi.cpp</span></code> file in source distribution.</p></li>
 </ul>
 </dd>
-<dt>Documentation:</dt>
-<dd><ul class="first last simple">
-<li>Fill in release data placeholders in <code class="docutils literal notranslate"><span class="pre">INSTALL.rst</span></code>.</li>
+<dt>Documentation:</dt><dd><ul class="simple">
+<li><p>Fill in release data placeholders in <code class="docutils literal notranslate"><span class="pre">INSTALL.rst</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="version-0-4b">
 <h2>2013-11-05 version 0.4b<a class="headerlink" href="#version-0-4b" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Fixes:</dt>
-<dd><ul class="first last simple">
-<li>Fix string conversion in constructors and <code class="docutils literal notranslate"><span class="pre">open_*</span></code> methods.</li>
-<li>Change default value <code class="docutils literal notranslate"><span class="pre">queue_size_limit</span></code> argument to <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code>
-constructor to 1024.</li>
-<li>Update version number in <code class="docutils literal notranslate"><span class="pre">RtMidi.cpp/h</span></code> to reflect actual code state.</li>
+<dl class="simple">
+<dt>Fixes:</dt><dd><ul class="simple">
+<li><p>Fix string conversion in constructors and <code class="docutils literal notranslate"><span class="pre">open_*</span></code> methods.</p></li>
+<li><p>Change default value <code class="docutils literal notranslate"><span class="pre">queue_size_limit</span></code> argument to <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code>
+constructor to 1024.</p></li>
+<li><p>Update version number in <code class="docutils literal notranslate"><span class="pre">RtMidi.cpp/h</span></code> to reflect actual code state.</p></li>
 </ul>
 </dd>
-<dt>Enhancements / Changes:</dt>
-<dd><ul class="first last simple">
-<li>Elevated development status to beta.</li>
-<li>Allow <code class="docutils literal notranslate"><span class="pre">MidiIn/Out.open_port</span></code> methods to be used with the <code class="docutils literal notranslate"><span class="pre">with</span></code>
-statement and the port will be closed at the end of the block.</li>
-<li><code class="docutils literal notranslate"><span class="pre">MidiIn</span></code>/<code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> and <code class="docutils literal notranslate"><span class="pre">open*()</span></code> methods: allow to specify <code class="docutils literal notranslate"><span class="pre">None</span></code>
-as client or port name to get the default names.</li>
-<li>Move <code class="docutils literal notranslate"><span class="pre">midiconstants</span></code> module from examples into <code class="docutils literal notranslate"><span class="pre">rtmidi</span></code> package
-and added <code class="docutils literal notranslate"><span class="pre">midiutil</span></code> module.</li>
-<li><code class="docutils literal notranslate"><span class="pre">midiutils.open_midiport</span></code>:<ul>
-<li>Allow to pass (substring of) port name as alternative to port number.</li>
-<li>Re-raise <code class="docutils literal notranslate"><span class="pre">EOFError</span></code> and <code class="docutils literal notranslate"><span class="pre">KeyboardInterrupt</span></code> instead of using
-<code class="docutils literal notranslate"><span class="pre">sys.exit()</span></code>.</li>
-<li>Add <code class="docutils literal notranslate"><span class="pre">client_name</span></code> and <code class="docutils literal notranslate"><span class="pre">port_name</span></code> arguments.</li>
-<li>Add <code class="docutils literal notranslate"><span class="pre">use_virtual</span></code> argument (default <code class="docutils literal notranslate"><span class="pre">False</span></code>) to request opening
-of a virtual MIDI port.</li>
-<li>Add <code class="docutils literal notranslate"><span class="pre">interactive</span></code> keyword argument (default <code class="docutils literal notranslate"><span class="pre">True</span></code>) to disable
-interactive prompt for port.</li>
+<dt>Enhancements / Changes:</dt><dd><ul class="simple">
+<li><p>Elevated development status to beta.</p></li>
+<li><p>Allow <code class="docutils literal notranslate"><span class="pre">MidiIn/Out.open_port</span></code> methods to be used with the <code class="docutils literal notranslate"><span class="pre">with</span></code>
+statement and the port will be closed at the end of the block.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MidiIn</span></code>/<code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> and <code class="docutils literal notranslate"><span class="pre">open*()</span></code> methods: allow to specify <code class="docutils literal notranslate"><span class="pre">None</span></code>
+as client or port name to get the default names.</p></li>
+<li><p>Move <code class="docutils literal notranslate"><span class="pre">midiconstants</span></code> module from examples into <code class="docutils literal notranslate"><span class="pre">rtmidi</span></code> package
+and added <code class="docutils literal notranslate"><span class="pre">midiutil</span></code> module.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">midiutils.open_midiport</span></code>:</p>
+<ul>
+<li><p>Allow to pass (substring of) port name as alternative to port number.</p></li>
+<li><p>Re-raise <code class="docutils literal notranslate"><span class="pre">EOFError</span></code> and <code class="docutils literal notranslate"><span class="pre">KeyboardInterrupt</span></code> instead of using
+<code class="docutils literal notranslate"><span class="pre">sys.exit()</span></code>.</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">client_name</span></code> and <code class="docutils literal notranslate"><span class="pre">port_name</span></code> arguments.</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">use_virtual</span></code> argument (default <code class="docutils literal notranslate"><span class="pre">False</span></code>) to request opening
+of a virtual MIDI port.</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">interactive</span></code> keyword argument (default <code class="docutils literal notranslate"><span class="pre">True</span></code>) to disable
+interactive prompt for port.</p></li>
 </ul>
 </li>
-<li>Raise <code class="docutils literal notranslate"><span class="pre">NotImplemented</span></code> error when trying to open a virtual port with
-Windows MultiMedia API.</li>
-<li>Change default name of virtual ports.</li>
+<li><p>Raise <code class="docutils literal notranslate"><span class="pre">NotImplemented</span></code> error when trying to open a virtual port with
+Windows MultiMedia API.</p></li>
+<li><p>Change default name of virtual ports.</p></li>
 </ul>
 </dd>
-<dt>Documentation:</dt>
-<dd><ul class="first last simple">
-<li>Re-organize package description and installation instructions into several
-files and add separate text files with changelog and license information.</li>
-<li>Add detailed instructions for compiling from source on Windows</li>
-<li>Add docstrings to all methods and functions in <code class="docutils literal notranslate"><span class="pre">_rtmidi</span></code> module.</li>
-<li>Add docstring for <code class="docutils literal notranslate"><span class="pre">midiutils.open_midiport</span></code> function.</li>
+<dt>Documentation:</dt><dd><ul class="simple">
+<li><p>Re-organize package description and installation instructions into several
+files and add separate text files with changelog and license information.</p></li>
+<li><p>Add detailed instructions for compiling from source on Windows</p></li>
+<li><p>Add docstrings to all methods and functions in <code class="docutils literal notranslate"><span class="pre">_rtmidi</span></code> module.</p></li>
+<li><p>Add docstring for <code class="docutils literal notranslate"><span class="pre">midiutils.open_midiport</span></code> function.</p></li>
 </ul>
 </dd>
-<dt>Examples:</dt>
-<dd><ul class="first last simple">
-<li>Add new example package <code class="docutils literal notranslate"><span class="pre">osc2midi</span></code>, a simple, uni-directional OSC to MIDI
-mapper.</li>
-<li>New example script <code class="docutils literal notranslate"><span class="pre">sendsysex.py</span></code> to demonstrate sending of MIDI system
-exclusive messages.</li>
-<li>New example script <code class="docutils literal notranslate"><span class="pre">wavetablemodstep.py</span></code> to demonstrate sending of
-MIDI control change messages.</li>
-<li>New <code class="docutils literal notranslate"><span class="pre">sysexsaver</span></code> example.</li>
-<li>Convert <code class="docutils literal notranslate"><span class="pre">midifilter</span></code> example script into a package.</li>
-<li>Upgrade  from <code class="docutils literal notranslate"><span class="pre">optparse</span></code> to <code class="docutils literal notranslate"><span class="pre">argparse</span></code> in example scripts.</li>
-<li>Enable logging in test scripts.</li>
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p>Add new example package <code class="docutils literal notranslate"><span class="pre">osc2midi</span></code>, a simple, uni-directional OSC to MIDI
+mapper.</p></li>
+<li><p>New example script <code class="docutils literal notranslate"><span class="pre">sendsysex.py</span></code> to demonstrate sending of MIDI system
+exclusive messages.</p></li>
+<li><p>New example script <code class="docutils literal notranslate"><span class="pre">wavetablemodstep.py</span></code> to demonstrate sending of
+MIDI control change messages.</p></li>
+<li><p>New <code class="docutils literal notranslate"><span class="pre">sysexsaver</span></code> example.</p></li>
+<li><p>Convert <code class="docutils literal notranslate"><span class="pre">midifilter</span></code> example script into a package.</p></li>
+<li><p>Upgrade  from <code class="docutils literal notranslate"><span class="pre">optparse</span></code> to <code class="docutils literal notranslate"><span class="pre">argparse</span></code> in example scripts.</p></li>
+<li><p>Enable logging in test scripts.</p></li>
 </ul>
 </dd>
-<dt>Building:</dt>
-<dd><ul class="first last simple">
-<li>Switch from <code class="docutils literal notranslate"><span class="pre">distribute</span></code> back to <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>.</li>
-<li>Include <code class="docutils literal notranslate"><span class="pre">ez_setup.py</span></code> in source distribution.</li>
-<li>Include examples in source distribution.</li>
-<li>Install <code class="docutils literal notranslate"><span class="pre">osc2midi</span></code> example as package and command line script.</li>
-<li>Enable C++ exceptions on Windows build.</li>
+<dt>Building:</dt><dd><ul class="simple">
+<li><p>Switch from <code class="docutils literal notranslate"><span class="pre">distribute</span></code> back to <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>.</p></li>
+<li><p>Include <code class="docutils literal notranslate"><span class="pre">ez_setup.py</span></code> in source distribution.</p></li>
+<li><p>Include examples in source distribution.</p></li>
+<li><p>Install <code class="docutils literal notranslate"><span class="pre">osc2midi</span></code> example as package and command line script.</p></li>
+<li><p>Enable C++ exceptions on Windows build.</p></li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="version-0-3-1a">
 <h2>2013-01-23 version 0.3.1a<a class="headerlink" href="#version-0-3-1a" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Enhancements:</dt>
-<dd><ul class="first last simple">
-<li>Increase sysex input buffer size for WinMM API again to 8192 (8k) bytes.
-Requested by Martin Tarenskeen.</li>
+<dl class="simple">
+<dt>Enhancements:</dt><dd><ul class="simple">
+<li><p>Increase sysex input buffer size for WinMM API again to 8192 (8k) bytes.
+Requested by Martin Tarenskeen.</p></li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="version-0-3a">
 <h2>2013-01-14 version 0.3a<a class="headerlink" href="#version-0-3a" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Bug fixes:</dt>
-<dd><ul class="first last simple">
-<li>Add <code class="docutils literal notranslate"><span class="pre">encoding</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">get_port_name</span></code> methods of <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code>
+<dl class="simple">
+<dt>Bug fixes:</dt><dd><ul class="simple">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">encoding</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">get_port_name</span></code> methods of <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code>
 and <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> to be able to handle non-UTF-8 port names, e.g. on
-Windows (reported by Pierre Castellotti).</li>
-<li>Add <code class="docutils literal notranslate"><span class="pre">encoding</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">get_ports</span></code> method as well and pass it
-through to <code class="docutils literal notranslate"><span class="pre">get_port_name</span></code>. Use it in the test scripts.</li>
+Windows (reported by Pierre Castellotti).</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">encoding</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">get_ports</span></code> method as well and pass it
+through to <code class="docutils literal notranslate"><span class="pre">get_port_name</span></code>. Use it in the test scripts.</p></li>
 </ul>
 </dd>
-<dt>Enhancements:</dt>
-<dd><ul class="first last simple">
-<li>Increase sysex input buffer size for WinMM API to 4096 bytes.</li>
+<dt>Enhancements:</dt><dd><ul class="simple">
+<li><p>Increase sysex input buffer size for WinMM API to 4096 bytes.</p></li>
 </ul>
 </dd>
-<dt>Examples:</dt>
-<dd><ul class="first last simple">
-<li>Add new <code class="docutils literal notranslate"><span class="pre">midifilter.py</span></code> example script.</li>
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p>Add new <code class="docutils literal notranslate"><span class="pre">midifilter.py</span></code> example script.</p></li>
 </ul>
 </dd>
-<dt>Building:</dt>
-<dd><ul class="first last simple">
-<li>Add <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>/<code class="docutils literal notranslate"><span class="pre">distribute</span></code> support.</li>
+<dt>Building:</dt><dd><ul class="simple">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>/<code class="docutils literal notranslate"><span class="pre">distribute</span></code> support.</p></li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="version-0-2a">
 <h2>2012-07-22 version 0.2a<a class="headerlink" href="#version-0-2a" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Bug fixes:</dt>
-<dd><ul class="first last simple">
-<li>Fix uninitialized pointer bug in <code class="docutils literal notranslate"><span class="pre">RtMidi.cpp</span></code> in ‘MidiOutJack’ class,
+<dl class="simple">
+<dt>Bug fixes:</dt><dd><ul class="simple">
+<li><p>Fix uninitialized pointer bug in <code class="docutils literal notranslate"><span class="pre">RtMidi.cpp</span></code> in ‘MidiOutJack’ class,
 which caused a warning in the jack process callback when creating a
-<code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance with the JACK API.</li>
-<li><code class="docutils literal notranslate"><span class="pre">testmidiin_*.py</span></code>: fix superfluous decoding of port name (caused error
-with Python 3).</li>
+<code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance with the JACK API.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">testmidiin_*.py</span></code>: fix superfluous decoding of port name (caused error
+with Python 3).</p></li>
 </ul>
 </dd>
-<dt>Enhancements:</dt>
-<dd><ul class="first last simple">
-<li>Simplify some code, some things gleaned from rtmidi_python.</li>
-<li>Documentation typo fixes and more information on Windows compilation.</li>
-<li>Enhancements in test scripts:<ul>
-<li><code class="docutils literal notranslate"><span class="pre">test_probe_ports.py</span></code>: Catch exceptions when creating port.</li>
-<li><code class="docutils literal notranslate"><span class="pre">test_midiin_*.py</span></code>:<ul>
-<li>Better error message for missing/invalid port number.</li>
-<li>Show how to convert event delta time into absolute time when
-receiving input.</li>
+<dt>Enhancements:</dt><dd><ul class="simple">
+<li><p>Simplify some code, some things gleaned from rtmidi_python.</p></li>
+<li><p>Documentation typo fixes and more information on Windows compilation.</p></li>
+<li><p>Enhancements in test scripts:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">test_probe_ports.py</span></code>: Catch exceptions when creating port.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">test_midiin_*.py</span></code>:</p>
+<ul>
+<li><p>Better error message for missing/invalid port number.</p></li>
+<li><p>Show how to convert event delta time into absolute time when
+receiving input.</p></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </dd>
-<dt>Building:</dt>
-<dd><ul class="first last simple">
-<li>Building on OS X 10.6.9 with CoreMIDI and JACK for OS X successfully
-tested and test run without errors.</li>
-<li>WinMM support now compiles with Visual Studio 2008 Express and tests
-work under Windows XP SP3 32-bit.</li>
-<li>Add command line option to exclude WinMM or WinKS API from compilation.</li>
-<li>Add missing <code class="docutils literal notranslate"><span class="pre">extra_compile_args</span></code> to Extension kwargs in setup file.</li>
-<li>Add <code class="docutils literal notranslate"><span class="pre">library_dirs</span></code> to Extension kwargs in setup file.</li>
-<li>Use <code class="docutils literal notranslate"><span class="pre">-frtti</span></code> compiler option on OS X (neccessary on 10.7?).</li>
-<li>Fix file name conflict on case-insensitive file systems by prefixing
-<code class="docutils literal notranslate"><span class="pre">rtmidi.{pyx,cpp}</span></code> with an underscore</li>
-<li>Provide correct compiler flags for compiling with Windows MultiMedia API.</li>
-<li>Adapt windows library and include path for Visual Studio 2008 Express.</li>
-<li>add support for compiling with Windows Kernel Streaming API (does not
-not compile due to syntax errors in RtMidi.cpp yet).</li>
+<dt>Building:</dt><dd><ul class="simple">
+<li><p>Building on OS X 10.6.9 with CoreMIDI and JACK for OS X successfully
+tested and test run without errors.</p></li>
+<li><p>WinMM support now compiles with Visual Studio 2008 Express and tests
+work under Windows XP SP3 32-bit.</p></li>
+<li><p>Add command line option to exclude WinMM or WinKS API from compilation.</p></li>
+<li><p>Add missing <code class="docutils literal notranslate"><span class="pre">extra_compile_args</span></code> to Extension kwargs in setup file.</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">library_dirs</span></code> to Extension kwargs in setup file.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">-frtti</span></code> compiler option on OS X (neccessary on 10.7?).</p></li>
+<li><p>Fix file name conflict on case-insensitive file systems by prefixing
+<code class="docutils literal notranslate"><span class="pre">rtmidi.{pyx,cpp}</span></code> with an underscore</p></li>
+<li><p>Provide correct compiler flags for compiling with Windows MultiMedia API.</p></li>
+<li><p>Adapt windows library and include path for Visual Studio 2008 Express.</p></li>
+<li><p>add support for compiling with Windows Kernel Streaming API (does not
+not compile due to syntax errors in RtMidi.cpp yet).</p></li>
 </ul>
 </dd>
 </dl>
@@ -621,6 +621,7 @@ not compile due to syntax errors in RtMidi.cpp yet).</li>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#version-1-3-1">2019-10-15 version 1.3.1</a></li>
 <li><a class="reference internal" href="#version-1-3-0">2019-04-15 version 1.3.0</a></li>
 <li><a class="reference internal" href="#version-1-2-1">2019-01-18 version 1.2.1</a></li>
 <li><a class="reference internal" href="#version-1-2-0">2019-01-13 version 1.2.0</a></li>
@@ -656,13 +657,11 @@ not compile due to syntax errors in RtMidi.cpp yet).</li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -686,12 +685,12 @@ not compile due to syntax errors in RtMidi.cpp yet).</li>
         <li class="right" >
           <a href="authors.html" title="Credits"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2012 - 2018, Christopher Arndt.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+        &#169; Copyright 2012 - 2019, Christopher Arndt.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
     </div>
   </body>
 </html>
