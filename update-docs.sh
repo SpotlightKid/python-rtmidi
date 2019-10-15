@@ -2,7 +2,7 @@
 #
 # update-docs.sh - Build documentation, update gh-pages branch and push changes
 
-git checkout master
+git checkout master || exit 1
 git pull
 make docs
 git checkout gh-pages
