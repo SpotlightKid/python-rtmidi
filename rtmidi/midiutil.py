@@ -220,7 +220,7 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
 
     if len(ports) == 0:
         del midiobj
-        raise rtmmidi.NoDevicesError("No MIDI %s ports found." % type_)
+        raise rtmidi.NoDevicesError("No MIDI %s ports found." % type_)
 
     try:
         port = int(port)
