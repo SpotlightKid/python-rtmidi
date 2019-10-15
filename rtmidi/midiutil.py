@@ -52,7 +52,7 @@ def get_api_from_environment(api=rtmidi.API_UNSPECIFIED):
     ``WINDOWS_MM`` and ``RTMIDI_DUMMY``. If no valid value is found,
     ``rtmidi.API_UNSPECIFIED`` will be used.
 
-    Returns a ``rtmmidi.API_*`` constant.
+    Returns a ``rtmidi.API_*`` constant.
 
     """
     if api == rtmidi.API_UNSPECIFIED and 'RTMIDI_API' in os.environ:
