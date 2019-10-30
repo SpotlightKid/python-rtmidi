@@ -23,6 +23,12 @@ compile the extension (if no pre-compiled binary wheel is available) and
 install it in your active Python installation. Unless you want to change the
 Cython_ source file ``_rtmidi.pyx``, there is no need to have Cython installed.
 
+.. note::
+    On some Linux distributions, e.g. *Debian*, which support both Python 2 and
+    Python 3, pip may installed under the name ``pip2`` resp. ``pip3``. In this
+    case, just ``pip2`` instead of ``pip`` if you're still using Python 2 or
+    ``pip3`` if you are using Python 3 (recommended).
+
 python-rtmidi also works well with virtualenv_ and virtualenvwrapper_. If you
 have both installed, creating an isolated environment for testing and/or using
 python-rtmidi is as easy as::
@@ -75,7 +81,7 @@ backends will be supported by the python-rtmidi extension binary it produces.
 | ``--no-winmm``    |           |               | supported | Don't compile in support for Windows MultiMedia backend. |
 +-------------------+-----------+---------------+-----------+----------------------------------------------------------+
 
-Support for each OS dependent MIDI backend is only enabled, when the required
+Support for each OS dependent MIDI backend is only enabled when the required
 library and header files are actually present on the system. When the options
 passed to ``setup.py`` change, it may be necessary to remove previously built
 files by deleting the ``build`` directory.
@@ -83,7 +89,7 @@ files by deleting the ``build`` directory.
 You can also pass these options to ``setup.py`` when using pip, by using its
 ``--install-option`` option, for example::
 
-    pip install python-rtmidi --install-option"--no-jack"
+    pip install python-rtmidi --install-option="--no-jack"
 
 
 From the Source Distribution
