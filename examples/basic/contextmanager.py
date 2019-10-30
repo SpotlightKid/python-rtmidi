@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# test_midiin_callback.py
+# contextmanager.py
 #
 """Shows how to use a MidiOut instance as a context manager."""
 
@@ -20,5 +20,6 @@ with (midiout.open_port(0) if midiout.get_ports() else
     midiout.send_message(note_on)
     time.sleep(0.5)
     midiout.send_message(note_off)
+    time.sleep(0.1)
 
 del midiout

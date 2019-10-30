@@ -250,6 +250,7 @@ def _test():
     finally:
         seq.stop()
         midiout.close_port()
+        del midiout
 
 
 if __name__ == '__main__':

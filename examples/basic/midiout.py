@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# test_midiout.py
+# midiout.py
 #
 """Show how to open an output port and send MIDI events."""
 
@@ -23,18 +23,20 @@ logging.basicConfig(level=logging.DEBUG)
 port = sys.argv[1] if len(sys.argv) > 1 else None
 
 try:
-    midiout, port_name = open_midioutput(port, "output")
+    midiout, port_name = open_midioutput(port)
 except (EOFError, KeyboardInterrupt):
     sys.exit()
 
 note_on = [NOTE_ON, 60, 112]  # channel 1, middle C, velocity 112
 note_off = [NOTE_OFF, 60, 0]
 
-print("Sending NoteOn event.")
-midiout.send_message(note_on)
-time.sleep(1)
-print("Sending NoteOff event.")
-midiout.send_message(note_off)
+with midiout:
+    print("Sending NoteOn event.")
+    midiout.send_message(note_on)
+    time.sleep(1)
+    print("Sending NoteOff event.")
+    midiout.send_message(note_off)
+    time.sleep(0.1)
 
 del midiout
 print("Exit.")

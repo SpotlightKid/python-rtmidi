@@ -36,4 +36,4 @@ build_script:
 
 test: off
 
-on_success: "if [%APPVEYOR_REPO_TAG%]==[true] twine upload dist\\*.whl"
+on_success: "if [%APPVEYOR_REPO_TAG%]==[true] twine upload --skip-existing dist\\*.whl"

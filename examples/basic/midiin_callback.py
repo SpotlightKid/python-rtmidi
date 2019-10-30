@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# test_midiin_callback.py
+# midiin_callback.py
 #
 """Show how to receive MIDI input by setting a callback function."""
 

@@ -37,11 +37,13 @@ available MIDI output port and send a middle C note on MIDI channel 1::
     else:
         midiout.open_virtual_port("My virtual output")
 
-    note_on = [0x90, 60, 112] # channel 1, middle C, velocity 112
-    note_off = [0x80, 60, 0]
-    midiout.send_message(note_on)
-    time.sleep(0.5)
-    midiout.send_message(note_off)
+    with midiout:
+        note_on = [0x90, 60, 112] # channel 1, middle C, velocity 112
+        note_off = [0x80, 60, 0]
+        midiout.send_message(note_on)
+        time.sleep(0.5)
+        midiout.send_message(note_off)
+        time.sleep(0.1)
 
     del midiout
 
@@ -67,7 +69,7 @@ For more information, visit https://chrisarndt.de/projects/python-rtmidi.
 """
 
 name = 'python-rtmidi'
-version = '1.3.0'
+version = '1.3.1'
 description = __doc__.splitlines()
 keywords = 'rtmidi, midi, music'
 author = 'Christopher Arndt'

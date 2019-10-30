@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# midifilter.py
+# midifilter/__main__.py
 #
 """Simple MIDI filter / processor."""
 
@@ -82,7 +82,7 @@ def main(args=None):
     padd('filterargs', nargs="*", type=int,
          help='MIDI filter argument(s)')
 
-    args = parser.parse_args(args if args is not None else sys.argv[1:])
+    args = parser.parse_args(args)
 
     logging.basicConfig(format="%(name)s: %(levelname)s - %(message)s",
                         level=logging.DEBUG if args.verbose else logging.INFO)
@@ -130,4 +130,4 @@ def main(args=None):
 
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv[1:]) or 0)
+    sys.exit(main() or 0)

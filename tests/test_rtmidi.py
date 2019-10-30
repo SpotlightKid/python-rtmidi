@@ -9,7 +9,7 @@ import rtmidi
 
 
 if bytes is str:
-    string_types = (str, unicode)
+    string_types = (str, unicode)  # noqa:F821
 else:
     string_types = (str,)
 
@@ -57,7 +57,7 @@ class StaticFunctionsTests(unittest.TestCase):
     def test_get_rtmidi_version(self):
         version = rtmidi.get_rtmidi_version()
         self.assertTrue(isinstance(version, string_types))
-        self.assertEqual(version, '3.0.0')
+        self.assertEqual(version, '4.0.0')
 
 
 class BaseTests:

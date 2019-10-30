@@ -5,6 +5,46 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+2019-10-15 version 1.3.1
+------------------------
+
+Enhancements / Changes:
+  * RtMidi C++ exceptions are now caught when creating ``RtMidiIn/Out``
+    instances and converted into a Python ``rtmidi.SystemError``
+    exception.
+  * Helper functions in ``rtmidi.midiutil`` now raise sub-classes of
+    ``rtmidi.RtMidiError`` wherever appropriate. The docstrings where updated
+    accordingly.
+  * Updated ``rtmidi`` sub-module, which includes the following changes:
+
+    * C++ exceptions, when thrown, do not print the error message to stderr
+      anymore.
+    * When the JACK backend can't be initialized (e.g. when the server isn't
+      running) it causes a ``DRIVER_ERROR`` instead of just a printing a
+      ``WARNING``.
+
+Examples:
+  * ``midiout.py``: removed surplus second argument to ``open_midioutput``
+    left over from previous version of script.
+  * Renamed example script ``midiwrapper.py`` to ``midioutwrapper.py`` to
+    better indicate its function.
+  * ``sendsysex.py``: use helper functions from midiutil module to list
+    and open MIDI ports; improve error handling.
+  * Made sure MIDI ports are always properly closed and ``MidiIn/Out``
+    instances are deleted.
+  * Inserted delay before closing/deleting output (may be needed with
+    Windows MMS).
+  * Simplified command line argument handling.
+  * Fixed example script file names in header comments.
+
+Documentation:
+  * Made various small documentation wording changes and typo fixes.
+  * Updated year in copyright info in license file and Sphinx documentation.
+
+Project infrastructure:
+  * Updated development dependency on ``urllib3`` to 1.24.2 (CVE-2019-11324).
+
+
 2019-04-15 version 1.3.0
 ------------------------
 
@@ -25,7 +65,7 @@ Documentation:
 
 Fixes:
   * Fixed build when compiling with JACK support, but JACK version is too old
-    to have `jack_port_rename` function (#40).
+    to have ``jack_port_rename`` function (#40).
 
 Project infrastructure:
   * Added Linux builds for Python 2.7 and 3.4 - 3.7 to Travis CI setup.
