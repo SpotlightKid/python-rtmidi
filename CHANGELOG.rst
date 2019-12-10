@@ -4,6 +4,17 @@ Changelog
 For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
+Development
+-----------
+
+Enhancements / Changes:
+    Added ``MODULATION`` as an alias for ``MODULATION_WHEEL`` to
+    ``rtmidi.midiconstants``.
+
+Examples:
+    Changed ``midioutwrapper`` example to use ``rtmidi.midiutil.open_midiout`` so
+    that it also works on Windows (with no virtual ports support).
+
 
 2019-10-15 version 1.3.1
 ------------------------
