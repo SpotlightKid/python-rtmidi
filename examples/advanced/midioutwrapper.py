@@ -7,7 +7,6 @@
 
 import binascii
 
-import rtmidi
 from rtmidi.midiconstants import (ALL_NOTES_OFF, ALL_SOUND_OFF, BALANCE, BANK_SELECT_LSB,
                                   BANK_SELECT_MSB, BREATH_CONTROLLER, CHANNEL_PRESSURE,
                                   CHANNEL_VOLUME, CONTROL_CHANGE, DATA_ENTRY_LSB, DATA_ENTRY_MSB,
@@ -16,6 +15,7 @@ from rtmidi.midiconstants import (ALL_NOTES_OFF, ALL_SOUND_OFF, BALANCE, BANK_SE
                                   NRPN_LSB, NRPN_MSB, PAN, PITCH_BEND, POLY_PRESSURE,
                                   PROGRAM_CHANGE, RESET_ALL_CONTROLLERS, RPN_LSB, RPN_MSB,
                                   SONG_POSITION_POINTER, SONG_SELECT, TIMING_CLOCK)
+from rtmidi.midiutil import open_midioutput
 
 
 def parse_sysex_string(s):
@@ -216,12 +216,12 @@ class MidiOutWrapper:
 if __name__ == '__main__':
     import time
 
-    mout = rtmidi.MidiOut()
+    mout, name = open_midioutput(interactive=True)
 
     try:
-        with mout.open_virtual_port():
+        with mout:
             mw = MidiOutWrapper(mout, ch=3)
-            input('Connect to new MIDI port and then press key...')
+            input("Press key to send test messsage to port '%s'..." % name)
             mw.send_program_change(40)
             mw.send_note_on(60)
             time.sleep(1)
