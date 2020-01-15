@@ -36,8 +36,8 @@ and Windows (MultiMedia System) operating systems.
 provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
 parameters adapted to the Python PEP-8 conventions and requirements of the
-Python package naming structure. **python-rtmidi** supports Python 2 (tested
-with Python 2.7) and Python 3 (3.4, 3.5, 3.6 and 3.7).
+Python package naming structure. **python-rtmidi** supports Python 3 (3.5, 3.6,
+3.7, and 3.8).
 
 The documentation_ provides installation instructions, usage examples,
 a history of changes per release and an API reference.
