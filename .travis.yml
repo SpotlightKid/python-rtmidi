@@ -8,15 +8,6 @@ cache:
 
 matrix:
   include:
-    - name: "Python 2.7 (OS X)"
-      os: osx
-      osx_image: xcode8
-      language: generic
-      env:
-        PYTHON: python2.7
-        PYTHON_INSTALLER_URL: https://www.python.org/ftp/python/2.7.15/python-2.7.15-macosx10.6.pkg
-        PYTHON_INSTALLER_MD5: 9ac8c85150147f679f213addd1e7d96e
-        PATH: /Users/travis/Library/Python/2.7/bin:$PATH
     - name: "Python 3.6 (OS X)"
       os: osx
       osx_image: xcode8
@@ -32,17 +23,18 @@ matrix:
       language: generic
       env:
         PYTHON: python3.7
-        PYTHON_INSTALLER_URL: https://www.python.org/ftp/python/3.7.2/python-3.7.2-macosx10.6.pkg
-        PYTHON_INSTALLER_MD5: d8ff07973bc9c009de80c269fd7efcca
+        PYTHON_INSTALLER_URL: https://www.python.org/ftp/python/3.7.6/python-3.7.6-macosx10.6.pkg
+        PYTHON_INSTALLER_MD5: 0dfc4cdd9404cf0f5274d063eca4ea71
         PATH: /Users/travis/Library/Python/3.7/bin:$PATH
-    - name: "Python 2.7 (Linux)"
-      os: linux
-      dist: xenial
-      python: "2.7"
-    - name: "Python 3.4 (Linux)"
-      os: linux
-      dist: xenial
-      python: "3.4"
+    - name: "Python 3.8 (OS X)"
+      os: osx
+      osx_image: xcode8
+      language: generic
+      env:
+        PYTHON: python3.8
+        PYTHON_INSTALLER_URL: https://www.python.org/ftp/python/3.8.1/python-3.8.1-macosx10.9.pkg
+        PYTHON_INSTALLER_MD5: d1b09665312b6b1f4e11b03b6a4510a3
+        PATH: /Users/travis/Library/Python/3.8/bin:$PATH
     - name: "Python 3.5 (Linux)"
       os: linux
       dist: xenial
@@ -55,6 +47,10 @@ matrix:
       os: linux
       dist: xenial
       python: "3.7"
+    - name: "Python 3.8 (Linux)"
+      os: linux
+      dist: xenial
+      python: "3.8"
 
 git:
   depth: 1

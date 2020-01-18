@@ -4,16 +4,28 @@ Changelog
 For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
-Development
------------
 
-Enhancements / Changes:
-    Added ``MODULATION`` as an alias for ``MODULATION_WHEEL`` to
-    ``rtmidi.midiconstants``.
+2020-01-15 version 1.4.0
+------------------------
+
+Changes:
+    * Dropped nominal Python 2 support (no code changes or removals related
+      to this, though).
+    * Dropped Python 3.4 support.
+    * Added Python 3.8 to ``setup.py`` classifier.
+
+Enhancements:
+    * Added ``MODULATION`` as an alias for ``MODULATION_WHEEL`` to
+      ``rtmidi.midiconstants``.
 
 Examples:
-    Changed ``midioutwrapper`` example to use ``rtmidi.midiutil.open_midiout`` so
-    that it also works on Windows (with no virtual ports support).
+    * Changed ``midioutwrapper`` example to use
+      ``rtmidi.midiutil.open_midiout`` so that it also works on Windows (with
+      no virtual ports support).
+
+Project infrastructure:
+    * Removed Python 2.7 from CI tests and package builds.
+    * Added Python 3.8 to CI and package builds.
 
 
 2019-10-15 version 1.3.1

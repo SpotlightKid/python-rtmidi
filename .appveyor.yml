@@ -4,14 +4,14 @@ environment:
 
   matrix:
 
-    - PYTHON: Python27
-    - PYTHON: Python27-x64
     - PYTHON: Python35
     - PYTHON: Python35-x64
     - PYTHON: Python36
     - PYTHON: Python36-x64
     - PYTHON: Python37
     - PYTHON: Python37-x64
+    - PYTHON: Python38
+    - PYTHON: Python38-x64
 
 # To clear the cache, see https://ci.appveyor.com/api-keys for the token and use:
 # wget --header="Authorization: Bearer $TOKEN" --method DELETE https://ci.appveyor.com/api/projects/$USER/$PROJECT/buildcache
