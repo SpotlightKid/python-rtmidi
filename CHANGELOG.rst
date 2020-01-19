@@ -5,7 +5,7 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
-2020-01-15 version 1.4.0
+2020-01-19 version 1.4.0
 ------------------------
 
 Changes:
