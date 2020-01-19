@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Changelog &#8212; python-rtmidi 1.3.1 documentation</title>
+    <title>Changelog &#8212; python-rtmidi 1.4.0 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="authors.html" title="Credits"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -46,6 +46,44 @@
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <p>For details and minor changes, please see the <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/commits/master">version control log messages</a>.</p>
+<div class="section" id="version-1-4-0">
+<h2>2020-01-19 version 1.4.0<a class="headerlink" href="#version-1-4-0" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>Changes:</dt><dd><ul class="simple">
+<li><p>Dropped nominal Python 2 support (no code changes or removals related
+to this, though).</p></li>
+<li><p>Dropped Python 3.4 support.</p></li>
+<li><p>Added Python 3.8 to <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> classifier.</p></li>
+</ul>
+</dd>
+<dt>Enhancements:</dt><dd><ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">MODULATION</span></code> as an alias for <code class="docutils literal notranslate"><span class="pre">MODULATION_WHEEL</span></code> to
+<code class="docutils literal notranslate"><span class="pre">rtmidi.midiconstants</span></code>.</p></li>
+</ul>
+</dd>
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">midiclock</span></code> example to show how to receive MIDI timimng clock
+(#48).</p></li>
+<li><p>Changed <code class="docutils literal notranslate"><span class="pre">midioutwrapper</span></code> example to use
+<code class="docutils literal notranslate"><span class="pre">rtmidi.midiutil.open_midiout</span></code> so that it also works on Windows (with
+no virtual ports support) (#51).</p></li>
+</ul>
+</dd>
+<dt>Documentation:</dt><dd><ul class="simple">
+<li><p>Added note about <code class="docutils literal notranslate"><span class="pre">pip</span></code> being called <code class="docutils literal notranslate"><span class="pre">pip3</span></code> on Debian-based systems
+to install instructions (#49).</p></li>
+<li><p>Documented context manager protocol support better (#52).</p></li>
+<li><p>Clarified purpose of <code class="docutils literal notranslate"><span class="pre">data</span></code> argument of <code class="docutils literal notranslate"><span class="pre">MidiIn.set_callback</span></code> (#55).</p></li>
+<li><p>Updated year in copyright info in license file and Sphinx documentation.</p></li>
+</ul>
+</dd>
+<dt>Project infrastructure:</dt><dd><ul class="simple">
+<li><p>Removed Python 2.7 from CI tests and package builds.</p></li>
+<li><p>Added Python 3.8 to CI and package builds.</p></li>
+</ul>
+</dd>
+</dl>
+</div>
 <div class="section" id="version-1-3-1">
 <h2>2019-10-15 version 1.3.1<a class="headerlink" href="#version-1-3-1" title="Permalink to this headline">¶</a></h2>
 <dl class="simple">
@@ -621,6 +659,7 @@ not compile due to syntax errors in RtMidi.cpp yet).</p></li>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#version-1-4-0">2020-01-19 version 1.4.0</a></li>
 <li><a class="reference internal" href="#version-1-3-1">2019-10-15 version 1.3.1</a></li>
 <li><a class="reference internal" href="#version-1-3-0">2019-04-15 version 1.3.0</a></li>
 <li><a class="reference internal" href="#version-1-2-1">2019-01-18 version 1.2.1</a></li>
@@ -685,12 +724,12 @@ not compile due to syntax errors in RtMidi.cpp yet).</p></li>
         <li class="right" >
           <a href="authors.html" title="Credits"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2012 - 2019, Christopher Arndt.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+        &#169; Copyright 2012 - 2020, Christopher Arndt.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>

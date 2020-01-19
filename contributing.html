@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Contributing &#8212; python-rtmidi 1.3.1 documentation</title>
+    <title>Contributing &#8212; python-rtmidi 1.4.0 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="rtmidi.html" title="rtmidi package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -137,14 +137,16 @@ $ git push -u origin name-of-your-bugfix-or-feature
 <div class="section" id="pull-request-guidelines">
 <h2>Pull Request Guidelines<a class="headerlink" href="#pull-request-guidelines" title="Permalink to this headline">¶</a></h2>
 <p>Before you submit a pull request, check that it meets these guidelines:</p>
-<ol class="arabic simple">
+<ol class="arabic">
 <li><p>The pull request should include tests.</p></li>
 <li><p>If the pull request adds functionality, the docs should be updated. Put
 your new functionality into a function with a docstring, and add the
 feature to the release notes in <code class="docutils literal notranslate"><span class="pre">CHANGELOG.rst</span></code>.</p></li>
-<li><p>The pull request should work for Python 2.7, and 3.5, 3.6 and 3.7.
-Run <code class="docutils literal notranslate"><span class="pre">tox</span></code> to make sure that the tests pass for all supported Python
-versions.</p></li>
+<li><p>The pull request should work for all supported Python 3 versions (see
+classifiers in <code class="docutils literal notranslate"><span class="pre">rtmidi/release.py</span></code>)</p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">tox</span></code> to make sure that the tests pass for all supported Python
+versions.</p>
+</li>
 </ol>
 </div>
 <div class="section" id="tips">
@@ -222,12 +224,12 @@ versions.</p></li>
         <li class="right" >
           <a href="rtmidi.html" title="rtmidi package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2012 - 2019, Christopher Arndt.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+        &#169; Copyright 2012 - 2020, Christopher Arndt.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>
