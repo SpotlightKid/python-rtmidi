@@ -890,8 +890,11 @@ cdef class MidiIn(MidiBase):
         The callback function is called whenever a MIDI message is received and
         must take two arguments. The first argument is a two-element tuple with
         the MIDI message and a delta time, like the one returned by the
-        ``get_message`` method and the second argument is value of the ``data``
-        argument passed to this function when the callback is registered.
+        ``get_message`` method. The second argument is value of the ``data``
+        argument passed to ``set_callback`` when the callback is registered.
+        The value of ``data`` can be any Python object. It can be used inside
+        the callback function to access data that would not be in scope
+        otherwise.
 
         Registering a callback function replaces any previously registered
         callback.
