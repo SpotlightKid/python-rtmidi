@@ -5,7 +5,7 @@
 #
 """Receive MIDI clock and print out current BPM.
 
-MIDI clock (status ßxF8) is sent 24 times per quarter note by clock generators.
+MIDI clock (status 0xF8) is sent 24 times per quarter note by clock generators.
 
 """
 
