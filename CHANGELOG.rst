@@ -19,10 +19,18 @@ Enhancements:
       ``rtmidi.midiconstants``.
 
 Examples:
-    * Added ``midiclock`` example to show how to receive MIDI timimng clock.
+    * Added ``midiclock`` example to show how to receive MIDI timimng clock
+      (#48).
     * Changed ``midioutwrapper`` example to use
       ``rtmidi.midiutil.open_midiout`` so that it also works on Windows (with
-      no virtual ports support).
+      no virtual ports support) (#51).
+
+Documentation:
+  * Added note about ``pip`` being called ``pip3`` on Debian-based systems
+    to install instructions (#49).
+  * Documented context manager protocol support better (#52).
+  * Clarified purpose of ``data`` argument of ``MidiIn.set_callback`` (#55).
+  * Updated year in copyright info in license file and Sphinx documentation.
 
 Project infrastructure:
     * Removed Python 2.7 from CI tests and package builds.
