@@ -440,9 +440,40 @@ cdef class MidiBase:
 
     # context management
     def __enter__(self):
+        """Support context manager protocol.
+
+        This means you can use ``MidiIn`` / ``MidiOut`` instances like this:
+
+        :
+
+            midiout = MidiIn()
+            midiout.open_port(0)
+
+            with midiout:
+                midiout.send_message([...])
+
+        and ``midiout.close_port()`` will be called automatically when exiting
+        the ``with`` block.
+
+        Since ``open_port()`` also returns the instance, you can even do:
+
+        :
+
+            midiout = MidiIn()
+
+            with midiout.open_port(0):
+                midiout.send_message([...])
+
+        """
         return self
 
     def __exit__(self, *exc_info):
+        """Support context manager protocol.
+
+        This method is called when using a ``MidiIn`` / ``MidiOut`` instance as
+        a context manager and closes open ports when exiting the ``with`` block.
+
+        """
         self.close_port()
 
     def _check_port(self):
