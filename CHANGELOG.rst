@@ -19,7 +19,7 @@ Enhancements:
       ``rtmidi.midiconstants``.
 
 Examples:
-    * Added ``midiclock`` example to show how to receive MIDI timimng clock
+    * Added ``midiclock`` example to show how to receive MIDI timing clock
       (#48).
     * Changed ``midioutwrapper`` example to use
       ``rtmidi.midiutil.open_midiout`` so that it also works on Windows (with
