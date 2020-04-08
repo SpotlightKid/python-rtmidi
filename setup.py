@@ -110,7 +110,7 @@ Install Cython from https://pypi.python.org/pypi/Cython or use the
 pre-generated '_rtmidi.cpp' file from the python-rtmidi source distribution.
 """)
 
-define_macros = [('__RTMIDI_SILENCE_WARNINGS__', None)]
+define_macros = []
 include_dirs = [join(SRC_DIR, "rtmidi")]
 libraries = []
 extra_link_args = []
@@ -132,6 +132,12 @@ if '--no-jack' in sys.argv:
 if '--no-winmm' in sys.argv:
     winmm = False
     sys.argv.remove('--no-winmm')
+
+if '--no-suppress-warnings' not in sys.argv:
+    define_macros.append(('__RTMIDI_SILENCE_WARNINGS__', None))
+else:
+    sys.argv.remove('--no-suppress-warnings')
+
 
 if sys.platform.startswith('linux'):
     if alsa and find_library('asound'):

@@ -66,20 +66,22 @@ While the steps to get the sources differ, the actual compilation step consists
 only of the usual ``python setup.py install`` command in both cases.
 
 ``setup.py`` recognizes several options to control which OS-dependent MIDI
-backends will be supported by the python-rtmidi extension binary it produces.
+backends will be supported by the python-rtmidi extension binary it produces
+plus other options to control compilation of the RtMidi C++ library:
 
-
-+-------------------+-----------+---------------+-----------+----------------------------------------------------------+
-| Option            | Linux     | mac OS / OS X | Windows   |  Note                                                    |
-+===================+===========+===============+===========+==========================================================+
-| ``--no-alsa``     | supported |               |           | Don't compile in support for ALSA backend.               |
-+-------------------+-----------+---------------+-----------+----------------------------------------------------------+
-| ``--no-jack``     | supported | supported     |           | Don't compile in support for JACK backend.               |
-+-------------------+-----------+---------------+-----------+----------------------------------------------------------+
-| ``--no-coremidi`` |           | supported     |           | Don't compile in support for CoreMIDI backend.           |
-+-------------------+-----------+---------------+-----------+----------------------------------------------------------+
-| ``--no-winmm``    |           |               | supported | Don't compile in support for Windows MultiMedia backend. |
-+-------------------+-----------+---------------+-----------+----------------------------------------------------------+
++-----------------------------+-----------+---------------+-----------+----------------------------------------------------------+
+| Option                      | Linux     | mac OS / OS X | Windows   |  Note                                                    |
++=============================+===========+===============+===========+==========================================================+
+| ``--no-alsa``               | supported |               |           | Don't compile in support for ALSA backend.               |
++-----------------------------+-----------+---------------+-----------+----------------------------------------------------------+
+| ``--no-jack``               | supported | supported     |           | Don't compile in support for JACK backend.               |
++-----------------------------+-----------+---------------+-----------+----------------------------------------------------------+
+| ``--no-coremidi``           |           | supported     |           | Don't compile in support for CoreMIDI backend.           |
++-----------------------------+-----------+---------------+-----------+----------------------------------------------------------+
+| ``--no-winmm``              |           |               | supported | Don't compile in support for Windows MultiMedia backend. |
++-----------------------------+-----------+---------------+-----------+----------------------------------------------------------+
+| ``--no-suppress-warnings``  |           |               |           | Don't suppress RtMidi warnings to stderr.                |
++-----------------------------+-----------+---------------+-----------+----------------------------------------------------------+
 
 Support for each OS dependent MIDI backend is only enabled when the required
 library and header files are actually present on the system. When the options
