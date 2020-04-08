@@ -110,7 +110,7 @@ Install Cython from https://pypi.python.org/pypi/Cython or use the
 pre-generated '_rtmidi.cpp' file from the python-rtmidi source distribution.
 """)
 
-define_macros = []
+define_macros = [('__RTMIDI_SILENCE_WARNINGS__', None)]
 include_dirs = [join(SRC_DIR, "rtmidi")]
 libraries = []
 extra_link_args = []
