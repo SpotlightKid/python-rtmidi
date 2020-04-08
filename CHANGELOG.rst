@@ -5,6 +5,20 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+Development
+-----------
+
+Changes:
+    * Suppress RtMidi warnings to stderr, so that warnings issued in the
+      constructor of the ``RtMidiIn/Out`` C++ class instances before the
+      default error handler function can be atatched, don't end up in the
+      output.
+
+      As before, RtMidi warnings are turned into Python ``UserWarning``s
+      as soon as the default error handler is attached, but this can only
+      happen after the RtMidi C++ class has been instantiated.
+
+
 2020-01-19 version 1.4.0
 ------------------------
 
