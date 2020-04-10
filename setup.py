@@ -133,6 +133,12 @@ if '--no-winmm' in sys.argv:
     winmm = False
     sys.argv.remove('--no-winmm')
 
+if '--no-suppress-warnings' not in sys.argv:
+    define_macros.append(('__RTMIDI_SILENCE_WARNINGS__', None))
+else:
+    sys.argv.remove('--no-suppress-warnings')
+
+
 if sys.platform.startswith('linux'):
     if alsa and find_library('asound'):
         define_macros.append(("__LINUX_ALSA__", None))
