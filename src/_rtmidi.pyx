@@ -432,9 +432,9 @@ def _default_error_handler(etype, msg, data=None):
 
 
 cdef class MidiBase:
-    cdef object _deleted
     cdef object _port
     cdef object _error_callback
+    cdef object _deleted
 
     cdef RtMidi* baseptr(self):
         return NULL
@@ -864,6 +864,10 @@ cdef class MidiIn(MidiBase):
             del self.thisptr
             self._deleted = True
 
+    @property
+    def is_deleted(self):
+        return self._deleted
+
     def cancel_callback(self):
         """Remove the registered callback function for MIDI input.
 
@@ -1021,6 +1025,7 @@ cdef class MidiOut(MidiBase):
 
         self.set_error_callback(_default_error_handler)
         self._port = None
+        self._deleted = False
 
     def __dealloc__(self):
         """De-allocate pointer to C++ class instance."""
@@ -1047,6 +1052,10 @@ cdef class MidiOut(MidiBase):
         if not self._deleted:
             del self.thisptr
             self._deleted = True
+
+    @property
+    def is_deleted(self):
+        return self._deleted
 
     def get_current_api(self):
         """Return the low-level MIDI backend API used by this instance.

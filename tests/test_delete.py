@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Unit tests for the rtmidi module."""
 
-import time
+import gc
 import unittest
 
 import rtmidi
@@ -69,6 +69,21 @@ class TestDelete(unittest.TestCase):
         print(ports_after)
 
         self.assertEqual(set(ports_init), set(ports_after))
+
+    def test_double_delete(self):
+        self.assertFalse(self.midiout.is_deleted)
+        self.midiout.delete()
+        self.assertTrue(self.midiout.is_deleted)
+        self.midiout.delete()
+        self.assertTrue(self.midiout.is_deleted)
+
+    def test_del_after_delete(self):
+        self.midiout.delete()
+        self.assertTrue(self.midiout.is_deleted)
+        self.assertTrue(hasattr(self, 'midiout'))
+        del self.midiout
+        gc.collect()
+        self.assertFalse(hasattr(self, 'midiout'))
 
 
 if __name__ == '__main__':
