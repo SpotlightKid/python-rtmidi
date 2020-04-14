@@ -434,6 +434,7 @@ def _default_error_handler(etype, msg, data=None):
 cdef class MidiBase:
     cdef object _port
     cdef object _error_callback
+    cdef object _deleted
 
     cdef RtMidi* baseptr(self):
         return NULL
@@ -821,6 +822,7 @@ cdef class MidiIn(MidiBase):
         self.set_error_callback(_default_error_handler)
         self._callback = None
         self._port = None
+        self._deleted = False
 
     def get_current_api(self):
         """Return the low-level MIDI backend API used by this instance.
@@ -838,7 +840,33 @@ cdef class MidiIn(MidiBase):
 
     def __dealloc__(self):
         """De-allocate pointer to C++ class instance."""
-        del self.thisptr
+        if hasattr(self, "thisptr"):
+            del self.thisptr
+
+    def delete(self):
+        """De-allocate pointer to C++ class instance.
+
+        .. warning:: the instance **must not** be used anymore after calling
+            this method, otherwise the program will crash with a segmentation
+            fault!
+
+            The reason this potentially dangerous method exists is that in
+            some cases it is desirable to destroy the internal ``RtMidiIn``
+            C++ class instance with immediate effect, thereby closing the
+            backend MIDI API client and all the ports it opened. By merely
+            using ``del`` on the ``rtmidi.MidiIn`` Python instance, the
+            destruction of the C++ instance may be delayed for an arbitrary
+            amount of time, until the Python garbage collector cleans up the
+            instance.
+
+        """
+        if not self._deleted:
+            del self.thisptr
+            self._deleted = True
+
+    @property
+    def is_deleted(self):
+        return self._deleted
 
     def cancel_callback(self):
         """Remove the registered callback function for MIDI input.
@@ -997,10 +1025,37 @@ cdef class MidiOut(MidiBase):
 
         self.set_error_callback(_default_error_handler)
         self._port = None
+        self._deleted = False
 
     def __dealloc__(self):
         """De-allocate pointer to C++ class instance."""
-        del self.thisptr
+        if hasattr(self, "thisptr"):
+            del self.thisptr
+
+    def delete(self):
+        """De-allocate pointer to C++ class instance.
+
+        .. warning:: the instance **must not** be used anymore after calling
+            this method, otherwise the program will crash with a segmentation
+            fault!
+
+            The reason this potentially dangerous method exists is that in
+            some cases it is desirable to destroy the internal ``RtMidiOut``
+            C++ class instance with immediate effect, thereby closing the
+            backend MIDI API client and all the ports it opened. By merely
+            using ``del`` on the ``rtmidi.MidiOut`` Python instance, the
+            destruction of the C++ instance may be delayed for an arbitrary
+            amount of time, until the Python garbage collector cleans up the
+            instance.
+
+        """
+        if not self._deleted:
+            del self.thisptr
+            self._deleted = True
+
+    @property
+    def is_deleted(self):
+        return self._deleted
 
     def get_current_api(self):
         """Return the low-level MIDI backend API used by this instance.
