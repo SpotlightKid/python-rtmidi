@@ -1019,15 +1019,16 @@ cdef class MidiOut(MidiBase):
     def send_message(self, message):
         """Send a MIDI message to the output port.
 
-        The message must be passed as an iterable of integers, each element
-        representing one byte of the MIDI message.
+        The message must be passed as an iterable yielding integers, each
+        element representing one byte of the MIDI message.
 
         Normal MIDI messages have a length of one to three bytes, but you can
         also send system exclusive messages, which can be arbitrarily long, via
         this method.
 
         No check is made whether the passed data constitutes a valid MIDI
-        message.
+        message but if it is longer than 3 bytes, the value of the first byte
+        must be a start-of-sysex status byte, i.e. 0xF0.
 
         Exceptions:
 
