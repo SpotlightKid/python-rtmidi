@@ -1,18 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>Changelog &#8212; python-rtmidi 1.4.0 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog &#8212; python-rtmidi 1.4.2 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -34,7 +35,8 @@
         <li class="right" >
           <a href="authors.html" title="Credits"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Changelog</a></li> 
       </ul>
     </div>  
 
@@ -46,6 +48,43 @@
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <p>For details and minor changes, please see the <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/commits/master">version control log messages</a>.</p>
+<div class="section" id="version-1-4-2">
+<h2>2020-07-18 version 1.4.2<a class="headerlink" href="#version-1-4-2" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>Enhancements:</dt><dd><ul class="simple">
+<li><p>Added more helpful aliases for MIDI events/controllers constants.</p></li>
+</ul>
+</dd>
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">ccstore</span></code> advanced example to show how to remember last seen
+controller change values (#64).</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="version-1-4-1">
+<h2>2020-04-16 version 1.4.1<a class="headerlink" href="#version-1-4-1" title="Permalink to this headline">¶</a></h2>
+<dl>
+<dt>Changes:</dt><dd><ul>
+<li><p>Suppress RtMidi warnings to stderr, so that warnings issued in the
+constructor of the <code class="docutils literal notranslate"><span class="pre">RtMidiIn/Out</span></code> C++ class instances before the
+default error handler function can be attached, don’t end up in the
+output.</p>
+<p>The suppression of RtMidi warnings can be disabled at compile time
+by setting the pre-compiler define <code class="docutils literal notranslate"><span class="pre">__RTMIDI_SUPPRESS_WARNINGS__</span></code>
+via a command line option to <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>.</p>
+<p>As before, RtMidi warnings are turned into Python a <code class="docutils literal notranslate"><span class="pre">UserWarning</span></code>
+as soon as the default error handler is attached, but this can only
+happen after the RtMidi C++ class has been instantiated (#59).</p>
+</li>
+<li><p>Allow deletion of internal C++ RtMidiIn/Out instance via new
+<code class="docutils literal notranslate"><span class="pre">delete</span></code> method of <code class="docutils literal notranslate"><span class="pre">rtmidi.MidiIn</span></code> and <code class="docutils literal notranslate"><span class="pre">rtmidi.MidiOut</span></code>
+instances (but see warning in docstring!). Also added a
+<code class="docutils literal notranslate"><span class="pre">is_deleted</span></code> property to both classes (#60).</p></li>
+</ul>
+</dd>
+</dl>
+</div>
 <div class="section" id="version-1-4-0">
 <h2>2020-01-19 version 1.4.0<a class="headerlink" href="#version-1-4-0" title="Permalink to this headline">¶</a></h2>
 <dl class="simple">
@@ -62,7 +101,7 @@ to this, though).</p></li>
 </ul>
 </dd>
 <dt>Examples:</dt><dd><ul class="simple">
-<li><p>Added <code class="docutils literal notranslate"><span class="pre">midiclock</span></code> example to show how to receive MIDI timimng clock
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">midiclock</span></code> example to show how to receive MIDI timing clock
 (#48).</p></li>
 <li><p>Changed <code class="docutils literal notranslate"><span class="pre">midioutwrapper</span></code> example to use
 <code class="docutils literal notranslate"><span class="pre">rtmidi.midiutil.open_midiout</span></code> so that it also works on Windows (with
@@ -651,6 +690,7 @@ not compile due to syntax errors in RtMidi.cpp yet).</p></li>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -659,6 +699,8 @@ not compile due to syntax errors in RtMidi.cpp yet).</p></li>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#version-1-4-2">2020-07-18 version 1.4.2</a></li>
+<li><a class="reference internal" href="#version-1-4-1">2020-04-16 version 1.4.1</a></li>
 <li><a class="reference internal" href="#version-1-4-0">2020-01-19 version 1.4.0</a></li>
 <li><a class="reference internal" href="#version-1-3-1">2019-10-15 version 1.3.1</a></li>
 <li><a class="reference internal" href="#version-1-3-0">2019-04-15 version 1.3.0</a></li>
@@ -704,7 +746,7 @@ not compile due to syntax errors in RtMidi.cpp yet).</p></li>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -724,12 +766,13 @@ not compile due to syntax errors in RtMidi.cpp yet).</p></li>
         <li class="right" >
           <a href="authors.html" title="Credits"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Changelog</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2012 - 2020, Christopher Arndt.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
     </div>
   </body>
 </html>
