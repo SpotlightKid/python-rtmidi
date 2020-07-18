@@ -2,9 +2,9 @@
 """Record last seen value of specific Control Change events.
 
 The main loop prints out last seen value of specific Control Change events
-every second. The  control change events are received by a MIDI input
+every second. The control change events are received by a MIDI input
 callback, which gets called on every MIDI event received and runs
-indenpendently from teh main loop.
+independently from the main loop.
 
 """
 
