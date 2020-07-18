@@ -68,7 +68,7 @@ release: clean
 	$(PYTHON) setup.py release
 
 release_upload: release
-	twine upload --skip-existing dist/*.whl dist/*.tar.gz
+	twine upload --skip-existing dist/*.tar.gz
 
 test:
 	PYTHONPATH=examples $(PYTHON) setup.py test
