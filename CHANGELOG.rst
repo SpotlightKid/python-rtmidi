@@ -5,6 +5,17 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+2020-07-18 version 1.4.2
+------------------------
+
+Enhancements:
+    * Added more helpful aliases for MIDI events/controllers constants.
+
+Examples:
+    * Added ``ccstore`` advanced example to show how to remember last seen
+      controller change values (#64).
+
+
 2020-04-16 version 1.4.1
 ------------------------
 
