@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Changelog &#8212; python-rtmidi 1.4.2 documentation</title>
+    <title>Changelog &#8212; python-rtmidi 1.4.3 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -35,7 +35,7 @@
         <li class="right" >
           <a href="authors.html" title="Credits"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.3 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Changelog</a></li> 
       </ul>
     </div>  
@@ -48,6 +48,21 @@
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <p>For details and minor changes, please see the <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/commits/master">version control log messages</a>.</p>
+<div class="section" id="version-1-4-3">
+<h2>2020-08-11 version 1.4.3<a class="headerlink" href="#version-1-4-3" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>Fixes:</dt><dd><ul class="simple">
+<li><p>Fixed error when trying to import version number from <cite>rtmidi.release</cite>
+when Python is running with <cite>-OO</cite> optimization enabled (#69).</p></li>
+</ul>
+</dd>
+<dt>Project infrastructure:</dt><dd><ul class="simple">
+<li><p>Moved distribution meta data to <cite>setup.cfg</cite>, added <cite>rtmidi/version.py</cite>
+and removed <cite>rtmidi/release.py</cite> (#69).</p></li>
+</ul>
+</dd>
+</dl>
+</div>
 <div class="section" id="version-1-4-2">
 <h2>2020-07-18 version 1.4.2<a class="headerlink" href="#version-1-4-2" title="Permalink to this headline">¶</a></h2>
 <dl class="simple">
@@ -699,6 +714,7 @@ not compile due to syntax errors in RtMidi.cpp yet).</p></li>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#version-1-4-3">2020-08-11 version 1.4.3</a></li>
 <li><a class="reference internal" href="#version-1-4-2">2020-07-18 version 1.4.2</a></li>
 <li><a class="reference internal" href="#version-1-4-1">2020-04-16 version 1.4.1</a></li>
 <li><a class="reference internal" href="#version-1-4-0">2020-01-19 version 1.4.0</a></li>
@@ -766,7 +782,7 @@ not compile due to syntax errors in RtMidi.cpp yet).</p></li>
         <li class="right" >
           <a href="authors.html" title="Credits"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.3 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Changelog</a></li> 
       </ul>
     </div>

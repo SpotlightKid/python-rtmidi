@@ -20,6 +20,14 @@ rtmidi.midiutil module
    :undoc-members:
    :show-inheritance:
 
+rtmidi.version module
+---------------------
+
+.. automodule:: rtmidi.version
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 Module contents
 ---------------

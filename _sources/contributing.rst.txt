@@ -113,7 +113,7 @@ Before you submit a pull request, check that it meets these guidelines:
    your new functionality into a function with a docstring, and add the
    feature to the release notes in ``CHANGELOG.rst``.
 3. The pull request should work for all supported Python 3 versions (see
-   classifiers in ``rtmidi/release.py``)
+   classifiers in ``setup.cfg``)
 
    Run ``tox`` to make sure that the tests pass for all supported Python
    versions.
