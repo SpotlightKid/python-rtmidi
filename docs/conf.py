@@ -13,6 +13,7 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
+import configparser
 import sys
 import os
 
@@ -31,9 +32,12 @@ project_root = os.path.dirname(cwd)
 # version is used.
 sys.path.insert(0, project_root)
 
+
 meta = {}
-release_info = os.path.join(project_root, 'rtmidi', 'release.py')
-exec(compile(open(release_info).read(), release_info, 'exec'), {}, meta)
+setupcfg = configparser.ConfigParser()
+setupcfg.read(os.path.join(project_root, 'setup.cfg'))
+version = os.path.join(project_root, 'rtmidi', 'version.py')
+exec(compile(open(version).read(), version, 'exec'), {}, meta)
 
 # -- General configuration ---------------------------------------------
 
@@ -57,8 +61,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = meta['name']
-copyright = u'2012 - 2020, %s' % meta['author']
+project = setupcfg['metadata']['name']
+copyright = u'2012 - 2020, %s' % setupcfg['metadata']['author']
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -212,7 +216,7 @@ latex_elements = {
 latex_documents = [
     ('index', 'rtmidi.tex',
      u'python-rtmidi Documentation',
-     meta['author'], 'manual'),
+     setupcfg['metadata']['author'], 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at
@@ -243,7 +247,7 @@ latex_documents = [
 man_pages = [
     ('index', 'rtmidi',
      u'python-rtmidi Documentation',
-     [meta['author']], 1)
+     [setupcfg['metadata']['author']], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -258,9 +262,9 @@ man_pages = [
 texinfo_documents = [
     ('index', 'rtmidi',
      u'python-rtmidi Documentation',
-     meta['author'],
-     meta['name'],
-     'One line description of project.',
+     setupcfg['metadata']['author'],
+     setupcfg['metadata']['name'],
+     setupcfg['metadata']['description'],
      'Miscellaneous'),
 ]
 
