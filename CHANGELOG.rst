@@ -5,6 +5,18 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+2020-08-11 version 1.4.3
+------------------------
+
+Fixes:
+    * Fixed error when tyring to import version number from `rtmidi.release`
+      when Python is running with `-OO` optimization enabled (#69).
+
+Project infrastructure:
+    * Moved distribution meta data to `setup.cfg`, added `rtmidi/version.py`
+      and removed `rtmidi/release.py` (#69).
+
+
 2020-07-18 version 1.4.2
 ------------------------
 
