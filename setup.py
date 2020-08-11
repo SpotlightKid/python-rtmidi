@@ -85,13 +85,10 @@ PKG_DIR = "rtmidi"
 # Add custom distribution meta-data, avoids warning when running setup
 DistributionMetadata.repository = None
 
-# read meta-data from release.py
-setup_opts = {}
-exec(read(PKG_DIR, 'release.py'), {}, setup_opts)
-
 # Add our own custom distutils command to create *.rst files from templates
 # Template files are listed in setup.cfg
-setup_opts.setdefault('cmdclass', {})['filltmpl'] = FillTemplate
+setup_opts = {'cmdclass': {}}
+setup_opts['cmdclass']['filltmpl'] = FillTemplate
 # Add custom test command
 setup_opts['cmdclass']['test'] = ToxTestCommand
 
@@ -199,6 +196,5 @@ setup(
     # On systems without a RTC (e.g. Raspberry Pi), system time will be the
     # Unix epoch when booted without network connection, which makes zip fail,
     # because it does not support dates < 1980-01-01.
-    zip_safe=False,
     **setup_opts
 )
