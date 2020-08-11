@@ -9,7 +9,7 @@ For details and minor changes, please see the `version control log messages
 ------------------------
 
 Fixes:
-    * Fixed error when tyring to import version number from `rtmidi.release`
+    * Fixed error when trying to import version number from `rtmidi.release`
       when Python is running with `-OO` optimization enabled (#69).
 
 Project infrastructure:
