@@ -59,7 +59,7 @@ install:
   - ./ci/travis-install.sh
 
 script:
-  - export SOURCE_DATE_EPOCH="$(git log -1 --date=unix --format='format:%ct' rtmidi/release.py)"
+  - export SOURCE_DATE_EPOCH="$(git log -1 --date=unix --format='format:%ct' rtmidi/version.py)"
   - ${PYTHON:-python} setup.py release
 
 deploy:
