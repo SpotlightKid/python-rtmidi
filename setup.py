@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 """Setup file for the Cython rtmidi wrapper."""
 
+from __future__ import print_function
+
 import subprocess
 import sys
 
