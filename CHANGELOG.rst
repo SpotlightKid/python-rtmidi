@@ -9,7 +9,7 @@ For details and minor changes, please see the `version control log messages
 ------------------------
 
 Fixes:
-    * Revert to old way of reading version number via ``exec`` (see 686697d
+    * Revert to old way of reading version number via ``exec`` (see 8d9a8f9
       for background info).
 
 
