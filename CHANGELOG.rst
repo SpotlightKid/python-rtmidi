@@ -5,6 +5,14 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+2020-08-26 version 1.4.5
+------------------------
+
+Fixes:
+    * Revert to old way of reading version number via ``exec`` (see 686697d
+      for background info).
+
+
 2020-08-26 version 1.4.4
 ------------------------
 
