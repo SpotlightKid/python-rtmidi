@@ -88,9 +88,14 @@ PKG_DIR = "rtmidi"
 # Add custom distribution meta-data, avoids warning when running setup
 DistributionMetadata.repository = None
 
+# Read version number from version.py (without importing the 'rtmidi' package,
+# since that would lead to hen-egg situation).
+setup_opts = {}
+exec(read(PKG_DIR, 'version.py'), {}, setup_opts)
+
 # Add our own custom distutils command to create *.rst files from templates
 # Template files are listed in setup.cfg
-setup_opts = {'cmdclass': {}}
+setup_opts.setdefault('cmdclass', {})
 setup_opts['cmdclass']['filltmpl'] = FillTemplate
 # Add custom test command
 setup_opts['cmdclass']['test'] = ToxTestCommand
