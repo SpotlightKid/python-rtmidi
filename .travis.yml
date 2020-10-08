@@ -59,7 +59,7 @@ matrix:
     - name: "Python 3.9 (Linux)"
       os: linux
       dist: bionic
-      python: "3.9"
+      python: "3.9-dev"
 
 git:
   depth: 1
