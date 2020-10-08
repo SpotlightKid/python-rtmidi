@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# util.py
+# midiutil.py
 #
 """Collection of utility functions for handling MIDI I/O and ports.
 
