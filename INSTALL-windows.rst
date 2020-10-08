@@ -13,9 +13,9 @@ Installing required software
 
 You probably need administrator rights for some or all of the following steps.
 
-#. Install the latest release of Python 3.5+ from
+#. Install the latest release of Python 3.6+ from
    https://www.python.org/downloads/windows/ to the default location (e.g.
-   ``C:\Python35``). You can install either or both the 32-bit and the 64-bit
+   ``C:\Python36``). You can install either or both the 32-bit and the 64-bit
    version.
 
    In the installer, enable the option to install pip_. Optionally, *for only
