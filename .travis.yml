@@ -35,22 +35,31 @@ matrix:
         PYTHON_INSTALLER_URL: https://www.python.org/ftp/python/3.8.1/python-3.8.1-macosx10.9.pkg
         PYTHON_INSTALLER_MD5: d1b09665312b6b1f4e11b03b6a4510a3
         PATH: /Users/travis/Library/Python/3.8/bin:$PATH
-    - name: "Python 3.5 (Linux)"
-      os: linux
-      dist: xenial
-      python: "3.5"
+    - name: "Python 3.9 (OS X)"
+      os: osx
+      osx_image: xcode8
+      language: generic
+      env:
+        PYTHON: python3.9
+        PYTHON_INSTALLER_URL: https://www.python.org/ftp/python/3.9.0/python-3.9.0-macosx10.9.pkg
+        PYTHON_INSTALLER_MD5: 16ca86fa3467e75bade26b8a9703c27f
+        PATH: /Users/travis/Library/Python/3.9/bin:$PATH
     - name: "Python 3.6 (Linux)"
       os: linux
-      dist: xenial
+      dist: bionic
       python: "3.6"
     - name: "Python 3.7 (Linux)"
       os: linux
-      dist: xenial
+      dist: bionic
       python: "3.7"
     - name: "Python 3.8 (Linux)"
       os: linux
-      dist: xenial
+      dist: bionic
       python: "3.8"
+    - name: "Python 3.9 (Linux)"
+      os: linux
+      dist: bionic
+      python: "3.9"
 
 git:
   depth: 1
