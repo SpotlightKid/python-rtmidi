@@ -5,12 +5,13 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
-Development
+2020-10-15 version 1.4.6
 ------------------------
 
 Project infrastructure:
     * Declare/document Python 3.9 support and update CI.
     * Drop official support for Python 3.5.
+    * Update Python versions for building macOS binary wheels.
 
 
 2020-08-26 version 1.4.5
