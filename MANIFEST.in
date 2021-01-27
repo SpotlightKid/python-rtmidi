@@ -6,6 +6,7 @@ include tox.ini
 include *.rst
 include src/_rtmidi.pyx
 include src/_rtmidi.cpp
+include src/pyinit.h
 include src/rtmidi/RtMidi.cpp
 include src/rtmidi/RtMidi.h
 

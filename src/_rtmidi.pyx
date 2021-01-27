@@ -131,13 +131,10 @@ else:
     string_types = (str,)
 
 
-# Init Python threads and GIL, because RtMidi calls Python from native threads.
-# See http://permalink.gmane.org/gmane.comp.python.cython.user/5837
-cdef extern from "Python.h":
-    void PyEval_InitThreads()
+cdef extern from "pyinit.h":
+    void py_init()
 
-PyEval_InitThreads()
-
+py_init()
 
 # Declarations for RtMidi C++ classes and their methods we use
 
