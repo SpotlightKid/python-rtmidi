@@ -5,13 +5,27 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+2021-01-27 version 1.4.7
+------------------------
+
+Fixes:
+    * Fixed compiler deprecation warning about ``PyEval_InitThreads`` on
+      Python 3.9+.
+
+Examples:
+    * Added ``send_sysex`` and ``send_sysex_file`` example scripts.
+
+Documentation:
+    * Remove references to old project homepage URL and fix readme badges.
+
+
 2020-10-15 version 1.4.6
 ------------------------
 
 Project infrastructure:
-    * Declare/document Python 3.9 support and update CI.
-    * Drop official support for Python 3.5.
-    * Update Python versions for building macOS binary wheels.
+    * Declared/documented Python 3.9 support and updated CI.
+    * Dropped official support for Python 3.5.
+    * Updated Python versions for building macOS binary wheels.
 
 
 2020-08-26 version 1.4.5
@@ -26,8 +40,8 @@ Fixes:
 ------------------------
 
 Fixes:
-    * Fix ``setup.py`` to work with Python 2 again, though it is not officially
-      supported anymore (#70, #72).
+    * Fixed ``setup.py`` to work with Python 2 again, though it is not
+      officially supported anymore (#70, #72).
 
 
 2020-08-11 version 1.4.3
