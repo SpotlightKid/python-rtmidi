@@ -4,7 +4,6 @@ import argparse
 import sys
 import time
 
-import rtmidi
 from rtmidi.midiutil import open_midioutput
 
 
