@@ -5,15 +5,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Changelog &#8212; python-rtmidi 1.4.6 documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <title>Changelog &#8212; python-rtmidi 1.4.7 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -35,7 +34,7 @@
         <li class="right" >
           <a href="authors.html" title="Credits"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.6 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.7 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Changelog</a></li> 
       </ul>
     </div>  
@@ -48,13 +47,31 @@
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <p>For details and minor changes, please see the <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/commits/master">version control log messages</a>.</p>
+<div class="section" id="version-1-4-7">
+<h2>2021-01-27 version 1.4.7<a class="headerlink" href="#version-1-4-7" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>Fixes:</dt><dd><ul class="simple">
+<li><p>Fixed compiler deprecation warning about <code class="docutils literal notranslate"><span class="pre">PyEval_InitThreads</span></code> on
+Python 3.9+.</p></li>
+</ul>
+</dd>
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">send_sysex</span></code> and <code class="docutils literal notranslate"><span class="pre">send_sysex_file</span></code> example scripts.</p></li>
+</ul>
+</dd>
+<dt>Documentation:</dt><dd><ul class="simple">
+<li><p>Remove references to old project homepage URL and fix readme badges.</p></li>
+</ul>
+</dd>
+</dl>
+</div>
 <div class="section" id="version-1-4-6">
 <h2>2020-10-15 version 1.4.6<a class="headerlink" href="#version-1-4-6" title="Permalink to this headline">¶</a></h2>
 <dl class="simple">
 <dt>Project infrastructure:</dt><dd><ul class="simple">
-<li><p>Declare/document Python 3.9 support and update CI.</p></li>
-<li><p>Drop official support for Python 3.5.</p></li>
-<li><p>Update Python versions for building macOS binary wheels.</p></li>
+<li><p>Declared/documented Python 3.9 support and updated CI.</p></li>
+<li><p>Dropped official support for Python 3.5.</p></li>
+<li><p>Updated Python versions for building macOS binary wheels.</p></li>
 </ul>
 </dd>
 </dl>
@@ -73,8 +90,8 @@ for background info).</p></li>
 <h2>2020-08-26 version 1.4.4<a class="headerlink" href="#version-1-4-4" title="Permalink to this headline">¶</a></h2>
 <dl class="simple">
 <dt>Fixes:</dt><dd><ul class="simple">
-<li><p>Fix <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> to work with Python 2 again, though it is not officially
-supported anymore (#70, #72).</p></li>
+<li><p>Fixed <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> to work with Python 2 again, though it is not
+officially supported anymore (#70, #72).</p></li>
 </ul>
 </dd>
 </dl>
@@ -745,6 +762,7 @@ not compile due to syntax errors in RtMidi.cpp yet).</p></li>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#version-1-4-7">2021-01-27 version 1.4.7</a></li>
 <li><a class="reference internal" href="#version-1-4-6">2020-10-15 version 1.4.6</a></li>
 <li><a class="reference internal" href="#version-1-4-5">2020-08-26 version 1.4.5</a></li>
 <li><a class="reference internal" href="#version-1-4-4">2020-08-26 version 1.4.4</a></li>
@@ -816,13 +834,13 @@ not compile due to syntax errors in RtMidi.cpp yet).</p></li>
         <li class="right" >
           <a href="authors.html" title="Credits"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.6 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.7 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Changelog</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2012 - 2020, Christopher Arndt.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
     </div>
   </body>
 </html>
