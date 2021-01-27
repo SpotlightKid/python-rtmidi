@@ -3,29 +3,34 @@ Welcome to python-rtmidi!
 
 A Python binding for the RtMidi C++ library implemented using Cython.
 
-|version| |status| |license| |python_versions| |wheel| |travis|
+|version| |status| |license| |python_versions| |format| |travis|
 
-.. |version| image:: http://badge.kloud51.com/pypi/v/python-rtmidi.svg
+.. |version| image:: https://shields.io/pypi/v/python-rtmidi
     :target: https://pypi.org/project/python-rtmidi
     :alt: Latest version
 
-.. |status| image:: http://badge.kloud51.com/pypi/s/python-rtmidi.svg
+.. |release-date| image:: https://shields.io/github/release-date/SpotlightKid/python-rtmidi
+    :target: https://github.com/SpotlightKid/python-rtmidi/releases
+    :alt: Date of latest release
+
+.. |status| image:: https://shields.io/pypi/status/python-rtmidi
     :alt: Project status
 
-.. |license| image:: http://badge.kloud51.com/pypi/l/python-rtmidi.svg
+.. |license| image:: https://shields.io/pypi/l/python-rtmidi
     :target: license.txt_
     :alt: MIT License
 
-.. |python_versions| image:: http://badge.kloud51.com/pypi/py_versions/python-rtmidi.svg
+.. |python_versions| image:: https://shields.io/pypi/pyversions/python-rtmidi
     :alt: Python versions
 
-.. |wheel| image:: http://badge.kloud51.com/pypi/w/python-rtmidi.svg
+.. |format| image:: https://shields.io/pypi/format/python-rtmidi
     :target: https://pypi.org/project/python-rtmidi/#files
-    :alt: Wheel available
+    :alt: Distribution format
 
 .. |travis| image:: https://travis-ci.org/SpotlightKid/python-rtmidi.svg?branch=master
     :target: https://travis-ci.org/SpotlightKid/python-rtmidi
     :alt: Travis CI status
+
 
 Overview
 ========
@@ -47,7 +52,9 @@ per release and an API reference.
 
 See the file `LICENSE.txt`_ about copyright and usage terms.
 
-For more information, visit https://chrisarndt.de/projects/python-rtmidi.
+The source code repository and issue tracker are hosted on GitHub:
+
+https://github.com/SpotlightKid/python-rtmidi.
 
 
 Usage example
@@ -85,6 +92,6 @@ of the source repository.
 .. _documentation: https://spotlightkid.github.io/python-rtmidi/
 .. _examples: https://github.com/SpotlightKid/python-rtmidi/tree/master/examples
 .. _license.txt: https://github.com/SpotlightKid/python-rtmidi/blob/master/LICENSE.txt
-.. _python-rtmidi: %(url)s
+.. _python-rtmidi: https://github.com/SpotlightKid/python-rtmidi
 .. _rtmidi: http://www.music.mcgill.ca/~gary/rtmidi/index.html
 .. _tests: https://github.com/SpotlightKid/python-rtmidi/tree/master/tests
