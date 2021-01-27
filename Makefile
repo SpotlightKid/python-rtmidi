@@ -1,7 +1,7 @@
 .PHONY: clean-pyc clean-build docs clean
 
 PYTHON ?= python
-SOURCES = src/_rtmidi.cpp src/RtMidi.cpp
+SOURCES = src/_rtmidi.pyx src/rtmidi/RtMidi.cpp
 
 help:
 	@echo "build - build extension module (and place it in the rtmidi package)"
