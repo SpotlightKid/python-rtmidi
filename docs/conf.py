@@ -62,7 +62,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = setupcfg['metadata']['name']
-copyright = u'2012 - 2020, %s' % setupcfg['metadata']['author']
+copyright = u'2012 - 2021, %s' % setupcfg['metadata']['author']
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
