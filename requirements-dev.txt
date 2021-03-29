@@ -26,7 +26,7 @@ py==1.9.0
 pycodestyle==2.6.0
 pydocstyle==5.1.1
 pyflakes==2.2.0
-Pygments==2.7.1
+Pygments==2.7.4
 pyparsing==2.4.7
 pytest==6.1.1
 pytz==2020.1
