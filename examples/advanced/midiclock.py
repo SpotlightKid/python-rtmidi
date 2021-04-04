@@ -9,6 +9,7 @@ MIDI clock (status 0xF8) is sent 24 times per quarter note by clock generators.
 
 """
 
+import argparse
 import time
 from collections import deque
 
@@ -51,10 +52,15 @@ class MIDIClockReceiver:
 
 
 def main(args=None):
-    clock = MIDIClockReceiver(float(args[0]) if args else None)
+    ap = argparse.ArgumentParser(usage=__doc__.splitlines()[0])
+    ap.add_argument('-p', '--port', help="MIDI input port index / name.")
+    ap.add_argument('bpm', type=int, default=120, help="Starting BPM.")
+    args = ap.parse_args(args)
+
+    clock = MIDIClockReceiver(args.bpm)
 
     try:
-        m_in, port_name = open_midiinput(args[0] if args else None)
+        m_in, port_name = open_midiinput(args.port)
     except (EOFError, KeyboardInterrupt):
         return 1
 
