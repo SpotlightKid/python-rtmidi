@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Changelog &#8212; python-rtmidi 1.4.7 documentation</title>
+    <title>Changelog &#8212; python-rtmidi 1.4.9 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="authors.html" title="Credits"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.9 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Changelog</a></li> 
       </ul>
     </div>  
@@ -47,6 +47,38 @@
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <p>For details and minor changes, please see the <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/commits/master">version control log messages</a>.</p>
+<div class="section" id="version-1-4-9">
+<h2>2021-04-26 version 1.4.9<a class="headerlink" href="#version-1-4-9" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>Fixes:</dt><dd><ul class="simple">
+<li><p>Fixed Windows build for 64-bit Python 3.9 on AppVeyor CI.</p></li>
+</ul>
+</dd>
+<dt>Changes:</dt><dd><ul class="simple">
+<li><p>The SysEx reception buffer size for the Windows MM backend was changed
+from 8096 to 8196.</p></li>
+<li><p>Synced with upstream <a class="reference external" href="https://github.com/thestk/rtmidi">RtMidi</a> (3dc525baf3cac345cdd3511316571c20b47f30b5,
+fixes #89).</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="version-1-4-8">
+<h2>2021-04-26 version 1.4.8<a class="headerlink" href="#version-1-4-8" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt>Fixes:</dt><dd><ul class="simple">
+<li><p>Fixed Windows builds on AppVeyor CI.</p></li>
+<li><p>Fixed command line parsing in <code class="docutils literal notranslate"><span class="pre">midiclock.py</span></code> example script.</p></li>
+</ul>
+</dd>
+<dt>Changes:</dt><dd><ul class="simple">
+<li><p>Release GIL in <code class="docutils literal notranslate"><span class="pre">MidiOut.send_message</span></code> so that on backend APIs where
+this operation is blocking (<code class="docutils literal notranslate"><span class="pre">WINDOWS_MM</span></code>), multiple Python threads
+using this method on different <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instances can run concurently.</p></li>
+</ul>
+</dd>
+</dl>
+</div>
 <div class="section" id="version-1-4-7">
 <h2>2021-01-27 version 1.4.7<a class="headerlink" href="#version-1-4-7" title="Permalink to this headline">¶</a></h2>
 <dl class="simple">
@@ -762,6 +794,8 @@ not compile due to syntax errors in RtMidi.cpp yet).</p></li>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#version-1-4-9">2021-04-26 version 1.4.9</a></li>
+<li><a class="reference internal" href="#version-1-4-8">2021-04-26 version 1.4.8</a></li>
 <li><a class="reference internal" href="#version-1-4-7">2021-01-27 version 1.4.7</a></li>
 <li><a class="reference internal" href="#version-1-4-6">2020-10-15 version 1.4.6</a></li>
 <li><a class="reference internal" href="#version-1-4-5">2020-08-26 version 1.4.5</a></li>
@@ -834,13 +868,13 @@ not compile due to syntax errors in RtMidi.cpp yet).</p></li>
         <li class="right" >
           <a href="authors.html" title="Credits"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.9 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Changelog</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2012 - 2021, Christopher Arndt.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
   </body>
 </html>
