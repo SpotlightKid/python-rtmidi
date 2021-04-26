@@ -22,17 +22,17 @@ clone_depth: 1
 
 install:
   - "SET PATH=C:\\%PYTHON%;C:\\%PYTHON%\\Scripts;%PATH%"
-  - python3 --version
-  - python3 -m pip --disable-pip-version-check install -U pip setuptools wheel
-  - python3 -m pip install -U Cython twine"
-  - python3 -m pip freeze --all
+  - python --version
+  - python -m pip --disable-pip-version-check install -U pip setuptools wheel
+  - python -m pip install -U Cython twine"
+  - python -m pip freeze --all
 
 before_build:
   - git submodule update --init
 
 build_script:
   - ps: $env:SOURCE_DATE_EPOCH = (git log -1 --date=unix --format='format:%ct' rtmidi/release.py) | Out-String
-  - "python3 setup.py release"
+  - "python setup.py release"
 
 test: off
 
