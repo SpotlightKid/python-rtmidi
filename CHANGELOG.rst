@@ -5,6 +5,19 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+2021-04-26 version 1.4.9
+------------------------
+
+Fixes:
+    * Fixed Windows build for 64-bit Python 3.9 on AppVeyor CI.
+
+Changes:
+    * The SysEx reception buffer size for the Windows MM backend was changed
+      from 8096 to 8196.
+    * Synced with upstream RtMidi_ (3dc525baf3cac345cdd3511316571c20b47f30b5,
+      fixes #89).
+
+
 2021-04-26 version 1.4.8
 ------------------------
 
