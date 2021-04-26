@@ -20,23 +20,23 @@ environment:
 # To clear the cache, see https://ci.appveyor.com/api-keys for the token and use:
 # wget --header="Authorization: Bearer $TOKEN" --method DELETE https://ci.appveyor.com/api/projects/$USER/$PROJECT/buildcache
 cache:
-  - "%LOCALAPPDATA%\pip\Cache"
+  - '%LOCALAPPDATA%\pip\Cache'
 
 clone_depth: 1
 
 install:
   - "SET PATH=C:\\%PYTHON%;C:\\%PYTHON%\\Scripts;%PATH%"
-  - "%PYTHON%\python.exe --version"
-  - "%PYTHON%\python.exe -m pip --disable-pip-version-check install -U pip setuptools wheel"
-  - "%PYTHON%\python.exe -m pip install -U Cython twine"
-  - "%PYTHON%\python.exe -m pip freeze --all"
+  - '%PYTHON%\python.exe --version'
+  - '%PYTHON%\python.exe -m pip --disable-pip-version-check install -U pip setuptools wheel'
+  - '%PYTHON%\python.exe -m pip install -U Cython twine'
+  - '%PYTHON%\python.exe -m pip freeze --all'
 
 before_build:
   - git submodule update --init
 
 build_script:
   - ps: $env:SOURCE_DATE_EPOCH = (git log -1 --date=unix --format='format:%ct' rtmidi/release.py) | Out-String
-  - "%PYTHON%\python.exe setup.py release"
+  - '%PYTHON%\python.exe setup.py release'
 
 test: off
 
