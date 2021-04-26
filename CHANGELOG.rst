@@ -5,6 +5,19 @@ For details and minor changes, please see the `version control log messages
 <https://github.com/SpotlightKid/python-rtmidi/commits/master>`_.
 
 
+2021-04-26 version 1.4.8
+------------------------
+
+Fixes:
+    * Fixed Windows builds on AppVeyor CI.
+    * Fixed command line parsing in ``midiclock.py`` example script.
+
+Changes:
+    * Release GIL in ``MidiOut.send_message`` so that on backend APIs where
+      this operation is blocking (``WINDOWS_MM``), multiple Python threads
+      using this method on different ``MidiOut`` instances can run concurently.
+
+
 2021-01-27 version 1.4.7
 ------------------------
 
