@@ -35,7 +35,7 @@ before_build:
   - git submodule update --init
 
 build_script:
-  - ps: $env:SOURCE_DATE_EPOCH = (git log -1 --date=unix --format='format:%ct' rtmidi/release.py) | Out-String
+  - ps: $env:SOURCE_DATE_EPOCH = (git log -1 --date=unix --format='format:%ct' rtmidi/version.py) | Out-String
   - 'C:\%PYTHON%\python.exe setup.py release'
 
 test: off
