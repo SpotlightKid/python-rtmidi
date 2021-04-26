@@ -200,7 +200,7 @@ cdef extern from "RtMidi.h":
     cdef cppclass RtMidiOut(RtMidi):
         Api RtMidiOut(Api rtapi, string clientName) except +
         Api getCurrentApi()
-        void sendMessage(vector[unsigned char] *message) except *
+        void sendMessage(vector[unsigned char] *message) nogil except *
 
 
 # internal functions
@@ -1082,6 +1082,11 @@ cdef class MidiOut(MidiBase):
         message but if it is longer than 3 bytes, the value of the first byte
         must be a start-of-sysex status byte, i.e. 0xF0.
 
+        .. note:: with some backend APIs (notably ```WINDOWS_MM``) this function
+            blocks until the whole message is sent. While sending the message
+            the global interpreter lock is released, so multiple Python threads
+            can send messages using *different* MidiOut instances concurrently.
+
         Exceptions:
 
         ``ValueError``
@@ -1101,4 +1106,5 @@ cdef class MidiOut(MidiBase):
         for c in message:
             msg_v.push_back(c)
 
-        self.thisptr.sendMessage(&msg_v)
+        with nogil:
+            self.thisptr.sendMessage(&msg_v)
