@@ -1,8 +1,8 @@
 How to install python-rtmidi from source on Windows
 ===================================================
 
-These instruction should work for installing ``python-rtmidi`` from source
-Python 3.x in the 64-bit or 32-bit vsersions (you can run the latter on
+These instructions should work for installing ``python-rtmidi`` from source
+with Python 3.6+ in the 64-bit or 32-bit versions (you can run the latter on
 Windows 64-bit versions with no problems).
 
 Please follow all the steps below in the exact order.
@@ -15,7 +15,7 @@ You probably need administrator rights for some or all of the following steps.
 
 #. Install the latest release of Python 3.6+ from
    https://www.python.org/downloads/windows/ to the default location (e.g.
-   ``C:\Python36``). You can install either or both the 32-bit and the 64-bit
+   ``C:\Python39``). You can install either or both the 32-bit and the 64-bit
    version.
 
    In the installer, enable the option to install pip_. Optionally, *for only
