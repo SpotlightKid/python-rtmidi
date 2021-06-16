@@ -14,7 +14,7 @@
  */
 
 void py_init() {
-    #if PY_MAJOR_VERSION >= 3 and PY_MINOR_VERSION >= 7
+    #if !defined(PYPY_VERSION) and PY_MAJOR_VERSION >= 3 and PY_MINOR_VERSION >= 7
         Py_Initialize();
     #else
         PyEval_InitThreads();
