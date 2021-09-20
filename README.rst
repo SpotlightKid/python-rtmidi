@@ -31,6 +31,9 @@ A Python binding for the RtMidi C++ library implemented using Cython.
     :target: https://travis-ci.org/SpotlightKid/python-rtmidi
     :alt: Travis CI status
 
+.. |github actions| image:: https://github.com/SpotlightKid/python-rtmidi/actions/workflows/wheels.yml/badge.svg
+    :target: https://github.com/SpotlightKid/python-rtmidi/actions/workflows/wheels.yml
+    :alt: Github Actions status
 
 Overview
 ========
