@@ -6,3 +6,6 @@ build-backend = "setuptools.build_meta"
 [tool.cibuildwheel.linux]
 before-all = "yum install -y alsa-lib-devel alsa-utils || apt install -y libasound2-dev libjack-jackd2-dev"
 
+
+[tool.cibuildwheel.macos]
+archs = "universal2"
