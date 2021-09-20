@@ -20,7 +20,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         path: dist/*.tar.gz
-        
+
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -46,3 +46,32 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           path: ./wheelhouse/*.whl
+
+  build_arch_wheels:
+    name: linux on ${{ matrix.arch }}
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        arch: [aarch64]
+    steps:
+
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+
+    - uses: docker/setup-qemu-action@v1.2.0
+      with:
+        platforms: all
+
+    - uses: pypa/cibuildwheel@v2.1.2
+      env:
+        CIBW_ARCHS: ${{ matrix.arch }}
+
+    - name: Verify clean directory
+      run: git diff --exit-code
+      shell: bash
+
+    - name: Upload wheels
+      uses: actions/upload-artifact@v2
+      with:
+        path: wheelhouse/*.whl
