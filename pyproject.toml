@@ -1,0 +1,8 @@
+[build-system]
+# Minimum requirements for the build system to execute.
+requires = ["setuptools>=42.0.0", "wheel>=0.34.2", "cython"]  # PEP 508 specifications.
+build-backend = "setuptools.build_meta"
+
+[tool.cibuildwheel.linux]
+before-all = "yum install -y alsa-lib-devel alsa-utils || apt install -y libasound2-dev libjack-jackd2-dev"
+
