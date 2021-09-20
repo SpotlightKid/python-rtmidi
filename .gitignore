@@ -1,3 +1,6 @@
+#cibuildwheel output dir
+wheelhouse
+
 # Python bytecode
 *.py[cod]
 __pycache__
