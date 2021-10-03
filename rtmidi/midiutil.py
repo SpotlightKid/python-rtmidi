@@ -99,6 +99,7 @@ def list_input_ports(api=rtmidi.API_UNSPECIFIED):
     """
     midiin = rtmidi.MidiIn(get_api_from_environment(api))
     list_available_ports(midiio=midiin)
+    midiin.delete()
 
 
 def list_output_ports(api=rtmidi.API_UNSPECIFIED):
@@ -115,6 +116,7 @@ def list_output_ports(api=rtmidi.API_UNSPECIFIED):
     """
     midiout = rtmidi.MidiOut(get_api_from_environment(api))
     list_available_ports(midiio=midiout)
+    midiout.delete()
 
 
 def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
