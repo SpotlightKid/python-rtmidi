@@ -4,8 +4,11 @@ requires = ["setuptools>=42.0.0", "wheel>=0.34.2", "cython"]  # PEP 508 specific
 build-backend = "setuptools.build_meta"
 
 [tool.cibuildwheel.linux]
-before-all = "yum install -y alsa-lib-devel alsa-utils || apt install -y libasound2-dev libjack-jackd2-dev"
+before-all = "yum install -y alsa-lib-devel alsa-utils || apt-get install -y libasound2-dev libjack-jackd2-dev"
 
+[tool.cibuildwheel.overrides]
+select = "*-musllinux*"
+before-all = "apk add jack -y"
 
 [tool.cibuildwheel.macos]
 archs = "universal2"
