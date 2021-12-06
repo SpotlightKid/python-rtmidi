@@ -5,10 +5,11 @@ build-backend = "setuptools.build_meta"
 
 [tool.cibuildwheel.linux]
 before-all = "yum install -y alsa-lib-devel alsa-utils || apt-get install -y libasound2-dev libjack-jackd2-dev"
+skip = "*-musllinux*"
 
-[tool.cibuildwheel.overrides]
+[[tool.cibuildwheel.overrides]]
 select = "*-musllinux*"
-before-all = "apk add jack -y"
+before-all = "apk add jack libpthread-stubs alsa-utils alsa-utils-doc alsa-lib alsaconf"
 
 [tool.cibuildwheel.macos]
 archs = "universal2"
