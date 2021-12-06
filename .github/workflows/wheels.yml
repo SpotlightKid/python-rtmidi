@@ -48,7 +48,7 @@ jobs:
           path: ./wheelhouse/*.whl
 
   build_arch_wheels:
-    name: linux on ${{ matrix.arch }}
+    name: Build wheels on linux ${{ matrix.arch }}
     runs-on: ubuntu-20.04
     strategy:
       matrix:
