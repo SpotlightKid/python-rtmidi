@@ -122,7 +122,7 @@ def list_output_ports(api=rtmidi.API_UNSPECIFIED):
 def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
                   use_virtual=False, interactive=True, client_name=None,
                   port_name=None):
-    """Open MIDI port for input or output and return MidiIn/MidiOut instance.
+    """Open MIDI port for in-/output and return MidiIn/-Out instance and port name.
 
     Arguments:
 
@@ -263,10 +263,10 @@ def open_midiport(port=None, type_="input", api=rtmidi.API_UNSPECIFIED,
 
 def open_midiinput(port=None, api=rtmidi.API_UNSPECIFIED, use_virtual=False,
                    interactive=True, client_name=None, port_name=None):
-    """Open a MIDI port for input and return a MidiIn instance.
+    """Open a MIDI port for input and return a MidiIn instance and port name.
 
-    See the ``open_midiport`` function for information on parameters and
-    possible exceptions.
+    See the ``open_midiport`` function for information on parameters, return
+    types and possible exceptions.
 
     """
     return open_midiport(port, "input", api, use_virtual, interactive,
@@ -275,10 +275,10 @@ def open_midiinput(port=None, api=rtmidi.API_UNSPECIFIED, use_virtual=False,
 
 def open_midioutput(port=None, api=rtmidi.API_UNSPECIFIED, use_virtual=False,
                     interactive=True, client_name=None, port_name=None):
-    """Open a MIDI port for output and return a MidiOut instance.
+    """Open a MIDI port for output and return a MidiOut instance and port name.
 
-    See the ``open_midiport`` function for information on parameters and
-    possible exceptions.
+    See the ``open_midiport`` function for information on parameters, return
+    types and possible exceptions.
 
     """
     return open_midiport(port, "output", api, use_virtual, interactive,
