@@ -1,0 +1,79 @@
+[build-system]
+# https://thiblahute.gitlab.io/mesonpep517/
+build-backend = "mesonpep517.buildapi"
+requires = [
+    "cython",
+    "wheel",
+    "mesonpep517 @ git+https://gitlab.com/SpotlightKid/mesonpep517.git@rtmidi",
+    "ninja"
+]
+
+[project]
+description = "A Python binding for the RtMidi C++ library implemented using Cython."
+authors = [
+    { name="Christopher Arndt", email="info@chrisarndt.de" },
+]
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: MacOS X",
+    "Environment :: Win32 (MS Windows)",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: MacOS :: MacOS X",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Multimedia :: Sound/Audio :: MIDI",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = [
+    "MIDI",
+    "multimedia",
+    "music",
+    "rtmidi",
+]
+meson-python-option-name = "python"
+meson-options = [
+    "-Dwheel=true",
+    "--buildtype=plain"
+]
+
+[project.license]
+file = "LICENSE.md"
+
+[project.urls]
+"Bug Tracker" = "https://github.com/SpotlightKid/python-rtmidi/issues"
+"Documentation" = "https://spotlightkid.github.io/python-rtmidi/"
+"Download" = "https://pypi.python.org/pypi/python-rtmidi"
+"Homepage" = "https://github.com/SpotlightKid/python-rtmidi"
+"Source" = "https://gitlab.com/SpotlightKid/python-rtmidi/"
+
+[tool.black]
+line-length = 99
+target-version = [
+    "py37",
+    "py38",
+    "py39",
+    "py310",
+    "py311",
+]
+
+[tool.isort]
+line_length = 99
+profile = "black"
+
+[tool.pydocstyle]
+match = '(?!test_).*\.pyx?'
+match_dir = '(src|rtmidi)'
+add_ignore = [
+    "D412"
+]

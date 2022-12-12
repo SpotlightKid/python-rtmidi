@@ -1,0 +1,35 @@
+option('alsa',
+    type: 'boolean',
+    value: true,
+    description: 'Enable ALSA MIDI support'
+)
+option('coremidi',
+    type: 'boolean',
+    value: true,
+    description: 'Enable CoreMIDI support'
+)
+option('jack',
+    type: 'boolean',
+    value: true,
+    description: 'Enable JACK MIDI support'
+)
+option('python',
+    type: 'string',
+    value: 'python3',
+    description: 'Set name (or path) of Python interpreter'
+)
+option('verbose',
+    type: 'boolean',
+    value: false,
+    description: 'Turn on debug logging (for development)'
+)
+option('wheel',
+    type: 'boolean',
+    value: false,
+    description: 'Turn on build mode for creating a Python wheel (should not be used directly)'
+)
+option('winmm',
+    type: 'boolean',
+    value: true,
+    description: 'Enable Windows MultiMedia support'
+)
