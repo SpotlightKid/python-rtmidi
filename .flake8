@@ -1,0 +1,4 @@
+[flake8]
+ignore = E116, E265, E266, E731, W504
+max-line-length = 100
+exclude = docs,.tox,.git

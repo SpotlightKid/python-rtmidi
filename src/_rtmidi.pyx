@@ -1,6 +1,6 @@
-# -*- encoding: utf-8 -*-
-#cython: embedsignature=True
-#cython: language_level=3
+# cython: embedsignature = True
+# cython: language_level = 3
+# distutils: language = c++
 #
 # rtmidi.pyx
 #
@@ -130,11 +130,10 @@ if bytes is str:
 else:
     string_types = (str,)
 
+cdef extern from "Python.h":
+    void Py_Initialize()
 
-cdef extern from "pyinit.h":
-    void py_init()
-
-py_init()
+Py_Initialize()
 
 # Declarations for RtMidi C++ classes and their methods we use
 
