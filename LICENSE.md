@@ -5,7 +5,7 @@ python-rtmidi was written by Christopher Arndt, 2012 - 2021.
 
 The software is released unter the MIT License:
 
-Copyright (c) 2012 - 2021 Christopher Arndt
+Copyright (c) 2012 - 2022 Christopher Arndt
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
