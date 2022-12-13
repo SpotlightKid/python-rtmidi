@@ -15,6 +15,10 @@ if host_machine.system() == 'darwin' and coremidi_dep.found() and get_option('co
     ]
 endif
 
+if host_machine.system() == 'linux'
+    dependencies += [threads_dep]
+endif
+
 if host_machine.system() == 'linux' and alsa_dep.found() and get_option('alsa')
     defines += ['-D__LINUX_ALSA__']
     dependencies += [alsa_dep]

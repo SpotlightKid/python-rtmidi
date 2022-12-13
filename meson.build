@@ -14,9 +14,13 @@ cpp = meson.get_compiler('cpp')
 jack2_dep = dependency('jack', version: '>=1.9.11', required: false)
 jack1_dep = dependency('jack', version: ['>=0.125.0', '<1.0'], required: false)
 alsa_dep = dependency('alsa', required: false)
-thread_dep = dependency('threads')
-coremidi_dep = dependency('threads', required: false)
-winmm_dep = dependency('threads', required: false)
+threads_dep = dependency('threads')
+coremidi_dep = dependency(
+    'appleframeworks',
+    modules: ['coreaudio', 'coremidi', 'foundation'],
+    required: false
+)
+winmm_dep = dependency('winmm', required: false)
 
 if not jack2_dep.found() and jack1_dep.found()
     jack_dep = jack1_dep
