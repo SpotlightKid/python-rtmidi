@@ -24,4 +24,5 @@ else
           'Please install Cython from: https://pypi.org/project/Cython/.')
 endif
 
-meson.add_dist_script('meson_dist_cython.py', rtmidi_mod_cpp)
+cythonize_dist_script = files('meson_dist_cython.py')
+meson.add_dist_script(python, cythonize_dist_script, rtmidi_mod_cpp)
