@@ -27,19 +27,12 @@ else
 endif
 
 pymod = import('python')
-python = pymod.find_installation(
-    get_option('python'),
-    required: true
-)
+python = pymod.find_installation(get_option('python'), required: true)
 
-# Installation directories
-prefix = get_option('prefix')
-bindir = join_paths(prefix, get_option('bindir'))
-
-# Build jack_mix_box and generate _jack_mixer extension source
+# Generate _rtmidi extension source
 subdir('src')
 
-# Build & install C extension module and Python package
+# Build & install C++ extension module and Python package
 subdir('rtmidi')
 
 if not get_option('wheel')
