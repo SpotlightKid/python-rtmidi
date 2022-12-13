@@ -7,15 +7,13 @@ include src/rtmidi/RtMidi.cpp
 include src/rtmidi/RtMidi.h
 include tox.ini
 
-exclude .appveyor.yml
 exclude .gitignore
 exclude .gitmodules
-exclude .travis.yml
 
 graft examples
 graft tests
 
-prune ci
+prune .github
 
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
