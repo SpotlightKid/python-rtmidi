@@ -42,8 +42,8 @@ endif
 summary({
     'Debug messages (verbose)': get_option('verbose'),
     'Build for wheel': get_option('wheel'),
-    'ALSA support': target_machine.system() == 'linux' and alsa_dep.found() and get_option('alsa'),
-    'CoreMIDI support': target_machine.system() == 'darwin' and coremidi_dep.found() and get_option('coremidi'),
+    'ALSA support': host_machine.system() == 'linux' and alsa_dep.found() and get_option('alsa'),
+    'CoreMIDI support': host_machine.system() == 'darwin' and coremidi_dep.found() and get_option('coremidi'),
     'JACK support': jack_dep.found() and get_option('jack'),
-    'Window MM support': target_machine.system() == 'windows' and winmm_dep.found() and get_option('winmm'),
+    'Window MM support': host_machine.system() == 'windows' and winmm_dep.found() and get_option('winmm'),
 }, section: 'Configuration')

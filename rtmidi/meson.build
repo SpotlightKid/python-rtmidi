@@ -4,7 +4,7 @@ defines = []
 dependencies = [python.dependency()]
 link_args = []
 
-if target_machine.system() == 'darwin' and coremidi_dep.found() and get_option('coremidi')
+if host_machine.system() == 'darwin' and coremidi_dep.found() and get_option('coremidi')
     defines += ['-D__MACOSX_CORE__']
     #defines += ['-frtti']
     dependencies += [coremidi_dep]
@@ -15,12 +15,12 @@ if target_machine.system() == 'darwin' and coremidi_dep.found() and get_option('
     ]
 endif
 
-if target_machine.system() == 'linux' and alsa_dep.found() and get_option('alsa')
+if host_machine.system() == 'linux' and alsa_dep.found() and get_option('alsa')
     defines += ['-D__LINUX_ALSA__']
     dependencies += [alsa_dep]
 endif
 
-if target_machine.system() == 'windows' and winmm_dep.found() and get_option('winmm')
+if host_machine.system() == 'windows' and winmm_dep.found() and get_option('winmm')
     defines += ['-D__WINDOWS_MM__', '/EHsc']
     dependencies += [winmm_dep]
 endif
