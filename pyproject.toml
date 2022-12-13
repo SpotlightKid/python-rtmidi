@@ -77,3 +77,39 @@ match_dir = '(src|rtmidi)'
 add_ignore = [
     "D412"
 ]
+
+[tool.cibuildwheel]
+# Switch to using build
+build-frontend = "build"
+skip = "pp*"
+manylinux-x86_64-image = "manylinux_2_28"
+manylinux-aarch64-image = "manylinux_2_28"
+
+# Install system library
+[tool.cibuildwheel.linux]
+build = "cp3{8,9,10,11}-manylinux*"
+archs = ["auto64"]
+before-all = [
+    "yum install -y alsa-lib-devel alsa-utils",
+    "pipx install ninja",
+    "curl -o jack2-1.9.21.tar.gz https://codeload.github.com/jackaudio/jack2/tar.gz/refs/tags/v1.9.21",
+    "tar -xzf jack2-1.9.21.tar.gz",
+    "cd jack2-1.9.21",
+    "python3 waf configure --prefix=/usr --autostart=none --classic",
+    "python3 waf build",
+    "python3 waf install",
+]
+
+[tool.cibuildwheel.macos]
+build = "cp3{8,9,10,11}-macosx*"
+archs = ["universal2"]
+before-all = [
+    "pipx install ninja",
+]
+
+[tool.cibuildwheel.windows]
+build = "cp3{8,9,10,11}-win*"
+archs = ["auto"]
+before-all = [
+    "pipx install ninja",
+]
