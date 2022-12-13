@@ -29,7 +29,7 @@ if host_machine.system() == 'windows' and winmm_dep.found() and get_option('winm
     dependencies += [winmm_dep]
 endif
 
-if jack2_dep.found() and get_option('jack')
+if jack_dep.found() and get_option('jack')
     defines += ['-D__UNIX_JACK__', '-DJACK_HAS_PORT_RENAME']
     dependencies += [jack_dep]
 endif

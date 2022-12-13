@@ -28,6 +28,7 @@ elif jack2_dep.found()
     jack_dep = jack2_dep
 else
     warning('No version of JACK found, which is recent enough (jack2>=1.9.11 or jack1>=0.125.0)')
+    jack_dep = disabler()
 endif
 
 pymod = import('python')
