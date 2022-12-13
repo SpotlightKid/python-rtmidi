@@ -6,7 +6,7 @@ project(
     default_options: [
         'warning_level=2'
     ],
-    meson_version: '>=0.53.0'
+    meson_version: '>=0.60.0'
 )
 
 # Dependencies
@@ -40,7 +40,8 @@ subdir('src')
 subdir('rtmidi')
 
 if not get_option('wheel')
-    meson.add_install_script('meson_postinstall.py')
+    postinstall_script = files('meson_postinstall.py')
+    meson.add_install_script(python, postinstall_script)
 endif
 
 summary({

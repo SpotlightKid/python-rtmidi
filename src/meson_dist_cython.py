@@ -11,9 +11,10 @@ from subprocess import run
 build_root = environ.get("MESON_BUILD_ROOT")
 dist_root = environ.get("MESON_DIST_ROOT")
 source_root = environ.get("MESON_SOURCE_ROOT")
+verbose = environ.get("MESON_INSTALL_QUIET") is None
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-v", "--verbose", action="store_true", help="Be more verbose.")
+ap.add_argument("-v", "--verbose", action="store_true", default=verbose, help="Be more verbose.")
 ap.add_argument("mod_source", nargs="*", help="Cython module C++ source target(s) (*.cpp).")
 args = ap.parse_args()
 
@@ -28,7 +29,9 @@ for mod in args.mod_source:
     target = join("src", mod)
     dst = join(dist_root, "src", mod)
 
-    print("Updating Cython module C source '{}'...".format(target))
+    if args.verbose:
+        print("Updating Cython module C source '{}'...".format(target))
+
     cmd = ["ninja"]
 
     if args.verbose:
