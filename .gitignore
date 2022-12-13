@@ -12,6 +12,7 @@ src/_rtmidi.cpp
 *.egg
 *.egg-info
 dist/
+wheelhouse/
 *.eggs/
 eggs/
 parts/
