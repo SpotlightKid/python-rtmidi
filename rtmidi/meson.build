@@ -47,6 +47,7 @@ module = python.extension_module(
     subdir: 'rtmidi',
 )
 
+# Generate version.py file
 version_py = configure_file(
     input: 'version.py.in',
     output: 'version.py',
