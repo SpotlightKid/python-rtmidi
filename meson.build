@@ -11,8 +11,8 @@ project(
 
 # Dependencies
 cpp = meson.get_compiler('cpp')
-jack2_dep = dependency('jack', version:'>=1.9.11', required: false)
-jack1_dep = dependency('jack', version:'>=0.125.0, <1.0', required: false)
+jack2_dep = dependency('jack', version: '>=1.9.11', required: false)
+jack1_dep = dependency('jack', version: ['>=0.125.0', '<1.0'], required: false)
 alsa_dep = dependency('alsa', required: false)
 thread_dep = dependency('threads')
 coremidi_dep = dependency('threads', required: false)
