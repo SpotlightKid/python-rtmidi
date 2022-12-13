@@ -10,10 +10,10 @@ Please follow all the steps below in the exact order.
 
 You probably need administrator rights for some or all of the following steps.
 
-1.  Install the latest release of Python 3.7+ from
-    <https://www.python.org/downloads/windows/> to the default location
-    (e.g. `C:\Python39`). You can install either or both the 32-bit and
-    the 64-bit version.
+1.  Install the latest release of Python (3.11 at the time of writing, at least
+    3.7+) from <https://www.python.org/downloads/windows/> to the default
+    location (e.g. `C:\Python311`). You can install either or both the 32-bit
+    and the 64-bit version.
 
     In the installer, enable the option to install [pip]. Optionally, *for only
     one of the chosen Python versions*, enable the options to add the
@@ -23,7 +23,9 @@ You probably need administrator rights for some or all of the following steps.
 
 2.  Install [virtualenv] from a command prompt:
 
-        > python -m pip install -U virtualenv
+    ```console
+    python -m pip install -U virtualenv
+    ```
 
     Repeat this for all Python versions you have installed (run `py --help` to
     get help on how to run different python version from the command line).
@@ -42,17 +44,22 @@ You probably need administrator rights for some or all of the following steps.
 
 1.  Open a command line and run:
 
-        > python -m virtualenv rtmidi
-        > rtmidi\Scripts\activate
+    ```console
+    python -m virtualenv rtmidi
+    rtmidi\Scripts\activate
+    ```
 
-2.  Update pip and [setuptools] within your virtual environment to the latest
-    versions with:
+2.  Update pip within your virtual environment to the latest version with:
 
-        (rtmidi)> pip install -U pip setuptools
+    ```console
+    (rtmidi)> pip install -U pip
+    ```
 
-3.  Install Cython (still in the same command line window):
+3.  Install build dependencies (still in the same command line window):
 
-        (rtmidi)> pip install Cython
+    ```console
+    (rtmidi)> pip install build installer
+    ```
 
 ## Download & unpack python-rtmidi source
 
@@ -60,16 +67,23 @@ Get the latest python-rtmidi distribution as a Zip archive from
 <https://pypi.python.org/pypi/python-rtmidi> and unpack it somewhere. You can
 do the downloading and unpacking in one step using pip:
 
-    > pip install --no-install -d . "python-rtmidi"
+```console
+pip install --no-install -d . "python-rtmidi"
+```
 
 Alternatively, clone the python-rtmidi git repository:
 
-    > git clone https://github.com/SpotlightKid/python-rtmidi.git
+```console
+git clone https://github.com/SpotlightKid/python-rtmidi.git
+```
 
 In the command line window you opened above, change into the `python-rtmidi`
 directory, which you created by unpacking the source or cloning the repository:
 
-    (rtmidi)> cd python-rtmidi
+
+```console
+(rtmidi)> cd python-rtmidi
+```
 
 
 ## Build & install python-rtmidi
@@ -77,21 +91,26 @@ directory, which you created by unpacking the source or cloning the repository:
 Just run the usual setup command from within the source directory with the
 active virtual environment, i.e. from still the same command line window:
 
-    (rtmidi)> python setup.py install
+```console
+(rtmidi)> python -m build
+(rtmidi)> python -m installer dist/*.whl
+```
 
 
 ## Verify your installation
 
 Change out of the `python-rtmidi` source directory (important!) and run:
 
-    (rtmidi)> cd ..
-    (rtmidi)> python
-    >>> import rtmidi
-    >>> rtmidi.API_WINDOWS_MM in rtmidi.get_compiled_api()
-    True
-    >>> midiout = rtmidi.MidiOut()
-    >>> midiout.get_ports()
-    ['Microsoft GS Wavetable Synth']
+```console
+(rtmidi)> cd ..
+(rtmidi)> python
+>>> import rtmidi
+>>> rtmidi.API_WINDOWS_MM in rtmidi.get_compiled_api()
+True
+>>> midiout = rtmidi.MidiOut()
+>>> midiout.get_ports()
+['Microsoft GS Wavetable Synth']
+```
 
 If you have any other MIDI outputs (hardware MIDI interfaces, MIDI Yoke etc.)
 active, they should be listed by `get_ports()` as well.
@@ -109,5 +128,4 @@ any useful hints, please let the author know.
 
 
 [pip]: https://pypi.python.org/pypi/pip
-[setuptools]: https://pypi.python.org/pypi/setuptools
 [virtualenv]: https://pypi.python.org/pypi/virtualenv
