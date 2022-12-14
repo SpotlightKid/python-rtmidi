@@ -109,7 +109,7 @@ before-all = [
 
 [tool.cibuildwheel.windows]
 build = "cp3{8,9,10,11}-win*"
-archs = ["auto"]
+archs = ["AMD64"]
 before-all = [
     "pipx install ninja",
 ]
