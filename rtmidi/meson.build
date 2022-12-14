@@ -24,7 +24,7 @@ if host_machine.system() == 'linux' and alsa_dep.found() and get_option('alsa')
     dependencies += [alsa_dep]
 endif
 
-if host_machine.system() == 'windows' and winmm_dep.found() and get_option('winmm')
+if host_machine.system() == 'windows' and get_option('winmm')
     defines += ['-D__WINDOWS_MM__', '/EHsc']
     dependencies += [winmm_dep]
 endif
