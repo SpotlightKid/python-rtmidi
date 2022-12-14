@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v3
       with:
         submodules: true
 
@@ -28,7 +28,7 @@ jobs:
     - name: Check metadata
       run: pipx run twine check --strict dist/*
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         path: dist/*.tar.gz
 
@@ -40,12 +40,12 @@ jobs:
         os: [ubuntu-latest, windows-latest, macOS-10.15]
     steps:
 
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v3
       with:
         submodules: true
 
     # Used to host cibuildwheel
-    - uses: actions/setup-python@v3
+    - uses: actions/setup-python@v4
 
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.11.3
@@ -65,11 +65,11 @@ jobs:
         arch: [aarch64]
     steps:
 
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v3
       with:
         submodules: true
 
-    - uses: docker/setup-qemu-action@v1.2.0
+    - uses: docker/setup-qemu-action@v2
       with:
         platforms: all
 
