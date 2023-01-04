@@ -90,7 +90,7 @@ manylinux-aarch64-image = "manylinux_2_28"
 build = "cp3{8,9,10,11}-manylinux*"
 archs = ["auto64"]
 before-all = [
-    "yum install -y alsa-lib-devel alsa-utils",
+    "dnf -y install alsa-lib-devel alsa-utils",
     "pipx install ninja",
     "curl -o jack2-1.9.21.tar.gz https://codeload.github.com/jackaudio/jack2/tar.gz/refs/tags/v1.9.21",
     "tar -xzf jack2-1.9.21.tar.gz",
