@@ -20,7 +20,7 @@ def main(args=None):
 
     for filename in getattr(args, "sysex-file"):
         with open(filename, 'rb') as syx:
-            data = syx.read()
+            data = bytearray(syx.read())
             assert data[0] == 0xF0 and data[-1] == 0xF7
 
             if args.length:
