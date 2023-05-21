@@ -6,11 +6,30 @@ project(
     default_options: [
         'warning_level=2'
     ],
-    meson_version: '>=0.60.0'
+    meson_version: '>=0.63.0'
 )
 
-# Dependencies
 cpp = meson.get_compiler('cpp')
+
+## From https://github.com/numpy/numpy/blob/main/numpy/meson.build
+# Platform detection
+if host_machine.system() == 'windows' and cpp.get_id() == 'gcc'
+  # For mingw-w64, link statically against the UCRT.
+  gcc_link_args = ['-lucrt', '-static']
+
+  add_project_link_arguments(gcc_link_args, language: ['c', 'cpp'])
+  # Force gcc to float64 long doubles for compatibility with MSVC
+  # builds, for C only.
+  add_project_arguments('-mlong-double-64', language: 'c')
+  # Make fprintf("%zd") work (see https://github.com/rgommers/scipy/issues/118)
+  add_project_arguments('-D__USE_MINGW_ANSI_STDIO=1', language: ['c', 'cpp'])
+  # Manual add of MS_WIN64 macro when not using MSVC.
+  # https://bugs.python.org/issue28267
+  add_project_arguments('-DMS_WIN64', language: ['c', 'cpp'])
+endif
+##
+
+# Dependencies
 jack2_dep = dependency('jack', version: '>=1.9.11', required: false)
 jack1_dep = dependency('jack', version: ['>=0.125.0', '<1.0'], required: false)
 alsa_dep = dependency('alsa', required: false)
@@ -20,7 +39,7 @@ coremidi_dep = dependency(
     modules: ['coreaudio', 'coremidi', 'foundation'],
     required: false
 )
-winmm_dep = dependency('winmm', required: false)
+winmm_dep = cpp.find_library('winmm', required: false)
 
 if not jack2_dep.found() and jack1_dep.found()
     jack_dep = jack1_dep

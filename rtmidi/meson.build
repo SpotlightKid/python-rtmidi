@@ -25,7 +25,9 @@ if host_machine.system() == 'linux' and alsa_dep.found() and get_option('alsa')
 endif
 
 if host_machine.system() == 'windows' and get_option('winmm')
-    defines += ['-D__WINDOWS_MM__', '/EHsc']
+    if meson.get_compiler('cpp').get_id() != 'gcc'
+        defines += ['-D__WINDOWS_MM__', '/EHsc']
+    endif
     dependencies += [winmm_dep]
 endif
 
