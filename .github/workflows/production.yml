@@ -1,6 +1,5 @@
-name: Build sdist and wheel and publish to PyPI and TestPyPI
+name: Build sdist and wheel and publish to PyPI
 
-#on: [push, pull_request]
 on:
   push:
     branches:

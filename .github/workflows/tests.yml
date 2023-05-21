@@ -1,0 +1,80 @@
+name: Build sdist and wheel for testing purposes
+
+on:
+  push:
+    branches:
+      - rtmidi-5.0.0
+  pull_request:
+    branches:
+      - rtmidi-5.0.0
+
+jobs:
+  build_sdist:
+   name: Build sdist
+   runs-on: ubuntu-latest
+   steps:
+
+   - uses: actions/checkout@v3
+     with:
+       submodules: true
+
+   - name: Install ninja
+     run: pipx install ninja
+
+   - name: Build sdist
+     run: pipx run build --sdist
+
+   - name: Check metadata
+     run: pipx run twine check --strict dist/*
+
+   - uses: actions/upload-artifact@v3
+     with:
+       path: dist/*.tar.gz
+
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+
+    - name: Build wheels
+      uses: pypa/cibuildwheel@v2.11.4
+
+    - uses: actions/upload-artifact@v3
+      with:
+        path: wheelhouse/*.whl
+
+  build_arch_wheels:
+   name: Build wheels on Linux ${{ matrix.arch }}
+   runs-on: ubuntu-20.04
+   strategy:
+     matrix:
+       arch: [aarch64]
+   steps:
+
+   - uses: actions/checkout@v3
+     with:
+       submodules: true
+
+   - uses: docker/setup-qemu-action@v2
+     with:
+       platforms: all
+
+   - uses: pypa/cibuildwheel@v2.11.3
+     env:
+       CIBW_ARCHS: ${{ matrix.arch }}
+
+   - name: Verify clean directory
+     run: git diff --exit-code
+     shell: bash
+
+   - name: Upload wheels
+     uses: actions/upload-artifact@v3
+     with:
+       path: wheelhouse/*.whl
