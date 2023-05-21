@@ -1,0 +1,10 @@
+coverage
+Cython
+flake8
+myst-parser
+pip-tools
+pydocstyle
+pytest
+Sphinx
+sphinx-rtd-theme
+tox

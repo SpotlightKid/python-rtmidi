@@ -8,14 +8,11 @@ src/_rtmidi.cpp
 # C extensions
 *.so
 
-# Generated documentation
-#INSTALL.rst
-
 # Packages
 *.egg
 *.egg-info
 dist/
-build/
+wheelhouse/
 *.eggs/
 eggs/
 parts/
@@ -49,6 +46,8 @@ output/*/index.html
 
 # Sphinx
 docs/_build
+# docs build artifact
+rtmidi/version.py
 
 # Geany project
 python-rtmidi.geany

@@ -1,0 +1,115 @@
+[build-system]
+# https://thiblahute.gitlab.io/mesonpep517/
+build-backend = "mesonpep517.buildapi"
+requires = [
+    "cython",
+    "wheel",
+    "mesonpep517 @ git+https://gitlab.com/SpotlightKid/mesonpep517.git@rtmidi",
+    "ninja"
+]
+
+[project]
+description = "A Python binding for the RtMidi C++ library implemented using Cython."
+authors = [
+    { name="Christopher Arndt", email="info@chrisarndt.de" },
+]
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: MacOS X",
+    "Environment :: Win32 (MS Windows)",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: MacOS :: MacOS X",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Multimedia :: Sound/Audio :: MIDI",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = [
+    "MIDI",
+    "multimedia",
+    "music",
+    "rtmidi",
+]
+meson-python-option-name = "python"
+meson-options = [
+    "-Dwheel=true",
+    "--buildtype=plain"
+]
+
+[project.license]
+file = "LICENSE.md"
+
+[project.urls]
+"Bug Tracker" = "https://github.com/SpotlightKid/python-rtmidi/issues"
+"Documentation" = "https://spotlightkid.github.io/python-rtmidi/"
+"Download" = "https://pypi.python.org/pypi/python-rtmidi"
+"Homepage" = "https://github.com/SpotlightKid/python-rtmidi"
+"Source" = "https://gitlab.com/SpotlightKid/python-rtmidi/"
+
+[tool.black]
+line-length = 99
+target-version = [
+    "py37",
+    "py38",
+    "py39",
+    "py310",
+    "py311",
+]
+
+[tool.isort]
+line_length = 99
+profile = "black"
+
+[tool.pydocstyle]
+match = '(?!test_).*\.pyx?'
+match_dir = '(src|rtmidi)'
+add_ignore = [
+    "D412"
+]
+
+[tool.cibuildwheel]
+# Switch to using build
+build-frontend = "build"
+skip = "pp*"
+manylinux-x86_64-image = "manylinux_2_28"
+manylinux-aarch64-image = "manylinux_2_28"
+
+# Install system library
+[tool.cibuildwheel.linux]
+build = "cp3{8,9,10,11}-manylinux*"
+archs = ["auto64"]
+before-all = [
+    "dnf -y install alsa-lib-devel alsa-utils",
+    "pipx install ninja",
+    "curl -o jack2-1.9.21.tar.gz https://codeload.github.com/jackaudio/jack2/tar.gz/refs/tags/v1.9.21",
+    "tar -xzf jack2-1.9.21.tar.gz",
+    "cd jack2-1.9.21",
+    "python3 waf configure --prefix=/usr --autostart=none --classic",
+    "python3 waf build",
+    "python3 waf install",
+]
+
+[tool.cibuildwheel.macos]
+build = "cp3{8,9,10,11}-macosx*"
+archs = ["universal2"]
+before-all = [
+    "pipx install ninja",
+]
+
+[tool.cibuildwheel.windows]
+build = "cp3{8,9,10,11}-win*"
+archs = ["AMD64"]
+before-all = [
+    "pipx install ninja",
+]

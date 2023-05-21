@@ -1,25 +1,21 @@
-include fill_template.py
-include LICENSE.txt
 include Makefile
+include *.md
 include requirements-dev.txt
-include tox.ini
-include *.rst
-include src/_rtmidi.pyx
 include src/_rtmidi.cpp
-include src/pyinit.h
+include src/_rtmidi.pyx
 include src/rtmidi/RtMidi.cpp
 include src/rtmidi/RtMidi.h
+include tox.ini
 
-exclude .appveyor.yml
-exclude .travis.yml
-exclude *.rst.in
+exclude .gitignore
+exclude .gitmodules
 
 graft examples
 graft tests
 
-prune ci
+prune .github
 
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
 
-recursive-include docs *.rst *.inc conf.py Makefile make.bat
+recursive-include docs *.md *.rst *.inc conf.py Makefile make.bat

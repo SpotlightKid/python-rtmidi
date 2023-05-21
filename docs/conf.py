@@ -13,7 +13,6 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import configparser
 import sys
 import os
 
@@ -34,8 +33,6 @@ sys.path.insert(0, project_root)
 
 
 meta = {}
-setupcfg = configparser.ConfigParser()
-setupcfg.read(os.path.join(project_root, 'setup.cfg'))
 version = os.path.join(project_root, 'rtmidi', 'version.py')
 exec(compile(open(version).read(), version, 'exec'), {}, meta)
 
@@ -46,13 +43,13 @@ exec(compile(open(version).read(), version, 'exec'), {}, meta)
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode']
+extensions = ['myst_parser', 'sphinx.ext.autodoc', 'sphinx.ext.viewcode']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
 # The suffix of source filenames.
-source_suffix = '.rst'
+source_suffix = ['.md', '.rst']
 
 # The encoding of source files.
 #source_encoding = 'utf-8-sig'
@@ -61,8 +58,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = setupcfg['metadata']['name']
-copyright = u'2012 - 2021, %s' % setupcfg['metadata']['author']
+project = 'python-rtmidi'
+author = 'Christopher Arndt'
+copyright = f'2012 - 2022, {author}'
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -196,6 +194,7 @@ html_static_path = []
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'rtmididoc'
 
+myst_heading_anchors = 3
 
 # -- Options for LaTeX output ------------------------------------------
 
@@ -215,8 +214,8 @@ latex_elements = {
 # [howto/manual]).
 latex_documents = [
     ('index', 'rtmidi.tex',
-     u'python-rtmidi Documentation',
-     setupcfg['metadata']['author'], 'manual'),
+     'python-rtmidi Documentation',
+     author, 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at
@@ -246,8 +245,8 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'rtmidi',
-     u'python-rtmidi Documentation',
-     [setupcfg['metadata']['author']], 1)
+     f'{project} Documentation',
+     author, 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -261,10 +260,10 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ('index', 'rtmidi',
-     u'python-rtmidi Documentation',
-     setupcfg['metadata']['author'],
-     setupcfg['metadata']['name'],
-     setupcfg['metadata']['description'],
+     f'{project} Documentation',
+     author,
+     project,
+     '',
      'Miscellaneous'),
 ]
 

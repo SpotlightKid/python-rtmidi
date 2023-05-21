@@ -1,6 +1,8 @@
-.PHONY: clean-pyc clean-build docs clean
+.PHONY: clean-pyc clean-build clean coverage docs dist lint release release_upload requirements test
 
-PYTHON ?= python
+BUILDDIR ?= builddir
+PREFIX ?= /usr/local
+PYTHON ?= python3
 SOURCES = src/_rtmidi.pyx src/rtmidi/RtMidi.cpp
 
 help:
@@ -15,19 +17,24 @@ help:
 	@echo "lint - check style with flake8"
 	@echo "release - package a release"
 	@echo "release_upload - package a release and upload it to PyPI"
+	@echo "requirements - generate 'requirement-dev.txt' from 'requirements-dev.in'"
 	@echo "test - run tests on every supported Python version with tox"
 
 build: $(SOURCES)
-	$(PYTHON) setup.py build_ext --inplace
+	if [[ -d "$(BUILDDIR)" ]]; then \
+		meson setup --reconfigure "--prefix=$(PREFIX)" --buildtype=plain $(BUILDDIR); \
+	else \
+		meson setup "--prefix=$(PREFIX)" --buildtype=plain $(BUILDDIR); \
+	fi
+	meson compile -C $(BUILDDIR)
 
 check-docs:
-	pydocstyle rtmidi src
+	$(PYTHON) -m pydocstyle rtmidi
 
 clean: clean-build clean-docs clean-pyc
 	rm -fr htmlcov/
 
 clean-build:
-	rm -fr build/
 	rm -fr dist/
 	rm -fr *.egg-info
 	rm -fr rtmidi/*.so
@@ -43,32 +50,39 @@ clean-pyc:
 	find . -name __pycache__ -type d -exec rm -rf {} +
 
 coverage:
-	coverage run --source rtmidi setup.py test
-	coverage report -m
-	coverage html
-	xdg-open htmlcov/index.html
+	$(PYTHON) -mcoverage run --source rtmidi test
+	$(PYTHON) -mcoverage report -m
+	$(PYTHON) -mcoverage html
+	-xdg-open htmlcov/index.html
 
 dist: clean release
 	ls -l dist
 
-docs: release
+docs: build
+	cp -f $(BUILDDIR)/rtmidi/_rtmidi.*.so rtmidi/
+	cp -f $(BUILDDIR)/rtmidi/version.py rtmidi/
 	rm -f docs/rtmidi.rst
 	rm -f docs/modules.rst
-	$(PYTHON) setup.py build_ext --inplace
-	sphinx-apidoc -o docs/ rtmidi rtmidi/release.py
+	sphinx-apidoc -o docs rtmidi
 	cat docs/api.rst.inc >> docs/rtmidi.rst
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
-	xdg-open docs/_build/html/index.html
+	-rm -f rtmidi/*.so rtmidi/version.py
+	-xdg-open docs/_build/html/index.html
 
 lint:
-	flake8 rtmidi tests examples
+	$(PYTHON) -m flake8 rtmidi tests examples
 
-release: clean
-	$(PYTHON) setup.py release
+release:
+	$(PYTHON) -m build
 
 release_upload: release
-	twine upload --skip-existing dist/*.tar.gz
+	$(PYTHON) -m twine upload --skip-existing dist/*.tar.gz dist/*.whl
+
+requirements-dev.txt: requirements-dev.in
+	pip-compile --quiet --resolver=backtracking --no-emit-index-url "$<" > "$@"
+
+requirements: requirements-dev.txt
 
 test:
-	PYTHONPATH=examples $(PYTHON) setup.py test
+	pytest -v tests
