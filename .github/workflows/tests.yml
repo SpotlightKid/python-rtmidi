@@ -35,6 +35,7 @@ jobs:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: true
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
@@ -44,7 +45,7 @@ jobs:
         submodules: true
 
     - name: Build wheels
-      uses: pypa/cibuildwheel@v2.11.4
+      uses: pypa/cibuildwheel@v2.12.3
 
     - uses: actions/upload-artifact@v3
       with:
