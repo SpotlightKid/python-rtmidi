@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rtmidi package &#8212; python-rtmidi 1.4.9 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>rtmidi package &#8212; python-rtmidi 1.5.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="modules.html" title="rtmidi"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.9 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.0rc1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">rtmidi</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rtmidi package</a></li> 
       </ul>
@@ -45,29 +45,29 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="rtmidi-package">
-<h1>rtmidi package<a class="headerlink" href="#rtmidi-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-rtmidi.midiconstants">
-<span id="rtmidi-midiconstants-module"></span><h2>rtmidi.midiconstants module<a class="headerlink" href="#module-rtmidi.midiconstants" title="Permalink to this headline">¶</a></h2>
+  <section id="rtmidi-package">
+<h1>rtmidi package<a class="headerlink" href="#rtmidi-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-rtmidi.midiconstants">
+<span id="rtmidi-midiconstants-module"></span><h2>rtmidi.midiconstants module<a class="headerlink" href="#module-rtmidi.midiconstants" title="Permalink to this heading">¶</a></h2>
 <p>Definitions of midi events, controller numbers and parameters.</p>
 <dl class="py function">
-<dt id="rtmidi.midiconstants.is_status">
-<code class="sig-prename descclassname"><span class="pre">rtmidi.midiconstants.</span></code><code class="sig-name descname"><span class="pre">is_status</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">byte</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiconstants.html#is_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiconstants.is_status" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.midiconstants.is_status">
+<span class="sig-prename descclassname"><span class="pre">rtmidi.midiconstants.</span></span><span class="sig-name descname"><span class="pre">is_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">byte</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiconstants.html#is_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiconstants.is_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return True if the given byte is a MIDI status byte, False otherwise.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="module-rtmidi.midiutil">
-<span id="rtmidi-midiutil-module"></span><h2>rtmidi.midiutil module<a class="headerlink" href="#module-rtmidi.midiutil" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-rtmidi.midiutil">
+<span id="rtmidi-midiutil-module"></span><h2>rtmidi.midiutil module<a class="headerlink" href="#module-rtmidi.midiutil" title="Permalink to this heading">¶</a></h2>
 <p>Collection of utility functions for handling MIDI I/O and ports.</p>
 <p>Currently contains functions to list MIDI input/output ports, to get the RtMidi
 API to use from the environment and to open MIDI ports.</p>
 <dl class="py function">
-<dt id="rtmidi.midiutil.get_api_from_environment">
-<code class="sig-prename descclassname"><span class="pre">rtmidi.midiutil.</span></code><code class="sig-name descname"><span class="pre">get_api_from_environment</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiutil.html#get_api_from_environment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiutil.get_api_from_environment" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.midiutil.get_api_from_environment">
+<span class="sig-prename descclassname"><span class="pre">rtmidi.midiutil.</span></span><span class="sig-name descname"><span class="pre">get_api_from_environment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiutil.html#get_api_from_environment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiutil.get_api_from_environment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return RtMidi API specified in the environment if any.</p>
 <p>If the optional api argument is <code class="docutils literal notranslate"><span class="pre">rtmidi.API_UNSPECIFIED</span></code> (the default),
 look in the environment variable <code class="docutils literal notranslate"><span class="pre">RTMIDI_API</span></code> for the name of the RtMidi
@@ -78,14 +78,14 @@ API to use. Valid names are <code class="docutils literal notranslate"><span cla
 </dd></dl>
 
 <dl class="py function">
-<dt id="rtmidi.midiutil.list_available_ports">
-<code class="sig-prename descclassname"><span class="pre">rtmidi.midiutil.</span></code><code class="sig-name descname"><span class="pre">list_available_ports</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ports</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">midiio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiutil.html#list_available_ports"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiutil.list_available_ports" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.midiutil.list_available_ports">
+<span class="sig-prename descclassname"><span class="pre">rtmidi.midiutil.</span></span><span class="sig-name descname"><span class="pre">list_available_ports</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ports</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">midiio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiutil.html#list_available_ports"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiutil.list_available_ports" title="Permalink to this definition">¶</a></dt>
 <dd><p>List MIDI ports given or available on given MIDI I/O instance.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rtmidi.midiutil.list_input_ports">
-<code class="sig-prename descclassname"><span class="pre">rtmidi.midiutil.</span></code><code class="sig-name descname"><span class="pre">list_input_ports</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiutil.html#list_input_ports"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiutil.list_input_ports" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.midiutil.list_input_ports">
+<span class="sig-prename descclassname"><span class="pre">rtmidi.midiutil.</span></span><span class="sig-name descname"><span class="pre">list_input_ports</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiutil.html#list_input_ports"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiutil.list_input_ports" title="Permalink to this definition">¶</a></dt>
 <dd><p>List available MIDI input ports.</p>
 <p>Optionally the RtMidi API can be passed with the <code class="docutils literal notranslate"><span class="pre">api</span></code> argument. If not
 it will be determined via the <code class="docutils literal notranslate"><span class="pre">get_api_from_environment</span></code> function.</p>
@@ -97,8 +97,8 @@ it will be determined via the <code class="docutils literal notranslate"><span c
 </dd></dl>
 
 <dl class="py function">
-<dt id="rtmidi.midiutil.list_output_ports">
-<code class="sig-prename descclassname"><span class="pre">rtmidi.midiutil.</span></code><code class="sig-name descname"><span class="pre">list_output_ports</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiutil.html#list_output_ports"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiutil.list_output_ports" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.midiutil.list_output_ports">
+<span class="sig-prename descclassname"><span class="pre">rtmidi.midiutil.</span></span><span class="sig-name descname"><span class="pre">list_output_ports</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiutil.html#list_output_ports"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiutil.list_output_ports" title="Permalink to this definition">¶</a></dt>
 <dd><p>List available MIDI output ports.</p>
 <p>Optionally the RtMidi API can be passed with the <code class="docutils literal notranslate"><span class="pre">api</span></code> argument. If not
 it will be determined via the <code class="docutils literal notranslate"><span class="pre">get_api_from_environment</span></code> function.</p>
@@ -110,25 +110,25 @@ it will be determined via the <code class="docutils literal notranslate"><span c
 </dd></dl>
 
 <dl class="py function">
-<dt id="rtmidi.midiutil.open_midiinput">
-<code class="sig-prename descclassname"><span class="pre">rtmidi.midiutil.</span></code><code class="sig-name descname"><span class="pre">open_midiinput</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_virtual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiutil.html#open_midiinput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiutil.open_midiinput" title="Permalink to this definition">¶</a></dt>
-<dd><p>Open a MIDI port for input and return a MidiIn instance.</p>
-<p>See the <code class="docutils literal notranslate"><span class="pre">open_midiport</span></code> function for information on parameters and
-possible exceptions.</p>
+<dt class="sig sig-object py" id="rtmidi.midiutil.open_midiinput">
+<span class="sig-prename descclassname"><span class="pre">rtmidi.midiutil.</span></span><span class="sig-name descname"><span class="pre">open_midiinput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_virtual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiutil.html#open_midiinput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiutil.open_midiinput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a MIDI port for input and return a MidiIn instance and port name.</p>
+<p>See the <code class="docutils literal notranslate"><span class="pre">open_midiport</span></code> function for information on parameters, return
+types and possible exceptions.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rtmidi.midiutil.open_midioutput">
-<code class="sig-prename descclassname"><span class="pre">rtmidi.midiutil.</span></code><code class="sig-name descname"><span class="pre">open_midioutput</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_virtual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiutil.html#open_midioutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiutil.open_midioutput" title="Permalink to this definition">¶</a></dt>
-<dd><p>Open a MIDI port for output and return a MidiOut instance.</p>
-<p>See the <code class="docutils literal notranslate"><span class="pre">open_midiport</span></code> function for information on parameters and
-possible exceptions.</p>
+<dt class="sig sig-object py" id="rtmidi.midiutil.open_midioutput">
+<span class="sig-prename descclassname"><span class="pre">rtmidi.midiutil.</span></span><span class="sig-name descname"><span class="pre">open_midioutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_virtual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiutil.html#open_midioutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiutil.open_midioutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a MIDI port for output and return a MidiOut instance and port name.</p>
+<p>See the <code class="docutils literal notranslate"><span class="pre">open_midiport</span></code> function for information on parameters, return
+types and possible exceptions.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rtmidi.midiutil.open_midiport">
-<code class="sig-prename descclassname"><span class="pre">rtmidi.midiutil.</span></code><code class="sig-name descname"><span class="pre">open_midiport</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'input'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_virtual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiutil.html#open_midiport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiutil.open_midiport" title="Permalink to this definition">¶</a></dt>
-<dd><p>Open MIDI port for input or output and return MidiIn/MidiOut instance.</p>
+<dt class="sig sig-object py" id="rtmidi.midiutil.open_midiport">
+<span class="sig-prename descclassname"><span class="pre">rtmidi.midiutil.</span></span><span class="sig-name descname"><span class="pre">open_midiport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'input'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_virtual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rtmidi/midiutil.html#open_midiport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rtmidi.midiutil.open_midiport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open MIDI port for in-/output and return MidiIn/-Out instance and port name.</p>
 <p>Arguments:</p>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">port</span></code></dt><dd><p>A MIDI port number or (substring of) a port name or <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
@@ -187,15 +187,15 @@ requested) are available.</p>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-rtmidi.version">
-<span id="rtmidi-version-module"></span><h2>rtmidi.version module<a class="headerlink" href="#module-rtmidi.version" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-rtmidi">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-rtmidi" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-rtmidi.version">
+<span id="rtmidi-version-module"></span><h2>rtmidi.version module<a class="headerlink" href="#module-rtmidi.version" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-rtmidi">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-rtmidi" title="Permalink to this heading">¶</a></h2>
 <p>A Python binding for the RtMidi C++ library implemented using Cython.</p>
-<div class="section" id="overview">
-<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
+<section id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h3>
 <p><strong>RtMidi</strong> is a set of C++ classes which provides a concise and simple,
 cross-platform API (Application Programming Interface) for realtime MIDI
 input / output across Linux (ALSA &amp; JACK), macOS / OS X (CoreMIDI &amp; JACK),
@@ -206,9 +206,9 @@ the same as the C++ one but with the naming scheme of classes, methods and
 parameters adapted to the Python PEP-8 conventions and requirements of the
 Python package naming structure. <strong>python-rtmidi</strong> supports Python 3 (3.6, 3.7,
 3.8, and 3.9).</p>
-</div>
-<div class="section" id="usage-example">
-<h3>Usage example<a class="headerlink" href="#usage-example" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="usage-example">
+<h3>Usage example<a class="headerlink" href="#usage-example" title="Permalink to this heading">¶</a></h3>
 <p>Here’s a short example of how to use <strong>python-rtmidi</strong> to open the first
 available MIDI output port and send a middle C note on MIDI channel 1:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
@@ -233,11 +233,11 @@ available MIDI output port and send a middle C note on MIDI channel 1:</p>
 <span class="k">del</span> <span class="n">midiout</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="constants">
-<h3>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="low-level-apis">
-<h4>Low-level APIs<a class="headerlink" href="#low-level-apis" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="constants">
+<h3>Constants<a class="headerlink" href="#constants" title="Permalink to this heading">¶</a></h3>
+<section id="low-level-apis">
+<h4>Low-level APIs<a class="headerlink" href="#low-level-apis" title="Permalink to this heading">¶</a></h4>
 <p>These constants are returned by the <code class="docutils literal notranslate"><span class="pre">get_compiled_api</span></code> function and the
 <code class="docutils literal notranslate"><span class="pre">MidiIn.get_current_api</span></code> resp. <code class="docutils literal notranslate"><span class="pre">MidiOut.get_current_api</span></code> methods and are
 used to specify the low-level MIDI backend API to use when creating a
@@ -256,9 +256,9 @@ used to specify the low-level MIDI backend API to use when creating a
 <dt><code class="docutils literal notranslate"><span class="pre">API_RTMIDI_DUMMY</span></code></dt><dd><p>RtMidi Dummy API (used when no suitable API was found)</p>
 </dd>
 </dl>
-</div>
-<div class="section" id="error-types">
-<h4>Error types<a class="headerlink" href="#error-types" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="error-types">
+<h4>Error types<a class="headerlink" href="#error-types" title="Permalink to this heading">¶</a></h4>
 <p>These constants are passed as the first argument to an error handler
 function registered with <code class="docutils literal notranslate"><span class="pre">set_error_callback</span></code> method of a <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code>
 or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance. For the meaning of each value, please see
@@ -276,13 +276,13 @@ the <a class="reference external" href="http://www.music.mcgill.ca/~gary/rtmidi/
 <li><p><code class="docutils literal notranslate"><span class="pre">ERRORTYPE_UNSPECIFIED</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ERRORTYPE_WARNING</span></code></p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h3>
 <dl class="py function">
-<dt id="rtmidi.get_api_name">
-<code class="sig-prename descclassname"><span class="pre">rtmidi.</span></code><code class="sig-name descname"><span class="pre">get_api_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.get_api_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.get_api_name">
+<span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">get_api_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.get_api_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the name of a specified MIDI API.</p>
 <p>This returns a short lower-case name used for identification purposes.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">api</span></code> should be given as the one of <code class="docutils literal notranslate"><span class="pre">API_*</span></code> constants in the
@@ -294,8 +294,8 @@ module namespace, e.g.:</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rtmidi.get_api_display_name">
-<code class="sig-prename descclassname"><span class="pre">rtmidi.</span></code><code class="sig-name descname"><span class="pre">get_api_display_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.get_api_display_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.get_api_display_name">
+<span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">get_api_display_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.get_api_display_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the display name of a specified MIDI API.</p>
 <p>This returns a long name used for display purposes.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">api</span></code> should be given as the one of <code class="docutils literal notranslate"><span class="pre">API_*</span></code> constants in the
@@ -307,8 +307,8 @@ module namespace, e.g.:</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rtmidi.get_compiled_api">
-<code class="sig-prename descclassname"><span class="pre">rtmidi.</span></code><code class="sig-name descname"><span class="pre">get_compiled_api</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.get_compiled_api" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.get_compiled_api">
+<span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">get_compiled_api</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.get_compiled_api" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of low-level MIDI backend APIs this module supports.</p>
 <p>Check for support for a particular API by using the <code class="docutils literal notranslate"><span class="pre">API_*</span></code> constants in
 the module namespace, i.e.:</p>
@@ -319,8 +319,8 @@ the module namespace, i.e.:</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rtmidi.get_compiled_api_by_name">
-<code class="sig-prename descclassname"><span class="pre">rtmidi.</span></code><code class="sig-name descname"><span class="pre">get_compiled_api_by_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.get_compiled_api_by_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.get_compiled_api_by_name">
+<span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">get_compiled_api_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.get_compiled_api_by_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the compiled MIDI API having the given name.</p>
 <p>A case insensitive comparison will check the specified name against the
 list of compiled APIs, and return the one which matches. On failure, the
@@ -328,17 +328,17 @@ function returns <code class="docutils literal notranslate"><span class="pre">AP
 </dd></dl>
 
 <dl class="py function">
-<dt id="rtmidi.get_rtmidi_version">
-<code class="sig-prename descclassname"><span class="pre">rtmidi.</span></code><code class="sig-name descname"><span class="pre">get_rtmidi_version</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.get_rtmidi_version" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.get_rtmidi_version">
+<span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">get_rtmidi_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.get_rtmidi_version" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the version string of the wrapped RtMidi library.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="exceptions">
-<h3>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="exceptions">
+<h3>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this heading">¶</a></h3>
 <dl class="py class">
-<dt id="rtmidi.RtMidiError">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">rtmidi.</span></code><code class="sig-name descname"><span class="pre">RtMidiError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.RtMidiError" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.RtMidiError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">RtMidiError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.RtMidiError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base general RtMidi exception.</p>
 <p>All other exceptions in this module derive form this exception.</p>
 <p>Instances have a <code class="docutils literal notranslate"><span class="pre">type</span></code> attribute that maps to one of the
@@ -346,53 +346,53 @@ function returns <code class="docutils literal notranslate"><span class="pre">AP
 </dd></dl>
 
 <dl class="py class">
-<dt id="rtmidi.InvalidPortError">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">rtmidi.</span></code><code class="sig-name descname"><span class="pre">InvalidPortError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.InvalidPortError" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.InvalidPortError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">InvalidPortError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.InvalidPortError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised when an invalid port number is used.</p>
 <p>Also derives from <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="rtmidi.InvalidUseError">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">rtmidi.</span></code><code class="sig-name descname"><span class="pre">InvalidUseError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.InvalidUseError" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.InvalidUseError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">InvalidUseError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.InvalidUseError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised when an method call is not allowed in the current state.</p>
 <p>Also derives from <code class="docutils literal notranslate"><span class="pre">RuntimeError</span></code>.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="rtmidi.MemoryAllocationError">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">rtmidi.</span></code><code class="sig-name descname"><span class="pre">MemoryAllocationError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MemoryAllocationError" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MemoryAllocationError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">MemoryAllocationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MemoryAllocationError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised if a memory allocation failed on the C++ level.</p>
 <p>Also derives from <code class="docutils literal notranslate"><span class="pre">MemoryError</span></code>.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="rtmidi.NoDevicesError">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">rtmidi.</span></code><code class="sig-name descname"><span class="pre">NoDevicesError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.NoDevicesError" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.NoDevicesError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">NoDevicesError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.NoDevicesError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised if no MIDI devices are found.</p>
 <p>Derives from <code class="docutils literal notranslate"><span class="pre">rtmidi.SystemError</span></code>.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="rtmidi.SystemError">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">rtmidi.</span></code><code class="sig-name descname"><span class="pre">SystemError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.SystemError" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.SystemError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">SystemError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.SystemError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised if an error happened at the MIDI driver or OS level.</p>
 <p>Also derives from <code class="docutils literal notranslate"><span class="pre">OSError</span></code>.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="rtmidi.UnsupportedOperationError">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">rtmidi.</span></code><code class="sig-name descname"><span class="pre">UnsupportedOperationError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.UnsupportedOperationError" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.UnsupportedOperationError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">UnsupportedOperationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.UnsupportedOperationError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised if a method is not supported by the low-level API.</p>
 <p>Also derives from <code class="docutils literal notranslate"><span class="pre">RuntimeError</span></code>.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
 <dl class="py class">
-<dt id="rtmidi.MidiIn">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">rtmidi.</span></code><code class="sig-name descname"><span class="pre">MidiIn</span></code><a class="headerlink" href="#rtmidi.MidiIn" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">MidiIn</span></span><a class="headerlink" href="#rtmidi.MidiIn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Midi input client interface.</p>
 <p><code class="docutils literal notranslate"><span class="pre">rtmidi.MidiIn(rtapi=API_UNSPECIFIED,</span> <span class="pre">name=&quot;RtMidi</span> <span class="pre">Client&quot;,</span> <span class="pre">queue_size_limit=1024)</span></code></p>
 <p>You can specify the low-level MIDI backend API to use via the <code class="docutils literal notranslate"><span class="pre">rtapi</span></code>
@@ -427,29 +427,29 @@ message should have more information on the cause of the error.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="rtmidi.MidiIn.cancel_callback">
-<code class="sig-name descname"><span class="pre">cancel_callback</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.cancel_callback" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.cancel_callback">
+<span class="sig-name descname"><span class="pre">cancel_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.cancel_callback" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove the registered callback function for MIDI input.</p>
 <p>This can be safely called even when no callback function has been
 registered.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.cancel_error_callback">
-<code class="sig-name descname"><span class="pre">cancel_error_callback</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.cancel_error_callback" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.cancel_error_callback">
+<span class="sig-name descname"><span class="pre">cancel_error_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.cancel_error_callback" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove the registered callback function for errors.</p>
 <p>This can be safely called even when no callback function has been
 registered and reinstates the default error handler.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.close_port">
-<code class="sig-name descname"><span class="pre">close_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.close_port" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.close_port">
+<span class="sig-name descname"><span class="pre">close_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.close_port" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.delete">
-<code class="sig-name descname"><span class="pre">delete</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.delete" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.delete" title="Permalink to this definition">¶</a></dt>
 <dd><p>De-allocate pointer to C++ class instance.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -468,8 +468,8 @@ instance.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.get_current_api">
-<code class="sig-name descname"><span class="pre">get_current_api</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.get_current_api" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.get_current_api">
+<span class="sig-name descname"><span class="pre">get_current_api</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.get_current_api" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the low-level MIDI backend API used by this instance.</p>
 <p>Use this by comparing the returned value to the module-level <code class="docutils literal notranslate"><span class="pre">API_*</span></code>
 constants, e.g.:</p>
@@ -482,8 +482,8 @@ constants, e.g.:</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.get_message">
-<code class="sig-name descname"><span class="pre">get_message</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.get_message" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.get_message">
+<span class="sig-name descname"><span class="pre">get_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.get_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Poll for MIDI input.</p>
 <p>Checks whether a MIDI event is available in the input buffer and
 returns a two-element tuple with the MIDI message and a delta time. The
@@ -495,14 +495,14 @@ returns <code class="docutils literal notranslate"><span class="pre">None</span>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.get_port_count">
-<code class="sig-name descname"><span class="pre">get_port_count</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.get_port_count" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.get_port_count">
+<span class="sig-name descname"><span class="pre">get_port_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.get_port_count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the number of available MIDI input or output ports.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.get_port_name">
-<code class="sig-name descname"><span class="pre">get_port_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">port</span></em>, <em class="sig-param"><span class="pre">encoding=u'auto'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.get_port_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.get_port_name">
+<span class="sig-name descname"><span class="pre">get_port_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding=u'auto'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.get_port_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the name of the MIDI input or output port with given number.</p>
 <p>Ports are numbered from zero, separately for input and output ports.
 The number of available ports is returned by the <code class="docutils literal notranslate"><span class="pre">get_port_count</span></code>
@@ -515,8 +515,8 @@ as type <code class="docutils literal notranslate"><span class="pre">str</span><
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.get_ports">
-<code class="sig-name descname"><span class="pre">get_ports</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.get_ports" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.get_ports">
+<span class="sig-name descname"><span class="pre">get_ports</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.get_ports" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of names of available MIDI input or output ports.</p>
 <p>The list index of each port name corresponds to its port number.</p>
 <p>The port names are decoded to (unicode) strings with the encoding given
@@ -527,8 +527,8 @@ i.e. as type <code class="docutils literal notranslate"><span class="pre">str</s
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.ignore_types">
-<code class="sig-name descname"><span class="pre">ignore_types</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sysex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_sense</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.ignore_types" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.ignore_types">
+<span class="sig-name descname"><span class="pre">ignore_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sysex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_sense</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.ignore_types" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enable/Disable input filtering of certain types of MIDI events.</p>
 <p>By default System Exclusive (aka sysex), MIDI Clock and Active Sensing
 messages are filtered from the MIDI input and never reach your code,
@@ -556,8 +556,8 @@ preprocessor defines in <code class="docutils literal notranslate"><span class="
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.is_port_open">
-<code class="sig-name descname"><span class="pre">is_port_open</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.is_port_open" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.is_port_open">
+<span class="sig-name descname"><span class="pre">is_port_open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.is_port_open" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if a port has been opened and <code class="docutils literal notranslate"><span class="pre">False</span></code> if not.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -568,8 +568,8 @@ python-rtmidi implementation, on the other hand, does.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.open_port">
-<code class="sig-name descname"><span class="pre">open_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">port=0</span></em>, <em class="sig-param"><span class="pre">name=None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.open_port" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.open_port">
+<span class="sig-name descname"><span class="pre">open_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">port=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.open_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open the MIDI input or output port with the given port number.</p>
 <p>Only one port can be opened per <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance. An
 <code class="docutils literal notranslate"><span class="pre">InvalidUseError</span></code> exception is raised if an attempt is made to open a
@@ -601,8 +601,8 @@ or <code class="docutils literal notranslate"><span class="pre">name</span></cod
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.open_virtual_port">
-<code class="sig-name descname"><span class="pre">open_virtual_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.open_virtual_port" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.open_virtual_port">
+<span class="sig-name descname"><span class="pre">open_virtual_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.open_virtual_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open a virtual MIDI input or output port.</p>
 <p>Only one port can be opened per <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance. An
 <code class="docutils literal notranslate"><span class="pre">InvalidUseError</span></code> exception is raised if an attempt is made to open a
@@ -649,8 +649,8 @@ MultiMedia API, which doesn’t support virtual ports.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.set_callback">
-<code class="sig-name descname"><span class="pre">set_callback</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.set_callback" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.set_callback">
+<span class="sig-name descname"><span class="pre">set_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.set_callback" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register a callback function for MIDI input.</p>
 <p>The callback function is called whenever a MIDI message is received and
 must take two arguments. The first argument is a two-element tuple with
@@ -667,8 +667,8 @@ or the <code class="docutils literal notranslate"><span class="pre">MidiIn</span
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.set_client_name">
-<code class="sig-name descname"><span class="pre">set_client_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.set_client_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.set_client_name">
+<span class="sig-name descname"><span class="pre">set_client_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.set_client_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the name of the MIDI client.</p>
 <p>Names with non-ASCII characters in them have to be passed as unicode
 or UTF-8 encoded strings in Python 2.</p>
@@ -685,8 +685,8 @@ client name.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.set_error_callback">
-<code class="sig-name descname"><span class="pre">set_error_callback</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.set_error_callback" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.set_error_callback">
+<span class="sig-name descname"><span class="pre">set_error_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.set_error_callback" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register a callback function for errors.</p>
 <p>The callback function is called when an error occurs and must take
 three arguments. The first argument is a member of enum
@@ -708,8 +708,8 @@ handler.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiIn.set_port_name">
-<code class="sig-name descname"><span class="pre">set_port_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.set_port_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiIn.set_port_name">
+<span class="sig-name descname"><span class="pre">set_port_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.set_port_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the name of the currently opened port.</p>
 <p>Names with non-ASCII characters in them have to be passed as unicode
 or UTF-8 encoded strings in Python 2.</p>
@@ -730,8 +730,8 @@ port name.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="rtmidi.MidiOut">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">rtmidi.</span></code><code class="sig-name descname"><span class="pre">MidiOut</span></code><a class="headerlink" href="#rtmidi.MidiOut" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">MidiOut</span></span><a class="headerlink" href="#rtmidi.MidiOut" title="Permalink to this definition">¶</a></dt>
 <dd><p>Midi output client interface.</p>
 <p><code class="docutils literal notranslate"><span class="pre">rtmidi.MidiOut(rtapi=API_UNSPECIFIED,</span> <span class="pre">name=&quot;RtMidi</span> <span class="pre">Client&quot;)</span></code></p>
 <p>You can specify the low-level MIDI backend API to use via the <code class="docutils literal notranslate"><span class="pre">rtapi</span></code>
@@ -761,16 +761,16 @@ message should have more information on the cause of the error.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="rtmidi.MidiOut.cancel_error_callback">
-<code class="sig-name descname"><span class="pre">cancel_error_callback</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.cancel_error_callback" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut.cancel_error_callback">
+<span class="sig-name descname"><span class="pre">cancel_error_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.cancel_error_callback" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove the registered callback function for errors.</p>
 <p>This can be safely called even when no callback function has been
 registered and reinstates the default error handler.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiOut.close_port">
-<code class="sig-name descname"><span class="pre">close_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.close_port" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut.close_port">
+<span class="sig-name descname"><span class="pre">close_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.close_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Close the MIDI input or output port opened via <code class="docutils literal notranslate"><span class="pre">open_port</span></code>.</p>
 <p>It is safe to call this method repeatedly or if no port has been opened
 (yet) by this instance.</p>
@@ -780,8 +780,8 @@ delete its <code class="docutils literal notranslate"><span class="pre">MidiIn</
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiOut.delete">
-<code class="sig-name descname"><span class="pre">delete</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.delete" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.delete" title="Permalink to this definition">¶</a></dt>
 <dd><p>De-allocate pointer to C++ class instance.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -800,8 +800,8 @@ instance.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiOut.get_current_api">
-<code class="sig-name descname"><span class="pre">get_current_api</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.get_current_api" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut.get_current_api">
+<span class="sig-name descname"><span class="pre">get_current_api</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.get_current_api" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the low-level MIDI backend API used by this instance.</p>
 <p>Use this by comparing the returned value to the module-level <code class="docutils literal notranslate"><span class="pre">API_*</span></code>
 constants, e.g.:</p>
@@ -814,14 +814,14 @@ constants, e.g.:</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiOut.get_port_count">
-<code class="sig-name descname"><span class="pre">get_port_count</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.get_port_count" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut.get_port_count">
+<span class="sig-name descname"><span class="pre">get_port_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.get_port_count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the number of available MIDI input or output ports.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiOut.get_port_name">
-<code class="sig-name descname"><span class="pre">get_port_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">port</span></em>, <em class="sig-param"><span class="pre">encoding=u'auto'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.get_port_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut.get_port_name">
+<span class="sig-name descname"><span class="pre">get_port_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding=u'auto'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.get_port_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the name of the MIDI input or output port with given number.</p>
 <p>Ports are numbered from zero, separately for input and output ports.
 The number of available ports is returned by the <code class="docutils literal notranslate"><span class="pre">get_port_count</span></code>
@@ -834,8 +834,8 @@ as type <code class="docutils literal notranslate"><span class="pre">str</span><
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiOut.get_ports">
-<code class="sig-name descname"><span class="pre">get_ports</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.get_ports" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut.get_ports">
+<span class="sig-name descname"><span class="pre">get_ports</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.get_ports" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of names of available MIDI input or output ports.</p>
 <p>The list index of each port name corresponds to its port number.</p>
 <p>The port names are decoded to (unicode) strings with the encoding given
@@ -846,8 +846,8 @@ i.e. as type <code class="docutils literal notranslate"><span class="pre">str</s
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiOut.is_port_open">
-<code class="sig-name descname"><span class="pre">is_port_open</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.is_port_open" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut.is_port_open">
+<span class="sig-name descname"><span class="pre">is_port_open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.is_port_open" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if a port has been opened and <code class="docutils literal notranslate"><span class="pre">False</span></code> if not.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -858,8 +858,8 @@ python-rtmidi implementation, on the other hand, does.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiOut.open_port">
-<code class="sig-name descname"><span class="pre">open_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">port=0</span></em>, <em class="sig-param"><span class="pre">name=None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.open_port" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut.open_port">
+<span class="sig-name descname"><span class="pre">open_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">port=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.open_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open the MIDI input or output port with the given port number.</p>
 <p>Only one port can be opened per <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance. An
 <code class="docutils literal notranslate"><span class="pre">InvalidUseError</span></code> exception is raised if an attempt is made to open a
@@ -891,8 +891,8 @@ or <code class="docutils literal notranslate"><span class="pre">name</span></cod
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiOut.open_virtual_port">
-<code class="sig-name descname"><span class="pre">open_virtual_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.open_virtual_port" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut.open_virtual_port">
+<span class="sig-name descname"><span class="pre">open_virtual_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.open_virtual_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open a virtual MIDI input or output port.</p>
 <p>Only one port can be opened per <code class="docutils literal notranslate"><span class="pre">MidiIn</span></code> or <code class="docutils literal notranslate"><span class="pre">MidiOut</span></code> instance. An
 <code class="docutils literal notranslate"><span class="pre">InvalidUseError</span></code> exception is raised if an attempt is made to open a
@@ -939,8 +939,8 @@ MultiMedia API, which doesn’t support virtual ports.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiOut.send_message">
-<code class="sig-name descname"><span class="pre">send_message</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.send_message" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut.send_message">
+<span class="sig-name descname"><span class="pre">send_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.send_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send a MIDI message to the output port.</p>
 <p>The message must be passed as an iterable yielding integers, each
 element representing one byte of the MIDI message.</p>
@@ -966,8 +966,8 @@ and not a SysEx message.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiOut.set_client_name">
-<code class="sig-name descname"><span class="pre">set_client_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.set_client_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut.set_client_name">
+<span class="sig-name descname"><span class="pre">set_client_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.set_client_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the name of the MIDI client.</p>
 <p>Names with non-ASCII characters in them have to be passed as unicode
 or UTF-8 encoded strings in Python 2.</p>
@@ -984,8 +984,8 @@ client name.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiOut.set_error_callback">
-<code class="sig-name descname"><span class="pre">set_error_callback</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.set_error_callback" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut.set_error_callback">
+<span class="sig-name descname"><span class="pre">set_error_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.set_error_callback" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register a callback function for errors.</p>
 <p>The callback function is called when an error occurs and must take
 three arguments. The first argument is a member of enum
@@ -1007,8 +1007,8 @@ handler.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rtmidi.MidiOut.set_port_name">
-<code class="sig-name descname"><span class="pre">set_port_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.set_port_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rtmidi.MidiOut.set_port_name">
+<span class="sig-name descname"><span class="pre">set_port_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.set_port_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the name of the currently opened port.</p>
 <p>Names with non-ASCII characters in them have to be passed as unicode
 or UTF-8 encoded strings in Python 2.</p>
@@ -1028,9 +1028,9 @@ port name.</p>
 
 </dd></dl>
 
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -1039,12 +1039,25 @@ port name.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">rtmidi package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-rtmidi.midiconstants">rtmidi.midiconstants module</a></li>
-<li><a class="reference internal" href="#module-rtmidi.midiutil">rtmidi.midiutil module</a></li>
+<li><a class="reference internal" href="#module-rtmidi.midiconstants">rtmidi.midiconstants module</a><ul>
+<li><a class="reference internal" href="#rtmidi.midiconstants.is_status"><code class="docutils literal notranslate"><span class="pre">is_status()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-rtmidi.midiutil">rtmidi.midiutil module</a><ul>
+<li><a class="reference internal" href="#rtmidi.midiutil.get_api_from_environment"><code class="docutils literal notranslate"><span class="pre">get_api_from_environment()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.midiutil.list_available_ports"><code class="docutils literal notranslate"><span class="pre">list_available_ports()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.midiutil.list_input_ports"><code class="docutils literal notranslate"><span class="pre">list_input_ports()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.midiutil.list_output_ports"><code class="docutils literal notranslate"><span class="pre">list_output_ports()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.midiutil.open_midiinput"><code class="docutils literal notranslate"><span class="pre">open_midiinput()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.midiutil.open_midioutput"><code class="docutils literal notranslate"><span class="pre">open_midioutput()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.midiutil.open_midiport"><code class="docutils literal notranslate"><span class="pre">open_midiport()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-rtmidi.version">rtmidi.version module</a></li>
 <li><a class="reference internal" href="#module-rtmidi">Module contents</a><ul>
 <li><a class="reference internal" href="#overview">Overview</a></li>
@@ -1054,21 +1067,81 @@ port name.</p>
 <li><a class="reference internal" href="#error-types">Error types</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#functions">Functions</a></li>
-<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
-<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+<li><a class="reference internal" href="#rtmidi.get_api_name"><code class="docutils literal notranslate"><span class="pre">get_api_name()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.get_api_display_name"><code class="docutils literal notranslate"><span class="pre">get_api_display_name()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.get_compiled_api"><code class="docutils literal notranslate"><span class="pre">get_compiled_api()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.get_compiled_api_by_name"><code class="docutils literal notranslate"><span class="pre">get_compiled_api_by_name()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.get_rtmidi_version"><code class="docutils literal notranslate"><span class="pre">get_rtmidi_version()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a><ul>
+<li><a class="reference internal" href="#rtmidi.RtMidiError"><code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.InvalidPortError"><code class="docutils literal notranslate"><span class="pre">InvalidPortError</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.InvalidUseError"><code class="docutils literal notranslate"><span class="pre">InvalidUseError</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MemoryAllocationError"><code class="docutils literal notranslate"><span class="pre">MemoryAllocationError</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.NoDevicesError"><code class="docutils literal notranslate"><span class="pre">NoDevicesError</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.SystemError"><code class="docutils literal notranslate"><span class="pre">SystemError</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.UnsupportedOperationError"><code class="docutils literal notranslate"><span class="pre">UnsupportedOperationError</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#rtmidi.MidiIn"><code class="docutils literal notranslate"><span class="pre">MidiIn</span></code></a><ul>
+<li><a class="reference internal" href="#rtmidi.MidiIn.cancel_callback"><code class="docutils literal notranslate"><span class="pre">MidiIn.cancel_callback()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.cancel_error_callback"><code class="docutils literal notranslate"><span class="pre">MidiIn.cancel_error_callback()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.close_port"><code class="docutils literal notranslate"><span class="pre">MidiIn.close_port()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.delete"><code class="docutils literal notranslate"><span class="pre">MidiIn.delete()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.get_current_api"><code class="docutils literal notranslate"><span class="pre">MidiIn.get_current_api()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.get_message"><code class="docutils literal notranslate"><span class="pre">MidiIn.get_message()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.get_port_count"><code class="docutils literal notranslate"><span class="pre">MidiIn.get_port_count()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.get_port_name"><code class="docutils literal notranslate"><span class="pre">MidiIn.get_port_name()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.get_ports"><code class="docutils literal notranslate"><span class="pre">MidiIn.get_ports()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.ignore_types"><code class="docutils literal notranslate"><span class="pre">MidiIn.ignore_types()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.is_port_open"><code class="docutils literal notranslate"><span class="pre">MidiIn.is_port_open()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.open_port"><code class="docutils literal notranslate"><span class="pre">MidiIn.open_port()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.open_virtual_port"><code class="docutils literal notranslate"><span class="pre">MidiIn.open_virtual_port()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.set_callback"><code class="docutils literal notranslate"><span class="pre">MidiIn.set_callback()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.set_client_name"><code class="docutils literal notranslate"><span class="pre">MidiIn.set_client_name()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.set_error_callback"><code class="docutils literal notranslate"><span class="pre">MidiIn.set_error_callback()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiIn.set_port_name"><code class="docutils literal notranslate"><span class="pre">MidiIn.set_port_name()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rtmidi.MidiOut"><code class="docutils literal notranslate"><span class="pre">MidiOut</span></code></a><ul>
+<li><a class="reference internal" href="#rtmidi.MidiOut.cancel_error_callback"><code class="docutils literal notranslate"><span class="pre">MidiOut.cancel_error_callback()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiOut.close_port"><code class="docutils literal notranslate"><span class="pre">MidiOut.close_port()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiOut.delete"><code class="docutils literal notranslate"><span class="pre">MidiOut.delete()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiOut.get_current_api"><code class="docutils literal notranslate"><span class="pre">MidiOut.get_current_api()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiOut.get_port_count"><code class="docutils literal notranslate"><span class="pre">MidiOut.get_port_count()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiOut.get_port_name"><code class="docutils literal notranslate"><span class="pre">MidiOut.get_port_name()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiOut.get_ports"><code class="docutils literal notranslate"><span class="pre">MidiOut.get_ports()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiOut.is_port_open"><code class="docutils literal notranslate"><span class="pre">MidiOut.is_port_open()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiOut.open_port"><code class="docutils literal notranslate"><span class="pre">MidiOut.open_port()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiOut.open_virtual_port"><code class="docutils literal notranslate"><span class="pre">MidiOut.open_virtual_port()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiOut.send_message"><code class="docutils literal notranslate"><span class="pre">MidiOut.send_message()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiOut.set_client_name"><code class="docutils literal notranslate"><span class="pre">MidiOut.set_client_name()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiOut.set_error_callback"><code class="docutils literal notranslate"><span class="pre">MidiOut.set_error_callback()</span></code></a></li>
+<li><a class="reference internal" href="#rtmidi.MidiOut.set_port_name"><code class="docutils literal notranslate"><span class="pre">MidiOut.set_port_name()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="modules.html"
-                        title="previous chapter">rtmidi</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="contributing.html"
-                        title="next chapter">Contributing</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="modules.html"
+                          title="previous chapter">rtmidi</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="contributing.html"
+                          title="next chapter">Contributing</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -1080,12 +1153,12 @@ port name.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -1105,14 +1178,14 @@ port name.</p>
         <li class="right" >
           <a href="modules.html" title="rtmidi"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.9 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.0rc1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >rtmidi</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rtmidi package</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2012 - 2021, Christopher Arndt.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
+        &#169; Copyright 2012 - 2022, Christopher Arndt.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
     </div>
   </body>
 </html>

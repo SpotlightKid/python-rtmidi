@@ -1,22 +1,23 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Welcome to python-rtmidi! &#8212; python-rtmidi 1.1.1 documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Welcome to python-rtmidi! &#8212; python-rtmidi 1.5.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installation" href="installation.html" />
-    <link rel="prev" title="Welcome to python-rtmidi’s documentation!" href="index.html" /> 
+    <link rel="prev" title="Contents" href="index.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -31,9 +32,10 @@
           <a href="installation.html" title="Installation"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to python-rtmidi’s documentation!"
+          <a href="index.html" title="Contents"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.0rc1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to python-rtmidi!</a></li> 
       </ul>
     </div>  
 
@@ -42,57 +44,108 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-python-rtmidi">
-<h1>Welcome to python-rtmidi!<a class="headerlink" href="#welcome-to-python-rtmidi" title="Permalink to this headline">¶</a></h1>
+  <section id="welcome-to-python-rtmidi">
+<h1>Welcome to python-rtmidi!<a class="headerlink" href="#welcome-to-python-rtmidi" title="Permalink to this heading">¶</a></h1>
+<p>A Python binding for the RtMidi C++ library implemented using Cython.</p>
+<p><a class="reference external" href="https://pypi.org/project/python-rtmidi"><img alt="Latest version" src="https://shields.io/pypi/v/python-rtmidi" /></a>
+<img alt="Project status" src="https://shields.io/pypi/status/python-rtmidi" />
+<a class="reference internal" href="#LICENSE.md"><span class="xref myst"><img alt="MIT License" src="https://shields.io/pypi/l/python-rtmidi" /></span></a>
+<img alt="Python versions" src="https://shields.io/pypi/pyversions/python-rtmidi" />
+<a class="reference external" href="https://pypi.org/project/python-rtmidi/#files"><img alt="Distribution format" src="https://shields.io/pypi/format/python-rtmidi" /></a>
+<a class="reference external" href="https://travis-ci.org/SpotlightKid/python-rtmidi"><img alt="Travis CI status" src="https://travis-ci.org/SpotlightKid/python-rtmidi.svg?branch=master" /></a></p>
+</section>
+<section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
 <p><a class="reference external" href="http://www.music.mcgill.ca/~gary/rtmidi/index.html">RtMidi</a> is a set of C++ classes which provides a concise and simple,
 cross-platform API (Application Programming Interface) for realtime MIDI
-input/output across Linux (ALSA &amp; JACK), Macintosh OS X (CoreMidi &amp; JACK),
-and Windows (Multimedia Library) operating systems.</p>
-<p><strong>python-rtmidi</strong> is a Python binding for RtMidi implemented with <a class="reference external" href="http://cython.org/">Cython</a> and
+input / output across Linux (ALSA &amp; JACK), macOS / OS X (CoreMIDI &amp; JACK), and
+Windows (MultiMedia System) operating systems.</p>
+<p><a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi">python-rtmidi</a> is a Python binding for RtMidi implemented using <a class="reference external" href="http://cython.org/">Cython</a> and
 provides a thin wrapper around the RtMidi C++ interface. The API is basically
 the same as the C++ one but with the naming scheme of classes, methods and
 parameters adapted to the Python PEP-8 conventions and requirements of the
-Python package naming structure. python-rtmidi supports Python 2 (tested with
-Python 2.7) and Python 3 (3.4, 3.5, 3.6 and 3.7).</p>
-<p>For more information, visit python-rtmidi’s web page:</p>
-<blockquote>
-<div><a class="reference external" href="https://chrisarndt.de/projects/python-rtmidi">https://chrisarndt.de/projects/python-rtmidi</a></div></blockquote>
-<p>See the file <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/blob/master/INSTALL.rst">INSTALL.rst</a> for installation instructions, <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/blob/master/CHANGELOG.rst">CHANGELOG.rst</a>
-for a history of changes per release and <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/blob/master/LICENSE.txt">LICENSE.txt</a> for information about
-copyright and usage terms.</p>
+Python package naming structure. <strong>python-rtmidi</strong> supports Python 3 (3.7+).</p>
+<p>The <a class="reference external" href="https://spotlightkid.github.io/python-rtmidi/">documentation</a> provides installation instructions, a history of changes
+per release and an API reference.</p>
+<p>See the file <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/blob/master/LICENSE.md">LICENSE.md</a> about copyright and usage terms.</p>
+<p>The source code repository and issue tracker are hosted on GitHub:</p>
+<p><a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi">https://github.com/SpotlightKid/python-rtmidi</a>.</p>
+<section id="usage-example">
+<h2>Usage example<a class="headerlink" href="#usage-example" title="Permalink to this heading">¶</a></h2>
+<p>Here’s a quick example of how to use <strong>python-rtmidi</strong> to open the first
+available MIDI output port and send a middle C note on MIDI channel 1:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">rtmidi</span>
+
+<span class="n">midiout</span> <span class="o">=</span> <span class="n">rtmidi</span><span class="o">.</span><span class="n">MidiOut</span><span class="p">()</span>
+<span class="n">available_ports</span> <span class="o">=</span> <span class="n">midiout</span><span class="o">.</span><span class="n">get_ports</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">available_ports</span><span class="p">:</span>
+    <span class="n">midiout</span><span class="o">.</span><span class="n">open_port</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">midiout</span><span class="o">.</span><span class="n">open_virtual_port</span><span class="p">(</span><span class="s2">&quot;My virtual output&quot;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">midiout</span><span class="p">:</span>
+    <span class="n">note_on</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0x90</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">112</span><span class="p">]</span> <span class="c1"># channel 1, middle C, velocity 112</span>
+    <span class="n">note_off</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0x80</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">midiout</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">note_on</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">midiout</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">note_off</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="k">del</span> <span class="n">midiout</span>
+</pre></div>
 </div>
+<p>More usage examples can be found in the <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/tree/master/examples">examples</a> and <a class="reference external" href="https://github.com/SpotlightKid/python-rtmidi/tree/master/tests">tests</a> directories of
+the source repository.</p>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to python-rtmidi’s documentation!</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="installation.html"
-                        title="next chapter">Installation</a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Welcome to python-rtmidi!</a></li>
+<li><a class="reference internal" href="#overview">Overview</a><ul>
+<li><a class="reference internal" href="#usage-example">Usage example</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">Contents</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="installation.html"
+                          title="next chapter">Installation</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/readme.rst.txt"
+      <li><a href="_sources/readme.md.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -110,14 +163,15 @@ copyright and usage terms.</p>
           <a href="installation.html" title="Installation"
              >next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to python-rtmidi’s documentation!"
+          <a href="index.html" title="Contents"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.0rc1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to python-rtmidi!</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2012 - 2016, Christopher Arndt.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+        &#169; Copyright 2012 - 2022, Christopher Arndt.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
     </div>
   </body>
 </html>

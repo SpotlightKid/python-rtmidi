@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rtmidi &#8212; python-rtmidi 1.4.9 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>rtmidi &#8212; python-rtmidi 1.5.0rc1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="usage.html" title="Usage"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.9 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.0rc1 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rtmidi</a></li> 
       </ul>
     </div>  
@@ -44,14 +44,26 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="rtmidi">
-<h1>rtmidi<a class="headerlink" href="#rtmidi" title="Permalink to this headline">¶</a></h1>
+  <section id="rtmidi">
+<h1>rtmidi<a class="headerlink" href="#rtmidi" title="Permalink to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="rtmidi.html">rtmidi package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="rtmidi.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtmidi.html#module-rtmidi.midiconstants">rtmidi.midiconstants module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtmidi.html#module-rtmidi.midiutil">rtmidi.midiutil module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtmidi.html#module-rtmidi.midiconstants">rtmidi.midiconstants module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtmidi.html#rtmidi.midiconstants.is_status"><code class="docutils literal notranslate"><span class="pre">is_status()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtmidi.html#module-rtmidi.midiutil">rtmidi.midiutil module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rtmidi.html#rtmidi.midiutil.get_api_from_environment"><code class="docutils literal notranslate"><span class="pre">get_api_from_environment()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtmidi.html#rtmidi.midiutil.list_available_ports"><code class="docutils literal notranslate"><span class="pre">list_available_ports()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtmidi.html#rtmidi.midiutil.list_input_ports"><code class="docutils literal notranslate"><span class="pre">list_input_ports()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtmidi.html#rtmidi.midiutil.list_output_ports"><code class="docutils literal notranslate"><span class="pre">list_output_ports()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtmidi.html#rtmidi.midiutil.open_midiinput"><code class="docutils literal notranslate"><span class="pre">open_midiinput()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtmidi.html#rtmidi.midiutil.open_midioutput"><code class="docutils literal notranslate"><span class="pre">open_midioutput()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtmidi.html#rtmidi.midiutil.open_midiport"><code class="docutils literal notranslate"><span class="pre">open_midiport()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="rtmidi.html#module-rtmidi.version">rtmidi.version module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rtmidi.html#module-rtmidi">Module contents</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="rtmidi.html#overview">Overview</a></li>
@@ -61,16 +73,36 @@
 <li class="toctree-l4"><a class="reference internal" href="rtmidi.html#error-types">Error types</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="rtmidi.html#functions">Functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="rtmidi.html#exceptions">Exceptions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="rtmidi.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtmidi.html#functions">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtmidi.html#rtmidi.get_api_name"><code class="docutils literal notranslate"><span class="pre">get_api_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtmidi.html#rtmidi.get_api_display_name"><code class="docutils literal notranslate"><span class="pre">get_api_display_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtmidi.html#rtmidi.get_compiled_api"><code class="docutils literal notranslate"><span class="pre">get_compiled_api()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtmidi.html#rtmidi.get_compiled_api_by_name"><code class="docutils literal notranslate"><span class="pre">get_compiled_api_by_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtmidi.html#rtmidi.get_rtmidi_version"><code class="docutils literal notranslate"><span class="pre">get_rtmidi_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtmidi.html#exceptions">Exceptions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtmidi.html#rtmidi.RtMidiError"><code class="docutils literal notranslate"><span class="pre">RtMidiError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtmidi.html#rtmidi.InvalidPortError"><code class="docutils literal notranslate"><span class="pre">InvalidPortError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtmidi.html#rtmidi.InvalidUseError"><code class="docutils literal notranslate"><span class="pre">InvalidUseError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtmidi.html#rtmidi.MemoryAllocationError"><code class="docutils literal notranslate"><span class="pre">MemoryAllocationError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtmidi.html#rtmidi.NoDevicesError"><code class="docutils literal notranslate"><span class="pre">NoDevicesError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtmidi.html#rtmidi.SystemError"><code class="docutils literal notranslate"><span class="pre">SystemError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtmidi.html#rtmidi.UnsupportedOperationError"><code class="docutils literal notranslate"><span class="pre">UnsupportedOperationError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rtmidi.html#classes">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rtmidi.html#rtmidi.MidiIn"><code class="docutils literal notranslate"><span class="pre">MidiIn</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rtmidi.html#rtmidi.MidiOut"><code class="docutils literal notranslate"><span class="pre">MidiOut</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </div>
-</div>
+</section>
 
 
             <div class="clearer"></div>
@@ -79,12 +111,16 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="usage.html"
-                        title="previous chapter">Usage</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="rtmidi.html"
-                        title="next chapter">rtmidi package</a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="usage.html"
+                          title="previous chapter">Usage</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="rtmidi.html"
+                          title="next chapter">rtmidi package</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -96,12 +132,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -121,13 +157,13 @@
         <li class="right" >
           <a href="usage.html" title="Usage"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.4.9 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.0rc1 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rtmidi</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2012 - 2021, Christopher Arndt.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
+        &#169; Copyright 2012 - 2022, Christopher Arndt.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
     </div>
   </body>
 </html>
