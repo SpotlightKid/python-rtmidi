@@ -21,8 +21,8 @@ for portnum, portname in enumerate(midiout.get_ports()):
 
     with midiout.open_port(portnum):
         for channel in range(16):
-            midiout.send_message([CONTROL_CHANGE, ALL_SOUND_OFF, 0])
-            midiout.send_message([CONTROL_CHANGE, RESET_ALL_CONTROLLERS, 0])
+            midiout.send_message([CONTROL_CHANGE | channel, ALL_SOUND_OFF, 0])
+            midiout.send_message([CONTROL_CHANGE | channel, RESET_ALL_CONTROLLERS, 0])
             time.sleep(0.05)
 
         time.sleep(0.1)
