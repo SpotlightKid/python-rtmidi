@@ -103,6 +103,7 @@ before-all = [
 [tool.cibuildwheel.macos]
 build = "cp3{8,9,10,11}-macosx*"
 archs = ["universal2"]
+environment = { MACOSX_DEPLOYMENT_TARGET = "10.14" }
 before-all = [
     "pipx install ninja",
 ]
