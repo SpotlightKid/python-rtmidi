@@ -44,7 +44,7 @@ jobs:
         submodules: true
 
     - name: Build wheels
-      uses: pypa/cibuildwheel@v2.11.4
+      uses: pypa/cibuildwheel@v2.12.3
 
     - uses: actions/upload-artifact@v3
       with:
@@ -66,7 +66,7 @@ jobs:
      with:
        platforms: all
 
-   - uses: pypa/cibuildwheel@v2.11.3
+   - uses: pypa/cibuildwheel@v2.12.3
      env:
        CIBW_ARCHS: ${{ matrix.arch }}
 
@@ -83,9 +83,8 @@ jobs:
    needs: [build_arch_wheels, build_wheels, build_sdist]
    runs-on: ubuntu-latest
    environment: PyPI release
-   if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
+   if: github.event_name == 'release' && github.event.action == 'published'
    steps:
-
    - uses: actions/download-artifact@v3
      with:
        # unpacks default artifact into dist/
@@ -93,17 +92,9 @@ jobs:
        name: artifact
        path: dist
 
-   - name: Publish distribution to Test PyPI
-     uses: pypa/gh-action-pypi-publish@v1.6.4
-     with:
-       skip_existing: true
-       user: __token__
-       password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-       repository_url: https://test.pypi.org/legacy/
-
    - name: Publish distribution to PyPI
-     if: startsWith(github.ref, 'refs/tags/v')
-     uses: pypa/gh-action-pypi-publish@v1.6.4
+     uses: pypa/gh-action-pypi-publish@v1.8.6
      with:
        user: __token__
        password: ${{ secrets.PYPI_API_TOKEN }}
+       verify-metadata: false
