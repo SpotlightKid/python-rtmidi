@@ -1,7 +1,7 @@
 project(
     'python-rtmidi',
     'cpp',
-    version: '1.5.0rc1',
+    version: '1.5.0',
     license: 'MIT',
     default_options: [
         'warning_level=2'
@@ -28,6 +28,11 @@ if host_machine.system() == 'windows' and cpp.get_id() == 'gcc'
   add_project_arguments('-DMS_WIN64', language: ['c', 'cpp'])
 endif
 ##
+
+if host_machine.system() == 'darwin'
+  # Enable c++11 support
+  add_project_arguments('-std=c++11', language: ['cpp'])
+endif
 
 # Dependencies
 jack2_dep = dependency('jack', version: '>=1.9.11', required: false)

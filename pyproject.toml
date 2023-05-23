@@ -60,7 +60,6 @@ file = "LICENSE.md"
 [tool.black]
 line-length = 99
 target-version = [
-    "py37",
     "py38",
     "py39",
     "py310",
@@ -103,6 +102,7 @@ before-all = [
 [tool.cibuildwheel.macos]
 build = "cp3{8,9,10,11}-macosx*"
 archs = ["universal2"]
+environment = { MACOSX_DEPLOYMENT_TARGET = "10.14" }
 before-all = [
     "pipx install ninja",
 ]
