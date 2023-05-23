@@ -35,8 +35,6 @@ docutils==0.17.1
     #   myst-parser
     #   sphinx
     #   sphinx-rtd-theme
-exceptiongroup==1.0.4
-    # via pytest
 filelock==3.8.2
     # via
     #   tox
@@ -102,7 +100,7 @@ pytz==2022.6
     # via babel
 pyyaml==6.0
     # via myst-parser
-requests==2.28.1
+requests==2.31.0
     # via sphinx
 snowballstemmer==2.2.0
     # via
@@ -127,13 +125,6 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
-tomli==2.0.1
-    # via
-    #   build
-    #   pep517
-    #   pyproject-api
-    #   pytest
-    #   tox
 tox==4.0.9
     # via -r requirements-dev.in
 typing-extensions==4.4.0
