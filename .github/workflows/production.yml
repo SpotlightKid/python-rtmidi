@@ -1,12 +1,9 @@
 name: Build sdist and wheel and publish to PyPI
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  release:
+    types:
+      - published
 
 jobs:
   build_sdist:
@@ -83,7 +80,6 @@ jobs:
    needs: [build_arch_wheels, build_wheels, build_sdist]
    runs-on: ubuntu-latest
    environment: PyPI release
-   if: github.event_name == 'release' && github.event.action == 'published'
    steps:
    - uses: actions/download-artifact@v3
      with:
