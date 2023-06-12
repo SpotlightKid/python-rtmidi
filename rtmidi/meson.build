@@ -34,6 +34,9 @@ endif
 
 if jack_support
     defines += ['-D__UNIX_JACK__', '-DJACK_HAS_PORT_RENAME']
+    if have_semaphore
+        defines += ['-DHAVE_SEMAPHORE']
+    endif
     dependencies += [jack_dep]
 endif
 

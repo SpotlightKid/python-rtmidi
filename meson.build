@@ -72,6 +72,7 @@ coremidi_support = host_machine.system() == 'darwin' and coremidi_dep.found() an
 winmm_support = host_machine.system() == 'windows' and winmm_dep.found() and get_option('winmm')
 
 threads_dep = dependency('threads', required: alsa_support or jack_support)
+have_semaphore = cpp.has_header('semaphore.h')
 
 pymod = import('python')
 python = pymod.find_installation(get_option('python'), required: true)
