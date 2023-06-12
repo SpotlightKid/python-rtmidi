@@ -1,4 +1,4 @@
-name: Build sdist and wheel and publish to TestPyPI
+name: Build sdist and wheels and publish to TestPyPI
 
 on:
   push:

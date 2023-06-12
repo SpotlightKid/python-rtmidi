@@ -1,4 +1,4 @@
-name: Build sdist and wheel for testing purposes
+name: Build sdist and wheels for testing purposes
 
 on:
   push:
