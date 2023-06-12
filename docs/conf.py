@@ -60,7 +60,7 @@ master_doc = 'index'
 # General information about the project.
 project = 'python-rtmidi'
 author = 'Christopher Arndt'
-copyright = f'2012 - 2022, {author}'
+copyright = f'2012 - 2023, {author}'
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
