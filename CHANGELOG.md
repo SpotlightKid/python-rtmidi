@@ -4,6 +4,36 @@ For details and minor changes, please see the [version control log
 messages](https://github.com/SpotlightKid/python-rtmidi/commits/master).
 
 
+## 1.5.1 (2023-06-12)
+
+Project infrastructure:
+
+-   Fixed broken windows binary wheels built by CI.
+
+
+## 1.5.0 (2023-05-23)
+
+Fixes:
+
+-   Fixed memleak in `midiutils.list_{in,out}put_ports` function (#103).
+-   Fixed compilation with PyPy3.
+
+Documentation:
+
+-   Clarified return types in docstrings.
+-   Converted readme, changelog, authors, and install docs to Markdown.
+
+Examples:
+
+-   Fixed `basic/panic.py` to actually use channel number loop var.
+
+Project infrastructure:
+
+-   Modernized project structure and build system (now used `meson` and `mesonpep517`) (#119).
+-   Added working cibuildwheel github action (#121).
+-   Removed redundant Github action (#140).
+
+
 ## 1.4.9 (2021-04-26)
 
 Fixes:
@@ -14,7 +44,7 @@ Changes:
 
 -   The SysEx reception buffer size for the Windows MM backend was
     changed from 8096 to 8196.
--   Synced with upstream [RtMidi](https://github.com/thestk/rtmidi)
+s-   Synced with upstream [RtMidi](https://github.com/thestk/rtmidi)
     (3dc525baf3cac345cdd3511316571c20b47f30b5, fixes #89).
 
 
