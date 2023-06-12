@@ -3,10 +3,10 @@ name: Build sdist and wheel for testing purposes
 on:
   push:
     branches:
-      - rtmidi-5.0.0
+      - improve-build
   pull_request:
     branches:
-      - rtmidi-5.0.0
+      - improve-build
 
 jobs:
   build_sdist:
@@ -20,6 +20,9 @@ jobs:
 
    - name: Install ninja
      run: pipx install ninja
+
+   - name: Install alsa deps
+     run: sudo apt-get install libasound2-dev
 
    - name: Build sdist
      run: pipx run build --sdist
@@ -43,6 +46,9 @@ jobs:
     - uses: actions/checkout@v3
       with:
         submodules: true
+
+    - uses: ilammy/msvc-dev-cmd@v1
+      if: matrix.os == 'windows-latest'
 
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.12.3

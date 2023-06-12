@@ -74,6 +74,9 @@ used to specify the low-level MIDI backend API to use when creating a
     Windows MultiMedia
 ``API_RTMIDI_DUMMY``
     RtMidi Dummy API (used when no suitable API was found)
+``API_RWEB_MIDI``
+    W3C Web MIDI API
+
 
 
 Error types
@@ -113,7 +116,7 @@ from libcpp.vector cimport vector
 
 __all__ = (
     'API_UNSPECIFIED', 'API_MACOSX_CORE', 'API_LINUX_ALSA', 'API_UNIX_JACK',
-    'API_WINDOWS_MM', 'API_RTMIDI_DUMMY', 'ERRORTYPE_DEBUG_WARNING',
+    'API_WINDOWS_MM', 'API_RTMIDI_DUMMY', 'API_WEB_MIDI', 'ERRORTYPE_DEBUG_WARNING',
     'ERRORTYPE_DRIVER_ERROR', 'ERRORTYPE_INVALID_DEVICE',
     'ERRORTYPE_INVALID_PARAMETER', 'ERRORTYPE_INVALID_USE',
     'ERRORTYPE_MEMORY_ERROR', 'ERRORTYPE_NO_DEVICES_FOUND',
@@ -148,6 +151,7 @@ cdef extern from "RtMidi.h":
         UNIX_JACK    "RtMidi::UNIX_JACK"
         WINDOWS_MM   "RtMidi::WINDOWS_MM"
         RTMIDI_DUMMY "RtMidi::RTMIDI_DUMMY"
+        WEB_MIDI     "RtMidi::WEB_MIDI_API"
 
     cdef enum ErrorType "RtMidiError::Type":
         ERR_WARNING           "RtMidiError::WARNING"
@@ -244,6 +248,7 @@ API_LINUX_ALSA = LINUX_ALSA
 API_UNIX_JACK = UNIX_JACK
 API_WINDOWS_MM = WINDOWS_MM
 API_RTMIDI_DUMMY = RTMIDI_DUMMY
+API_WEB_MIDI = WEB_MIDI
 
 # export error values to Python
 

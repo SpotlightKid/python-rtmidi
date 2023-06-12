@@ -18,6 +18,7 @@ ap.add_argument("-v", "--verbose", action="store_true", default=verbose, help="B
 ap.add_argument("mod_source", nargs="*", help="Cython module C++ source target(s) (*.cpp).")
 args = ap.parse_args()
 
+
 if args.verbose:
     print("cwd:", getcwd())
     print("build root:", build_root)

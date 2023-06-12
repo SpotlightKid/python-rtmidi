@@ -44,6 +44,7 @@ keywords = [
 meson-python-option-name = "python"
 meson-options = [
     "-Dwheel=true",
+    "-Dverbose=true",
     "--buildtype=plain"
 ]
 
@@ -84,6 +85,10 @@ skip = "pp*"
 manylinux-x86_64-image = "manylinux_2_28"
 manylinux-aarch64-image = "manylinux_2_28"
 
+# Run the package tests using `pytest`
+test-command = "pytest {package}/tests/test_basic.py"
+test-requires = "pytest"
+
 # Install system library
 [tool.cibuildwheel.linux]
 build = "cp3{8,9,10,11}-manylinux*"
@@ -110,6 +115,4 @@ before-all = [
 [tool.cibuildwheel.windows]
 build = "cp3{8,9,10,11}-win*"
 archs = ["AMD64"]
-before-all = [
-    "pipx install ninja",
-]
+build-verbosity = 1
