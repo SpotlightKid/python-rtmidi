@@ -4,7 +4,7 @@ defines = []
 dependencies = [python.dependency()]
 link_args = []
 
-if host_machine.system() == 'darwin' and coremidi_dep.found() and get_option('coremidi')
+if coremidi_support
     defines += ['-D__MACOSX_CORE__']
     #defines += ['-frtti']
     dependencies += [coremidi_dep]
@@ -15,16 +15,16 @@ if host_machine.system() == 'darwin' and coremidi_dep.found() and get_option('co
     ]
 endif
 
-if host_machine.system() == 'linux'
+if alsa_support or jack_support
     dependencies += [threads_dep]
 endif
 
-if host_machine.system() == 'linux' and alsa_dep.found() and get_option('alsa')
+if alsa_support
     defines += ['-D__LINUX_ALSA__']
     dependencies += [alsa_dep]
 endif
 
-if host_machine.system() == 'windows' and get_option('winmm')
+if winmm_support
     defines += ['-D__WINDOWS_MM__']
     if meson.get_compiler('cpp').get_id() != 'gcc'
         defines += ['/EHsc']
@@ -32,7 +32,7 @@ if host_machine.system() == 'windows' and get_option('winmm')
     dependencies += [winmm_dep]
 endif
 
-if jack_dep.found() and get_option('jack')
+if jack_support
     defines += ['-D__UNIX_JACK__', '-DJACK_HAS_PORT_RENAME']
     dependencies += [jack_dep]
 endif
