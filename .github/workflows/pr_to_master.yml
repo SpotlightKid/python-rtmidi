@@ -1,12 +1,9 @@
 name: Build sdist and wheels for testing purposes
 
 on:
-  push:
-    branches:
-      - improve-build
   pull_request:
     branches:
-      - improve-build
+      - master
 
 jobs:
   build_sdist:
@@ -30,10 +27,6 @@ jobs:
    - name: Check metadata
      run: pipx run twine check --strict dist/*
 
-   - uses: actions/upload-artifact@v3
-     with:
-       path: dist/*.tar.gz
-
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -52,10 +45,6 @@ jobs:
 
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.12.3
-
-    - uses: actions/upload-artifact@v3
-      with:
-        path: wheelhouse/*.whl
 
   build_arch_wheels:
    name: Build wheels on Linux ${{ matrix.arch }}
@@ -81,7 +70,3 @@ jobs:
      run: git diff --exit-code
      shell: bash
 
-   - name: Upload wheels
-     uses: actions/upload-artifact@v3
-     with:
-       path: wheelhouse/*.whl
