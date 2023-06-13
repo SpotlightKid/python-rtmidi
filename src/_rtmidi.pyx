@@ -150,8 +150,8 @@ cdef extern from "RtMidi.h":
         LINUX_ALSA   "RtMidi::LINUX_ALSA"
         UNIX_JACK    "RtMidi::UNIX_JACK"
         WINDOWS_MM   "RtMidi::WINDOWS_MM"
-        RTMIDI_DUMMY "RtMidi::RTMIDI_DUMMY"
         WEB_MIDI     "RtMidi::WEB_MIDI_API"
+        RTMIDI_DUMMY "RtMidi::RTMIDI_DUMMY"
 
     cdef enum ErrorType "RtMidiError::Type":
         ERR_WARNING           "RtMidiError::WARNING"
@@ -247,8 +247,8 @@ API_MACOSX_CORE = MACOSX_CORE
 API_LINUX_ALSA = LINUX_ALSA
 API_UNIX_JACK = UNIX_JACK
 API_WINDOWS_MM = WINDOWS_MM
-API_RTMIDI_DUMMY = RTMIDI_DUMMY
 API_WEB_MIDI = WEB_MIDI
+API_RTMIDI_DUMMY = RTMIDI_DUMMY
 
 # export error values to Python
 

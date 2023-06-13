@@ -24,7 +24,6 @@ else
     jack_dep = disabler()
 endif
 
-
 jack_not_found = jack_dep.found() ? false : true
 
 ## From https://github.com/numpy/numpy/blob/main/numpy/meson.build
@@ -65,8 +64,15 @@ else
 
     # API
     alsa_dep = dependency('alsa', required: jack_not_found)
-    threads_dep = dependency('threads')
 endif # Platform detection
+
+jack_support = jack_dep.found() and get_option('jack')
+alsa_support = host_machine.system() == 'linux' and alsa_dep.found() and get_option('alsa')
+coremidi_support = host_machine.system() == 'darwin' and coremidi_dep.found() and get_option('coremidi')
+winmm_support = host_machine.system() == 'windows' and winmm_dep.found() and get_option('winmm')
+
+threads_dep = dependency('threads', required: alsa_support or jack_support)
+have_semaphore = cpp.has_header('semaphore.h')
 
 pymod = import('python')
 python = pymod.find_installation(get_option('python'), required: true)
@@ -85,9 +91,9 @@ endif
 summary({
     'Debug messages (verbose)': get_option('verbose'),
     'Build for wheel': get_option('wheel'),
-    'JACK support': jack_dep.found() and get_option('jack'),
-    'ALSA support': host_machine.system() == 'linux' and alsa_dep.found() and get_option('alsa'),
-    'CoreMIDI support': host_machine.system() == 'darwin' and coremidi_dep.found() and get_option('coremidi'),
-    'Window MM support': host_machine.system() == 'windows' and winmm_dep.found() and get_option('winmm'),
+    'JACK support': jack_support,
+    'ALSA support': alsa_support,
+    'CoreMIDI support': coremidi_support,
+    'Window MM support': winmm_support,
 }, section: 'Configuration')
 

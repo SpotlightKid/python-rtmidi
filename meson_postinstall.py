@@ -11,4 +11,5 @@ if verbose:
     print('Compiling Python module to bytecode...')
 
 moduledir = sysconfig.get_path('purelib', vars={'base': destdir})
-compile_dir(path.join(moduledir, 'rtmidi'), optimize=1)
+compile_dir(path.join(moduledir, 'rtmidi'), optimize=1, quiet=not verbose,
+            stripdir=destdir or None)

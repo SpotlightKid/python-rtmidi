@@ -57,7 +57,7 @@ class StaticFunctionsTests(unittest.TestCase):
     def test_get_rtmidi_version(self):
         version = rtmidi.get_rtmidi_version()
         self.assertTrue(isinstance(version, string_types))
-        self.assertEqual(version, '4.0.0')
+        self.assertEqual(version, '5.0.0')
 
 
 class BaseTests:
