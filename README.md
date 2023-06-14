@@ -7,7 +7,7 @@ A Python binding for the RtMidi C++ library implemented using Cython.
 [![MIT License](https://shields.io/pypi/l/python-rtmidi)](LICENSE.md)
 ![Python versions](https://shields.io/pypi/pyversions/python-rtmidi)
 [![Distribution format](https://shields.io/pypi/format/python-rtmidi)](https://pypi.org/project/python-rtmidi/#files)
-[![CI status](https://github.com/SpotlightKid/python-rtmidi/actions/workflows/production.yml/badge.svg)](https://github.com/SpotlightKid/python-rtmidi/actions)
+[![CI status](https://github.com/SpotlightKid/python-rtmidi/actions/workflows/push_to_master.yml/badge.svg)](https://github.com/SpotlightKid/python-rtmidi/actions)
 
 # Overview
 
