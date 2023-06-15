@@ -53,6 +53,16 @@ elif host_machine.system() == 'darwin'
     # Enable c++11 support
     add_project_arguments('-std=c++11', language: ['cpp'])
 
+    # Enable cross compilation if host is x86 and target is arm64
+    # Meson doesn't have env access support on purpose...
+    cmd = run_command('sh', '-c', 'echo $ARCHFLAGS ')
+    ARCHFLAGS = cmd.stdout().strip()
+    if host_machine.cpu_family() == 'x86_64' and ARCHFLAGS == '-arch arm64'
+        message('Crosscompiling from Intel to Apple Silicon')
+        add_project_arguments('-arch arm64 --target=arm64-apple-darwin', language: ['cpp', 'c'])
+        add_project_link_arguments('-arch arm64 --target=arm64-apple-darwin', language: ['cpp', 'c'])
+    endif
+
     # API
     coremidi_dep = dependency(
         'appleframeworks',
