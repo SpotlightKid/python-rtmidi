@@ -4,7 +4,7 @@ build-backend = "mesonpep517.buildapi"
 requires = [
     "cython",
     "wheel",
-    "mesonpep517 @ git+https://gitlab.com/SpotlightKid/mesonpep517.git@rtmidi",
+    "mesonpep517 @ git+https://gitlab.com/SpotlightKid/mesonpep517.git@feat/verbose-compile-options",
     "ninja"
 ]
 
@@ -41,10 +41,13 @@ keywords = [
     "music",
     "rtmidi",
 ]
+
+meson-verbose = true
+meson-compile = true
 meson-python-option-name = "python"
 meson-options = [
     "-Dwheel=true",
-    "-Dverbose=false",
+    "-Dverbose=true",
     "--buildtype=plain"
 ]
 
