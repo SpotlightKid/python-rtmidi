@@ -111,9 +111,6 @@ before-all = [
 build = "cp311-macosx*"
 archs = ["arm64"]
 environment = { ARCHFLAGS="-arch arm64" }
-before-all = [
-    "pipx install ninja",
-]
 
 [tool.cibuildwheel.windows]
 build = "cp3{8,9,10,11}-win*"
