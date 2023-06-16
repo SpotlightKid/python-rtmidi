@@ -6,7 +6,7 @@ project(
     default_options: [
         'warning_level=2'
     ],
-    meson_version: '>=0.63.0'
+    meson_version: '>=0.64.0'
 )
 
 cpp = meson.get_compiler('cpp')
@@ -75,7 +75,7 @@ threads_dep = dependency('threads', required: alsa_support or jack_support)
 have_semaphore = cpp.has_header('semaphore.h')
 
 pymod = import('python')
-python = pymod.find_installation(get_option('python'), required: true)
+python = pymod.find_installation(get_option('python'), required: true, pure: false)
 
 # Generate _rtmidi extension source
 subdir('src')
