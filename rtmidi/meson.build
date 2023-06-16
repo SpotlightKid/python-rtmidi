@@ -81,6 +81,5 @@ python_sources = files([
 python.install_sources(
     python_sources,
     version_py,
-    pure: true,
     subdir: 'rtmidi',
 )
