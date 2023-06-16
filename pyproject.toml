@@ -1,14 +1,14 @@
 [build-system]
-# https://thiblahute.gitlab.io/mesonpep517/
-build-backend = "mesonpep517.buildapi"
+build-backend = "mesonpy"
 requires = [
     "cython",
     "wheel",
-    "mesonpep517 @ git+https://gitlab.com/SpotlightKid/mesonpep517.git@rtmidi",
+    "meson-python",
     "ninja"
 ]
 
 [project]
+name = "python-rtmidi"
 description = "A Python binding for the RtMidi C++ library implemented using Cython."
 authors = [
     { name="Christopher Arndt", email="info@chrisarndt.de" },
@@ -42,12 +42,11 @@ keywords = [
     "rtmidi",
 ]
 
-[tool.mesonpep517.metadata]
-meson-python-option-name = "python"
-meson-options = [
+[tool.meson-python.args]
+setup = [
     "-Dwheel=true",
     "-Dverbose=false",
-    "--buildtype=plain"
+    "-Dbuildtype=plain"
 ]
 
 [project.license]
