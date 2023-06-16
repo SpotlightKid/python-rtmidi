@@ -41,6 +41,8 @@ keywords = [
     "music",
     "rtmidi",
 ]
+
+[tool.mesonpep517.metadata]
 meson-python-option-name = "python"
 meson-options = [
     "-Dwheel=true",
