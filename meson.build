@@ -9,6 +9,8 @@ project(
     meson_version: '>=0.64.0'
 )
 
+message('Host machine system:', host_machine.system())
+
 cpp = meson.get_compiler('cpp')
 
 # Jack API (portable)
