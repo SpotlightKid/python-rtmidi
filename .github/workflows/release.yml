@@ -31,7 +31,8 @@ jobs:
    - name: Check metadata
      run: pipx run twine check --strict dist/*
 
-   - uses: actions/upload-artifact@v3
+   - name: Upload sdist
+     uses: actions/upload-artifact@v3
      with:
        path: dist/*.tar.gz
 
@@ -51,9 +52,10 @@ jobs:
       if: matrix.os == 'windows-latest'
 
     - name: Build wheels
-      uses: pypa/cibuildwheel@v2.12.3
+      uses: pypa/cibuildwheel@v2.13
 
-    - uses: actions/upload-artifact@v3
+    - name: Upload wheels
+      uses: actions/upload-artifact@v3
       with:
         path: wheelhouse/*.whl
 
@@ -73,7 +75,8 @@ jobs:
      with:
        platforms: all
 
-   - uses: pypa/cibuildwheel@v2.12.3
+   - name: Build wheels
+     uses: pypa/cibuildwheel@v2.13
      env:
        CIBW_ARCHS: ${{ matrix.arch }}
 

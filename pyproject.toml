@@ -96,7 +96,6 @@ build = "cp3{8,9,10,11}-manylinux*"
 archs = ["auto64"]
 before-all = [
     "dnf -y install alsa-lib-devel alsa-utils",
-    "pipx install ninja",
     "curl -o jack2-1.9.21.tar.gz https://codeload.github.com/jackaudio/jack2/tar.gz/refs/tags/v1.9.21",
     "tar -xzf jack2-1.9.21.tar.gz",
     "cd jack2-1.9.21",
@@ -109,9 +108,6 @@ before-all = [
 build = "cp3{8,9,10,11}-macosx*"
 archs = ["x86_64", "arm64"]
 environment = { MACOSX_DEPLOYMENT_TARGET = "10.14" }
-before-all = [
-    "pipx install ninja",
-]
 
 [tool.cibuildwheel.windows]
 build = "cp3{8,9,10,11}-win*"
