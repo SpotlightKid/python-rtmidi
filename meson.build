@@ -4,7 +4,8 @@ project(
     version: '1.5.2',
     license: 'MIT',
     default_options: [
-        'warning_level=2'
+        'warning_level=2',
+        'cpp_std=c++11'
     ],
     meson_version: '>=0.64.0'
 )
@@ -52,9 +53,6 @@ if host_machine.system().to_lower() == 'windows'
     alsa_dep = disabler()
 elif host_machine.system().to_lower() == 'darwin'
     # OSX
-
-    # Enable c++11 support
-    add_project_arguments('-std=c++11', language: ['cpp'])
 
     # API
     coremidi_dep = dependency(
