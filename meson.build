@@ -47,6 +47,7 @@ if host_machine.system() == 'windows'
 
     # API
     winmm_dep = cpp.find_library('winmm', required: jack_not_found)
+    alsa_dep = disabler()
 elif host_machine.system() == 'darwin'
     # OSX
 
@@ -59,6 +60,7 @@ elif host_machine.system() == 'darwin'
         modules: ['coreaudio', 'coremidi', 'foundation'],
         required: jack_not_found
     )
+    alsa_dep = disabler()
 else
     # LINUX
 
