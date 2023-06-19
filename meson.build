@@ -30,7 +30,7 @@ jack_not_found = jack_dep.found() ? false : true
 
 ## From https://github.com/numpy/numpy/blob/main/numpy/meson.build
 # Platform dependent config
-if host_machine.system() == 'windows'
+if host_machine.system().to_lower() == 'windows'
     # WINDOWS
     if cpp.get_id() == 'gcc'
         # For mingw-w64, link statically against the UCRT.
@@ -50,7 +50,7 @@ if host_machine.system() == 'windows'
     # API
     winmm_dep = cpp.find_library('winmm', required: jack_not_found)
     alsa_dep = disabler()
-elif host_machine.system() == 'darwin'
+elif host_machine.system().to_lower() == 'darwin'
     # OSX
 
     # Enable c++11 support
