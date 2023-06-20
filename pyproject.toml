@@ -99,7 +99,7 @@ before-all = [
     "curl -o jack2-1.9.22.tar.gz https://codeload.github.com/jackaudio/jack2/tar.gz/refs/tags/v1.9.22",
     "tar -xzf jack2-1.9.22.tar.gz",
     "cd jack2-1.9.22",
-    "python3 waf configure --prefix=/usr --autostart=none --classic",
+    "python3 waf configure --prefix=/usr --autostart=none --classic --pkgconfigdir=/usr/lib64/pkgconfig",
     "python3 waf build",
     "python3 waf install",
 ]
