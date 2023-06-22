@@ -7,30 +7,30 @@ on:
 
 jobs:
   build_sdist:
-   name: Build sdist
-   runs-on: ubuntu-latest
-   steps:
+    name: Build sdist
+    runs-on: ubuntu-latest
+    steps:
 
-   - uses: actions/checkout@v3
-     with:
-       submodules: true
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
 
-   - name: Install ninja
-     run: pipx install ninja
+    - name: Install ninja
+      run: pipx install ninja
 
-   - name: Install alsa deps
-     run: sudo apt-get install libasound2-dev
+    - name: Install alsa deps
+      run: sudo apt-get install libasound2-dev
 
-   - name: Build sdist
-     run: pipx run build --sdist
+    - name: Build sdist
+      run: pipx run build --sdist
 
-   - name: Check metadata
-     run: pipx run twine check --strict dist/*
+    - name: Check metadata
+      run: pipx run twine check --strict dist/*
 
-   - name: Upload sdist
-     uses: actions/upload-artifact@v3
-     with:
-       path: dist/*.tar.gz
+    - name: Upload sdist
+      uses: actions/upload-artifact@v3
+      with:
+        path: dist/*.tar.gz
 
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
@@ -60,31 +60,31 @@ jobs:
         path: wheelhouse/*.whl
 
   build_arch_wheels:
-   name: Build wheels on Linux ${{ matrix.arch }}
-   runs-on: ubuntu-20.04
-   strategy:
-     matrix:
-       arch: [aarch64]
-   steps:
+    name: Build wheels on Linux ${{ matrix.arch }}
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        arch: [aarch64]
+    steps:
 
-   - uses: actions/checkout@v3
-     with:
-       submodules: true
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
 
-   - uses: docker/setup-qemu-action@v2
-     with:
-       platforms: all
+    - uses: docker/setup-qemu-action@v2
+      with:
+        platforms: all
 
-   - name: Build wheels
-     uses: pypa/cibuildwheel@v2.13
-     env:
-       CIBW_ARCHS: ${{ matrix.arch }}
+    - name: Build wheels
+      uses: pypa/cibuildwheel@v2.13
+      env:
+        CIBW_ARCHS: ${{ matrix.arch }}
 
-   - name: Verify clean directory
-     run: git diff --exit-code
-     shell: bash
+    - name: Verify clean directory
+      run: git diff --exit-code
+      shell: bash
 
-   - name: Upload wheels
-     uses: actions/upload-artifact@v3
-     with:
-       path: wheelhouse/*.whl
+    - name: Upload wheels
+      uses: actions/upload-artifact@v3
+      with:
+        path: wheelhouse/*.whl
