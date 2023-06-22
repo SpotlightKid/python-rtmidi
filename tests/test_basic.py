@@ -1,17 +1,13 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-""" Basic tests that don't need midi ports"""
+"""Basic tests that don't need midi ports."""
 
 import unittest
 import rtmidi
 
-
-if bytes is str:
-    string_types = (str, unicode)  # noqa:F821
-else:
-    string_types = (str,)
+import pytest
 
 
+@pytest.mark.ci
 class BasicTest(unittest.TestCase):
     def test_get_api_display_name(self):
         self.assertEqual(rtmidi.get_api_display_name(rtmidi.API_LINUX_ALSA), 'ALSA')
@@ -56,7 +52,7 @@ class BasicTest(unittest.TestCase):
 
     def test_get_rtmidi_version(self):
         version = rtmidi.get_rtmidi_version()
-        self.assertTrue(isinstance(version, string_types))
+        self.assertTrue(isinstance(version, str))
         self.assertEqual(version, '5.0.0')
 
     def test_nondummy_api_present(self):
@@ -67,6 +63,7 @@ class BasicTest(unittest.TestCase):
             if api != rtmidi.API_RTMIDI_DUMMY:
                 apiFound = True
         self.assertTrue(apiFound)
+
 
 if __name__ == '__main__':
     unittest.main()

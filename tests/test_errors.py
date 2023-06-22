@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""Tests for the error conditions"""
+"""Tests for the error conditions."""
 
 import unittest
 
