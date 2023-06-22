@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Unit tests for the rtmidi module."""
 
 import gc

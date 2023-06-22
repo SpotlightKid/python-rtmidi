@@ -78,15 +78,21 @@ add_ignore = [
     "D412"
 ]
 
+[tool.pytest.ini_options]
+markers = [
+    "ci: marks tests to run as part of the CI builds",
+    "linux: marks tests to run for default Linux builds",
+    "macos: marks tests to run for default macOS builds",
+    "windows: marks tests to run for default Windows builds",
+]
+
 [tool.cibuildwheel]
 # Switch to using build
 build-frontend = "build"
 skip = "pp*"
 manylinux-x86_64-image = "manylinux_2_28"
 manylinux-aarch64-image = "manylinux_2_28"
-
 # Run the package tests using `pytest`
-test-command = "pytest {package}/tests/test_basic.py"
 test-requires = "pytest"
 
 # Install system library
@@ -102,12 +108,14 @@ before-all = [
     "python3 waf build",
     "python3 waf install",
 ]
+test-command = "pytest -v -m 'ci or linux' {package}/tests"
 
 [tool.cibuildwheel.macos]
 build = "cp3{8,9,10,11}-macosx*"
 archs = ["x86_64", "arm64"]
+test-command = "pytest -v -m 'ci or macos' {package}/tests"
 
 [tool.cibuildwheel.windows]
 build = "cp3{8,9,10,11}-win*"
 archs = ["AMD64"]
-
+test-command = "pytest -v -m 'ci or windows' {package}/tests"
