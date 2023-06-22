@@ -81,6 +81,7 @@ add_ignore = [
 [tool.pytest.ini_options]
 markers = [
     "ci: marks tests to run as part of the CI builds",
+    "jack: marks tests requiring a running JACK server",
 ]
 
 [tool.cibuildwheel]
