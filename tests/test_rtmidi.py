@@ -4,6 +4,8 @@
 import time
 import unittest
 
+import pytest
+
 import rtmidi
 
 
@@ -181,6 +183,7 @@ if rtmidi.API_LINUX_ALSA in rtmidi.get_compiled_api():
 
 
 if rtmidi.API_UNIX_JACK in rtmidi.get_compiled_api():
+    @pytest.mark.jack
     class JACKTestCase(BaseTests, SetPortNameSupportedTests, SetClientNameUnsupportedTests,
                        VirtualPortsSupportedTests, unittest.TestCase):
         API = rtmidi.API_UNIX_JACK
