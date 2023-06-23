@@ -3,6 +3,41 @@
 For details and minor changes, please see the [version control log
 messages](https://github.com/SpotlightKid/python-rtmidi/commits/master).
 
+## Development
+
+Changes:
+
+-   Updated `rtmidi` submodule (#156).
+
+Documentation:
+
+-   Updated installation documentation (#165).
+-   Updated contributing guide (#165).
+-   Removed Python 3.7 from meta-data classifiers in `pyproject.toml`(dfb3800).
+
+Project infrastructure:
+
+-   Changed the build back-end to meson-python (#161).
+-   Fixed broken macOS arm64 binary wheels built by CI (#161).
+-   Fixed missing JACK backend API support in Linux aarch64 binary wheels built
+    by CI (#161).
+-   Improved tests for binary wheels built by CI (#162).
+-   Cleaned up GitHub actions workflow definitions (#163).
+-   Fixed test coverage report target in Makefile (#164).
+
+
+## 1.5.2 (2023-06-14)
+
+Changes:
+
+-   Updated `rtmidi` submodule (#156).
+
+Project infrastructure:
+
+-   Updated `requirements-dev.txt` with `pip-compile` (#153).
+-   Changed CI to build separate wheels for both macOS architectures (18bbc74, 20f5cdd).
+-   Improved build dependency selection in meson config (#156).
+
 
 ## 1.5.1 (2023-06-12)
 
@@ -44,7 +79,7 @@ Changes:
 
 -   The SysEx reception buffer size for the Windows MM backend was
     changed from 8096 to 8196.
-s-   Synced with upstream [RtMidi](https://github.com/thestk/rtmidi)
+-   Synced with upstream [RtMidi](https://github.com/thestk/rtmidi)
     (3dc525baf3cac345cdd3511316571c20b47f30b5, fixes #89).
 
 
