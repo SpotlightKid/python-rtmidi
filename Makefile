@@ -49,10 +49,13 @@ clean-pyc:
 	find . -name '*~' -exec rm -f {} +
 	find . -name __pycache__ -type d -exec rm -rf {} +
 
-coverage:
-	$(PYTHON) -mcoverage run --source rtmidi test
-	$(PYTHON) -mcoverage report -m
-	$(PYTHON) -mcoverage html
+coverage: build
+	cp -f $(BUILDDIR)/rtmidi/_rtmidi.*.so rtmidi/
+	cp -f $(BUILDDIR)/rtmidi/version.py rtmidi/
+	$(PYTHON) -m coverage run --source rtmidi -m pytest tests
+	$(PYTHON) -m coverage report -m
+	$(PYTHON) -m coverage html
+	-rm -f rtmidi/*.so rtmidi/version.py
 	-xdg-open htmlcov/index.html
 
 dist: clean release
