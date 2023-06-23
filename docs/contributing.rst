@@ -28,7 +28,7 @@ Fix Bugs
 ~~~~~~~~
 
 Look through the GitHub issues for bugs. Anything tagged with "bug" is open to
-whoever wants to implement it.
+whoever wants to fix it.
 
 
 Implement Features
@@ -72,13 +72,13 @@ development.
     $ git clone --recursive git@github.com:your_name_here/python-rtmidi.git
 
 3. Install your local copy into a virtualenv. Assuming you have
-   virtualenvwrapper installed, this is how you set up your fork for local
+   ``virtualenvwrapper`` installed, this is how you set up your fork for local
    development::
 
     $ mkvirtualenv python-rtmidi
     $ cd python-rtmidi/
     $ pip install -r requirements-dev.txt
-    $ python setup.py develop
+    $ python -m pip install .
 
 4. Create a branch for local development::
 
@@ -86,13 +86,16 @@ development.
 
    Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and the
-   tests, including testing other Python versions with tox::
+5. When you're done making changes, make sure that your changes pass the
+   ``flake8`` checks and the unit tests, also testing other Python versions
+   with ``tox``::
 
     $ make lint
     $ make test
 
-   To get flake8 and tox, just ``pip install`` them into your virtualenv.
+   ``flake8`` and ``tox`` shoudl have been installed via the requirements
+   file used in the instructions above. Should you use a different setup, make
+   sure you ``pip install`` them into your current Python environment.
 
 6. Commit your changes and push your branch to GitHub::
 
@@ -113,7 +116,7 @@ Before you submit a pull request, check that it meets these guidelines:
    your new functionality into a function with a docstring, and add the
    feature to the release notes in ``CHANGELOG.rst``.
 3. The pull request should work for all supported Python 3 versions (see
-   classifiers in ``setup.cfg``)
+   classifiers in ``pyproject.toml``)
 
    Run ``tox`` to make sure that the tests pass for all supported Python
    versions.
