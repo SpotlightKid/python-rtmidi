@@ -1,7 +1,7 @@
 # Installation
 
 **python-rtmidi** uses a modern [PEP 517] compliant Python build system based
-on [meson] and [mesonpep517] and can be installed from the Python Package Index
+on [meson] and [meson-python] and can be installed from the Python Package Index
 via [pip]. Since it is a Python C(++)-extension, a C++ compiler and build
 environment as well as some system-dependent libraries are needed to install,
 unless wheel packages with pre-compiled binaries are available for your system.
@@ -40,31 +40,122 @@ below for moe information.
 
 ## Pre-compiled Binaries
 
-Pre-compiled binary wheels of the latest python-rtmidi version for Windows and
-macOS / OS X are available on PyPI for several major Python versions. If you
+Pre-compiled binary wheels of the latest python-rtmidi version for Windows,
+macOS and Linux are available on PyPI for all supported Python versions. If you
 install python-rtmidi via pip (see above), these wheels will be selected by pip
-automatically, if you have a compatible Python and Windows or macOS version.
+automatically, if you have a compatible Python and OS version and processor
+architecture.
 
-The Windows binary wheels are compiled with Windows MultiMedia API support and
-are available in 32-bit and 64-bit versions. The macOS / OS X binary wheels are
-compiled with CoreMIDI support and are only available in 64-bit versions for OS
-X 10.6 and later. If you need JACK support on OS X, you need to compile
-python-rtmidi yourself (see the [macOS] section below for details).
+* Windows binary wheels are compiled with Windows MultiMedia API support and
+  are available for x86_64 (aka amd64).
+
+* macOS / OS X binary wheels are compiled with CoreMIDI support and are
+  available for OS X intel (10.9+) and arm64 (aka M1/M2/Apple silicon, 11.0+).
+
+  If you need JACK support on OS X, you need to compile python-rtmidi yourself
+  (see the [macOS] section below for details).
+
+* Linux binary wheels are available for x64_64 and aarch64,
 
 
 ## From Source
 
 To compile python-rtmidi from source and install it manually without pip, you
 can either download a source distribution archive or check out the sources from
-the Git repository.
+the Git repository. While the steps to get the sources differ, the actual
+compilation and installation steps consist of the same commands in both cases.
 
-While the steps to get the sources differ, the actual compilation and
-installation steps consist of the same standard meson commands in both cases:
+
+### From the Source Distribution
+
+To download the python-rtmidi source distribution archive for the current
+version and extract it, use the following commands:
 
 ```console
-meson setup --prefix=/usr --buildtype=plain builddir
+pip download python-rtmidi
+tar -xzf python-rtmidi-1.X.Y.tar.gz
+cd python-rtmidi-1.X.Y
+```
+
+Then follow the commands shown in the section [buildinstall].
+
+
+### From the Source Code Repository
+
+Alternatively, you can check out the python-rtmidi source code from the Git
+repository and then install it from your working copy.
+
+```console
+(rtmidi)$ git clone --recursive https://github.com/SpotlightKid/python-rtmidi.git
+(rtmidi)$ cd python-rtmidi
+```
+
+Then follow the commands shown in the section [buildinstall].
+
+
+(buildinstall)=
+### Build and Install
+
+#### Using the PEP 517 build method (recommended)
+
+The recommended way is to build python-rtmidi via the standard PEP 517 build
+method and install it only for your current user (which `installer` does by
+default) or into a virtual environment.
+
+If you don't already have the `build` and `installer` Python packages
+installed, install them with:
+
+```console
+pip install build installer
+```
+
+Then build and install python-rtmidi:
+
+```console
+python -m build --wheel
+python -m installer dist/*.whl
+```
+
+This will download all the required build tools, install them in a temporary
+virtual environment, build a wheel, and install it.
+
+
+### Using meson directly
+
+If you can't or don't want to use the standard PEP 517 build method, you can
+also use meson directly, but then you'll need to make sure all the required
+build tools are installed.
+
+If you are installing from a Git repository checkout, since this does not
+include the C++ module source code pre-compiled from the Cython source, you'll
+also need to install Cython >= 0.29, either via pip or from its Git repository.
+Using virtualenv / virtualenvwrapper is strongly recommended in this scenario:
+
+Make a virtual environment:
+
+```console
+mkvirtualenv rtmidi
+(rtmidi)$ cdvirtualenv
+```
+
+Install meson and ninja and, if neccessary, Cython from PyPI:
+
+```console
+(rtmidi)$ pip install Cython meson ninja
+```
+
+```console
+meson setup --prefix=/usr -Dbuildtype=plain builddir
 meson compile -C builddir
 meson install -C builddir
+```
+
+On Linux or macOS, if you want to install python-rtmidi into the system-wide
+Python library directory, you may have to prefix the last command with `sudo`,
+e.g.:
+
+```console
+sudo meson install -C builddir
 ```
 
 The `meson setup` command recognizes several options to control which
@@ -79,75 +170,14 @@ library:
 | `-Dcoremidi=false` | n/a   | x     | n/a     | Don't compile in support for CoreMIDI backend.           |
 | `-Dwinmm=false`    | n/a   | n/a   | x       | Don't compile in support for Windows MultiMedia backend. |
 | `-Dverbose=true`   | x     | x     | x       | Don't suppress RtMidi warnings to stderr.                |
+| `-Dpython=python3` | x     | x     | x       | Set name (or path) of Python interpreter.                |
 
 Support for each OS dependent MIDI backend is only enabled when the required
 library and header files are actually present on the system.
 
 
-### From the Source Distribution
-
-To download the python-rtmidi source distribution archive for the current
-version, extract and install it, use the following commands:
-
-```console
-pip download python-rtmidi
-tar -xzf python-rtmidi-1.X.Y.tar.gz
-cd python-rtmidi-1.X.Y
-meson setup --prefix=/usr --buildtype=plain builddir
-meson compile -C builddir
-meson install -C builddir
-```
-
-On Linux or macOS / OS X, if you want to install python-rtmidi into the
-system-wide Python library directory, you may have to prefix the last command
-with `sudo`, e.g.:
-
-```console
-sudo meson install -C builddir
-```
-
-The recommended way, though, is to install python-rtmidi only for your current
-user (which `installer` does by default) or into a virtual environment:
-
-```console
-python -m installer dist/*.whl
-```
-
-
-### From the Source Code Repository
-
-Alternatively, you can check out the python-rtmidi source code from the Git
-repository and then install it from your working copy. Since the repository
-does not include the C++ module source code pre-compiled from the Cython
-source, you'll also need to install Cython >= 0.28, either via pip or from its
-Git repository. Using virtualenv / virtualenvwrapper is strongly recommended in
-this scenario:
-
-Make a virtual environment:
-
-```console
-mkvirtualenv rtmidi
-(rtmidi)$ cdvirtualenv
-```
-
-Install Cython from PyPI:
-
-```console
-(rtmidi)$ pip install Cython meson ninja wheel
-```
-
-Then install python-rtmidi:
-
-```console
-(rtmidi)$ git clone --recursive https://github.com/SpotlightKid/python-rtmidi.git
-(rtmidi)$ cd python-rtmidi
-(rtmidi)$ meson setup --prefix=/usr --buildtype=plain builddir
-(rtmidi)$ meson compile -C builddir
-(rtmidi)$ meson install -C builddir
-```
-
 (requirements)=
-#### Requirements
+## Requirements
 
 Naturally, you'll need a C++ compiler and a build environment. See the
 platform-specific hints below.
@@ -166,7 +196,7 @@ appropriate compilations flags automatically.
 -   Windows: MultiMedia (MM)
 
 
-## Linux
+### Linux
 
 First you need a C++ compiler and the pthread library. Install the
 `build-essential` package on debian-based systems to get these.
@@ -182,24 +212,15 @@ you are using Jack2, install `libjack-jackd2-dev`).
 
 
 (macos)=
-## macOS (OS X)
+### macOS (OS X)
 
 Install the latest Xcode version or `g++` from MacPorts or homebrew (untested).
-CoreMIDI support comes with installing Xcode. For JACK support, install
-[JackOSX] with the installer or build JACK from source.
-
-**Note:**
-
-*If you have a very old version of OS X and Xcode which still supports building
-binaries for PPC, you'll have to tell distribute to build the package only for
-i386 and x86_64 architectures:*
-
-```console
-env ARCHFLAGS=\"-arch i386 -arch x86_64\" python setup.py install
-```
+CoreMIDI support comes with installing Xcode. For JACK support, install JACK
+with the [macOS installer] provided on the JACK web site or build JACK from
+source.
 
 
-## Windows
+### Windows
 
 Please see the detailed instructions for Windows in `install-windows`.
 
@@ -212,9 +233,9 @@ installing python-rtmidi in an uncommon or not-yet-covered environment.
 
 
 [Cython]: http://cython.org/
-[JackOSX]: http://jackaudio.org/downloads/
+[macOS installer]: http://jackaudio.org/downloads/
 [meson]: https://mesonbuild.com/
-[mesonpep517]: https://thiblahute.gitlab.io/mesonpep517/
+[meson-python]: https://github.com/mesonbuild/meson-python
 [pep 517]: https://peps.python.org/pep-0517/
 [pip]: https://pypi.python.org/pypi/pip
 [PyPI page]: http://python.org/pypi/python-rtmidi#downloads
