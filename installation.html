@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Installation &#8212; python-rtmidi 1.5.1 documentation</title>
+    <title>Installation &#8212; python-rtmidi 1.5.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="readme.html" title="Welcome to python-rtmidi!"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.3 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Installation</a></li> 
       </ul>
     </div>  
@@ -46,7 +46,7 @@
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
 <p><strong>python-rtmidi</strong> uses a modern <a class="reference external" href="https://peps.python.org/pep-0517/">PEP 517</a> compliant Python build system based
-on <a class="reference external" href="https://mesonbuild.com/">meson</a> and <a class="reference external" href="https://thiblahute.gitlab.io/mesonpep517/">mesonpep517</a> and can be installed from the Python Package Index
+on <a class="reference external" href="https://mesonbuild.com/">meson</a> and <a class="reference external" href="https://github.com/mesonbuild/meson-python">meson-python</a> and can be installed from the Python Package Index
 via <a class="reference external" href="https://pypi.python.org/pypi/pip">pip</a>. Since it is a Python C(++)-extension, a C++ compiler and build
 environment as well as some system-dependent libraries are needed to install,
 unless wheel packages with pre-compiled binaries are available for your system.
@@ -79,26 +79,97 @@ below for moe information.</p>
 </section>
 <section id="pre-compiled-binaries">
 <h2>Pre-compiled Binaries<a class="headerlink" href="#pre-compiled-binaries" title="Permalink to this heading">¶</a></h2>
-<p>Pre-compiled binary wheels of the latest python-rtmidi version for Windows and
-macOS / OS X are available on PyPI for several major Python versions. If you
+<p>Pre-compiled binary wheels of the latest python-rtmidi version for Windows,
+macOS and Linux are available on PyPI for all supported Python versions. If you
 install python-rtmidi via pip (see above), these wheels will be selected by pip
-automatically, if you have a compatible Python and Windows or macOS version.</p>
-<p>The Windows binary wheels are compiled with Windows MultiMedia API support and
-are available in 32-bit and 64-bit versions. The macOS / OS X binary wheels are
-compiled with CoreMIDI support and are only available in 64-bit versions for OS
-X 10.6 and later. If you need JACK support on OS X, you need to compile
-python-rtmidi yourself (see the [macOS] section below for details).</p>
+automatically, if you have a compatible Python and OS version and processor
+architecture.</p>
+<ul>
+<li><p>Windows binary wheels are compiled with Windows MultiMedia API support and
+are available for x86_64 (aka amd64).</p></li>
+<li><p>macOS / OS X binary wheels are compiled with CoreMIDI support and are
+available for OS X intel (10.9+) and arm64 (aka M1/M2/Apple silicon, 11.0+).</p>
+<p>If you need JACK support on OS X, you need to compile python-rtmidi yourself
+(see the [macOS] section below for details).</p>
+</li>
+<li><p>Linux binary wheels are available for x64_64 and aarch64,</p></li>
+</ul>
 </section>
 <section id="from-source">
 <h2>From Source<a class="headerlink" href="#from-source" title="Permalink to this heading">¶</a></h2>
 <p>To compile python-rtmidi from source and install it manually without pip, you
 can either download a source distribution archive or check out the sources from
-the Git repository.</p>
-<p>While the steps to get the sources differ, the actual compilation and
-installation steps consist of the same standard meson commands in both cases:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">meson setup --prefix=/usr --buildtype=plain builddir</span>
+the Git repository. While the steps to get the sources differ, the actual
+compilation and installation steps consist of the same commands in both cases.</p>
+<section id="from-the-source-distribution">
+<h3>From the Source Distribution<a class="headerlink" href="#from-the-source-distribution" title="Permalink to this heading">¶</a></h3>
+<p>To download the python-rtmidi source distribution archive for the current
+version and extract it, use the following commands:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip download python-rtmidi</span>
+<span class="go">tar -xzf python-rtmidi-1.X.Y.tar.gz</span>
+<span class="go">cd python-rtmidi-1.X.Y</span>
+</pre></div>
+</div>
+<p>Then follow the commands shown in the section [buildinstall].</p>
+</section>
+<section id="from-the-source-code-repository">
+<h3>From the Source Code Repository<a class="headerlink" href="#from-the-source-code-repository" title="Permalink to this heading">¶</a></h3>
+<p>Alternatively, you can check out the python-rtmidi source code from the Git
+repository and then install it from your working copy.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(rtmidi)</span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/SpotlightKid/python-rtmidi.git
+<span class="gp gp-VirtualEnv">(rtmidi)</span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>python-rtmidi
+</pre></div>
+</div>
+<p>Then follow the commands shown in the section [buildinstall].</p>
+</section>
+<section id="build-and-install">
+<span id="buildinstall"></span><h3>Build and Install<a class="headerlink" href="#build-and-install" title="Permalink to this heading">¶</a></h3>
+<section id="using-the-pep-517-build-method-recommended">
+<h4>Using the PEP 517 build method (recommended)<a class="headerlink" href="#using-the-pep-517-build-method-recommended" title="Permalink to this heading">¶</a></h4>
+<p>The recommended way is to build python-rtmidi via the standard PEP 517 build
+method and install it only for your current user (which <code class="docutils literal notranslate"><span class="pre">installer</span></code> does by
+default) or into a virtual environment.</p>
+<p>If you don’t already have the <code class="docutils literal notranslate"><span class="pre">build</span></code> and <code class="docutils literal notranslate"><span class="pre">installer</span></code> Python packages
+installed, install them with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install build installer</span>
+</pre></div>
+</div>
+<p>Then build and install python-rtmidi:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m build --wheel</span>
+<span class="go">python -m installer dist/*.whl</span>
+</pre></div>
+</div>
+<p>This will download all the required build tools, install them in a temporary
+virtual environment, build a wheel, and install it.</p>
+</section>
+</section>
+<section id="using-meson-directly">
+<h3>Using meson directly<a class="headerlink" href="#using-meson-directly" title="Permalink to this heading">¶</a></h3>
+<p>If you can’t or don’t want to use the standard PEP 517 build method, you can
+also use meson directly, but then you’ll need to make sure all the required
+build tools are installed.</p>
+<p>If you are installing from a Git repository checkout, since this does not
+include the C++ module source code pre-compiled from the Cython source, you’ll
+also need to install Cython &gt;= 0.29, either via pip or from its Git repository.
+Using virtualenv / virtualenvwrapper is strongly recommended in this scenario:</p>
+<p>Make a virtual environment:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkvirtualenv rtmidi</span>
+<span class="gp gp-VirtualEnv">(rtmidi)</span><span class="gp">$ </span>cdvirtualenv
+</pre></div>
+</div>
+<p>Install meson and ninja and, if neccessary, Cython from PyPI:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(rtmidi)</span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>Cython<span class="w"> </span>meson<span class="w"> </span>ninja
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">meson setup --prefix=/usr -Dbuildtype=plain builddir</span>
 <span class="go">meson compile -C builddir</span>
 <span class="go">meson install -C builddir</span>
+</pre></div>
+</div>
+<p>On Linux or macOS, if you want to install python-rtmidi into the system-wide
+Python library directory, you may have to prefix the last command with <code class="docutils literal notranslate"><span class="pre">sudo</span></code>,
+e.g.:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo meson install -C builddir</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">meson</span> <span class="pre">setup</span></code> command recognizes several options to control which
@@ -145,61 +216,20 @@ library:</p>
 <td><p>x</p></td>
 <td><p>Don’t suppress RtMidi warnings to stderr.</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-Dpython=python3</span></code></p></td>
+<td><p>x</p></td>
+<td><p>x</p></td>
+<td><p>x</p></td>
+<td><p>Set name (or path) of Python interpreter.</p></td>
+</tr>
 </tbody>
 </table>
 <p>Support for each OS dependent MIDI backend is only enabled when the required
 library and header files are actually present on the system.</p>
-<section id="from-the-source-distribution">
-<h3>From the Source Distribution<a class="headerlink" href="#from-the-source-distribution" title="Permalink to this heading">¶</a></h3>
-<p>To download the python-rtmidi source distribution archive for the current
-version, extract and install it, use the following commands:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip download python-rtmidi</span>
-<span class="go">tar -xzf python-rtmidi-1.X.Y.tar.gz</span>
-<span class="go">cd python-rtmidi-1.X.Y</span>
-<span class="go">meson setup --prefix=/usr --buildtype=plain builddir</span>
-<span class="go">meson compile -C builddir</span>
-<span class="go">meson install -C builddir</span>
-</pre></div>
-</div>
-<p>On Linux or macOS / OS X, if you want to install python-rtmidi into the
-system-wide Python library directory, you may have to prefix the last command
-with <code class="docutils literal notranslate"><span class="pre">sudo</span></code>, e.g.:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo meson install -C builddir</span>
-</pre></div>
-</div>
-<p>The recommended way, though, is to install python-rtmidi only for your current
-user (which <code class="docutils literal notranslate"><span class="pre">installer</span></code> does by default) or into a virtual environment:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m installer dist/*.whl</span>
-</pre></div>
-</div>
 </section>
-<section id="from-the-source-code-repository">
-<h3>From the Source Code Repository<a class="headerlink" href="#from-the-source-code-repository" title="Permalink to this heading">¶</a></h3>
-<p>Alternatively, you can check out the python-rtmidi source code from the Git
-repository and then install it from your working copy. Since the repository
-does not include the C++ module source code pre-compiled from the Cython
-source, you’ll also need to install Cython &gt;= 0.28, either via pip or from its
-Git repository. Using virtualenv / virtualenvwrapper is strongly recommended in
-this scenario:</p>
-<p>Make a virtual environment:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkvirtualenv rtmidi</span>
-<span class="gp gp-VirtualEnv">(rtmidi)</span><span class="gp">$ </span>cdvirtualenv
-</pre></div>
-</div>
-<p>Install Cython from PyPI:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(rtmidi)</span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>Cython<span class="w"> </span>meson<span class="w"> </span>ninja<span class="w"> </span>wheel
-</pre></div>
-</div>
-<p>Then install python-rtmidi:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(rtmidi)</span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/SpotlightKid/python-rtmidi.git
-<span class="gp gp-VirtualEnv">(rtmidi)</span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>python-rtmidi
-<span class="gp gp-VirtualEnv">(rtmidi)</span><span class="gp">$ </span>meson<span class="w"> </span>setup<span class="w"> </span>--prefix<span class="o">=</span>/usr<span class="w"> </span>--buildtype<span class="o">=</span>plain<span class="w"> </span>builddir
-<span class="gp gp-VirtualEnv">(rtmidi)</span><span class="gp">$ </span>meson<span class="w"> </span>compile<span class="w"> </span>-C<span class="w"> </span>builddir
-<span class="gp gp-VirtualEnv">(rtmidi)</span><span class="gp">$ </span>meson<span class="w"> </span>install<span class="w"> </span>-C<span class="w"> </span>builddir
-</pre></div>
-</div>
+</section>
 <section id="requirements">
-<span id="id1"></span><h4>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h4>
+<span id="id1"></span><h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
 <p>Naturally, you’ll need a C++ compiler and a build environment. See the
 platform-specific hints below.</p>
 <p>If you want to change the Cython source file <code class="docutils literal notranslate"><span class="pre">_rtmidi.pyx</span></code> or want to recompile
@@ -214,11 +244,8 @@ appropriate compilations flags automatically.</p>
 <li><p>macOS (OS X): CoreMIDI, JACK</p></li>
 <li><p>Windows: MultiMedia (MM)</p></li>
 </ul>
-</section>
-</section>
-</section>
 <section id="linux">
-<h2>Linux<a class="headerlink" href="#linux" title="Permalink to this heading">¶</a></h2>
+<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this heading">¶</a></h3>
 <p>First you need a C++ compiler and the pthread library. Install the
 <code class="docutils literal notranslate"><span class="pre">build-essential</span></code> package on debian-based systems to get these.</p>
 <p>Then you’ll need Python development headers and libraries. On debian-based
@@ -230,21 +257,16 @@ library (debian package: <code class="docutils literal notranslate"><span class=
 you are using Jack2, install <code class="docutils literal notranslate"><span class="pre">libjack-jackd2-dev</span></code>).</p>
 </section>
 <section id="macos-os-x">
-<span id="macos"></span><h2>macOS (OS X)<a class="headerlink" href="#macos-os-x" title="Permalink to this heading">¶</a></h2>
+<span id="macos"></span><h3>macOS (OS X)<a class="headerlink" href="#macos-os-x" title="Permalink to this heading">¶</a></h3>
 <p>Install the latest Xcode version or <code class="docutils literal notranslate"><span class="pre">g++</span></code> from MacPorts or homebrew (untested).
-CoreMIDI support comes with installing Xcode. For JACK support, install
-<a class="reference external" href="http://jackaudio.org/downloads/">JackOSX</a> with the installer or build JACK from source.</p>
-<p><strong>Note:</strong></p>
-<p><em>If you have a very old version of OS X and Xcode which still supports building
-binaries for PPC, you’ll have to tell distribute to build the package only for
-i386 and x86_64 architectures:</em></p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">env ARCHFLAGS=\&quot;-arch i386 -arch x86_64\&quot; python setup.py install</span>
-</pre></div>
-</div>
+CoreMIDI support comes with installing Xcode. For JACK support, install JACK
+with the <a class="reference external" href="http://jackaudio.org/downloads/">macOS installer</a> provided on the JACK web site or build JACK from
+source.</p>
 </section>
 <section id="windows">
-<h2>Windows<a class="headerlink" href="#windows" title="Permalink to this heading">¶</a></h2>
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this heading">¶</a></h3>
 <p>Please see the detailed instructions for Windows in <code class="docutils literal notranslate"><span class="pre">install-windows</span></code>.</p>
+</section>
 </section>
 <section id="user-contributed-documentation">
 <h2>User Contributed Documentation<a class="headerlink" href="#user-contributed-documentation" title="Permalink to this heading">¶</a></h2>
@@ -269,15 +291,20 @@ installing python-rtmidi in an uncommon or not-yet-covered environment.</p>
 <li><a class="reference internal" href="#pre-compiled-binaries">Pre-compiled Binaries</a></li>
 <li><a class="reference internal" href="#from-source">From Source</a><ul>
 <li><a class="reference internal" href="#from-the-source-distribution">From the Source Distribution</a></li>
-<li><a class="reference internal" href="#from-the-source-code-repository">From the Source Code Repository</a><ul>
-<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#from-the-source-code-repository">From the Source Code Repository</a></li>
+<li><a class="reference internal" href="#build-and-install">Build and Install</a><ul>
+<li><a class="reference internal" href="#using-the-pep-517-build-method-recommended">Using the PEP 517 build method (recommended)</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#using-meson-directly">Using meson directly</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#requirements">Requirements</a><ul>
 <li><a class="reference internal" href="#linux">Linux</a></li>
 <li><a class="reference internal" href="#macos-os-x">macOS (OS X)</a></li>
 <li><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#user-contributed-documentation">User Contributed Documentation</a></li>
 </ul>
 </li>
@@ -330,12 +357,12 @@ installing python-rtmidi in an uncommon or not-yet-covered environment.</p>
         <li class="right" >
           <a href="readme.html" title="Welcome to python-rtmidi!"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.3 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Installation</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2012 - 2022, Christopher Arndt.
+        &#169; Copyright 2012 - 2023, Christopher Arndt.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
     </div>
   </body>
