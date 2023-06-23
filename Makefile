@@ -22,9 +22,9 @@ help:
 
 build: $(SOURCES)
 	if [[ -d "$(BUILDDIR)" ]]; then \
-		meson setup --reconfigure "--prefix=$(PREFIX)" --buildtype=plain $(BUILDDIR); \
+		meson setup --reconfigure "--prefix=$(PREFIX)" -Dbuildtype=plain $(BUILDDIR); \
 	else \
-		meson setup "--prefix=$(PREFIX)" --buildtype=plain $(BUILDDIR); \
+		meson setup "--prefix=$(PREFIX)" -Dbuildtype=plain $(BUILDDIR); \
 	fi
 	meson compile -C $(BUILDDIR)
 
