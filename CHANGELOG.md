@@ -3,7 +3,8 @@
 For details and minor changes, please see the [version control log
 messages](https://github.com/SpotlightKid/python-rtmidi/commits/master).
 
-## Development
+
+## 1.5.3 (2023-06-23)
 
 Changes:
 
