@@ -69,9 +69,9 @@ else
 endif # Platform detection
 
 jack_support = jack_dep.found() and get_option('jack')
-alsa_support = host_machine.system() == 'linux' and alsa_dep.found() and get_option('alsa')
-coremidi_support = host_machine.system() == 'darwin' and coremidi_dep.found() and get_option('coremidi')
-winmm_support = host_machine.system() == 'windows' and winmm_dep.found() and get_option('winmm')
+alsa_support = host_machine.system().to_lower() == 'linux' and alsa_dep.found() and get_option('alsa')
+coremidi_support = host_machine.system().to_lower() == 'darwin' and coremidi_dep.found() and get_option('coremidi')
+winmm_support = host_machine.system().to_lower() == 'windows' and winmm_dep.found() and get_option('winmm')
 
 threads_dep = dependency('threads', required: alsa_support or jack_support)
 have_semaphore = cpp.has_header('semaphore.h')
