@@ -10,8 +10,6 @@ project(
     meson_version: '>=0.64.0'
 )
 
-message('Host machine system:', host_machine.system())
-
 cpp = meson.get_compiler('cpp')
 
 # Jack API (portable)
@@ -91,6 +89,8 @@ if not get_option('wheel')
 endif
 
 summary({
+    'Host machine system': host_machine.system(),
+    'Python version': python.language_version(),
     'Debug messages (verbose)': get_option('verbose'),
     'Build for wheel': get_option('wheel'),
     'JACK support': jack_support,
@@ -98,4 +98,3 @@ summary({
     'CoreMIDI support': coremidi_support,
     'Window MM support': winmm_support,
 }, section: 'Configuration')
-
