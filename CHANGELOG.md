@@ -4,6 +4,17 @@ For details and minor changes, please see the [version control log
 messages](https://github.com/SpotlightKid/python-rtmidi/commits/master).
 
 
+## 1.5.4 (2023-06-27)
+
+Changes:
+
+-   Added `send_all.py` script to examples (#167).
+
+Project infrastructure:
+
+-   Fixed macOS arm64 binary wheels built by CI without CoreMIDI support (#169).
+
+
 ## 1.5.3 (2023-06-23)
 
 Changes:
