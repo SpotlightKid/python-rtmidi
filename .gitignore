@@ -1,8 +1,12 @@
+.cache/
+.pytest_cache/
 .tox/
 __pycache__/
+builddir/
 build/
 dist/
 docs/
 rtmidi/
 src/
+wheelhouse/
 *.egg-info/

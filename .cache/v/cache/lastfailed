@@ -1,5 +1,0 @@
-{
-  "tests/test_errorcallback.py": true,
-  "tests/test_errors.py": true,
-  "tests/test_rtmidi.py": true
-}
