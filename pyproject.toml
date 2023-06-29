@@ -92,6 +92,7 @@ manylinux-x86_64-image = "manylinux_2_28"
 manylinux-aarch64-image = "manylinux_2_28"
 # Run the package tests using `pytest`
 test-requires = "pytest"
+test-command = "pytest -v -m ci {package}/tests"
 
 # Install system library
 [tool.cibuildwheel.linux]
@@ -106,14 +107,11 @@ before-all = [
     "python3 waf build",
     "python3 waf install",
 ]
-test-command = "pytest -v -m ci {package}/tests"
 
 [tool.cibuildwheel.macos]
 build = "cp3{8,9,10,11}-macosx*"
 archs = ["x86_64", "arm64"]
-test-command = "pytest -v -m ci {package}/tests"
 
 [tool.cibuildwheel.windows]
 build = "cp3{8,9,10,11}-win*"
 archs = ["AMD64"]
-test-command = "pytest -v -m ci {package}/tests"
