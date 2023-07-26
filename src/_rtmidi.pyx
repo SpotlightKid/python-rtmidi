@@ -179,7 +179,7 @@ cdef extern from "RtMidi.h":
 
     ctypedef void (*RtMidiErrorCallback)(ErrorType errorType,
                                          const string errorText,
-                                         void *userData) except *
+                                         void *userData) except * with gil
 
     cdef cppclass RtMidi:
         void closePort() except *
