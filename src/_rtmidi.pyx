@@ -203,7 +203,7 @@ cdef extern from "RtMidi.h":
     cdef cppclass RtMidiOut(RtMidi):
         Api RtMidiOut(Api rtapi, string clientName) except +
         Api getCurrentApi()
-        void sendMessage(vector[unsigned char] *message) nogil except *
+        void sendMessage(vector[unsigned char] *message) except * nogil
 
 
 # internal functions
