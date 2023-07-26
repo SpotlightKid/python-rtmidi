@@ -4,6 +4,22 @@ For details and minor changes, please see the [version control log
 messages](https://github.com/SpotlightKid/python-rtmidi/commits/master).
 
 
+## 1.5.5 (2023-07-26)
+
+Fixes:
+
+-   Fixed Cython compilation errors and warnings (#174)
+
+Project infrastructure:
+
+-   Updated `requirements-dev.txt` with `pip-compile` (#173).
+-   Updated minimum Python version declared in `pyproject.toml` to 3.8.
+
+Documentation:
+
+-   Updated minimum Python version (3.8) stated in readme and docstring.
+
+
 ## 1.5.4 (2023-06-27)
 
 Changes:
