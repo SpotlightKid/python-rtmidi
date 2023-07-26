@@ -175,7 +175,7 @@ cdef extern from "RtMidi.h":
 
     ctypedef void (*RtMidiCallback)(double timeStamp,
                                     vector[unsigned char] *message,
-                                    void *userData)
+                                    void *userData) except * with gil
 
     ctypedef void (*RtMidiErrorCallback)(ErrorType errorType,
                                          const string errorText,
