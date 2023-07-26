@@ -175,11 +175,11 @@ cdef extern from "RtMidi.h":
 
     ctypedef void (*RtMidiCallback)(double timeStamp,
                                     vector[unsigned char] *message,
-                                    void *userData)
+                                    void *userData) except * with gil
 
     ctypedef void (*RtMidiErrorCallback)(ErrorType errorType,
                                          const string errorText,
-                                         void *userData) except *
+                                         void *userData) except * with gil
 
     cdef cppclass RtMidi:
         void closePort() except *
@@ -203,7 +203,7 @@ cdef extern from "RtMidi.h":
     cdef cppclass RtMidiOut(RtMidi):
         Api RtMidiOut(Api rtapi, string clientName) except +
         Api getCurrentApi()
-        void sendMessage(vector[unsigned char] *message) nogil except *
+        void sendMessage(vector[unsigned char] *message) except * nogil
 
 
 # internal functions
