@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rtmidi.midiutil &#8212; python-rtmidi 1.5.5 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    <title>rtmidi.midiutil &#8212; python-rtmidi 1.5.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css?v=514cf933" />
     
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/documentation_options.js?v=8f564690"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -24,7 +24,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">python-rtmidi 1.5.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">python-rtmidi 1.5.6 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rtmidi.midiutil</a></li> 
       </ul>
@@ -81,7 +81,9 @@
                      <span class="n">type_</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;yes&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="get_api_from_environment"><a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiutil.get_api_from_environment">[docs]</a><span class="k">def</span> <span class="nf">get_api_from_environment</span><span class="p">(</span><span class="n">api</span><span class="o">=</span><span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNSPECIFIED</span><span class="p">):</span>
+<div class="viewcode-block" id="get_api_from_environment">
+<a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiutil.get_api_from_environment">[docs]</a>
+<span class="k">def</span> <span class="nf">get_api_from_environment</span><span class="p">(</span><span class="n">api</span><span class="o">=</span><span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNSPECIFIED</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return RtMidi API specified in the environment if any.</span>
 
 <span class="sd">    If the optional api argument is ``rtmidi.API_UNSPECIFIED`` (the default),</span>
@@ -104,7 +106,10 @@
     <span class="k">return</span> <span class="n">api</span></div>
 
 
-<div class="viewcode-block" id="list_available_ports"><a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiutil.list_available_ports">[docs]</a><span class="k">def</span> <span class="nf">list_available_ports</span><span class="p">(</span><span class="n">ports</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">midiio</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="list_available_ports">
+<a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiutil.list_available_ports">[docs]</a>
+<span class="k">def</span> <span class="nf">list_available_ports</span><span class="p">(</span><span class="n">ports</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">midiio</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;List MIDI ports given or available on given MIDI I/O instance.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">ports</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ports</span> <span class="o">=</span> <span class="n">midiio</span><span class="o">.</span><span class="n">get_ports</span><span class="p">()</span>
@@ -123,7 +128,10 @@
     <span class="nb">print</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="list_input_ports"><a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiutil.list_input_ports">[docs]</a><span class="k">def</span> <span class="nf">list_input_ports</span><span class="p">(</span><span class="n">api</span><span class="o">=</span><span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNSPECIFIED</span><span class="p">):</span>
+
+<div class="viewcode-block" id="list_input_ports">
+<a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiutil.list_input_ports">[docs]</a>
+<span class="k">def</span> <span class="nf">list_input_ports</span><span class="p">(</span><span class="n">api</span><span class="o">=</span><span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNSPECIFIED</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;List available MIDI input ports.</span>
 
 <span class="sd">    Optionally the RtMidi API can be passed with the ``api`` argument. If not</span>
@@ -140,7 +148,10 @@
     <span class="n">midiin</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="list_output_ports"><a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiutil.list_output_ports">[docs]</a><span class="k">def</span> <span class="nf">list_output_ports</span><span class="p">(</span><span class="n">api</span><span class="o">=</span><span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNSPECIFIED</span><span class="p">):</span>
+
+<div class="viewcode-block" id="list_output_ports">
+<a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiutil.list_output_ports">[docs]</a>
+<span class="k">def</span> <span class="nf">list_output_ports</span><span class="p">(</span><span class="n">api</span><span class="o">=</span><span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNSPECIFIED</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;List available MIDI output ports.</span>
 
 <span class="sd">    Optionally the RtMidi API can be passed with the ``api`` argument. If not</span>
@@ -157,7 +168,10 @@
     <span class="n">midiout</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="open_midiport"><a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiutil.open_midiport">[docs]</a><span class="k">def</span> <span class="nf">open_midiport</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNSPECIFIED</span><span class="p">,</span>
+
+<div class="viewcode-block" id="open_midiport">
+<a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiutil.open_midiport">[docs]</a>
+<span class="k">def</span> <span class="nf">open_midiport</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNSPECIFIED</span><span class="p">,</span>
                   <span class="n">use_virtual</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">client_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">port_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Open MIDI port for in-/output and return MidiIn/-Out instance and port name.</span>
@@ -299,7 +313,10 @@
         <span class="k">raise</span> <span class="n">rtmidi</span><span class="o">.</span><span class="n">InvalidPortError</span><span class="p">(</span><span class="s2">&quot;Invalid port.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="open_midiinput"><a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiutil.open_midiinput">[docs]</a><span class="k">def</span> <span class="nf">open_midiinput</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNSPECIFIED</span><span class="p">,</span> <span class="n">use_virtual</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+
+<div class="viewcode-block" id="open_midiinput">
+<a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiutil.open_midiinput">[docs]</a>
+<span class="k">def</span> <span class="nf">open_midiinput</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNSPECIFIED</span><span class="p">,</span> <span class="n">use_virtual</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                    <span class="n">interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">client_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Open a MIDI port for input and return a MidiIn instance and port name.</span>
 
@@ -311,7 +328,10 @@
                          <span class="n">client_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="open_midioutput"><a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiutil.open_midioutput">[docs]</a><span class="k">def</span> <span class="nf">open_midioutput</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNSPECIFIED</span><span class="p">,</span> <span class="n">use_virtual</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+
+<div class="viewcode-block" id="open_midioutput">
+<a class="viewcode-back" href="../../rtmidi.html#rtmidi.midiutil.open_midioutput">[docs]</a>
+<span class="k">def</span> <span class="nf">open_midioutput</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="n">rtmidi</span><span class="o">.</span><span class="n">API_UNSPECIFIED</span><span class="p">,</span> <span class="n">use_virtual</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                     <span class="n">interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">client_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Open a MIDI port for output and return a MidiOut instance and port name.</span>
 
@@ -321,6 +341,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">open_midiport</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">use_virtual</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span>
                          <span class="n">client_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">)</span></div>
+
 </pre></div>
 
             <div class="clearer"></div>
@@ -352,14 +373,14 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">python-rtmidi 1.5.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">python-rtmidi 1.5.6 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rtmidi.midiutil</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2012 - 2023, Christopher Arndt.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2012 - 2023, Christopher Arndt.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.5.
     </div>
   </body>
 </html>
