@@ -1,7 +1,7 @@
 project(
     'python-rtmidi',
     'cpp',
-    version: '1.5.5',
+    version: '1.5.6',
     license: 'MIT',
     default_options: [
         'warning_level=2',
