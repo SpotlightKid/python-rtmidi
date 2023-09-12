@@ -9,6 +9,7 @@ requires = [
 
 [project]
 name = "python-rtmidi"
+dynamic = ['version']
 description = "A Python binding for the RtMidi C++ library implemented using Cython."
 authors = [
     { name="Christopher Arndt", email="info@chrisarndt.de" },
