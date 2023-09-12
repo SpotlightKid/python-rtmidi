@@ -4,11 +4,18 @@ For details and minor changes, please see the [version control log
 messages](https://github.com/SpotlightKid/python-rtmidi/commits/master).
 
 
+## 1.5.6 (2023-09-12)
+
+Fixes:
+
+-   Fixed building with `meson-python` >= 0.14.0 (#177).
+
+
 ## 1.5.5 (2023-07-26)
 
 Fixes:
 
--   Fixed Cython compilation errors and warnings (#174)
+-   Fixed Cython compilation errors and warnings (#174).
 
 Project infrastructure:
 
