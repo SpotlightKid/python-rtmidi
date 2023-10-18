@@ -7,18 +7,13 @@ import sys
 import time
 
 from rtmidi.midiutil import open_midioutput
-from rtmidi.midiconstants import *
+from rtmidi.midiconstants import CONTROL_CHANGE, NOTE_OFF, NOTE_ON
 
 
 log = logging.getLogger("midi-send-all")
 
 argp = argparse.ArgumentParser()
-argp.add_argument(
-    "-v",
-    "--verbose",
-    action="store_true",
-    help="Verbose output"
-)
+argp.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
 argp.add_argument(
     "-c",
     "--channels",
@@ -32,24 +27,12 @@ argp.add_argument(
     help="Delay between messages (default: %(default).2f s)",
 )
 argp.add_argument(
-    "-o",
-    "--off-velocity",
-    type=int,
-    default=64,
-    help="Note off velocity (default: %(default)i)"
+    "-o", "--off-velocity", type=int, default=64, help="Note off velocity (default: %(default)i)"
 )
 argp.add_argument(
-    "-V",
-    "--velocity",
-    type=int,
-    default=127,
-    help="Note on velocity (default: %(default)i)"
+    "-V", "--velocity", type=int, default=127, help="Note on velocity (default: %(default)i)"
 )
-argp.add_argument(
-    "port",
-    nargs="?",
-    help="MIDI output port (default: ask)"
-)
+argp.add_argument("port", nargs="?", help="MIDI output port (default: ask)")
 
 args = argp.parse_args()
 
@@ -62,7 +45,7 @@ if args.channels:
             ch = int(ch.strip()) - 1
             if 0 > ch > 16:
                 raise ValueError
-        except:
+        except (TypeError, ValueError):
             argp.print_help()
             sys.exit(1)
 
@@ -76,10 +59,14 @@ try:
     with midiout:
         for chan in channels:
             for note in range(128):
-                log.debug(f"Sending NOTE ON:  ch={chan+1:02}, note={note:03}, vel={args.velocity:03}")
+                log.debug(
+                    f"Sending NOTE ON:  ch={chan+1:02}, note={note:03}, vel={args.velocity:03}"
+                )
                 midiout.send_message([NOTE_ON | chan, note, args.velocity])
                 time.sleep(args.delay)
-                log.debug(f"Sending NOTE OFF: ch={chan+1:02}, note={note:03}, vel={args.off_velocity:03}")
+                log.debug(
+                    f"Sending NOTE OFF: ch={chan+1:02}, note={note:03}, vel={args.off_velocity:03}"
+                )
                 midiout.send_message([NOTE_OFF | chan, note, args.off_velocity])
                 time.sleep(args.delay)
 
