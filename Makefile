@@ -83,7 +83,7 @@ release_upload: release
 	$(PYTHON) -m twine upload --skip-existing dist/*.tar.gz dist/*.whl
 
 requirements-dev.txt: requirements-dev.in
-	pip-compile --quiet --resolver=backtracking --no-emit-index-url "$<" > "$@"
+	pip-compile --quiet --resolver=backtracking --no-emit-index-url --strip-extras "$<" > "$@"
 
 requirements: requirements-dev.txt
 
