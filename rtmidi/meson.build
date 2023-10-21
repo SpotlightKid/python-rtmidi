@@ -26,7 +26,7 @@ endif
 
 if winmm_support
     defines += ['-D__WINDOWS_MM__']
-    if meson.get_compiler('cpp').get_id() != 'gcc'
+    if meson.get_compiler('cpp').get_argument_syntax() == 'msvc'
         defines += ['/EHsc']
     endif
     dependencies += [winmm_dep]
