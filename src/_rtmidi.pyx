@@ -1101,11 +1101,16 @@ cdef class MidiOut(MidiBase):
         if not message:
             raise ValueError("'message' must not be empty.")
 
-        if len(message) > 3 and message[0] != 0xF0:
-            raise ValueError("'message' longer than 3 bytes but does not "
-                             "start with 0xF0.")
+        try:
+            msg_v.reserve(len(message))
+        except TypeError:
+            pass
 
         for c in message:
             msg_v.push_back(c)
+
+        if msg_v.size() > 3 and msg_v.at(0) != 0xF0:
+            raise ValueError("'message' longer than 3 bytes but does not "
+                             "start with 0xF0.")
 
         self.thisptr.sendMessage(&msg_v)
