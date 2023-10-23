@@ -18,7 +18,7 @@ help:
 	@echo "release - package a release"
 	@echo "release_upload - package a release and upload it to PyPI"
 	@echo "requirements - generate 'requirement-dev.txt' from 'requirements-dev.in'"
-	@echo "test - run tests on every supported Python version with tox"
+	@echo "test - run tests with pytest"
 
 build: $(SOURCES)
 	if [[ -d "$(BUILDDIR)" ]]; then \

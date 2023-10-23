@@ -12,6 +12,7 @@ import rtmidi
 class BaseTests:
     NOTE_ON = [0x90, 48, 100]
     NOTE_OFF = [0x80, 48, 16]
+    SYSEX_IDENTITY_REQUEST = [0xF0, 0x7E, 0x7F, 6, 1, 0xF7]
     IN_CLIENT_NAME = "RtMidiTestCase In"
     OUT_CLIENT_NAME = "RtMidiTestCase Out"
     IN_PORT_NAME = 'testin'
@@ -67,10 +68,32 @@ class VirtualPortsSupportedTests:
         self.midi_out.send_message(self.NOTE_ON)
         self.midi_out.send_message(self.NOTE_OFF)
         time.sleep(self.DELAY)
-        message_1, _ = self.midi_in.get_message()
-        message_2, _ = self.midi_in.get_message()
-        self.assertEqual(message_1, self.NOTE_ON)
-        self.assertEqual(message_2, self.NOTE_OFF)
+        event_1 = self.midi_in.get_message()
+        event_2 = self.midi_in.get_message()
+        self.assertTrue(isinstance(event_1, tuple))
+        self.assertTrue(isinstance(event_2, tuple))
+        self.assertEqual(event_1[0], self.NOTE_ON)
+        self.assertEqual(event_2[0], self.NOTE_OFF)
+
+    def test_send_supports_iterator(self):
+        self.set_up_loopback()
+        self.midi_out.send_message(iter(self.NOTE_ON))
+        time.sleep(self.DELAY)
+        event = self.midi_in.get_message()
+        self.assertTrue(isinstance(event, tuple))
+        self.assertEqual(event[0], self.NOTE_ON)
+
+    def test_send_raises_if_message_too_long(self):
+        self.assertRaises(ValueError, self.midi_out.send_message, [1, 2, 3, 4])
+
+    def test_send_accepts_sysex(self):
+        self.set_up_loopback()
+        self.midi_in.ignore_types(sysex=False)
+        self.midi_out.send_message(self.SYSEX_IDENTITY_REQUEST)
+        time.sleep(self.DELAY)
+        event = self.midi_in.get_message()
+        self.assertTrue(isinstance(event, tuple))
+        self.assertEqual(event[0], self.SYSEX_IDENTITY_REQUEST)
 
     def test_callback(self):
         messages = []
