@@ -1,5 +1,6 @@
 # cython: embedsignature = True
 # cython: language_level = 3
+# cython: show_performance_hints = False
 # distutils: language = c++
 #
 # rtmidi.pyx
@@ -202,13 +203,13 @@ cdef extern from "RtMidi.h":
     cdef cppclass RtMidiOut(RtMidi):
         Api RtMidiOut(Api rtapi, string clientName) except +
         Api getCurrentApi()
-        void sendMessage(vector[unsigned char] *message) except * nogil
+        void sendMessage(vector[unsigned char] *message) except *
 
 
 # internal functions
 
 cdef void _cb_func(double delta_time, vector[unsigned char] *msg_v,
-                   void *cb_info) with gil:
+                   void *cb_info) except * with gil:
     """Wrapper for a Python callback function for MIDI input."""
     func, data = (<object> cb_info)
     message = [msg_v.at(i) for i in range(msg_v.size())]
@@ -1086,9 +1087,7 @@ cdef class MidiOut(MidiBase):
         must be a start-of-sysex status byte, i.e. 0xF0.
 
         .. note:: with some backend APIs (notably ```WINDOWS_MM``) this function
-            blocks until the whole message is sent. While sending the message
-            the global interpreter lock is released, so multiple Python threads
-            can send messages using *different* MidiOut instances concurrently.
+            blocks until the whole message is sent.
 
         Exceptions:
 
@@ -1109,5 +1108,4 @@ cdef class MidiOut(MidiBase):
         for c in message:
             msg_v.push_back(c)
 
-        with nogil:
-            self.thisptr.sendMessage(&msg_v)
+        self.thisptr.sendMessage(&msg_v)
