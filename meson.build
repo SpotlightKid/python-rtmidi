@@ -83,7 +83,7 @@ subdir('src')
 # Build & install C++ extension module and Python package
 subdir('rtmidi')
 
-if not get_option('wheel')
+if meson.version().version_compare('<1.2.0') and not get_option('wheel')
     postinstall_script = files('meson_postinstall.py')
     meson.add_install_script(python, postinstall_script)
 endif

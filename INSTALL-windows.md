@@ -10,9 +10,9 @@ Please follow all the steps below in the exact order.
 
 You probably need administrator rights for some or all of the following steps.
 
-1.  Install the latest release of Python (3.11 at the time of writing, at least
+1.  Install the latest release of Python (3.12 at the time of writing, at least
     3.8+) from <https://www.python.org/downloads/windows/> to the default
-    location (e.g. `C:\Python311`). You can install either or both the 32-bit
+    location (e.g. `C:\Python312`). You can install either or both the 32-bit
     and the 64-bit version.
 
     In the installer, enable the option to install [pip]. Optionally, *for only

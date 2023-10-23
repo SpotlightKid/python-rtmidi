@@ -32,6 +32,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Multimedia :: Sound/Audio :: MIDI",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
@@ -66,6 +67,7 @@ target-version = [
     "py39",
     "py310",
     "py311",
+    "py312",
 ]
 
 [tool.isort]
@@ -97,7 +99,7 @@ test-command = "pytest -v -m ci {package}/tests"
 
 # Install system library
 [tool.cibuildwheel.linux]
-build = "cp3{8,9,10,11}-manylinux*"
+build = "cp3{8,9,10,11,12}-manylinux*"
 archs = ["auto64"]
 before-all = [
     "dnf -y install alsa-lib-devel alsa-utils",
@@ -110,9 +112,9 @@ before-all = [
 ]
 
 [tool.cibuildwheel.macos]
-build = "cp3{8,9,10,11}-macosx*"
+build = "cp3{8,9,10,11,12}-macosx*"
 archs = ["x86_64", "arm64"]
 
 [tool.cibuildwheel.windows]
-build = "cp3{8,9,10,11}-win*"
+build = "cp3{8,9,10,11,12}-win*"
 archs = ["AMD64"]
