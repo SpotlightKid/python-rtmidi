@@ -14,7 +14,6 @@ Project infrastructure:
     -   Added Python 3.12 to `tox.ini`, removed Python 3.7.
     -   Only use custom meson install script to byte-compile installed Python
         modules if meson version <= 1.2.0.
-    -   Suppress related Cython compilation performance hints.
     -   Updated latest Python version mentioned in windows install docs.
 -   Updated `requirements-dev.txt` with `pip-compile` (#183).
 
@@ -26,6 +25,8 @@ Fixes:
 
     The GIL is acquired in any case for MIDI in callback and C++ `sendMessage`
     call, since Cython needs to check for exceptions.
+
+    Suppress related Cython compilation performance hints.
 
     Also remove wrong statement about the GIL being released in docstring for
     `send_message`.
