@@ -1098,9 +1098,6 @@ cdef class MidiOut(MidiBase):
         """
         cdef vector[unsigned char] msg_v
 
-        if not message:
-            raise ValueError("'message' must not be empty.")
-
         try:
             msg_v.reserve(len(message))
         except TypeError:
@@ -1109,7 +1106,9 @@ cdef class MidiOut(MidiBase):
         for c in message:
             msg_v.push_back(c)
 
-        if msg_v.size() > 3 and msg_v.at(0) != 0xF0:
+        if msg_v.size() == 0:
+            raise ValueError("'message' must not be empty.")
+        elif msg_v.size() > 3 and msg_v.at(0) != 0xF0:
             raise ValueError("'message' longer than 3 bytes but does not "
                              "start with 0xF0.")
 
