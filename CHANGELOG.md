@@ -4,6 +4,35 @@ For details and minor changes, please see the [version control log
 messages](https://github.com/SpotlightKid/python-rtmidi/commits/master).
 
 
+## 1.5.7 (2023-10-24)
+
+Project infrastructure:
+
+-   Enabled CI builds for Python 3.12 (#182).
+    -   Updated cibuildwheel version used by CI to 2.16.
+    -   Added Python 3.12 to meta-data classifiers in `pyproject.toml`.
+    -   Added Python 3.12 to `tox.ini`, removed Python 3.7.
+    -   Only use custom meson install script to byte-compile installed Python
+        modules if meson version <= 1.2.0.
+    -   Suppress related Cython compilation performance hints.
+    -   Updated latest Python version mentioned in windows install docs.
+-   Updated `requirements-dev.txt` with `pip-compile` (#183).
+
+Fixes:
+
+-   Fixed linting errors in `send_all.py` example (#184).
+-   Fixed (no)gil/except declarations on MIDI in callback and
+    `MidiOut.sendMessage` (#185).
+
+    The GIL is acquired in any case for MIDI in callback and C++ `sendMessage`
+    call, since Cython needs to check for exceptions.
+
+    Also remove wrong statement about the GIL being released in docstring for
+    `send_message`.
+-   Fixed errors and check for empty message correctly when passing an iter- or
+    generator instead of a sequence to `MidiOut.send_message` (#186, #188).
+
+
 ## 1.5.6 (2023-09-12)
 
 Fixes:
