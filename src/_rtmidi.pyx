@@ -128,11 +128,6 @@ __all__ = (
     'get_compiled_api', 'get_compiled_api_by_name', 'get_rtmidi_version'
 )
 
-if bytes is str:
-    string_types = (str, unicode)
-else:
-    string_types = (str,)
-
 cdef extern from "Python.h":
     void Py_Initialize()
 
@@ -224,16 +219,12 @@ cdef void _cb_error_func(ErrorType errorType, const string &errorText,
 
 
 def _to_bytes(name):
-    """Convert a unicode (Python 2) or str (Python 3) object into bytes."""
-    # 'bytes' == 'str' in Python 2 but a separate type in Python 3
-    if isinstance(name, string_types):
-        try:
-            name = bytes(name, 'utf-8')  # Python 3
-        except TypeError:
-            name = name.encode('utf-8')  # Python 2
+    """Convert a str object into bytes."""
+    if isinstance(name, str):
+        name = bytes(name, 'utf-8')  # Python 3
 
     if not isinstance(name, bytes):
-        raise TypeError("name must be bytes or (unicode) string.")
+        raise TypeError("name must be a bytes instance.")
 
     return name
 
@@ -270,7 +261,7 @@ ERRORTYPE_THREAD_ERROR = ERR_THREAD_ERROR
 class RtMidiError(Exception):
     """Base general RtMidi exception.
 
-    All other exceptions in this module derive form this exception.
+    All other exceptions in this module derive from this exception.
 
     Instances have a ``type`` attribute that maps to one of the
     ``ERRORTYPE_*`` constants.
@@ -516,7 +507,7 @@ cdef class MidiBase:
         by ``encoding``. If ``encoding`` is ``"auto"`` (the default), then an
         appropriate encoding is chosen based on the system and the used backend
         API. If ``encoding`` is ``None``, the name is returned un-decoded, i.e.
-        as type ``str`` in Python 2 or ``bytes`` in Python 3.
+        as type ``bytes``.
 
         """
         cdef string name = self.baseptr().getPortName(port)
@@ -533,7 +524,7 @@ cdef class MidiBase:
         by ``encoding``. If ``encoding`` is ``"auto"`` (the default), then an
         appropriate encoding is chosen based on the system and the used backend
         API. If ``encoding`` is ``None``, the names are returned un-decoded,
-        i.e. as type ``str`` in Python 2 or ``bytes`` in Python 3.
+        i.e. as type ``bytes``.
 
         """
         return [self.get_port_name(p, encoding=encoding)
@@ -560,8 +551,8 @@ cdef class MidiBase:
 
         You can optionally pass a name for the RtMidi port with the ``name``
         keyword or the second positional argument. Names with non-ASCII
-        characters in them have to be passed as unicode or UTF-8 encoded
-        strings in Python 2. The default name is "RtMidi input" resp. "RtMidi
+        characters in them have to be passed as a (unicode) str or UTF-8
+        encoded bytes. The default name is "RtMidi input" resp. "RtMidi
         output".
 
         .. note::
@@ -613,8 +604,8 @@ cdef class MidiBase:
 
         You can optionally pass a name for the RtMidi port with the ``name``
         keyword or the second positional argument. Names with non-ASCII
-        characters in them have to be passed as unicode or UTF-8 encoded
-        strings in Python 2. The default name is "RtMidi virtual input" resp.
+        characters in them have to be passed as a (unicode) str or UTF-8
+        encoded bytes. The default name is "RtMidi virtual input" resp.
         "RtMidi virtual output".
 
         .. note::
@@ -671,8 +662,8 @@ cdef class MidiBase:
     def set_client_name(self, name):
         """Set the name of the MIDI client.
 
-        Names with non-ASCII characters in them have to be passed as unicode
-        or UTF-8 encoded strings in Python 2.
+        Names with non-ASCII characters in them have to be passed as a (unicode)
+        str or UTF-8 encoded bytes.
 
         Currently only supported by the ALSA API backend.
 
@@ -695,8 +686,8 @@ cdef class MidiBase:
     def set_port_name(self, name):
         """Set the name of the currently opened port.
 
-        Names with non-ASCII characters in them have to be passed as unicode
-        or UTF-8 encoded strings in Python 2.
+        Names with non-ASCII characters in them have to be passed as a (unicode)
+        str or UTF-8 encoded bytes.
 
         Currently only supported by the ALSA and JACK API backends.
 
@@ -772,7 +763,7 @@ cdef class MidiIn(MidiBase):
 
     You can optionally pass a name for the MIDI client with the ``name``
     keyword or the second positional argument. Names with non-ASCII characters
-    in them have to be passed as unicode or UTF-8 encoded strings in Python 2.
+    in them have to be passed as a (unicode) str or UTF-8 encoded bytes.
     The default name is ``"RtMidiIn Client"``.
 
     .. note::
@@ -984,7 +975,7 @@ cdef class MidiOut(MidiBase):
 
     You can optionally pass a name for the MIDI client with the ``name``
     keyword or the second positional argument. Names with non-ASCII characters
-    in them have to be passed as unicode or UTF-8 encoded strings in Python 2.
+    in them have to be passed as a (unicode) str or UTF-8 encoded bytes.
     The default name is ``"RtMidiOut Client"``.
 
     .. note::
@@ -1079,7 +1070,7 @@ cdef class MidiOut(MidiBase):
         element representing one byte of the MIDI message.
 
         Normal MIDI messages have a length of one to three bytes, but you can
-        also send system exclusive messages, which can be arbitrarily long, via
+        also send System Exclusive messages, which can be arbitrarily long, via
         this method.
 
         No check is made whether the passed data constitutes a valid MIDI
