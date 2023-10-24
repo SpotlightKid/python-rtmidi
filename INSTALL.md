@@ -55,7 +55,7 @@ architecture.
   If you need JACK support on OS X, you need to compile python-rtmidi yourself
   (see the [macOS] section below for details).
 
-* Linux binary wheels are available for x64_64 and aarch64,
+* Linux binary wheels are available for x64_64 and aarch64.
 
 
 ## From Source
