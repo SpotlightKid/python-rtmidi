@@ -86,6 +86,10 @@ class VirtualPortsSupportedTests:
     def test_send_raises_if_message_too_long(self):
         self.assertRaises(ValueError, self.midi_out.send_message, [1, 2, 3, 4])
 
+    def test_send_raises_if_message_empty(self):
+        self.assertRaises(ValueError, self.midi_out.send_message, [])
+        self.assertRaises(ValueError, self.midi_out.send_message, iter([]))
+
     def test_send_accepts_sysex(self):
         self.set_up_loopback()
         self.midi_in.ignore_types(sysex=False)
