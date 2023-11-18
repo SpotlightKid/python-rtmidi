@@ -110,6 +110,7 @@ before-all = [
     "python3 waf build",
     "python3 waf install",
 ]
+repair-wheel-command = "auditwheel repair --exclude libasound.so.2 --lib-sdir . -w {dest_dir} {wheel}"
 
 [tool.cibuildwheel.macos]
 build = "cp3{8,9,10,11,12}-macosx*"
