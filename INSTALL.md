@@ -50,7 +50,11 @@ architecture.
   If you need JACK support on OS X, you need to compile python-rtmidi yourself
   (see the [macOS] section below for details).
 
-* Linux binary wheels are available for x64_64 and aarch64.
+* Linux binary wheels are available for x64_64 and aarch64 architectures and
+  come with support for ALSA and JACK. They require the `libasound.so.2`
+  library to be installed where the dynamic linker can find it, i.e. somewhere
+  in the standard system library locations, but the come bundled with their own
+  copy of `libjack.so.0` for better compatibility.
 
 
 ## From Source
