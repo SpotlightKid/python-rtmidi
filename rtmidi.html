@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>rtmidi package &#8212; python-rtmidi 1.5.7 documentation</title>
+    <title>rtmidi package &#8212; python-rtmidi 1.5.8 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
     
-    <script src="_static/documentation_options.js?v=2b2ec289"></script>
+    <script src="_static/documentation_options.js?v=c334614b"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="modules.html" title="rtmidi"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">rtmidi</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rtmidi package</a></li> 
       </ul>
@@ -340,7 +340,7 @@ function returns <code class="docutils literal notranslate"><span class="pre">AP
 <dt class="sig sig-object py" id="rtmidi.RtMidiError">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rtmidi.</span></span><span class="sig-name descname"><span class="pre">RtMidiError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.RtMidiError" title="Link to this definition">¶</a></dt>
 <dd><p>Base general RtMidi exception.</p>
-<p>All other exceptions in this module derive form this exception.</p>
+<p>All other exceptions in this module derive from this exception.</p>
 <p>Instances have a <code class="docutils literal notranslate"><span class="pre">type</span></code> attribute that maps to one of the
 <code class="docutils literal notranslate"><span class="pre">ERRORTYPE_*</span></code> constants.</p>
 </dd></dl>
@@ -403,7 +403,7 @@ module-level <code class="docutils literal notranslate"><span class="pre">get_co
 available, will be used.</p>
 <p>You can optionally pass a name for the MIDI client with the <code class="docutils literal notranslate"><span class="pre">name</span></code>
 keyword or the second positional argument. Names with non-ASCII characters
-in them have to be passed as unicode or UTF-8 encoded strings in Python 2.
+in them have to be passed as a (unicode) str or UTF-8 encoded bytes.
 The default name is <code class="docutils literal notranslate"><span class="pre">&quot;RtMidiIn</span> <span class="pre">Client&quot;</span></code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -511,7 +511,7 @@ method.</p>
 by <code class="docutils literal notranslate"><span class="pre">encoding</span></code>. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> (the default), then an
 appropriate encoding is chosen based on the system and the used backend
 API. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the name is returned un-decoded, i.e.
-as type <code class="docutils literal notranslate"><span class="pre">str</span></code> in Python 2 or <code class="docutils literal notranslate"><span class="pre">bytes</span></code> in Python 3.</p>
+as type <code class="docutils literal notranslate"><span class="pre">bytes</span></code>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -523,7 +523,7 @@ as type <code class="docutils literal notranslate"><span class="pre">str</span><
 by <code class="docutils literal notranslate"><span class="pre">encoding</span></code>. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> (the default), then an
 appropriate encoding is chosen based on the system and the used backend
 API. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the names are returned un-decoded,
-i.e. as type <code class="docutils literal notranslate"><span class="pre">str</span></code> in Python 2 or <code class="docutils literal notranslate"><span class="pre">bytes</span></code> in Python 3.</p>
+i.e. as type <code class="docutils literal notranslate"><span class="pre">bytes</span></code>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -577,8 +577,8 @@ port on a <code class="docutils literal notranslate"><span class="pre">MidiIn</s
 (virtual) port.</p>
 <p>You can optionally pass a name for the RtMidi port with the <code class="docutils literal notranslate"><span class="pre">name</span></code>
 keyword or the second positional argument. Names with non-ASCII
-characters in them have to be passed as unicode or UTF-8 encoded
-strings in Python 2. The default name is “RtMidi input” resp. “RtMidi
+characters in them have to be passed as a (unicode) str or UTF-8
+encoded bytes. The default name is “RtMidi input” resp. “RtMidi
 output”.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -622,8 +622,8 @@ ports as an alternative.</p>
 </div>
 <p>You can optionally pass a name for the RtMidi port with the <code class="docutils literal notranslate"><span class="pre">name</span></code>
 keyword or the second positional argument. Names with non-ASCII
-characters in them have to be passed as unicode or UTF-8 encoded
-strings in Python 2. The default name is “RtMidi virtual input” resp.
+characters in them have to be passed as a (unicode) str or UTF-8
+encoded bytes. The default name is “RtMidi virtual input” resp.
 “RtMidi virtual output”.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -670,8 +670,8 @@ or the <code class="docutils literal notranslate"><span class="pre">MidiIn</span
 <dt class="sig sig-object py" id="rtmidi.MidiIn.set_client_name">
 <span class="sig-name descname"><span class="pre">set_client_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.set_client_name" title="Link to this definition">¶</a></dt>
 <dd><p>Set the name of the MIDI client.</p>
-<p>Names with non-ASCII characters in them have to be passed as unicode
-or UTF-8 encoded strings in Python 2.</p>
+<p>Names with non-ASCII characters in them have to be passed as a (unicode)
+str or UTF-8 encoded bytes.</p>
 <p>Currently only supported by the ALSA API backend.</p>
 <p>Exceptions:</p>
 <dl class="simple">
@@ -711,8 +711,8 @@ handler.</p>
 <dt class="sig sig-object py" id="rtmidi.MidiIn.set_port_name">
 <span class="sig-name descname"><span class="pre">set_port_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiIn.set_port_name" title="Link to this definition">¶</a></dt>
 <dd><p>Set the name of the currently opened port.</p>
-<p>Names with non-ASCII characters in them have to be passed as unicode
-or UTF-8 encoded strings in Python 2.</p>
+<p>Names with non-ASCII characters in them have to be passed as a (unicode)
+str or UTF-8 encoded bytes.</p>
 <p>Currently only supported by the ALSA and JACK API backends.</p>
 <p>Exceptions:</p>
 <dl class="simple">
@@ -742,7 +742,7 @@ module-level <code class="docutils literal notranslate"><span class="pre">get_co
 available, will be used.</p>
 <p>You can optionally pass a name for the MIDI client with the <code class="docutils literal notranslate"><span class="pre">name</span></code>
 keyword or the second positional argument. Names with non-ASCII characters
-in them have to be passed as unicode or UTF-8 encoded strings in Python 2.
+in them have to be passed as a (unicode) str or UTF-8 encoded bytes.
 The default name is <code class="docutils literal notranslate"><span class="pre">&quot;RtMidiOut</span> <span class="pre">Client&quot;</span></code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -830,7 +830,7 @@ method.</p>
 by <code class="docutils literal notranslate"><span class="pre">encoding</span></code>. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> (the default), then an
 appropriate encoding is chosen based on the system and the used backend
 API. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the name is returned un-decoded, i.e.
-as type <code class="docutils literal notranslate"><span class="pre">str</span></code> in Python 2 or <code class="docutils literal notranslate"><span class="pre">bytes</span></code> in Python 3.</p>
+as type <code class="docutils literal notranslate"><span class="pre">bytes</span></code>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -842,7 +842,7 @@ as type <code class="docutils literal notranslate"><span class="pre">str</span><
 by <code class="docutils literal notranslate"><span class="pre">encoding</span></code>. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> (the default), then an
 appropriate encoding is chosen based on the system and the used backend
 API. If <code class="docutils literal notranslate"><span class="pre">encoding</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the names are returned un-decoded,
-i.e. as type <code class="docutils literal notranslate"><span class="pre">str</span></code> in Python 2 or <code class="docutils literal notranslate"><span class="pre">bytes</span></code> in Python 3.</p>
+i.e. as type <code class="docutils literal notranslate"><span class="pre">bytes</span></code>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -867,8 +867,8 @@ port on a <code class="docutils literal notranslate"><span class="pre">MidiIn</s
 (virtual) port.</p>
 <p>You can optionally pass a name for the RtMidi port with the <code class="docutils literal notranslate"><span class="pre">name</span></code>
 keyword or the second positional argument. Names with non-ASCII
-characters in them have to be passed as unicode or UTF-8 encoded
-strings in Python 2. The default name is “RtMidi input” resp. “RtMidi
+characters in them have to be passed as a (unicode) str or UTF-8
+encoded bytes. The default name is “RtMidi input” resp. “RtMidi
 output”.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -912,8 +912,8 @@ ports as an alternative.</p>
 </div>
 <p>You can optionally pass a name for the RtMidi port with the <code class="docutils literal notranslate"><span class="pre">name</span></code>
 keyword or the second positional argument. Names with non-ASCII
-characters in them have to be passed as unicode or UTF-8 encoded
-strings in Python 2. The default name is “RtMidi virtual input” resp.
+characters in them have to be passed as a (unicode) str or UTF-8
+encoded bytes. The default name is “RtMidi virtual input” resp.
 “RtMidi virtual output”.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -945,7 +945,7 @@ MultiMedia API, which doesn’t support virtual ports.</p>
 <p>The message must be passed as an iterable yielding integers, each
 element representing one byte of the MIDI message.</p>
 <p>Normal MIDI messages have a length of one to three bytes, but you can
-also send system exclusive messages, which can be arbitrarily long, via
+also send System Exclusive messages, which can be arbitrarily long, via
 this method.</p>
 <p>No check is made whether the passed data constitutes a valid MIDI
 message but if it is longer than 3 bytes, the value of the first byte
@@ -967,8 +967,8 @@ and not a SysEx message.</p>
 <dt class="sig sig-object py" id="rtmidi.MidiOut.set_client_name">
 <span class="sig-name descname"><span class="pre">set_client_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.set_client_name" title="Link to this definition">¶</a></dt>
 <dd><p>Set the name of the MIDI client.</p>
-<p>Names with non-ASCII characters in them have to be passed as unicode
-or UTF-8 encoded strings in Python 2.</p>
+<p>Names with non-ASCII characters in them have to be passed as a (unicode)
+str or UTF-8 encoded bytes.</p>
 <p>Currently only supported by the ALSA API backend.</p>
 <p>Exceptions:</p>
 <dl class="simple">
@@ -1008,8 +1008,8 @@ handler.</p>
 <dt class="sig sig-object py" id="rtmidi.MidiOut.set_port_name">
 <span class="sig-name descname"><span class="pre">set_port_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rtmidi.MidiOut.set_port_name" title="Link to this definition">¶</a></dt>
 <dd><p>Set the name of the currently opened port.</p>
-<p>Names with non-ASCII characters in them have to be passed as unicode
-or UTF-8 encoded strings in Python 2.</p>
+<p>Names with non-ASCII characters in them have to be passed as a (unicode)
+str or UTF-8 encoded bytes.</p>
 <p>Currently only supported by the ALSA and JACK API backends.</p>
 <p>Exceptions:</p>
 <dl class="simple">
@@ -1176,7 +1176,7 @@ port name.</p>
         <li class="right" >
           <a href="modules.html" title="rtmidi"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >rtmidi</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rtmidi package</a></li> 
       </ul>

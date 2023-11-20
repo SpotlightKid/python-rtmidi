@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Installation &#8212; python-rtmidi 1.5.7 documentation</title>
+    <title>Installation &#8212; python-rtmidi 1.5.8 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
     
-    <script src="_static/documentation_options.js?v=2b2ec289"></script>
+    <script src="_static/documentation_options.js?v=c334614b"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="readme.html" title="Welcome to python-rtmidi!"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.8 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Installation</a></li> 
       </ul>
     </div>  
@@ -55,7 +55,7 @@ See the [Requirements] section below for details.</p>
 <h2>From PyPI<a class="headerlink" href="#from-pypi" title="Link to this heading">¶</a></h2>
 <p>If you have all the [requirements], you should be able to install the package
 with <a class="reference external" href="https://pypi.python.org/pypi/pip">pip</a>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ pip install python-rtmidi
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ python -m pip install python-rtmidi
 </pre></div>
 </div>
 <p>This will download a pre-compiled binary wheel from python-rtmidi’s
@@ -63,14 +63,11 @@ with <a class="reference external" href="https://pypi.python.org/pypi/pip">pip</
 If no fitting binary wheel is available, it will download the source
 distribution, compile the extension (downloading all the build tools needed in
 the process) and install it.</p>
-<p><strong>Note:</strong></p>
-<p><em>On some Linux distributions pip may installed under the name <code class="docutils literal notranslate"><span class="pre">pip3</span></code>. In
-this case, just substitute <code class="docutils literal notranslate"><span class="pre">pip3</span></code> for <code class="docutils literal notranslate"><span class="pre">pip</span></code>.</em></p>
 <p>python-rtmidi also works well with <a class="reference external" href="https://pypi.python.org/pypi/virtualenv">virtualenv</a> and <a class="reference external" href="http://www.doughellmann.com/projects/virtualenvwrapper/">virtualenvwrapper</a>. If you
 have both installed, creating an isolated environment for testing and/or using
 python-rtmidi is as easy as:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ mkvirtualenv rtmidi
-(rtmidi)$ pip install python-rtmidi
+(rtmidi)$ python -m pip install python-rtmidi
 </pre></div>
 </div>
 <p>If you want to pass options to the build process, you need to compile
@@ -92,7 +89,11 @@ available for OS X intel (10.9+) and arm64 (aka M1/M2/Apple silicon, 11.0+).</p>
 <p>If you need JACK support on OS X, you need to compile python-rtmidi yourself
 (see the [macOS] section below for details).</p>
 </li>
-<li><p>Linux binary wheels are available for x64_64 and aarch64,</p></li>
+<li><p>Linux binary wheels are available for x64_64 and aarch64 architectures and
+come with support for ALSA and JACK. They require the <code class="docutils literal notranslate"><span class="pre">libasound.so.2</span></code>
+library to be installed where the dynamic linker can find it, i.e. somewhere
+in the standard system library locations, but the come bundled with their own
+copy of <code class="docutils literal notranslate"><span class="pre">libjack.so.0</span></code> for better compatibility.</p></li>
 </ul>
 </section>
 <section id="from-source">
@@ -105,7 +106,7 @@ compilation and installation steps consist of the same commands in both cases.</
 <h3>From the Source Distribution<a class="headerlink" href="#from-the-source-distribution" title="Link to this heading">¶</a></h3>
 <p>To download the python-rtmidi source distribution archive for the current
 version and extract it, use the following commands:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip download python-rtmidi</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m pip download python-rtmidi</span>
 <span class="go">tar -xzf python-rtmidi-1.X.Y.tar.gz</span>
 <span class="go">cd python-rtmidi-1.X.Y</span>
 </pre></div>
@@ -131,7 +132,7 @@ method and install it only for your current user (which <code class="docutils li
 default) or into a virtual environment.</p>
 <p>If you don’t already have the <code class="docutils literal notranslate"><span class="pre">build</span></code> and <code class="docutils literal notranslate"><span class="pre">installer</span></code> Python packages
 installed, install them with:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install build installer</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m pip install build installer</span>
 </pre></div>
 </div>
 <p>Then build and install python-rtmidi:</p>
@@ -158,7 +159,7 @@ Using virtualenv / virtualenvwrapper is strongly recommended in this scenario:</
 </pre></div>
 </div>
 <p>Install meson and ninja and, if neccessary, Cython from PyPI:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(rtmidi)</span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>Cython<span class="w"> </span>meson<span class="w"> </span>ninja
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(rtmidi)</span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>Cython<span class="w"> </span>meson<span class="w"> </span>ninja
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">meson setup --prefix=/usr -Dbuildtype=plain builddir</span>
@@ -357,7 +358,7 @@ installing python-rtmidi in an uncommon or not-yet-covered environment.</p>
         <li class="right" >
           <a href="readme.html" title="Welcome to python-rtmidi!"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">python-rtmidi 1.5.8 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Installation</a></li> 
       </ul>
     </div>
