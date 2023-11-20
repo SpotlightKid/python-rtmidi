@@ -4,6 +4,24 @@ For details and minor changes, please see the [version control log
 messages](https://github.com/SpotlightKid/python-rtmidi/commits/master).
 
 
+## 1.5.8 (2023-11-20)
+
+Fixes:
+
+-   Changed CI build configuration, so that auditwheel no longer puts a copy of
+    libasound in the Linux binary wheels - overriding the system libasound -
+    which prevented the `_rtmidi` extension module shared library from being
+    loaded on systems, where the ALSA plugin library path is not
+    `/usr/lib64/alsa-lib`, specifically on Debian-based distros. (#190)
+-   Replace `pip` with `python -m pip` everywhere in in the installation
+    documentation and fixed some minor typos .
+
+Changes:
+
+-   Removed obsolete Python 2 compatibility code in the `_rtmidi` module and
+    references to Python 2 unicode type in its docstrings.
+
+
 ## 1.5.7 (2023-10-24)
 
 Project infrastructure:
