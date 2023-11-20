@@ -13,7 +13,7 @@ See the [Requirements] section below for details.
 If you have all the [requirements], you should be able to install the package
 with [pip]:
 
-    $ pip install python-rtmidi
+    $ python -m pip install python-rtmidi
 
 This will download a pre-compiled binary wheel from python-rtmidi's
 [PyPI page], if available, and install it in your active Python installation.
@@ -21,17 +21,12 @@ If no fitting binary wheel is available, it will download the source
 distribution, compile the extension (downloading all the build tools needed in
 the process) and install it.
 
-**Note:**
-
-*On some Linux distributions pip may installed under the name `pip3`. In
-this case, just substitute `pip3` for `pip`.*
-
 python-rtmidi also works well with [virtualenv] and [virtualenvwrapper]. If you
 have both installed, creating an isolated environment for testing and/or using
 python-rtmidi is as easy as:
 
     $ mkvirtualenv rtmidi
-    (rtmidi)$ pip install python-rtmidi
+    (rtmidi)$ python -m pip install python-rtmidi
 
 If you want to pass options to the build process, you need to compile
 python-rtmidi from source manually. See the [From Source](#from-source) section
@@ -72,7 +67,7 @@ To download the python-rtmidi source distribution archive for the current
 version and extract it, use the following commands:
 
 ```console
-pip download python-rtmidi
+python -m pip download python-rtmidi
 tar -xzf python-rtmidi-1.X.Y.tar.gz
 cd python-rtmidi-1.X.Y
 ```
@@ -106,7 +101,7 @@ If you don't already have the `build` and `installer` Python packages
 installed, install them with:
 
 ```console
-pip install build installer
+python -m pip install build installer
 ```
 
 Then build and install python-rtmidi:
@@ -141,7 +136,7 @@ mkvirtualenv rtmidi
 Install meson and ninja and, if neccessary, Cython from PyPI:
 
 ```console
-(rtmidi)$ pip install Cython meson ninja
+(rtmidi)$ python -m pip install Cython meson ninja
 ```
 
 ```console

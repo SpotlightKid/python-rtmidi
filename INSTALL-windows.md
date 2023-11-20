@@ -52,13 +52,13 @@ You probably need administrator rights for some or all of the following steps.
 2.  Update pip within your virtual environment to the latest version with:
 
     ```console
-    (rtmidi)> pip install -U pip
+    (rtmidi)> python -m pip install -U pip
     ```
 
 3.  Install build dependencies (still in the same command line window):
 
     ```console
-    (rtmidi)> pip install build installer
+    (rtmidi)> python -m pip install build installer
     ```
 
 ## Download & unpack python-rtmidi source
@@ -68,7 +68,7 @@ Get the latest python-rtmidi distribution as a Zip archive from
 do the downloading and unpacking in one step using pip:
 
 ```console
-pip install --no-install -d . "python-rtmidi"
+python -m pip install --no-install -d . "python-rtmidi"
 ```
 
 Alternatively, clone the python-rtmidi git repository:
