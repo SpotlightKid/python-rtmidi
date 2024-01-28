@@ -58,7 +58,7 @@ file = "LICENSE.md"
 "Documentation" = "https://spotlightkid.github.io/python-rtmidi/"
 "Download" = "https://pypi.python.org/pypi/python-rtmidi"
 "Homepage" = "https://github.com/SpotlightKid/python-rtmidi"
-"Source" = "https://gitlab.com/SpotlightKid/python-rtmidi/"
+"Source" = "https://github.com/SpotlightKid/python-rtmidi/"
 
 [tool.black]
 line-length = 99
