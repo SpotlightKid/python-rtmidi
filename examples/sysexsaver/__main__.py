@@ -45,12 +45,12 @@ class SysexMessage(object):
             raise ValueError("Message too short", data)
         if data[1] == 0:
             self.manufacturer_id = (data[1], data[2], data[3])
-            self.model_id = data[5]
-            self.device_id = data[6]
+            self.device_id = data[5]
+            self.model_id = data[6]
         else:
             self.manufacturer_id = data[1]
-            self.model_id = data[2]
-            self.device_id = data[3]
+            self.device_id = data[2]
+            self.model_id = data[3]
 
         self._data = data
         return self
