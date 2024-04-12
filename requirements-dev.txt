@@ -39,7 +39,7 @@ filelock==3.12.4
     #   virtualenv
 flake8==6.1.0
     # via -r requirements-dev.in
-idna==3.4
+idna==3.7
     # via requests
 imagesize==1.4.1
     # via sphinx
