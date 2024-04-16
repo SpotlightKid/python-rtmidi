@@ -77,6 +77,9 @@ have_semaphore = cpp.has_header('semaphore.h')
 pymod = import('python')
 python = pymod.find_installation(get_option('python'), required: true, pure: false)
 
+have_python_header = cpp.has_header('Python.h',
+    include_directories: include_directories(python.get_path('include')), required: true)
+
 # Generate _rtmidi extension source
 subdir('src')
 
