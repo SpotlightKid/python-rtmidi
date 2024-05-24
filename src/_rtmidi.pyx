@@ -128,10 +128,10 @@ __all__ = (
     'get_compiled_api', 'get_compiled_api_by_name', 'get_rtmidi_version'
 )
 
-cdef extern from "Python.h":
-    void Py_Initialize()
+cdef extern from "py_init.h":
+    void py_init()
 
-Py_Initialize()
+py_init()
 
 # Declarations for RtMidi C++ classes and their methods we use
 
