@@ -15,7 +15,7 @@ authors = [
     { name="Christopher Arndt", email="info@chrisarndt.de" },
 ]
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: MacOS X",
@@ -90,7 +90,6 @@ markers = [
 [tool.cibuildwheel]
 # Switch to using build
 build-frontend = "build"
-skip = "pp*"
 manylinux-x86_64-image = "manylinux_2_28"
 manylinux-aarch64-image = "manylinux_2_28"
 # Run the package tests using `pytest`
@@ -99,7 +98,7 @@ test-command = "pytest -v -m ci {package}/tests"
 
 # Install system library
 [tool.cibuildwheel.linux]
-build = "cp3{8,9,10,11,12}-manylinux*"
+build = ["cp3{9,10,11,12}-manylinux*", "pp3{9,10}-manylinux*"]
 archs = ["auto64"]
 before-all = [
     "dnf -y install alsa-lib-devel alsa-utils",
@@ -113,9 +112,9 @@ before-all = [
 repair-wheel-command = "auditwheel repair --exclude libasound.so.2 --lib-sdir . -w {dest_dir} {wheel}"
 
 [tool.cibuildwheel.macos]
-build = "cp3{8,9,10,11,12}-macosx*"
+build = "cp3{9,10,11,12}-macosx*"
 archs = ["x86_64", "arm64"]
 
 [tool.cibuildwheel.windows]
-build = "cp3{8,9,10,11,12}-win*"
+build = "cp3{9,10,11,12}-win*"
 archs = ["AMD64"]
