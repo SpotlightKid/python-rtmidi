@@ -30,7 +30,9 @@ jobs:
     - name: Upload sdist
       uses: actions/upload-artifact@v4
       with:
+        name: sdist
         path: dist/*.tar.gz
+        compression-level: 0
 
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
@@ -68,7 +70,9 @@ jobs:
     - name: Upload wheels
       uses: actions/upload-artifact@v4
       with:
+        name: bdist-${{ matrix.os }}
         path: wheelhouse/*.whl
+        compression-level: 0
 
   build_arch_wheels:
     name: Build wheels on Linux ${{ matrix.arch }}
@@ -82,7 +86,7 @@ jobs:
       with:
         submodules: true
 
-    - uses: docker/setup-qemu-action@v2
+    - uses: docker/setup-qemu-action@v3
       with:
         platforms: all
 
@@ -98,4 +102,6 @@ jobs:
     - name: Upload wheels
       uses: actions/upload-artifact@v4
       with:
+        name: bdist-linux-${{ matrix.arch }}
         path: wheelhouse/*.whl
+        compression-level: 0
