@@ -68,7 +68,7 @@ jobs:
         compression-level: 0
 
   upload_pypi:
-    needs: [build_arch_wheels, build_wheels, build_sdist]
+    needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
     environment: PyPI release
     if: github.ref == 'refs/heads/develop'
