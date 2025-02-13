@@ -28,11 +28,11 @@ classifiers = [
     "Operating System :: MacOS :: MacOS X",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Multimedia :: Sound/Audio :: MIDI",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
@@ -63,11 +63,11 @@ file = "LICENSE.md"
 [tool.black]
 line-length = 99
 target-version = [
-    "py38",
     "py39",
     "py310",
     "py311",
     "py312",
+    "py313",
 ]
 
 [tool.isort]
@@ -96,10 +96,11 @@ manylinux-aarch64-image = "manylinux_2_28"
 test-requires = "pytest"
 test-command = "pytest -v -m ci {package}/tests"
 
-# Install system library
 [tool.cibuildwheel.linux]
-build = ["cp3{9,10,11,12}-manylinux*", "pp3{9,10}-manylinux*"]
+build = ["cp3{9,10,11,12,13}-manylinux*", "pp3{9,10,11}-manylinux*"]
 archs = ["auto64"]
+enable = ["pypy"]
+# Install system libraries
 before-all = [
     "dnf -y install alsa-lib-devel alsa-utils",
     "curl -o jack2-1.9.22.tar.gz https://codeload.github.com/jackaudio/jack2/tar.gz/refs/tags/v1.9.22",
@@ -112,9 +113,9 @@ before-all = [
 repair-wheel-command = "auditwheel repair --exclude libasound.so.2 --lib-sdir . -w {dest_dir} {wheel}"
 
 [tool.cibuildwheel.macos]
-build = "cp3{9,10,11,12}-macosx*"
+build = "cp3{9,10,11,12,13}-macosx*"
 archs = ["x86_64", "arm64"]
 
 [tool.cibuildwheel.windows]
-build = "cp3{9,10,11,12}-win*"
+build = "cp3{9,10,11,12,13}-win*"
 archs = ["AMD64"]
