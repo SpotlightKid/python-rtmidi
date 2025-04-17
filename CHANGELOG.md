@@ -16,17 +16,17 @@ Project infrastructure:
 -   Updated minimum supported Python version mentioned in readme etc.
 -   Updated latest Python version mentioned in Windows install docs.
 -   Fixed compiler config in meson.build for alternative compilers on
-    Windows (#213, thanks @s0600204.
+    Windows (#213, thanks @s0600204).
 -   Updated dev requirements with `pip-tools` (#215).
 
 Changes:
 
 -   Update rtmidi sub-module's `python-rtmidi` branch to be based on latest
-    HEAD of `master` branch.
+    HEAD of `master` branch (fixes #204).
 
 Fixes / Features:
 
--   Add `set_buffer_size` method to `MidiIn` class (#204).
+-   Add `set_buffer_size` method to `MidiIn` class (fixes #200).
 
 
 ## 1.5.8 (2023-11-20)
