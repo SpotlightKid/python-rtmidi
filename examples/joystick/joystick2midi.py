@@ -75,9 +75,9 @@ try:
     while not done:
         # Possible joystick actions: JOYAXISMOTION, JOYBALLMOTION, JOYBUTTONDOWN,
         # JOYBUTTONUP, JOYHATMOTION
-        for event in pygame.event.get(): # User did something.
-            if event.type == pygame.QUIT: # If user clicked close.
-                done = True # Flag that we are done so we exit this loop.
+        for event in pygame.event.get():  # User did something.
+            if event.type == pygame.QUIT:  # If user clicked close.
+                done = True  # Flag that we are done so we exit this loop.
             elif event.type == pygame.JOYBUTTONUP:
                 print("Joystick button {} released.".format(event.button))
                 if event.button == 2:  # 'X' button
@@ -103,7 +103,6 @@ try:
                 msg = [0xB0 + mapping.ch, mapping.cc, int(mapping.value) & 0x7F]
                 print("SEND: {!r}".format(msg))
                 midiout.send_message(msg)
-
 
         # Limit poll rate to UPDATES_PER_SECOND.
         clock.tick(UPDATES_PER_SECOND)

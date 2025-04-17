@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Send all notes and CCs with all possible values an all 16 channels."""
+"""Send all notes and CCs with all possible values on all 16 channels."""
 
 import argparse
 import logging
@@ -60,12 +60,13 @@ try:
         for chan in channels:
             for note in range(128):
                 log.debug(
-                    f"Sending NOTE ON:  ch={chan+1:02}, note={note:03}, vel={args.velocity:03}"
+                    f"Sending NOTE ON:  ch={chan + 1:02}, note={note:03}, vel={args.velocity:03}"
                 )
                 midiout.send_message([NOTE_ON | chan, note, args.velocity])
                 time.sleep(args.delay)
                 log.debug(
-                    f"Sending NOTE OFF: ch={chan+1:02}, note={note:03}, vel={args.off_velocity:03}"
+                    f"Sending NOTE OFF: ch={chan + 1:02}, "
+                    f"note={note:03}, vel={args.off_velocity:03}"
                 )
                 midiout.send_message([NOTE_OFF | chan, note, args.off_velocity])
                 time.sleep(args.delay)
@@ -73,7 +74,7 @@ try:
         for chan in channels:
             for cc in range(128):
                 for val in range(128):
-                    log.debug(f"Sending CONTROL_CHANGE: ch={chan+1:02}, cc={cc:03}, val={val:03}")
+                    log.debug(f"Sending CONTROL_CHANGE: ch={chan + 1:02}, cc={cc:03}, val={val:03}")
                     midiout.send_message([CONTROL_CHANGE | chan, cc, val])
                     time.sleep(args.delay)
 except (EOFError, KeyboardInterrupt):
