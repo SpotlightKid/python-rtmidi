@@ -4,6 +4,31 @@ For details and minor changes, please see the [version control log
 messages](https://github.com/SpotlightKid/python-rtmidi/commits/master).
 
 
+## 1.6.0 (2025-04-18)
+
+Project infrastructure:
+
+-   Support Python 3.13, drop support for Python 3.8 (#214):
+-   Set minimum required Python version 3.9 in `pyproject.toml`.
+-   Added Python 3.13 to CI builds and removed 3.8.
+-   Added Python 3.13 to classifiers in `pyproject.toml` and removed 3.8.
+-   Added Python 3.13 to `tox.ini` and removed 3.8.
+-   Updated minimum supported Python version mentioned in readme etc.
+-   Updated latest Python version mentioned in Windows install docs.
+-   Fixed compiler config in meson.build for alternative compilers on
+    Windows (#213, thanks @s0600204.
+-   Updated dev requirements with `pip-tools` (#215).
+
+Changes:
+
+-   Update rtmidi sub-module's `python-rtmidi` branch to be based on latest
+    HEAD of `master` branch.
+
+Fixes / Features:
+
+-   Add `set_buffer_size` method to `MidiIn` class (#204).
+
+
 ## 1.5.8 (2023-11-20)
 
 Fixes:

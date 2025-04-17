@@ -19,6 +19,7 @@
 - Benoit Pierre
 - Bruno Enten
 - Marek Szuba
+- s0600204 (GitHub user)
 
 
 ## Testing
