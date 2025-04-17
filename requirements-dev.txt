@@ -4,7 +4,7 @@
 #
 #    pip-compile --no-emit-index-url --strip-extras requirements-dev.in
 #
-alabaster==1.0.0
+alabaster==0.7.16
     # via sphinx
 babel==2.17.0
     # via sphinx
@@ -33,6 +33,8 @@ docutils==0.21.2
     #   myst-parser
     #   sphinx
     #   sphinx-rtd-theme
+exceptiongroup==1.2.2
+    # via pytest
 filelock==3.17.0
     # via
     #   tox
@@ -43,9 +45,13 @@ idna==3.10
     # via requests
 imagesize==1.4.1
     # via sphinx
+importlib-metadata==8.6.1
+    # via
+    #   build
+    #   sphinx
 iniconfig==2.0.0
     # via pytest
-jinja2==3.1.5
+jinja2==3.1.6
     # via
     #   myst-parser
     #   sphinx
@@ -61,7 +67,7 @@ mdit-py-plugins==0.4.2
     # via myst-parser
 mdurl==0.1.2
     # via markdown-it-py
-myst-parser==4.0.0
+myst-parser==3.0.1
     # via -r requirements-dev.in
 packaging==24.2
     # via
@@ -104,7 +110,7 @@ snowballstemmer==2.2.0
     # via
     #   pydocstyle
     #   sphinx
-sphinx==8.1.3
+sphinx==7.4.7
     # via
     #   -r requirements-dev.in
     #   myst-parser
@@ -126,14 +132,28 @@ sphinxcontrib-qthelp==2.0.0
     # via sphinx
 sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
+tomli==2.2.1
+    # via
+    #   build
+    #   pip-tools
+    #   pyproject-api
+    #   pytest
+    #   sphinx
+    #   tox
 tox==4.24.1
     # via -r requirements-dev.in
+typing-extensions==4.13.2
+    # via
+    #   myst-parser
+    #   tox
 urllib3==2.3.0
     # via requests
 virtualenv==20.29.1
     # via tox
 wheel==0.45.1
     # via pip-tools
+zipp==3.21.0
+    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
