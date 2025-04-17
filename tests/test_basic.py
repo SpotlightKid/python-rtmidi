@@ -53,7 +53,7 @@ class BasicTest(unittest.TestCase):
     def test_get_rtmidi_version(self):
         version = rtmidi.get_rtmidi_version()
         self.assertTrue(isinstance(version, str))
-        self.assertEqual(version, '5.0.0')
+        self.assertEqual(version, '6.0.0')
 
     def test_nondummy_api_present(self):
         # Make sure at least one actual API has been compiled
