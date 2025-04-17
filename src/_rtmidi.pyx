@@ -194,6 +194,7 @@ cdef extern from "RtMidi.h":
         double getMessage(vector[unsigned char] *message) except *
         void ignoreTypes(bool midiSysex, bool midiTime, bool midiSense) except *
         void setCallback(RtMidiCallback callback, void *data) except *
+        void setBufferSize(unsigned int size, unsigned int count) except *
 
     cdef cppclass RtMidiOut(RtMidi):
         Api RtMidiOut(Api rtapi, string clientName) except +
@@ -923,14 +924,8 @@ cdef class MidiIn(MidiBase):
         buffer overflows.
 
         **Windows note:** the Windows Multi Media API uses fixed size buffers
-        for the reception of sysex messages, whose number and size is set at
-        compile time. Sysex messages longer than the buffer size can not be
-        received properly when using the Windows Multi Media API.
-
-        The default distribution of python-rtmidi sets the number of sysex
-        buffers to four and the size of each to 8192 bytes. To change these
-        values, edit the ``RT_SYSEX_BUFFER_COUNT`` and ``RT_SYSEX_BUFFER_SIZE``
-        preprocessor defines in ``RtMidi.cpp`` and recompile.
+        for the reception of sysex messages. You can change the number and
+        size of the buffers with the ``set_buffer_size`` method.
 
         """
         self.thisptr.ignoreTypes(sysex, timing, active_sense)
@@ -959,6 +954,10 @@ cdef class MidiIn(MidiBase):
 
         self._callback = (func, data)
         self.thisptr.setCallback(&_cb_func, <void *>self._callback)
+
+    def set_buffer_size(self, size, count):
+        """Set the size and number of MIDI input buffers."""
+        self.thisptr.setBufferSize(size, count)
 
 
 cdef class MidiOut(MidiBase):

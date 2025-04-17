@@ -120,6 +120,10 @@ class VirtualPortsSupportedTests:
         time.sleep(self.DELAY)
         self.assertEqual(messages, [])
 
+    def test_set_buffer_size(self):
+        self.midi_in.set_buffer_size(1024, 4)
+        self.test_callback()
+
     def set_up_loopback(self):
         # TODO: find better solution than this hack-ish strategy to find out
         # the port number of the virtual output port, which we have to use,
