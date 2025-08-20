@@ -55,7 +55,7 @@ elif host_machine.system().to_lower() == 'darwin'
     # API
     coremidi_dep = dependency(
         'appleframeworks',
-        modules: ['coreaudio', 'coremidi', 'foundation'],
+        modules: ['CoreAudio', 'CoreMIDI', 'Foundation'],
         required: jack_not_found
     )
     alsa_dep = disabler()
