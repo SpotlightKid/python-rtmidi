@@ -70,7 +70,7 @@ def list_available_ports(ports=None, midiio=None):
     """List MIDI ports given or available on given MIDI I/O instance."""
     if ports is None:
         ports = midiio.get_ports()
-        type_ = " input" if isinstance(midiio, rtmidi.MidiIn) else " ouput"
+        type_ = " input" if isinstance(midiio, rtmidi.MidiIn) else " output"
     else:
         type_ = ''
 
