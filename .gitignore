@@ -1,6 +1,10 @@
 # Python bytecode
 *.py[cod]
 __pycache__
+.python-version
+
+# UV
+uv.lock
 
 # Cython output
 src/_rtmidi.cpp
@@ -51,3 +55,6 @@ rtmidi/version.py
 
 # Geany project
 python-rtmidi.geany
+
+# Darwin
+.DS_Store

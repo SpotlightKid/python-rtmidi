@@ -10,29 +10,28 @@ jobs:
     name: Build sdist
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
 
-    - uses: actions/checkout@v4
-      with:
-        submodules: true
+      - name: Install ninja
+        run: pipx install ninja
 
-    - name: Install ninja
-      run: pipx install ninja
+      - name: Install alsa deps
+        run: sudo apt-get install libasound2-dev
 
-    - name: Install alsa deps
-      run: sudo apt-get install libasound2-dev
+      - name: Build sdist
+        run: pipx run build --sdist
 
-    - name: Build sdist
-      run: pipx run build --sdist
+      - name: Check metadata
+        run: pipx run twine check --strict dist/*
 
-    - name: Check metadata
-      run: pipx run twine check --strict dist/*
-
-    - name: Upload sdist
-      uses: actions/upload-artifact@v4
-      with:
-        name: sdist
-        path: dist/*.tar.gz
-        compression-level: 0
+      - name: Upload sdist
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdist
+          path: dist/*.tar.gz
+          compression-level: 0
 
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
@@ -42,30 +41,29 @@ jobs:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm, windows-latest, macos-latest]
     steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
 
-    - uses: actions/checkout@v4
-      with:
-        submodules: true
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: matrix.os == 'windows-latest'
 
-    - uses: ilammy/msvc-dev-cmd@v1
-      if: matrix.os == 'windows-latest'
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.22
+        env:
+          # Skip trying to test arm64 builds on Intel Macs
+          CIBW_TEST_SKIP: "*-macosx_arm64 *-macosx_universal2:arm64"
 
-    - name: Build wheels
-      uses: pypa/cibuildwheel@v2.22
-      env:
-        # Skip trying to test arm64 builds on Intel Macs
-        CIBW_TEST_SKIP: "*-macosx_arm64 *-macosx_universal2:arm64"
+      - name: Verify clean directory
+        run: git diff --exit-code
+        shell: bash
 
-    - name: Verify clean directory
-      run: git diff --exit-code
-      shell: bash
-
-    - name: Upload wheels
-      uses: actions/upload-artifact@v4
-      with:
-        name: bdist-${{ matrix.os }}
-        path: wheelhouse/*.whl
-        compression-level: 0
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        with:
+          name: bdist-${{ matrix.os }}
+          path: wheelhouse/*.whl
+          compression-level: 0
 
   upload_pypi:
     needs: [build_wheels, build_sdist]
@@ -73,17 +71,16 @@ jobs:
     environment: PyPI release
     if: github.ref == 'refs/heads/develop'
     steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
 
-    - uses: actions/download-artifact@v4
-      with:
-        path: dist
-        merge-multiple: true
-
-    - name: Publish distribution to Test PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        skip_existing: true
-        user: __token__
-        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-        repository_url: https://test.pypi.org/legacy/
-        verify-metadata: false
+      - name: Publish distribution to Test PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip_existing: true
+          user: __token__
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
+          verify-metadata: false

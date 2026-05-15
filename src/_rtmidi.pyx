@@ -320,10 +320,11 @@ class NoDevicesError(SystemError):
     type = ERR_NO_DEVICES_FOUND
 
 
-class UnsupportedOperationError(RtMidiError, RuntimeError):
+class UnsupportedOperationError(RtMidiError, NotImplementedError):
     """Raised if a method is not supported by the low-level API.
 
-    Also derives from ``RuntimeError``.
+    Also derives from ``NotImplementedError`` (which itself is a subclass of
+    ``RuntimeError``), so existing code catching ``RuntimeError`` is unaffected.
 
     """
     pass

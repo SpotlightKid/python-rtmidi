@@ -22,10 +22,10 @@ class TestDelete(unittest.TestCase):
         print("output ports initially:")
         print(ports_init)
 
-        if midiin_ports:
-            self.midiin.open_port(0)
-        else:
-            self.midiin.open_virtual_port("My virtual output")
+        # Always use a virtual port so a new port is guaranteed to appear in the list.
+        # Opening a real port does not add to the port count, which breaks the +1 assertion
+        # on macOS where system MIDI ports already exist.
+        self.midiin.open_virtual_port("My virtual output")
 
         ports_before = self.midiout.get_ports()
 
@@ -50,10 +50,10 @@ class TestDelete(unittest.TestCase):
         print("Input ports initially:")
         print(ports_init)
 
-        if midiout_ports:
-            self.midiout.open_port(0)
-        else:
-            self.midiout.open_virtual_port("My virtual output")
+        # Always use a virtual port so a new port is guaranteed to appear in the list.
+        # Opening a real port does not add to the port count, which breaks the +1 assertion
+        # on macOS where system MIDI ports already exist.
+        self.midiout.open_virtual_port("My virtual output")
 
         ports_before = self.midiin.get_ports()
 
