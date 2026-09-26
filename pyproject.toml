@@ -33,6 +33,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Multimedia :: Sound/Audio :: MIDI",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
@@ -97,9 +98,9 @@ test-requires = "pytest"
 test-command = "pytest -v -m ci {package}/tests"
 
 [tool.cibuildwheel.linux]
-build = ["cp3{9,10,11,12,13}-manylinux*", "pp3{9,10,11}-manylinux*"]
+build = ["cp3{9,10,11,12,13,14}-manylinux*", "pp3{9,10,11}-manylinux*"]
 archs = ["auto64"]
-enable = ["pypy"]
+enable = ["pypy", "pypy-eol"]
 # Install system libraries
 before-all = [
     "dnf -y install alsa-lib-devel alsa-utils",
@@ -113,9 +114,9 @@ before-all = [
 repair-wheel-command = "auditwheel repair --exclude libasound.so.2 --lib-sdir . -w {dest_dir} {wheel}"
 
 [tool.cibuildwheel.macos]
-build = "cp3{9,10,11,12,13}-macosx*"
+build = "cp3{9,10,11,12,13,14}-macosx*"
 archs = ["x86_64", "arm64"]
 
 [tool.cibuildwheel.windows]
-build = "cp3{9,10,11,12,13}-win*"
+build = "cp3{9,10,11,12,13,14}-win*"
 archs = ["AMD64"]
