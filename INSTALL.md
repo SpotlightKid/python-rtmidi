@@ -127,7 +127,7 @@ build tools are installed.
 
 If you are installing from a Git repository checkout, since this does not
 include the C++ module source code pre-compiled from the Cython source, you'll
-also need to install Cython >= 0.29, either via pip or from its Git repository.
+also need to install Cython >= 3.1, either via pip or from its Git repository.
 Using virtualenv / virtualenvwrapper is strongly recommended in this scenario:
 
 Make a virtual environment:

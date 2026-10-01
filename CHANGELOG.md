@@ -4,6 +4,46 @@ For details and minor changes, please see the [version control log
 messages](https://github.com/SpotlightKid/python-rtmidi/commits/master).
 
 
+## Unreleased
+
+Features:
+
+-   Support free-threaded Python builds (3.13t and later): importing `rtmidi`
+    no longer re-enables the GIL. Calls on one `MidiIn` / `MidiOut` instance
+    are serialized, on every build; see "Threads" in the usage docs.
+-   `delete()` may be called while another thread is in a call on the same
+    instance; the C++ instance is destroyed when that call returns. Calling
+    it from the instance's own input callback raises `InvalidUseError`.
+
+Changes:
+
+-   While `MidiIn.close_port()` waits for the input thread, `get_message()`
+    from another thread returns `None` and other calls on the instance raise
+    `InvalidUseError`.
+
+Fixes:
+
+-   Deleting the last reference to a `MidiIn` / `MidiOut` instance never
+    freed the C++ instance (since 1.4.1), so its MIDI client and ports stayed
+    open, and a `MidiIn` input thread kept running and could call a freed
+    callback when a message arrived. If the last reference goes away in the
+    instance's own input callback, the C++ instance is destroyed on another
+    thread.
+-   `MidiIn.close_port()` (and deleting a `MidiIn`) could deadlock when a
+    message arrived for the input callback at the same moment.
+-   `MidiIn` / `MidiOut` instances no longer form a reference cycle with
+    their error callback, so `del` frees them without the garbage collector.
+-   Methods called after `delete()` raise `InvalidUseError` instead of
+    crashing; `close_port()` and `delete()` do nothing then. Calls that were
+    in progress in other threads no longer use the freed C++ instance.
+-   Replacing a callback with `set_callback()` while messages arrive could
+    call a freed callback.
+
+Project infrastructure:
+
+-   Building from the Cython source requires Cython >= 3.1.
+
+
 ## 1.6.0 (2025-04-18)
 
 Project infrastructure:

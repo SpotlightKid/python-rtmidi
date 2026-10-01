@@ -1,6 +1,7 @@
 # cython: embedsignature = True
 # cython: language_level = 3
 # cython: show_performance_hints = False
+# cython: freethreading_compatible = True
 # distutils: language = c++
 #
 # rtmidi.pyx
@@ -109,6 +110,8 @@ the `RtMidi API reference`_.
 import sys
 import warnings
 
+cimport cython
+from cpython.ref cimport PyObject
 from libcpp cimport bool
 from libcpp.string cimport string
 from libcpp.vector cimport vector
@@ -177,7 +180,9 @@ cdef extern from "RtMidi.h":
                                          void *userData) except * with gil
 
     cdef cppclass RtMidi:
-        void closePort() except *
+        # nogil: MidiIn.close_port() calls it without the GIL / an attached
+        # thread state, because it waits for the input thread (see there).
+        void closePort() except * nogil
         unsigned int getPortCount() except *
         string getPortName(unsigned int portNumber) except *
         void openPort(unsigned int portNumber, string &portName) except *
@@ -204,19 +209,100 @@ cdef extern from "RtMidi.h":
 
 # internal functions
 
+cdef extern from *:
+    """
+    /* The MidiIn whose input callback is running on this thread, if any. */
+    static thread_local void *rtmidi_callback_owner = NULL;
+
+    /* Destroys a RtMidiIn on a new thread (the thread that runs this does not
+       need a Python thread state); -1 if the thread could not be started. */
+    static void rtmidi_destroy_midiin_thread(void *ptr) {
+        delete static_cast<RtMidiIn *>(ptr);
+    }
+
+    static int rtmidi_destroy_midiin_later(RtMidiIn *ptr) {
+        return PyThread_start_new_thread(rtmidi_destroy_midiin_thread, ptr)
+            == (unsigned long)-1 ? -1 : 0;
+    }
+
+    /* Replaces the tp_clear slot of a GC type that has none; see MidiBase.
+       Returns 0 where the slot cannot be set (limited API, not CPython). */
+    static int rtmidi_set_tp_clear(PyObject *type, int (*clear)(PyObject *)) {
+    #if CYTHON_COMPILING_IN_CPYTHON && !CYTHON_COMPILING_IN_LIMITED_API
+        PyTypeObject *tp = (PyTypeObject *)type;
+
+        if (!PyType_HasFeature(tp, Py_TPFLAGS_HAVE_GC) || tp->tp_traverse == NULL)
+            return 0;
+
+        tp->tp_clear = clear;
+        return 1;
+    #else
+        return 0;
+    #endif
+    }
+    """
+    void *rtmidi_callback_owner
+    int rtmidi_destroy_midiin_later(RtMidiIn *ptr)
+    int rtmidi_set_tp_clear(PyObject *type, int (*clear)(PyObject *) noexcept)
+
+
 cdef void _cb_func(double delta_time, vector[unsigned char] *msg_v,
                    void *cb_info) except * with gil:
-    """Wrapper for a Python callback function for MIDI input."""
-    func, data = (<object> cb_info)
+    """Wrapper for a Python callback function for MIDI input.
+
+    Runs on the backend's input thread. ``cb_info`` is the ``MidiIn``
+    instance, borrowed: its deallocator stops this thread before the instance
+    goes away, so no reference is taken here (taking one while the instance is
+    being deallocated on another thread would corrupt its reference count).
+
+    """
+    global rtmidi_callback_owner
+    cdef void *outer_owner
+
+    if cb_info == NULL:
+        # RtMidi read its user data while cancelCallback() was resetting it.
+        return
+
+    callback = (<MidiIn> cb_info)._get_callback()
+
+    if callback is None:
+        # The callback was cancelled while this message was in flight.
+        return
+
+    func, data = callback
     message = [msg_v.at(i) for i in range(msg_v.size())]
-    func((message, delta_time), data)
+    outer_owner = rtmidi_callback_owner
+    rtmidi_callback_owner = cb_info
+
+    try:
+        func((message, delta_time), data)
+    finally:
+        # These may be the last references to the instance (the garbage
+        # collector can clear its callbacks while this thread has picked one
+        # up). Release them while still marked as the instance's input thread,
+        # so that its deallocation does not wait for this thread.
+        callback = func = data = None
+        rtmidi_callback_owner = outer_owner
 
 
 cdef void _cb_error_func(ErrorType errorType, const string &errorText,
                          void *cb_info) except * with gil:
-    """Wrapper for a Python callback function for errors."""
-    func, data, decoder = (<object> cb_info)
-    func(errorType, decoder(errorText), data)
+    """Wrapper for a Python callback function for errors.
+
+    Called synchronously by the C++ method that hit the error, on the thread
+    that called it, which holds a reference to the ``MidiIn`` / ``MidiOut``
+    instance passed as ``cb_info``.
+
+    """
+    midi = <MidiBase> cb_info
+    callback = midi._get_error_callback()
+
+    if callback is None:
+        # Deleted while the call that hit the error was in progress.
+        return
+
+    func, data = callback
+    func(errorType, midi._decode_string(errorText), data)
 
 
 def _to_bytes(name):
@@ -424,13 +510,143 @@ def _default_error_handler(etype, msg, data=None):
     raise RtMidiError(msg, type=etype)
 
 
+# Thread safety
+# -------------
+#
+# Every public method of ``MidiIn`` / ``MidiOut`` runs in a critical section on
+# the instance (``@cython.critical_section``). On a free-threaded build that
+# serializes calls on one instance the way the GIL does on a regular build;
+# there, it compiles to nothing. Calls on different instances run in parallel.
+#
+# Like the GIL, a critical section is released while its thread blocks, e.g.
+# in an error callback. So methods that use the C++ instance bracket that with
+# ``_enter()`` / ``_exit()``, which count the calls in progress: ``delete()``
+# leaves the C++ instance to the last of them to free.
+#
+# The callbacks are passed to RtMidi as the instance itself and the Python
+# callable is read under ``_cb_lock``, which is only ever held to read or swap
+# the stored reference; so replacing a callback cannot free what the input
+# thread is about to call, and the input thread never waits for the critical
+# section.
+#
+# ``MidiIn.close_port()`` and the C++ destructor (``MidiIn.delete()``,
+# ``__dealloc__``) wait for the input thread to stop, and that thread may be
+# waiting to run a callback. So they wait without the GIL (regular build) or
+# with the thread state detached (free-threaded build). While ``close_port()``
+# waits, other calls on the instance raise ``InvalidUseError`` (or, for
+# ``get_message()``, return ``None``). Neither can be done by the input thread
+# itself: ``delete()`` raises there, and a deallocation there leaves the
+# destruction to another thread (``rtmidi_callback_owner`` tells).
+#
+# Garbage collection: the callbacks can be part of a reference cycle (e.g.
+# ``midiin.set_callback(func, midiin)``), which the garbage collector must be
+# able to break. Cython's generated ``tp_clear`` would store to the callback
+# fields without ``_cb_lock``, racing with the input thread, which reads them
+# under it (on a free-threaded build the collector runs while other threads
+# do). So the classes are ``no_gc_clear``, which makes Cython generate no
+# ``tp_clear`` (``tp_traverse`` stays), and ``_install_gc_clear()`` sets
+# ``_gc_clear`` as their ``tp_clear`` at import. That drops the callbacks the
+# way ``_swap_callback()`` replaces them: under ``_cb_lock``, releasing the old
+# references after it. The input thread either got a callback before (and
+# holds its own references, which keep the instance alive) or finds ``None``.
+# Python subclasses reach it through ``subtype_clear``. Only unreachable
+# instances are cleared, so no method call on one is in progress: callers hold
+# a reference to it. The exception is the input thread, which is handed the
+# instance without one: it may pick up a callback after the collector found
+# the instance unreachable and before it clears it. The thread then holds the
+# last references to the instance, so ``_cb_func`` releases them before it
+# stops being the instance's ``rtmidi_callback_owner``, and
+# ``MidiIn.__dealloc__`` leaves the destruction of the C++ instance to another
+# thread if it runs on the input thread anyway.
+#
+# Where ``tp_clear`` cannot be set (limited API, not CPython), the classes
+# keep Cython's no_gc_clear behavior: cycles through callbacks are only broken
+# by ``close_port()`` and ``delete()``.
+
+@cython.no_gc_clear
 cdef class MidiBase:
     cdef object _port
     cdef object _error_callback
-    cdef object _deleted
+    cdef bint _deleted
+    cdef Api _api  # fixed when the C++ instance is created
+    cdef cython.pymutex _cb_lock
+    # Calls in progress that use the C++ instance (see _enter()), and the C++
+    # instance that delete() left for the last of them to free.
+    cdef int _calls
+    cdef RtMidi *_doomed
+    # True while MidiIn.close_port() waits for the input thread without the
+    # critical section (see there).
+    cdef bint _closing
 
-    cdef RtMidi* baseptr(self):
+    cdef RtMidi* baseptr(self) noexcept:
+        # The C++ instance, NULL once deleted.
         return NULL
+
+    cdef void _forget_ptr(self) noexcept:
+        pass
+
+    cdef void _destroy(self, RtMidi *ptr) noexcept nogil:
+        # Deletes through the concrete type (RtMidi's destructor is protected).
+        pass
+
+    cdef RtMidi* _enter(self) except NULL:
+        # Call with the critical section on self held; pair with _exit().
+        if self._deleted:
+            raise InvalidUseError("%r has been deleted." % self)
+        if self._closing:
+            raise InvalidUseError("%r is closing its port." % self)
+
+        self._calls += 1
+        return self.baseptr()
+
+    cdef void _exit(self) noexcept:
+        # Call with the critical section on self held.
+        cdef RtMidi *ptr = self._doomed
+        self._calls -= 1
+
+        # Not on the input thread of this instance: see _delete().
+        if self._calls == 0 and ptr != NULL and rtmidi_callback_owner != <void *>self:
+            self._doomed = NULL
+            self._free(ptr)
+
+    cdef int _delete(self) except -1:
+        cdef RtMidi *ptr
+
+        with cython.critical_section(self):
+            if self._deleted:
+                return 0
+
+            if rtmidi_callback_owner == <void *>self:
+                # The destructor would stop and join the thread running this.
+                raise InvalidUseError("%r cannot be deleted from its own input "
+                                      "callback." % self)
+
+            ptr = self.baseptr()
+            self._forget_ptr()
+            self._deleted = True
+
+            if self._calls:
+                self._doomed = ptr
+                return 0
+
+        self._free(ptr)
+        return 0
+
+    cdef void _free(self, RtMidi *ptr) noexcept:
+        # The destructor stops the input thread, which may be waiting to run a
+        # callback, so let it run.
+        with nogil:
+            self._destroy(ptr)
+
+        # They may be part of a reference cycle.
+        self._drop_callbacks()
+
+    cdef void _drop_callbacks(self) noexcept:
+        self._swap_error_callback(None)
+
+    cdef object _get_error_callback(self):
+        with self._cb_lock:
+            return self._error_callback
 
     # context management
     def __enter__(self):
@@ -470,7 +686,7 @@ cdef class MidiBase:
         """
         self.close_port()
 
-    def _check_port(self):
+    cdef str _check_port(self):
         inout = "input" if isinstance(self, MidiIn) else "output"
         if self._port == -1:
             raise InvalidUseError("%r already opened virtual %s port." %
@@ -480,12 +696,12 @@ cdef class MidiBase:
                                   (self, inout, self._port))
         return inout
 
-    def _decode_string(self, s, encoding='auto'):
+    cdef object _decode_string(self, s, encoding='auto'):
         """Decode given byte string with given encoding."""
         if encoding == 'auto':
             if sys.platform.startswith('win'):
                 encoding = 'latin1'
-            elif (self.get_current_api() == API_MACOSX_CORE and
+            elif (self._api == API_MACOSX_CORE and
                   sys.platform == 'darwin'):
                 encoding = 'macroman'
             else:
@@ -493,10 +709,17 @@ cdef class MidiBase:
 
         return s.decode(encoding, "ignore")
 
+    @cython.critical_section
     def get_port_count(self):
         """Return the number of available MIDI input or output ports."""
-        return self.baseptr().getPortCount()
+        cdef RtMidi *ptr = self._enter()
 
+        try:
+            return ptr.getPortCount()
+        finally:
+            self._exit()
+
+    @cython.critical_section
     def get_port_name(self, unsigned int port, encoding='auto'):
         """Return the name of the MIDI input or output port with given number.
 
@@ -511,7 +734,13 @@ cdef class MidiBase:
         as type ``bytes``.
 
         """
-        cdef string name = self.baseptr().getPortName(port)
+        cdef RtMidi *ptr = self._enter()
+        cdef string name
+
+        try:
+            name = ptr.getPortName(port)
+        finally:
+            self._exit()
 
         if len(name):
             return self._decode_string(name, encoding) if encoding else name
@@ -531,6 +760,7 @@ cdef class MidiBase:
         return [self.get_port_name(p, encoding=encoding)
                 for p in range(self.get_port_count())]
 
+    @cython.critical_section
     def is_port_open(self):
         """Return ``True`` if a port has been opened and ``False`` if not.
 
@@ -542,6 +772,7 @@ cdef class MidiBase:
         """
         return self._port is not None
 
+    @cython.critical_section
     def open_port(self, unsigned int port=0, name=None):
         """Open the MIDI input or output port with the given port number.
 
@@ -579,10 +810,17 @@ cdef class MidiBase:
         if name is None:
             name = "RtMidi %s" % inout
 
-        self.baseptr().openPort(port, _to_bytes(name))
+        cdef RtMidi *ptr = self._enter()
+
+        try:
+            ptr.openPort(port, _to_bytes(name))
+        finally:
+            self._exit()
+
         self._port = port
         return self
 
+    @cython.critical_section
     def open_virtual_port(self, name=None):
         """Open a virtual MIDI input or output port.
 
@@ -634,13 +872,19 @@ cdef class MidiBase:
         .. _loopmidi: http://www.tobias-erichsen.de/software/loopmidi.html
 
         """
-        if self.get_current_api() == API_WINDOWS_MM:
+        if self._api == API_WINDOWS_MM:
             raise NotImplementedError("Virtual ports are not supported "
                                       "by the Windows MultiMedia API.")
 
         inout = self._check_port()
-        self.baseptr().openVirtualPort(_to_bytes(("RtMidi virtual %s" % inout)
-                                                if name is None else name))
+        cdef RtMidi *ptr = self._enter()
+
+        try:
+            ptr.openVirtualPort(_to_bytes(("RtMidi virtual %s" % inout)
+                                          if name is None else name))
+        finally:
+            self._exit()
+
         self._port = -1
         return self
 
@@ -656,10 +900,23 @@ cdef class MidiBase:
         delete its ``MidiIn`` or ``MidiOut`` instance.
 
         """
-        if self._port != -1:
-            self._port = None
-        self.baseptr().closePort()
+        cdef RtMidi *ptr
 
+        with cython.critical_section(self):
+            if self._deleted:
+                return
+
+            if self._port != -1:
+                self._port = None
+
+            ptr = self._enter()
+
+            try:
+                ptr.closePort()
+            finally:
+                self._exit()
+
+    @cython.critical_section
     def set_client_name(self, name):
         """Set the name of the MIDI client.
 
@@ -678,12 +935,18 @@ cdef class MidiBase:
             client name.
 
         """
-        if self.get_current_api() in (API_MACOSX_CORE, API_UNIX_JACK, API_WINDOWS_MM):
+        if self._api in (API_MACOSX_CORE, API_UNIX_JACK, API_WINDOWS_MM):
             raise NotImplementedError(
                 "API backend does not support changing the client name.")
 
-        self.baseptr().setClientName(_to_bytes(name))
+        cdef RtMidi *ptr = self._enter()
 
+        try:
+            ptr.setClientName(_to_bytes(name))
+        finally:
+            self._exit()
+
+    @cython.critical_section
     def set_port_name(self, name):
         """Set the name of the currently opened port.
 
@@ -704,15 +967,21 @@ cdef class MidiBase:
             port name.
 
         """
-        if self.get_current_api() in (API_MACOSX_CORE, API_WINDOWS_MM):
+        if self._api in (API_MACOSX_CORE, API_WINDOWS_MM):
             raise UnsupportedOperationError(
                 "API backend does not support changing the port name.")
 
         if self._port is None:
             raise InvalidUseError("No port currently opened.")
 
-        self.baseptr().setPortName(_to_bytes(name))
+        cdef RtMidi *ptr = self._enter()
 
+        try:
+            ptr.setPortName(_to_bytes(name))
+        finally:
+            self._exit()
+
+    @cython.critical_section
     def set_error_callback(self, func, data=None):
         """Register a callback function for errors.
 
@@ -736,9 +1005,21 @@ cdef class MidiBase:
         handler.
 
         """
-        self._error_callback = (func, data, self._decode_string)
-        self.baseptr().setErrorCallback(&_cb_error_func,
-                                        <void *>self._error_callback)
+        cdef RtMidi *ptr = self._enter()
+
+        try:
+            # Released at the end, after the C++ call.
+            old = self._swap_error_callback((func, data))
+            ptr.setErrorCallback(&_cb_error_func, <void *>self)
+        finally:
+            self._exit()
+
+    cdef object _swap_error_callback(self, callback):
+        # Returns the old callback, so that it is released after _cb_lock is.
+        with self._cb_lock:
+            old = self._error_callback
+            self._error_callback = callback
+        return old
 
     def cancel_error_callback(self):
         """Remove the registered callback function for errors.
@@ -750,6 +1031,7 @@ cdef class MidiBase:
         self.set_error_callback(_default_error_handler)
 
 
+@cython.no_gc_clear
 cdef class MidiIn(MidiBase):
     """Midi input client interface.
 
@@ -794,8 +1076,30 @@ cdef class MidiIn(MidiBase):
     cdef RtMidiIn *thisptr
     cdef object _callback
 
-    cdef RtMidi* baseptr(self):
+    cdef RtMidi* baseptr(self) noexcept:
         return self.thisptr
+
+    cdef void _forget_ptr(self) noexcept:
+        self.thisptr = NULL
+
+    cdef void _destroy(self, RtMidi *ptr) noexcept nogil:
+        cdef RtMidiIn *midiin = <RtMidiIn *>ptr
+        del midiin
+
+    cdef void _drop_callbacks(self) noexcept:
+        MidiBase._drop_callbacks(self)
+        self._swap_callback(None)
+
+    cdef object _get_callback(self):
+        with self._cb_lock:
+            return self._callback
+
+    cdef object _swap_callback(self, callback):
+        # Returns the old callback, so that it is released after _cb_lock is.
+        with self._cb_lock:
+            old = self._callback
+            self._callback = callback
+        return old
 
     def __cinit__(self, Api rtapi=UNSPECIFIED, name=None,
                   unsigned int queue_size_limit=1024):
@@ -812,10 +1116,11 @@ cdef class MidiIn(MidiBase):
         except RuntimeError as exc:
             raise SystemError(str(exc), type=ERR_DRIVER_ERROR)
 
-        self.set_error_callback(_default_error_handler)
+        self._api = self.thisptr.getCurrentApi()
         self._callback = None
         self._port = None
         self._deleted = False
+        self.set_error_callback(_default_error_handler)
 
     def get_current_api(self):
         """Return the low-level MIDI backend API used by this instance.
@@ -829,33 +1134,61 @@ cdef class MidiIn(MidiBase):
                 print("Using JACK API for MIDI input.")
 
         """
-        return self.thisptr.getCurrentApi()
+        return self._api
 
     def __dealloc__(self):
         """De-allocate pointer to C++ class instance."""
-        if hasattr(self, "thisptr"):
-            del self.thisptr
+        cdef RtMidi *ptr = self._doomed if self.thisptr == NULL else <RtMidi *>self.thisptr
+
+        if ptr == NULL:
+            return
+
+        if rtmidi_callback_owner == <void *>self:
+            # The last reference went away in this instance's own input
+            # callback, and the destructor cannot stop the thread it runs on.
+            # So stop the thread from calling into this instance (and its
+            # error callback, which the destructor may call) and destroy the
+            # C++ instance on another thread, which waits for this one. If no
+            # thread can be started, it is leaked.
+            self._swap_error_callback(None)
+
+            try:
+                (<RtMidiIn *>ptr).cancelCallback()
+            except BaseException:
+                pass
+
+            ptr.setErrorCallback(NULL, NULL)
+            rtmidi_destroy_midiin_later(<RtMidiIn *>ptr)
+            return
+
+        # The destructor stops the input thread, which may be waiting to run a
+        # callback, so let it run.
+        with nogil:
+            self._destroy(ptr)
 
     def delete(self):
         """De-allocate pointer to C++ class instance.
 
-        .. warning:: the instance **must not** be used anymore after calling
-            this method, otherwise the program will crash with a segmentation
-            fault!
+        .. note:: after calling this method, all other methods of the
+            instance, except ``get_current_api``, ``is_port_open``,
+            ``close_port`` and the ``is_deleted`` property, raise
+            ``InvalidUseError``. If another thread is in a call on the
+            instance, the C++ instance is destroyed when that call returns.
 
-            The reason this potentially dangerous method exists is that in
-            some cases it is desirable to destroy the internal ``RtMidiIn``
-            C++ class instance with immediate effect, thereby closing the
-            backend MIDI API client and all the ports it opened. By merely
-            using ``del`` on the ``rtmidi.MidiIn`` Python instance, the
-            destruction of the C++ instance may be delayed for an arbitrary
-            amount of time, until the Python garbage collector cleans up the
-            instance.
+            The reason this method exists is that in some cases it is
+            desirable to destroy the internal ``RtMidiIn`` C++ class instance
+            with immediate effect, thereby closing the backend MIDI API client
+            and all the ports it opened. By merely using ``del`` on the
+            ``rtmidi.MidiIn`` Python instance, the destruction of the C++
+            instance may be delayed until the last reference to it is gone,
+            which may only happen when the Python garbage collector runs.
+
+        It is safe to call this method repeatedly, but not from the input
+        callback of the same instance (``InvalidUseError``): the destructor
+        waits for the thread that runs it.
 
         """
-        if not self._deleted:
-            del self.thisptr
-            self._deleted = True
+        self._delete()
 
     @property
     def is_deleted(self):
@@ -868,13 +1201,57 @@ cdef class MidiIn(MidiBase):
         registered.
 
         """
-        if self._callback:
-            self.thisptr.cancelCallback()
-            self._callback = None
+        cdef RtMidi *ptr
+
+        with cython.critical_section(self):
+            if self._deleted or self._closing or self._callback is None:
+                return
+
+            ptr = self._enter()
+
+            try:
+                # Released at the end, after the C++ call.
+                old = self._swap_callback(None)
+                (<RtMidiIn *>ptr).cancelCallback()
+            finally:
+                self._exit()
 
     def close_port(self):
-        self.cancel_callback()
-        MidiBase.close_port(self)
+        cdef RtMidi *ptr
+        cdef bint had_callback
+
+        with cython.critical_section(self):
+            if self._deleted or self._closing:
+                # Deleted, or another thread is closing it already.
+                return
+
+            ptr = self._enter()
+            self._closing = True
+            # Messages that arrive while the port closes are dropped.
+            had_callback = self._swap_callback(None) is not None
+
+            if self._port != -1:
+                self._port = None
+
+        # closePort() waits for the input thread, which may be waiting to run
+        # a callback. So it runs without the GIL (regular build) or with the
+        # thread state detached (free-threaded build), which also suspends the
+        # critical section; _closing makes other calls on this instance raise
+        # InvalidUseError meanwhile, rather than use the C++ instance with it.
+        try:
+            with nogil:
+                ptr.closePort()
+        finally:
+            with cython.critical_section(self):
+                self._closing = False
+
+                try:
+                    if had_callback:
+                        # Only after closePort(): RtMidi does not synchronize
+                        # cancelCallback() with its input thread.
+                        (<RtMidiIn *>ptr).cancelCallback()
+                finally:
+                    self._exit()
 
     close_port.__doc__ == MidiBase.close_port.__doc__
 
@@ -892,7 +1269,20 @@ cdef class MidiIn(MidiBase):
 
         """
         cdef vector[unsigned char] msg_v
-        cdef double delta_time = self.thisptr.getMessage(&msg_v)
+        cdef double delta_time
+        cdef RtMidi *ptr
+
+        with cython.critical_section(self):
+            if self._closing:
+                # Another thread is closing the port.
+                return None
+
+            ptr = self._enter()
+
+            try:
+                delta_time = (<RtMidiIn *>ptr).getMessage(&msg_v)
+            finally:
+                self._exit()
 
         if not msg_v.empty():
             message = [msg_v.at(i) for i in range(msg_v.size())]
@@ -928,7 +1318,15 @@ cdef class MidiIn(MidiBase):
         size of the buffers with the ``set_buffer_size`` method.
 
         """
-        self.thisptr.ignoreTypes(sysex, timing, active_sense)
+        cdef RtMidi *ptr
+
+        with cython.critical_section(self):
+            ptr = self._enter()
+
+            try:
+                (<RtMidiIn *>ptr).ignoreTypes(sysex, timing, active_sense)
+            finally:
+                self._exit()
 
     def set_callback(self, func, data=None):
         """Register a callback function for MIDI input.
@@ -949,17 +1347,43 @@ cdef class MidiIn(MidiBase):
         or the ``MidiIn`` instance is deleted.
 
         """
-        if self._callback:
-            self.cancel_callback()
+        cdef RtMidi *ptr
 
-        self._callback = (func, data)
-        self.thisptr.setCallback(&_cb_func, <void *>self._callback)
+        with cython.critical_section(self):
+            ptr = self._enter()
+
+            try:
+                # Released at the end, after the C++ call.
+                old = self._swap_callback((func, data))
+
+                # Otherwise RtMidi already calls _cb_func with this instance,
+                # which picks up the new callback. Not cancelling and setting
+                # it again in RtMidi avoids its input thread racing with the
+                # change: RtMidi does not synchronize them, and could call a
+                # null pointer.
+                if old is None:
+                    try:
+                        (<RtMidiIn *>ptr).setCallback(&_cb_func, <void *>self)
+                    except BaseException:
+                        self._swap_callback(None)
+                        raise
+            finally:
+                self._exit()
 
     def set_buffer_size(self, size, count):
         """Set the size and number of MIDI input buffers."""
-        self.thisptr.setBufferSize(size, count)
+        cdef RtMidi *ptr
+
+        with cython.critical_section(self):
+            ptr = self._enter()
+
+            try:
+                (<RtMidiIn *>ptr).setBufferSize(size, count)
+            finally:
+                self._exit()
 
 
+@cython.no_gc_clear
 cdef class MidiOut(MidiBase):
     """Midi output client interface.
 
@@ -997,8 +1421,15 @@ cdef class MidiOut(MidiBase):
 
     cdef RtMidiOut *thisptr
 
-    cdef RtMidi* baseptr(self):
+    cdef RtMidi* baseptr(self) noexcept:
         return self.thisptr
+
+    cdef void _forget_ptr(self) noexcept:
+        self.thisptr = NULL
+
+    cdef void _destroy(self, RtMidi *ptr) noexcept nogil:
+        cdef RtMidiOut *midiout = <RtMidiOut *>ptr
+        del midiout
 
     def __cinit__(self, Api rtapi=UNSPECIFIED, name=None):
         """Create a new client instance for MIDI output.
@@ -1014,35 +1445,39 @@ cdef class MidiOut(MidiBase):
         except RuntimeError as exc:
             raise SystemError(str(exc), type=ERR_DRIVER_ERROR)
 
-        self.set_error_callback(_default_error_handler)
+        self._api = self.thisptr.getCurrentApi()
         self._port = None
         self._deleted = False
+        self.set_error_callback(_default_error_handler)
 
     def __dealloc__(self):
         """De-allocate pointer to C++ class instance."""
-        if hasattr(self, "thisptr"):
-            del self.thisptr
+        cdef RtMidi *ptr = self._doomed if self.thisptr == NULL else <RtMidi *>self.thisptr
+
+        if ptr != NULL:
+            self._destroy(ptr)
 
     def delete(self):
         """De-allocate pointer to C++ class instance.
 
-        .. warning:: the instance **must not** be used anymore after calling
-            this method, otherwise the program will crash with a segmentation
-            fault!
+        .. note:: after calling this method, all other methods of the
+            instance, except ``get_current_api``, ``is_port_open``,
+            ``close_port`` and the ``is_deleted`` property, raise
+            ``InvalidUseError``. If another thread is in a call on the
+            instance, the C++ instance is destroyed when that call returns.
 
-            The reason this potentially dangerous method exists is that in
-            some cases it is desirable to destroy the internal ``RtMidiOut``
-            C++ class instance with immediate effect, thereby closing the
-            backend MIDI API client and all the ports it opened. By merely
-            using ``del`` on the ``rtmidi.MidiOut`` Python instance, the
-            destruction of the C++ instance may be delayed for an arbitrary
-            amount of time, until the Python garbage collector cleans up the
-            instance.
+            The reason this method exists is that in some cases it is
+            desirable to destroy the internal ``RtMidiOut`` C++ class instance
+            with immediate effect, thereby closing the backend MIDI API client
+            and all the ports it opened. By merely using ``del`` on the
+            ``rtmidi.MidiOut`` Python instance, the destruction of the C++
+            instance may be delayed until the last reference to it is gone,
+            which may only happen when the Python garbage collector runs.
+
+        It is safe to call this method repeatedly.
 
         """
-        if not self._deleted:
-            del self.thisptr
-            self._deleted = True
+        self._delete()
 
     @property
     def is_deleted(self):
@@ -1060,7 +1495,7 @@ cdef class MidiOut(MidiBase):
                 print("Using JACK API for MIDI output.")
 
         """
-        return self.thisptr.getCurrentApi()
+        return self._api
 
     def send_message(self, message):
         """Send a MIDI message to the output port.
@@ -1102,4 +1537,30 @@ cdef class MidiOut(MidiBase):
             raise ValueError("'message' longer than 3 bytes but does not "
                              "start with 0xF0.")
 
-        self.thisptr.sendMessage(&msg_v)
+        cdef RtMidi *ptr
+
+        with cython.critical_section(self):
+            ptr = self._enter()
+
+            try:
+                (<RtMidiOut *>ptr).sendMessage(&msg_v)
+            finally:
+                self._exit()
+
+
+cdef int _gc_clear(PyObject *o) noexcept:
+    # tp_clear of the classes above (see "Garbage collection"). Must not raise.
+    (<MidiBase>o)._drop_callbacks()
+    return 0
+
+
+cdef void _install_gc_clear() noexcept:
+    # Before any instance exists, so that no subclass has inherited a slot yet.
+    # MidiIn and MidiOut have their own tp_traverse, so they do not inherit
+    # their base's tp_clear.
+    rtmidi_set_tp_clear(<PyObject *>MidiBase, &_gc_clear)
+    rtmidi_set_tp_clear(<PyObject *>MidiIn, &_gc_clear)
+    rtmidi_set_tp_clear(<PyObject *>MidiOut, &_gc_clear)
+
+
+_install_gc_clear()

@@ -1,7 +1,8 @@
 [build-system]
 build-backend = "mesonpy"
 requires = [
-    "cython",
+    # 3.1: freethreading_compatible, critical_section and pymutex
+    "cython>=3.1",
     "wheel",
     "meson-python",
     "ninja"
@@ -33,6 +34,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Free Threading :: 2 - Beta",
     "Topic :: Multimedia :: Sound/Audio :: MIDI",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
