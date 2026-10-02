@@ -27,6 +27,9 @@ class BasicTest(unittest.TestCase):
         self.assertEqual(rtmidi.get_api_name(rtmidi.API_WINDOWS_MM), 'winmm')
         self.assertEqual(rtmidi.get_api_name(rtmidi.API_WEB_MIDI), 'web')
 
+    def test_midiin_close_port_docstring(self):
+        self.assertEqual(rtmidi.MidiIn.close_port.__doc__, rtmidi._rtmidi.MidiBase.close_port.__doc__)
+
     def test_get_compiled_api(self):
         apilist = rtmidi.get_compiled_api()
         self.assertTrue(isinstance(apilist, list))
